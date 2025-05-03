@@ -9,6 +9,9 @@ globs: *
 alwaysApply: true
 ---
 
+## When to Use
+Apply these rules for all feature implementations to ensure alignment with project architecture and technology choices.
+
 # General Rules to Apply
 - **Check Rule Files**: Always determine which rule files need to be referenced.
 - **Generate Minimum Code**: Only produce code necessary to fulfill the specific request.
@@ -31,7 +34,7 @@ alwaysApply: true
 # Technology Stack
 - Astro.js (static components)
 - Solid.js (dynamic UI)
-- Firebase Fire Store (data)
+- Firebase Firestore (data)
 - Firebase Auth (Anonymous, Google, Email/Password, Github)
 - Firebase Storage (images)
 - Typescript
@@ -47,8 +50,8 @@ alwaysApply: true
     - `foundation/`: Base UI building blocks
     - `index.ts`: Component exports
   - `store/`: State management and data access
-    - `repository/`: Firebase data interaction (one file per domain)
-    - `service/`: SolidJS store integration and business logic
+    - `repository/`: External system interaction (one file per domain)
+    - `service/`: Store integration and business logic
     - `utilities/`: Shared store helper functions
     - `firebase.ts`: Firebase initialization and configuration
     - `index.ts`: Store module exports
@@ -59,13 +62,10 @@ alwaysApply: true
   - `types/`: TypeScript type definitions
     - `index.d.ts`: Generic types and re-exports
     - `store.d.ts`: Store-related types
-    - `data.d.ts`: Firebase data models
+    - `data.d.ts`: Data models
     - `components.d.ts`: Component prop types
-  - `env.d.ts`: Environment type definitions
-- `functions/`: Firebase Cloud Functions
-  - `src/`: Function source code (TypeScript)
-  - `package.json`: Function dependencies
-  - `tsconfig.json`: TypeScript configuration for functions
+    - `env.d.ts`: Environment type definitions
+- `data/`: Shared static or generated data for use across the application
 - `e2e/`: Playwright End-to-End tests
   - `specs/`: Test files (Playwright tests)
   - `pages/`: Page Object Model classes
@@ -83,7 +83,7 @@ alwaysApply: true
 - Use immutable objects.
 - Export functions directly on the function. 
 ```ts
-export async example function()
+export async function example() {}
 ```
 
 
