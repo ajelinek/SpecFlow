@@ -1,8 +1,12 @@
 ---
 description: Apply when defining data models, component props, utility types, or ensuring type safety
+ruleType: typescript-types
 globs: *
-alwaysApply: true
+alwaysApply: false
 ---
+## When to Use
+Apply these rules when defining data models, component props, utility types, or ensuring type safety.
+
 # TypeScript Type Standards
 
 ## Core Principles
@@ -41,10 +45,22 @@ type BaseModel = {
   updatedAt: Timestamp
 }
 
-type User = BaseModel & {
-  email: string
-  displayName: string
-  photoURL?: string
+type Product = BaseModel & {
+  name: string
+  price: number
+  inStock: boolean
+}
+
+type Order = BaseModel & {
+  userId: string
+  items: Array<OrderItem>
+  status: 'pending' | 'shipped' | 'delivered' | 'cancelled'
+}
+
+type OrderItem = {
+  productId: string
+  quantity: number
+  price: number
 }
 ```
 
@@ -91,59 +107,73 @@ type AsyncData<T> = {
 ## Type Organization
 ```ts
 // Domain types in types/domain.ts
-type User = BaseModel & {
-  email: string
+type Product = BaseModel & {
+  name: string
+  price: number
+  inStock: boolean
 }
 
-type UserPreferences = {
-  theme: 'light' | 'dark'
+type Order = BaseModel & {
+  userId: string
+  items: Array<OrderItem>
+  status: 'pending' | 'shipped' | 'delivered' | 'cancelled'
 }
 
-type UserWithPreferences = User & {
-  preferences: UserPreferences
+type OrderItem = {
+  productId: string
+  quantity: number
+  price: number
+}
+
+type OrderWithItems = Order & {
+  items: OrderItem[]
 }
 
 export type {
-  User,
-  UserPreferences,
-  UserWithPreferences
+  Product,
+  Order,
+  OrderItem,
+  OrderWithItems
 }
 ```
 
 ## Type Safety
 ```ts
 type Action = 
-  | { type: 'INCREMENT'; amount: number }
-  | { type: 'DECREMENT'; amount: number }
-  | { type: 'RESET' }
+  | { type: 'ADD_ITEM'; productId: string; quantity: number }
+  | { type: 'REMOVE_ITEM'; productId: string }
+  | { type: 'RESET_CART' }
 
-function isUser(value: unknown): value is User {
+function isProduct(value: unknown): value is Product {
   return (
     typeof value === 'object' &&
     value !== null &&
     'id' in value &&
-    'email' in value
+    'name' in value &&
+    'price' in value
   )
 }
 
-const Theme = {
-  LIGHT: 'light',
-  DARK: 'dark'
+const OrderStatus = {
+  PENDING: 'pending',
+  SHIPPED: 'shipped',
+  DELIVERED: 'delivered',
+  CANCELLED: 'cancelled'
 } as const
 
-type Theme = typeof Theme[keyof typeof Theme]
+type OrderStatus = typeof OrderStatus[keyof typeof OrderStatus]
 ```
 
 ## Documentation
 ```ts
-/** User model with authentication details */
-type User = BaseModel & {
-  /** Unique email address */
-  email: string
-  /** Display name for UI */
-  displayName: string
-  /** Optional profile photo URL */
-  photoURL?: string
+/** Product model for catalog and inventory */
+type Product = BaseModel & {
+  /** Product name */
+  name: string
+  /** Product price */
+  price: number
+  /** Inventory status */
+  inStock: boolean
 }
 ```
 
@@ -168,4 +198,4 @@ type User = BaseModel & {
 - Consider readonly for constants and configuration objects
 
 ## Firebase Compatibility
-- Firebase data models should be mutable to simplify service layer integration
+- Firebase data models should be mutable to simplify service layer integration 

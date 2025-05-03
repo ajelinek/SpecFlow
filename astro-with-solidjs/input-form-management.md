@@ -1,6 +1,6 @@
 ---
 description: Apply when implementing form components, input handling, or form state management
-globs: 
+globs: *
 alwaysApply: false
 ---
 ---
@@ -11,8 +11,8 @@ description: Apply when implementing form components, input handling, or form st
 ## Core Principles
 - Use the foundation utility `useFormManagement` for all forms
 - Component layer handles data collection only
-- ALL data validation is done in the service. 
-- Form Component does not validate data, but ensures correct data types based on input types. 
+- ALL data validation is done in the service
+- Form Component does not validate data, but ensures correct data types based on input types
 - Service layer handles validation and submission
 - Match form state types to service input types
 - Maintain clean separation between UI and business logic
@@ -21,11 +21,10 @@ description: Apply when implementing form components, input handling, or form st
 
 ```tsx
 // Component using form management
-import useFormManagement from '@/components/foundation/utils/useFormManagement';
-import type { UserData } from '@/types';
+import useFormManagement from '@/components/foundation/utils/useFormManagement'
+import type { UserData } from '@/types'
 
 function UserForm() {
-  // Initialize with concise pattern
   const form = useFormManagement<UserData>(
     {
       name: '',
@@ -35,7 +34,7 @@ function UserForm() {
       }
     },
     (data) => operation.updateUser(data)
-  );
+  )
 
   return (
     <form onSubmit={form.onSubmit}>
@@ -45,21 +44,18 @@ function UserForm() {
         value={form.state.name} 
         onInput={form.onChange} 
       />
-      
       <input 
         type="email" 
         name="email" 
         value={form.state.email} 
         onInput={form.onChange} 
       />
-      
       <input 
         type="checkbox" 
         name="preferences.notifications" 
         checked={form.state.preferences.notifications} 
         onInput={form.onChange} 
       />
-      
       <div class="form-actions">
         <button type="submit" disabled={!form.isDirty()}>
           Save
@@ -69,7 +65,7 @@ function UserForm() {
         </button>
       </div>
     </form>
-  );
+  )
 }
 ```
 

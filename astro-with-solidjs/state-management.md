@@ -1,16 +1,13 @@
 ---
 description: Apply when implementing component or application state, data fetching, or signal-based reactivity
-globs: 
+globs: *
 alwaysApply: false
 ---
----
-description: Apply when implementing component or application state, data fetching, or signal-based reactivity
----
 # State Management
-- Solid.js Stores for global state (by domain).
-- Signals for local component state.
-- Query/mutate state via store services.
-- Use solid `createStore` when storying objects
+- Solid.js Stores for global state (by domain)
+- Signals for local component state
+- Query/mutate state via store services
+- Use solid `createStore` when storing objects
 
 ## Signal Usage
 ```tsx
@@ -18,21 +15,19 @@ description: Apply when implementing component or application state, data fetchi
 function Example() {
   // Single value signals
   const [count, setCount] = createSignal(0)
-  
   // Computed values always use createMemo
   const doubleCount = createMemo(() => count() * 2)
-  
   // Batch updates for multiple signals
   const updateValues = () => {
     batch(() => {
       setCount(c => c + 1)
-      setOtherValue(v => v + 1)
+      // ...other state updates
     })
   }
 }
 ```
 
-## CreateStore useage
+## CreateStore usage
 - Use createStore for complex data objects and within services
 
 ### Solid.js CreateStore Updates
@@ -44,7 +39,6 @@ function Example() {
     setState('data', 'cardiacCycles', cycleIndex, 'waves', waveIndex, 'amplitude', +e.target.value)
   }
 />
-
 // Can also use produce for more complex updates
 <button onClick={() => 
   setState(produce((s) => {
@@ -65,17 +59,15 @@ function Example() {
 - Handle signal values when used in store paths: `setState('data', 'items', signalValue(), 'property', newValue)`
 
 ## State Requirements
-
-### Component State
 - Use signals for simple local state
 - CreateMemo for derived values
 - No nested signal updates
 - Cleanup subscriptions in onCleanup
 - Batch updates when modifying multiple signals
 
-### Store Integration
+## Store Integration
 - Components must not directly access Firebase
-- Use `store\services` for all data operations
+- Use store/services for all data operations
 - Handle all status states (isProcessing, isError, isDone)
 - Follow store service response pattern:
 
@@ -85,52 +77,22 @@ import { authService } from '@/store'
 
 function AuthDisplay() {
   const userStore = authService.useActiveUser()
-  
-  // Direct store access pattern
   return (
     <div>
       <Alert error={authOperation.error} />
-
       <Show 
         when={userStore.status.isDone && !userStore.status.isError} 
         fallback={<LoadingState isProcessing={userStore.status.isProcessing} />}
       >
         <UserDisplay user={userStore.data} />
       </Show>
-    <div>
+    </div>
   )
 }
 ```
 
-## anti-patterns
-
-### avoid: direct store access
-```tsx
-// ❌ bad
-function badcomponent() {
-  const data = firestore.collection('items').get()
-}
-
-// ✅ good
-function goodcomponent() {
-  const { data } = useitemstore()
-}
-```
-
-### avoid: nested signal updates
-```tsx
-// ❌ bad
-const [outer, setouter] = createsignal(0)
-createeffect(() => {
-  setouter(prev => {
-    const [inner, setinner] = createsignal(prev)
-    return inner()
-  })
-})
-
-// ✅ good
-const [state, setstate] = createsignal({ count: 0, value: 0 })
-createeffect(() => {
-  setstate(prev => ({ ...prev, count: prev.count + 1 }))
-})
-```
+## Anti-Patterns
+- No direct store access to Firebase
+- No nested signal updates
+- No untyped state
+- No direct DOM manipulation

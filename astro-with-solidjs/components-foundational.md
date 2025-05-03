@@ -1,6 +1,6 @@
 ---
 description: Apply when creating or using base-level UI primitives like buttons, inputs, or dialogs
-globs: 
+globs: *
 alwaysApply: false
 ---
 ---
@@ -29,7 +29,7 @@ description: Apply when creating or using base-level UI primitives like buttons,
 - Table (data grids)
 
 ## Component Properties
-- Must extend BaseProps interface
+- Must extend BaseProps type
 - Consistent variant patterns
 - CSS module classes
 

@@ -1,33 +1,33 @@
 ---
-description: 
-globs: 
+description: Apply when implementing or modifying store architecture, repository, or service logic
+globs: *
 alwaysApply: false
 ---
----
-description: Store architecture and implementation standards
----
+## When to Use
+Apply these rules when implementing or modifying store architecture, repository, or service logic.
+
 # Store Architecture
 
 ## Layer Separation
 /store
-├── repository/     # Firebase interactions
+├── repository/     # Firebase or external system interactions (e.g., APIs, databases)
 ├── service/       # Business logic & state
 ├── utilities/     # Shared helpers
 └── firebase.ts    # Firebase config
 
 ## Repository Layer Rules
-- Direct Firebase interactions only
+- Direct Firebase or external system interactions only (e.g., API, database, third-party)
 - One file per domain entity
 - Pure async functions
 - No business logic
 - Error handling required
-- Transaction usage for atomic updates
-- Batch operations for multiple updates
+- Transaction usage for atomic updates (if supported)
+- Batch operations for multiple updates (if supported)
 - Type-safe queries
 - Minimal data selection
 
 ## Service Layer Rules
-- Use createAsyncStore() helper for all async state management
+- Use createAsyncStore() helper for all async state management (SolidJS)
 - No direct use of createStore() for state that manages async operations
 - All services should expose a consistent interface through a named export service object
 - Do not use createRoot() or default exports for services
@@ -36,28 +36,7 @@ description: Store architecture and implementation standards
   2. External package imports
   3. Type imports
 
-## Firebase Operations
-
-### Required Patterns
-- Use transactions for metric updates
-- Implement atomic operations
-- Batch writes when possible
-- Query optimization
-- Index usage
-- Error handling
-- Offline support
-
-### Security Rules
-- Client-side validation
-- Data sanitization
-- Access control
-- Data validation
-- Index enforcement
-- Security rules testing
-
 ## State Management
-
-### Store Creation
 - Domain-specific stores
 - Immutable state
 - Atomic updates
@@ -67,9 +46,9 @@ description: Store architecture and implementation standards
 - Error boundaries
 - Loading states
 
-### Store Usage
+## Store Usage
 - Component access via services only
-- No direct Firebase calls
+- No direct Firebase or external system calls from components
 - Proper unsubscribe
 - Memory management
 - Batch updates
@@ -77,19 +56,13 @@ description: Store architecture and implementation standards
 - Loading indicators
 - Offline handling
 
-
-
 ## Error Handling
-
-### Repository Errors
-- Firebase error mapping
+- External system error mapping
 - Network error handling
 - Timeout handling
 - Error logging
 - Debug information
 - Stack traces
-
-### Service Errors
 - Business logic validation
 - State error handling
 - UI error mapping

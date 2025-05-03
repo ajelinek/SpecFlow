@@ -1,6 +1,6 @@
 ---
 description: Apply when implementing component styling, CSS modules, or responsive design patterns
-globs: 
+globs: *
 alwaysApply: false
 ---
 ---
@@ -12,10 +12,11 @@ description: Apply when implementing component styling, CSS modules, or responsi
 - Astro components should use the same design tokens
 - Astro styles are included within the Astro file
 
-# General Comonents and Styles
+# General Components and Styles
 - CSS modules (`.module.css`).
 - Follow design tokens (CSS variables).
 - Use CSS variables for colors, spacing, typography.
 - Mobile-first responsive design.
 - Use CSS Grid/Flexbox (avoid breakpoints).
-- Animations in `annimations.css`, referenced in CSS modules.
+- Animations in `animations.css`, referenced in CSS modules.
+- No inline styles.
