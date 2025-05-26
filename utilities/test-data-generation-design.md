@@ -12,23 +12,25 @@ This guide explains the data generation pattern used in this project. It covers 
 
 **Entity generators** are functions that create a single instance of a data type (like a user, community, or group) with realistic, random, or default values. They use the [faker](https://fakerjs.dev/) library to generate fake data and accept an `options` object to override any field.
 
-#### Example: Community Generator
+**Each generator lives in its own file** (e.g., `generators/community.ts`, `generators/user.ts`).
+
+#### Example: Community Generator (`generators/community.ts`)
 
 ```ts
-import { faker } from "@faker-js/faker";
-import { generateFutureDate, generateIdentifier, generateRandomTimestamp } from "./helpers";
-import { IdProvider } from "./identifiers";
-import type { dbCommunityPartial, dbCommunity } from "retamica-types";
+import { faker } from '@faker-js/faker'
+import { generateFutureDate, generateIdentifier, generateRandomTimestamp } from './helpers'
+import { IdProvider } from './identifiers'
+import type { dbCommunityPartial, dbCommunity } from 'retamica-types'
 
 export function generateCommunity(ID = IdProvider(), options: dbCommunityPartial = {}): dbCommunity {
   const community: dbCommunity = {
     communityId: ID(options.communityId),
-    communityName: "communityName" in options ? options.communityName! : faker.company.name(),
+    communityName: 'communityName' in options ? options.communityName! : faker.company.name(),
     // ... more fields ...
-    upsertTimestamp: "upsertTimestamp" in options ? options.upsertTimestamp! : generateRandomTimestamp(),
-    endTimestamp: "endTimestamp" in options ? options.endTimestamp : null,
-  };
-  return community;
+    upsertTimestamp: 'upsertTimestamp' in options ? options.upsertTimestamp! : generateRandomTimestamp(),
+    endTimestamp: 'endTimestamp' in options ? options.endTimestamp : null,
+  }
+  return community
 }
 ```
 
@@ -36,10 +38,9 @@ export function generateCommunity(ID = IdProvider(), options: dbCommunityPartial
 - **options**: You can override any field by passing it in the options object.
 - **faker**: Used to generate realistic random data for fields not provided.
 
-
 ### 2. IdProvider: Unique ID Management and Shorthand Mapping
 
-The `IdProvider` is a function that generates and tracks unique IDs for all entities. It can also map a provided string to a generated ID, ensuring consistency across related entities.
+The `IdProvider` is a function that generates and tracks unique IDs for all entities. It can also map a provided string to a generated ID, ensuring consistency across related entities. It's defined in its own file (`identifiers.ts`).
 
 #### Shorthand Mapping for Testing
 
@@ -53,37 +54,37 @@ A key feature of the IdProvider is its support for **shorthand keys** (like `A1`
 #### Example: Using Shorthand Keys
 
 ```ts
-const ids = IdProvider();
-const user = generateUser(ids, { userId: "A1" });
-const community = generateCommunity(ids, { communityId: "C1" });
+const ids = IdProvider()
+const user = generateUser(ids, { userId: 'A1' })
+const community = generateCommunity(ids, { communityId: 'C1' })
 // ...
 // Later in your test, get the real DB id for 'A1':
-const realUserId = ids("A1");
+const realUserId = ids('A1')
 ```
 
-#### Implementation
+#### Implementation (`identifiers.ts`)
 
 ```ts
 export function IdProvider() {
-  const idMap = new Map<string, string>();
+  const idMap = new Map<string, string>()
   return function ID(str: string, exact = false, log = false) {
     if (log) {
-      console.log(idMap);
-      return;
+      console.log(idMap)
+      return
     }
-    if ((str && idMap.has(str)) || exact) return idMap.get(str);
-    const newId = generateIdentifier();
+    if ((str && idMap.has(str)) || exact) return idMap.get(str)
+    const newId = generateIdentifier()
     if (!str) {
-      idMap.set(newId, newId);
-      return newId;
+      idMap.set(newId, newId)
+      return newId
     }
     if (str && str.length > 10) {
-      idMap.set(str, str);
-      return str;
+      idMap.set(str, str)
+      return str
     }
-    idMap.set(str, newId);
-    return newId;
-  };
+    idMap.set(str, newId)
+    return newId
+  }
 }
 ```
 
@@ -93,7 +94,7 @@ export function IdProvider() {
 
 ### 3. Helper Functions
 
-Helpers like `generateIdentifier`, `generateRandomTimestamp`, and others are used to create random values for fields:
+Helpers like `generateIdentifier`, `generateRandomTimestamp`, and others are used to create random values for fields. These are defined in a common helpers file (`helpers.ts`):
 
 - `generateIdentifier()`: Returns a UUID string.
 - `generateRandomTimestamp()`: Returns a random date near today.
@@ -102,6 +103,8 @@ Helpers like `generateIdentifier`, `generateRandomTimestamp`, and others are use
 ### 4. Scenario Builder: Composing and Holding Data
 
 The `Scenario` class lets you build up a set of related entities by chaining method calls. Each method adds an entity to the scenario using its generator. Internally, the Scenario holds onto the generated data in arrays, one for each entity type (e.g., `dbUsers`, `dbCommunities`, etc.).
+
+This class is defined in its own file (`Scenario.ts`).
 
 #### How Data is Held
 
@@ -113,10 +116,10 @@ The `Scenario` class lets you build up a set of related entities by chaining met
 
 ```ts
 const scenario = new Scenario()
-  .community({ communityId: "C1", communityName: "Test Community" })
-  .user({ userId: "A1", emailAddress: "user@example.com" })
-  .communityAdmin({ userId: "A1", communityId: "C1" })
-  .build();
+  .community({ communityId: 'C1', communityName: 'Test Community' })
+  .user({ userId: 'A1', emailAddress: 'user@example.com' })
+  .communityAdmin({ userId: 'A1', communityId: 'C1' })
+  .build()
 
 // Internally, scenario.dbCommunities, scenario.dbUsers, etc. now hold the generated data.
 ```
@@ -124,6 +127,8 @@ const scenario = new Scenario()
 ### 5. Selector: Accessing and Querying Data
 
 The `Selector` class is constructed with all the data built by the scenario. It provides methods to retrieve entities by ID, get all entities of a type, or query relationships between entities.
+
+This class is defined in its own file (`Selector.ts`).
 
 #### Why Use a Selector?
 
@@ -134,24 +139,42 @@ The `Selector` class is constructed with all the data built by the scenario. It 
 #### Example
 
 ```ts
-const selector = scenario.build();
-const realUserId = scenario.ids("A1");
-const realCommunityId = scenario.ids("C1");
-const user = selector.getUser(realUserId);
-const community = selector.getCommunity(realCommunityId);
-const allCommunities = selector.getAllCommunities();
+const selector = scenario.build()
+const realUserId = scenario.ids('A1')
+const realCommunityId = scenario.ids('C1')
+const user = selector.getUser(realUserId)
+const community = selector.getCommunity(realCommunityId)
+const allCommunities = selector.getAllCommunities()
 ```
 
 - The Selector provides a clean API for accessing the generated data, so your tests remain readable and maintainable.
 
 ---
 
+## File Structure
+
+The data generation pattern is organized into several files:
+
+```
+src/test/
+├── generators/
+│   ├── community.ts       # Community entity generator
+│   ├── user.ts            # User entity generator
+│   ├── communityAdmin.ts  # CommunityAdmin entity generator
+│   └── ... (other entity generators)
+├── helpers.ts             # Common helper functions
+├── identifiers.ts         # IdProvider implementation
+├── Scenario.ts            # Scenario builder class
+└── Selector.ts            # Data access class
+```
+
 ## Best Practices
 
 - Always use the same IdProvider instance for all generators in a scenario.
 - Use short keys for IDs in your test setup for readability and easy reference.
 - Use faker to generate realistic data, but override fields as needed for your test case.
-- When adding new entity types, keep generator signatures and patterns consistent.
+- When adding new entity types, create a new file in the generators directory.
+- Keep generator signatures and patterns consistent across all entity types.
 - Use partial types for options so you only need to specify fields you want to override.
 - Use the Selector to access data, not the raw arrays in Scenario.
 
@@ -161,9 +184,10 @@ const allCommunities = selector.getAllCommunities();
 - Not updating the Selector or Scenario when adding a new entity type.
 - Overriding required fields with invalid or missing data in options.
 - Not using faker or helpers, resulting in unrealistic or duplicate data.
+- Forgetting to export/import generators from their respective files.
 
 ---
 
 ## Summary
 
-This pattern lets you quickly build complex, realistic data scenarios for tests or seeding. Each entity generator creates one type of data, the Scenario builder composes them, and the Selector gives you easy access to the results. Unique IDs and realistic data are handled automatically, but you can override anything as needed for your use case.
+This pattern lets you quickly build complex, realistic data scenarios for tests or seeding. Each entity generator is in its own file, the Scenario builder composes them, and the Selector gives you easy access to the results. Unique IDs and realistic data are handled automatically, but you can override anything as needed for your use case.
