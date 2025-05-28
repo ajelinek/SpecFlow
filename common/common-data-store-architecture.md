@@ -66,4 +66,3 @@ Apply these rules when implementing or modifying store architecture, repository,
 - State error handling
 - UI error mapping
 - Error boundaries
-

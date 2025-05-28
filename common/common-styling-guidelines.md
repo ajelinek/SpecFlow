@@ -15,4 +15,3 @@ Apply these rules when implementing component styling, CSS modules, or responsiv
 - Use CSS Grid/Flexbox (avoid breakpoints).
 - Animations in `animations.css`, referenced in CSS modules.
 - No inline styles.
-
