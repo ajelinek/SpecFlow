@@ -1,36 +1,45 @@
 # System Architecture Details
 
-## 1. High-Level System Context (Mermaid C4 Context Diagram)
+## 1. High-Level System Context
 Show your application interacting with external systems (users, third-party services).
-```mermaid
-C4Context
-    title Sales CRM System Context
-    Person user "Sales User" "Manages clients and deals."
-    System crm_webapp "Sales CRM Web App" "The core web application."
-    SystemDb database "MongoDB Database" "Stores all CRM data."
-    System_Ext email_api "Transactional Email API" "Sends email notifications."
 
-    user --> crm_webapp "Interacts via HTTPS"
-    crm_webapp --> database "Reads/Writes data using Mongoose"
-    crm_webapp --> email_api "Sends emails via REST API"
+```mermaid
+graph TD
+    subgraph External
+        U[User] -->|Interacts via HTTPS| W[Web App]
+    end
+    
+    subgraph Application
+        W -->|Reads/Writes| DB[(MongoDB Database)]
+        W -->|Sends Emails| E[Email Service]
+    end
+    
+    classDef external fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef app fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef storage fill:#bfb,stroke:#333,stroke-width:2px;
+    
+    class U external;
+    class E external;
+    class W app;
+    class DB storage;
 ```
 
-## 2. Application Containers (Mermaid C4 Container Diagram)
-Break down the `crm_webapp` into its primary deployable units.
-```mermaid
-C4Container
-    title Sales CRM Application Containers
-    System_Boundary c1 "Sales CRM System" {
-        Container frontend "Frontend Application" "React.js/Next.js" "Serves the user interface. Hosted on Vercel."
-        Container backend_api "Backend API Service" "Node.js (Express.js)" "Provides RESTful API, business logic, and data access. Hosted as Docker container on AWS ECS."
-    }
-    ContainerDb mongodb_db "MongoDB Database" "MongoDB Atlas" "Stores persistent CRM data."
-    Container_Ext email_service "Transactional Email Service" "e.g., SendGrid/Mailgun" "Third-party email sending."
+## 2. Application Components
+Break down the application into its primary components.
 
-    user --> frontend "Uses [HTTPS]"
-    frontend --> backend_api "Makes API calls [HTTPS/JSON]"
-    backend_api --> mongodb_db "Reads/Writes data [MongoDB Wire Protocol]"
-    backend_api --> email_service "Sends emails [HTTPS/API Key]"
+```mermaid
+graph LR
+    User[User] -->|Uses| FE[Frontend\nReact.js/Next.js]
+    FE -->|API Calls| BE[Backend API\nNode.js/Express]
+    BE -->|Reads/Writes| DB[(MongoDB\nAtlas)]
+    BE -->|Sends| ES[Email Service\nSendGrid/Mailgun]
+    
+    style User fill:#f9f,stroke:#333,stroke-width:2px
+    style FE fill:#bbf,stroke:#333,stroke-width:2px
+    style BE fill:#bbf,stroke:#333,stroke-width:2px
+    style DB fill:#bfb,stroke:#333,stroke-width:2px
+    style ES fill:#f9f,stroke:#333,stroke-width:2px
+```
 ```
 
 ## 3. Key Architectural Decisions
