@@ -3,11 +3,16 @@ description: Apply when defining data models, component props, utility types, or
 globs: *
 alwaysApply: true
 ---
+
 # TypeScript Type Standards
 
 ## Core Principles
+
 - Use types over interfaces (except for classes)
-- Explicit over implicit
+- Leverage type inference whenever possible
+- Avoid creating unnecessary type definitions when types can be inferred
+- Only create explicit types when they need to be reused across the system
+- Place all shared type definitions in \*.d.ts declaration files
 - Composition over inheritance
 - Clear naming conventions
 - Document complex types
@@ -18,6 +23,7 @@ alwaysApply: true
 ## Type Patterns
 
 ### Component Types
+
 ```ts
 type BaseProps = {
   class?: string
@@ -34,6 +40,7 @@ type ButtonProps = BaseProps & {
 ```
 
 ### Data Models
+
 ```ts
 type BaseModel = {
   id: string
@@ -49,6 +56,7 @@ type User = BaseModel & {
 ```
 
 ### Utility Types
+
 ```ts
 type Nullable<T> = T | null
 type Optional<T> = T | undefined
@@ -60,6 +68,7 @@ type AsyncData<T> = {
 ```
 
 ## Type Requirements
+
 - Union types for finite options
 - Generic constraints
 - Type composition
@@ -69,6 +78,7 @@ type AsyncData<T> = {
 - Template literal types
 
 ## Must Avoid
+
 - Interfaces (except for class implementation)
 - Type assertions
 - any type
@@ -79,6 +89,7 @@ type AsyncData<T> = {
 - Implicit any
 
 ## Naming Conventions
+
 - PascalCase for type names
 - Descriptive and clear
 - Domain prefix when needed
@@ -89,6 +100,7 @@ type AsyncData<T> = {
 - Consistent across codebase
 
 ## Type Organization
+
 ```ts
 // Domain types in types/domain.ts
 type User = BaseModel & {
@@ -103,38 +115,28 @@ type UserWithPreferences = User & {
   preferences: UserPreferences
 }
 
-export type {
-  User,
-  UserPreferences,
-  UserWithPreferences
-}
+export type { User, UserPreferences, UserWithPreferences }
 ```
 
 ## Type Safety
+
 ```ts
-type Action = 
-  | { type: 'INCREMENT'; amount: number }
-  | { type: 'DECREMENT'; amount: number }
-  | { type: 'RESET' }
+type Action = { type: 'INCREMENT'; amount: number } | { type: 'DECREMENT'; amount: number } | { type: 'RESET' }
 
 function isUser(value: unknown): value is User {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    'id' in value &&
-    'email' in value
-  )
+  return typeof value === 'object' && value !== null && 'id' in value && 'email' in value
 }
 
 const Theme = {
   LIGHT: 'light',
-  DARK: 'dark'
+  DARK: 'dark',
 } as const
 
-type Theme = typeof Theme[keyof typeof Theme]
+type Theme = (typeof Theme)[keyof typeof Theme]
 ```
 
 ## Documentation
+
 ```ts
 /** User model with authentication details */
 type User = BaseModel & {
@@ -148,6 +150,7 @@ type User = BaseModel & {
 ```
 
 ## Type Distribution
+
 - Clear dependencies
 - Minimal imports
 - Proper exports
@@ -156,6 +159,7 @@ type User = BaseModel & {
 - Generic reuse
 
 ## Performance
+
 - Avoid large unions
 - Limit generic nesting
 - Optimize imports
@@ -163,9 +167,11 @@ type User = BaseModel & {
 - Efficient type guards
 
 ## Immutability Guidelines
+
 - Use readonly for component props to prevent accidental prop mutation
 - Avoid readonly for service and repository types to prevent duplication
 - Consider readonly for constants and configuration objects
 
 ## Firebase Compatibility
+
 - Firebase data models should be mutable to simplify service layer integration
