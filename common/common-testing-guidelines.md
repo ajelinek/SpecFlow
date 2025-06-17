@@ -1,13 +1,16 @@
 ---
 description: General testing guidelines for all test types and assertions
 ruleType: testing
-globs: 
+globs:
 alwaysApply: false
 ---
+
 ## When to Use
+
 Apply these guidelines when writing tests of any type (unit, integration, e2e).
 
 # General Testing Principles
+
 - Write tests as you code, not after
 - Test business requirements, not implementation details
 - Avoid testing third-party code
@@ -17,10 +20,11 @@ Apply these guidelines when writing tests of any type (unit, integration, e2e).
 - Readable test descriptions (should/when/then pattern)
 - Prioritize critical paths first
 - Use realistic test data
-- Mock external dependencies
 - Aim for high coverage of business logic
+- Avoid mocking whenever possible
 
 # Test Structure
+
 - Use describe/it (or test) with clear naming
 - Setup/execute/verify pattern in tests
 - Minimal, relevant test setup
@@ -30,6 +34,7 @@ Apply these guidelines when writing tests of any type (unit, integration, e2e).
 - Separate test files for different concerns
 
 # Test Organization
+
 ```
 ├── unit/                 # Unit tests (focused on pure logic)
 ├── integration/          # Integration tests (multiple units)
@@ -37,6 +42,7 @@ Apply these guidelines when writing tests of any type (unit, integration, e2e).
 ```
 
 # Performance Guidelines
+
 - Keep tests fast, especially unit tests
 - Avoid unnecessary test setups and teardowns
 - Use testing environment variables
@@ -44,6 +50,7 @@ Apply these guidelines when writing tests of any type (unit, integration, e2e).
 - Don't overuse beforeEach/afterEach hooks
 
 # Anti-patterns to Avoid
+
 - Brittle tests
 - Testing implementation details
 - Multiple assertions per test without reason
@@ -51,4 +58,3 @@ Apply these guidelines when writing tests of any type (unit, integration, e2e).
 - Time-dependent tests
 - Overcomplicated test setup
 - Testing third-party code
-- Snapshot tests for logic (use only for UI regression)

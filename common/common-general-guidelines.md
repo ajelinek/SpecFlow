@@ -1,13 +1,16 @@
 ---
 description: General coding guidelines and best practices for the project
 ruleType: general
-globs: 
-alwaysApply: false
+globs:
+alwaysApply: true
 ---
+
 ## When to Use
+
 Apply these general guidelines for all feature implementations to ensure consistent code quality and maintainability.
 
 # General Rules to Apply
+
 - **Check Rule Files**: Always determine which rule files need to be referenced.
 - **Generate Minimum Code**: Only produce code necessary to fulfill the specific request.
 - **Avoid Unnecessary Updates**: Do not suggest changes to files unless there are actual modifications required.
@@ -24,19 +27,18 @@ Apply these general guidelines for all feature implementations to ensure consist
 - **Avoid Fluff**: Provide concise code and explanations, without unnecessary details.
 - **Accuracy First**: Focus on depth and precision in all responses.
 - **Explain As Needed**: Address the request directly, with additional explanations only if required.
+- **Do Not Deprecate**: Do not deprecate or keep deprecated code. remove it and change impacted code.
 
 # Coding Guidelines
+
 - Use `function` keyword over `const` for functions.
 - Group modules logically, each doing one thing.
 - Keep functions small and understandable.
 - Avoid nesting > 2 levels (use functions, returns).
 - Keep code DRY.
 - Use immutable objects.
-- Export functions directly on the function. 
+- Export functions directly on the function.
+
 ```ts
 export async function example() {}
 ```
-
-## Store Services
-- Handle data queries, mutations, calculations, transformations.
-- Manage async operation status from repositories.

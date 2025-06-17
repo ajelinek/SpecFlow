@@ -14,6 +14,9 @@ description: Workflow for designing and documenting new features with technical 
 - Focus on writing clean, DRY (Don't Repeat Yourself) code from the outset.
 - **IMPORTANT - The best code is the code we do not have to write.** Consider if existing solutions can be leveraged or adapted.
 - **NO CODE CHANGES are allowed in this step.** Output should ONLY be the Technical Specifications / Change Summary in bullet points with short, descriptive explanations.
+- Use high-level pseudocode when describing logic
+- Use simple lists when describing typescript type changes
+- Use simple table formats when describing persisted tables
 - Sections for feature design:
   - Overview
   - Implementation Details

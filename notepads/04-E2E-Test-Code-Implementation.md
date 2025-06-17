@@ -1,8 +1,0 @@
-- **ROLE:** Professional Engineer, Expert in Playwright and TypeScript.
-- **NO changes to the `src` directory are permitted.**
-- Implement the defined test case designs.
-- Follow **all previously outlined rules precisely.**
-- Run `pnpm build`, iterate over any TypeScript or build-related issues, modifying **only the newly added or modified test code.**
-- Run the specific tests related to the implemented feature to ensure they pass. Iterate over any test failures, modifying **only the newly added or modified test code.**
-- Focus on writing clean, DRY (Don't Repeat Yourself) test code.
-- DO NOT RUN the tests as their is no implementation
