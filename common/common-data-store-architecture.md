@@ -35,10 +35,6 @@ Apply these rules when implementing or modifying store architecture, repository,
 
 - Use custom hooks for async state management based on front end framework. (e.g., SolidJS, React)
 - All services should expose a consistent interface through a named export service object or hook
-- Keep import ordering consistent:
-  1. Internal store imports (repositories, utilities)
-  2. External package imports
-  3. Type imports
 
 ## State Management
 

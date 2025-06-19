@@ -1,68 +1,162 @@
 ---
 description: TypeScript best practices, typing patterns, and strict checking configurations
 ruleType: typescript
-globs: 
+globs:
 alwaysApply: false
 ---
-## When to Use
+
+# When to Use
+
 Apply these rules when writing TypeScript code to ensure type safety and consistency.
 
-# General TypeScript Guidelines
+## Core Principles
+
+### Type Safety
+
 - Enable strict TypeScript checking
-- No usage of `any` type
-- Use proper TypeScript interfaces and types
-- No implicit any in function parameters
-- No non-null assertions (`!`)
-- No type assertion using angle brackets (`<Type>`) - use `as Type` instead
-- Use function overloads for complex type signatures
-- Prefer interfaces for public API
-- Prefer type for complex types, unions, intersections
-- Use descriptive type names
+- Prefer types over interfaces (except for class implementation)
+- Use explicit typing over implicit `any`
+- Favor composition of types over inheritance
+- Utilize type inference where it improves readability
 
-# Type Definitions
-- Define all interface and type names with PascalCase
-- Add explicit return types to functions (except when obvious)
-- Avoid excessive type usage that reduces readability
-- Use type inference where appropriate
-- Favor composition of types
-- Add index signature when needed
-- Use mapped types for transformations
-- Use conditional types for type-level logic
-- No circular type references
+### Code Organization
 
-# Common Types
+- Export all shared types (needed in more than one file)
+- Define component prop types within the component
+- Document complex types with JSDoc comments
+- Keep types within the respective module when only used in one place
+
+## Type Definitions
+
+### Naming & Structure
+
+- Use PascalCase for type names
+- Be descriptive and clear with type names
+- Use domain prefixes when helpful (e.g., `UserProfile`)
+- Use verb prefixes for action types (e.g., `UpdateUserRequest`)
+- Use noun prefixes for model types (e.g., `UserProfile`)
+- Use standard generic parameter names (T, K, V)
+- Consistent naming conventions across the codebase
+
+### Best Practices
+
+- Avoid using `any` type (use `unknown` with type guards if needed)
+- Avoid non-null assertions (`!`)
+- Avoid type assertions (except when necessary with `as Type`)
+- Avoid circular type references
+- Keep type definitions focused and single-purpose
+- Use mapped and conditional types for complex transformations
+
+## Project Organization
+
+### File Structure
+
+- Place reusable types in the `types` directory
+- Group related types in the same file
+- Keep domain-specific types with their domain file
+- Place component prop types in component files
+- Create utility types in a common types file
+
+### Module Management
+
+- Use minimal, focused imports
+- Prefer named exports for types
+- Use path aliases for clean imports
+- Keep type-only imports explicit with `import type`
+
+## Performance Considerations
+
+- Be mindful of large union types
+- Limit deep nesting of generic types
+- Use type-only imports to reduce runtime impact
+- Keep type bounds as specific as possible
+- Use efficient type guards
+
+## Immutability
+
+- Use `readonly` for component props
+- Avoid `readonly` for service/repository types
+- Consider `readonly` for configuration objects
+- Use `as const` for literal value types
+
+## Type Safety
+
 ```ts
-// Common TypeScript patterns
-// Entity ID type
-type EntityId = string | number;
+// Use discriminated unions
+type Action = { type: 'INCREMENT'; amount: number } | { type: 'DECREMENT'; amount: number } | { type: 'RESET' }
 
-// API Response wrapper
-interface ApiResponse<T> {
-  data: T;
-  meta: {
-    status: number;
-    message?: string;
-  };
+// Use type guards
+function isUser(value: unknown): value is User {
+  return typeof value === 'object' && value !== null && 'id' in value && 'email' in value
 }
 
-// Safe type assertion utility
-function assertType<T>(value: any, check: (v: any) => boolean): T {
-  if (!check(value)) {
-    throw new Error('Type assertion failed');
-  }
-  return value as T;
-}
+// Use const assertions
+const Theme = {
+  LIGHT: 'light',
+  DARK: 'dark',
+} as const
+
+type Theme = (typeof Theme)[keyof typeof Theme]
 ```
 
-# Type Organization
-- Related types should be in the same file
-- Generic utility types in a common types file
-- Domain-specific types in domain files
-- Component prop types in component files or dedicated types file
+## TypeScript Configuration
 
-# TypeScript Configuration
 - Use `tsconfig.json` with strict mode enabled
 - Explicit module resolution strategy
 - Path aliases for clean imports
 - Incremental builds enabled
 - Source maps for debugging
+
+## Must Avoid
+
+- Interfaces (except for class implementation)
+- Implicit any
+
+## Type Distribution
+
+- Clear dependencies
+- Minimal imports
+- Proper exports
+- Type separation
+- Composition focus
+- Generic reuse
+
+## Domain types in types/domain.ts
+
+```ts
+type User = BaseModel & {
+  email: string
+}
+
+type UserPreferences = {
+  theme: 'light' | 'dark'
+}
+
+// Compose types
+type UserWithPreferences = User & {
+  preferences: UserPreferences
+}
+
+// Export all types
+export type { User, UserPreferences, UserWithPreferences }
+```
+
+## Type Safety
+
+```ts
+// Use discriminated unions
+type Action = { type: 'INCREMENT'; amount: number } | { type: 'DECREMENT'; amount: number } | { type: 'RESET' }
+
+// Use type guards
+function isUser(value: unknown): value is User {
+  return typeof value === 'object' && value !== null && 'id' in value && 'email' in value
+}
+
+// Use const assertions
+const Theme = {
+  LIGHT: 'light',
+  DARK: 'dark',
+} as const
+
+type Theme = (typeof Theme)[keyof typeof Theme]
+```

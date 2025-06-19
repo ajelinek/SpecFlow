@@ -11,6 +11,9 @@ Apply these guidelines when writing tests for React components and hooks.
 
 # React Testing Library Guidelines
 
+- Prefer e2e tests using playwright over unit level component tests.
+- Avoid component tests whenever possible.
+- Test reusable hooks and state components when appropriate
 - Test behavior, not implementation details
 - Query elements as a user would (using screen.getByRole, etc.)
 - Avoid querying by test IDs when possible
@@ -59,22 +62,12 @@ it('increments counter', () => {
 })
 ```
 
-# Testing with Context
-
-- Create test providers for context
-- Use wrapper option to provide context
-- Create test utilities for common provider needs
-
 # Mocking
 
-- Mock API calls and services
-- Mock browser APIs when needed
-- Use jest.mock for external dependencies
-- Consider using MSW for API mocking
+- Use MSW for API mocking
 
 # React Test Performance
 
 - Minimize full component renders
-- Use beforeEach for test setup
-- Clean up after tests
-- Mock heavy dependencies
+- Use setUp functions for test setup
+- Clean up fore tests tests

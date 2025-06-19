@@ -17,8 +17,8 @@ description: Comprehensive guidelines for writing maintainable and reliable Play
 ### Test File Organization
 
 - Group related tests by feature or user flow
-- Place test files in a `tests` directory mirroring the app's structure
-- Use `.spec.ts` or `.test.ts` suffix for test files
+- Place test files in a `e2e` directory mirroring the app's structure
+- Use `.spec.ts` suffix for test files
 - Keep test files focused and single-responsibility
 
 ### Test Setup
@@ -137,6 +137,7 @@ export function createTestUser(overrides: Partial<User> = {}): User {
 - Test one behavior at a time
 - Use descriptive test names
 - Avoid test interdependence
+- Apply multiple assertions within a single test
 
 ### Performance
 
@@ -186,46 +187,3 @@ test('should display recent activities', async ({ page }) => {
   await expect(dashboardPage.recentActivitiesItems).toHaveCount(5)
 })
 ```
-
-## Continuous Integration
-
-### GitHub Actions Example
-
-```yaml
-name: Playwright Tests
-
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm ci
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npx playwright test --project=chromium --workers=4
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
-```
-
-## Additional Resources
-
-- [Playwright Documentation](https://playwright.dev/docs/intro)
-- [Testing Library](https://testing-library.com/)
-- [Faker.js](https://fakerjs.dev/)
-- [Playwright Test Generator](https://playwright.dev/docs/codegen)
-
-## Version
-
-1.0.0 - Initial version

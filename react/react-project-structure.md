@@ -1,15 +1,18 @@
 ---
 description: React-specific project structure and folder organization guidelines
 ruleType: react-project-structure
-globs: 
+globs:
 alwaysApply: false
 ---
+
 ## When to Use
+
 Apply these guidelines when setting up or modifying the structure of a React project.
 
 # React Project Structure
 
 ## Component Organization
+
 ```
 src/
 ├── components/
@@ -29,6 +32,7 @@ src/
 ```
 
 ## Pages Organization
+
 ```
 src/
 ├── pages/
@@ -41,24 +45,25 @@ src/
 ```
 
 ## Routing Structure
+
 ```
 src/
 ├── App.tsx                 # Main App component with route setup
 ├── routes/                 # Route configuration
 │   ├── index.tsx           # Main route setup
-│   ├── ProtectedRoute.tsx  # Auth protection HOC
 │   └── routeConfig.ts      # Route definitions
 ```
 
 ## React-Specific Files
+
 ```
 src/
 ├── hooks/                  # Custom React hooks
 ├── contexts/               # React Context providers
-└── hocs/                   # Higher-order components
 ```
 
 # React Code Structure
+
 - Each component in its own directory
 - Component directory structure:
   ```
@@ -67,11 +72,10 @@ src/
   ├── ComponentName.tsx     # Implementation (if complex)
   ├── ComponentName.test.tsx # Component tests
   ├── styles.module.css     # Component styles
-  ├── types.ts              # Component-specific types
-  └── hooks.ts              # Component-specific hooks
   ```
 
 # React Build Configuration
-- Configure React build using Vite, Create React App, or Next.js
+
+- Configure React build using Vite
 - Use React-specific linting rules in ESLint configuration
-- Configure React testing tools in Jest/Vitest setup
+- Configure React testing tools in Vitest setup

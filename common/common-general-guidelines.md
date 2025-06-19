@@ -16,10 +16,8 @@ Apply these general guidelines for all feature implementations to ensure consist
 - **Avoid Unnecessary Updates**: Do not suggest changes to files unless there are actual modifications required.
 - **Respect Existing Patterns**: Follow established coding styles and avoid adding extra or unused code.
 - **Focus on the Task**: Concentrate solely on the immediate request without deviating.
-- **Branch Creation Prompt**: In agent mode, prompt for branch creation when modifying more than one file.
 - **No Git Commands**: Do not generate commands to add files to or commit them to Git.
 - **Minimize Comments**: Avoid unnecessary comments within the code.
-- **Preserve Existing Code**: Retain unrelated code and functionalities. Maintain the existing structure.
 - **Avoid Inventing Changes**: Only implement or suggest modifications explicitly requested.
 - **Use Clear Variable Names**: Prefer descriptive and explicit names over ambiguous ones to enhance readability.
 - **Prioritize Security**: Always consider security implications in code changes.
@@ -35,9 +33,12 @@ Apply these general guidelines for all feature implementations to ensure consist
 - Group modules logically, each doing one thing.
 - Keep functions small and understandable.
 - Avoid nesting > 2 levels (use functions, returns).
-- Keep code DRY.
 - Use immutable objects.
-- Export functions directly on the function.
+- **Keep code DRY**: Do not repeat code.
+- **Public Functions First**: Place all exported/public functions at the top of the file.
+- **Helper Functions Last**: Place all helper/utility functions at the bottom of the file.
+- **Function Organization**: Group related functions together for better code organization.
+- Keep code within an if block small > 10 lines of code.
 
 ```ts
 export async function example() {}

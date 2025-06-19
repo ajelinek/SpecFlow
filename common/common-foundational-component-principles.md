@@ -1,32 +1,54 @@
 ---
 description: Apply when creating or modifying foundation-level UI components used across the application
 ruleType: foundation-component
-globs: 
+globs:
 alwaysApply: false
 ---
+
 ## When to Use
+
 Apply these guidelines when creating or modifying foundation-level UI components used across the application.
 
+Foundational components are the building blocks of the application, used across the application. They should be consistent and reusable and are stored in components/foundation.
+
 # Foundational Components
+
 - Leverage foundation components as building blocks
-- Foundational components include (input, icons, alerts, etc)
 - Ensure consistency, composability, and use of foundational building blocks
 - Keep components small and single purpose
-- Single responsibility per component
-- Composition over inheritance
+- Single module per component
 - Full accessibility compliance
 - Mobile-first design
-- Performance optimized
 - Type-safe interfaces
 - Consistent API patterns
 
+# Example Foundational Components
+
+- Alert (notifications, errors)
+- Button (actions)
+- Dialog (modals, popups)
+- Dropdown (selection menus)
+- Icon (wrapped SVG components)
+- Input (form fields)
+- List (data display)
+- Loading (spinners, skeletons)
+- Table (data grids)
+
+## Component Properties
+
+- Must extend BaseProps interface
+- Consistent variant patterns
+- CSS module classes
+
 # HTML Semantic Guidelines for Testing
+
 - Use semantic HTML elements (`<section>`, `<article>`, `<nav>`, etc.) instead of generic `<div>` with classes
 - Add ARIA attributes to sections: `<section aria-label="hero">` instead of `<section class="hero">`
 - Ensure all interactive elements have accessible names
 - Follow all A11y practices
 
 # Accessibility Requirements
+
 - ARIA roles and states
 - Keyboard navigation
 - Focus management

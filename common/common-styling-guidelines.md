@@ -1,17 +1,122 @@
 ---
-description: Apply when implementing component styling, CSS modules, or responsive design patterns
+description: Guidelines for implementing scalable, maintainable styling with design tokens and component architecture
 ruleType: styles
-globs: 
-alwaysApply: false
+globs: '**/*.css,**/*.module.css,**/*.scss'
+alwaysApply: true
 ---
-## When to Use
-Apply these rules when implementing component styling, CSS modules, or responsive design patterns.
 
-# General Components and Styles
-- CSS modules (`.module.css`).
-- Follow design tokens (CSS variables).
-- Use CSS variables for colors, spacing, typography.
-- Mobile-first responsive design.
-- Use CSS Grid/Flexbox (avoid breakpoints).
-- Animations in `animations.css`, referenced in CSS modules.
-- No inline styles.
+# Styling Architecture Guidelines
+
+## Design Token System
+
+### Three-Layer Token Architecture
+
+1. **Global Tokens**
+
+   - Base values (colors, spacing, typography, etc.)
+   - Defined in `:root` or theme-specific selectors
+   - Example: `--color-primary-500: #0066cc;`
+
+2. **Semantic Tokens**
+
+   - Contextual values that reference global tokens
+   - Define usage (e.g., `--color-text-primary`, `--spacing-md`)
+   - Example: `--color-text-primary: var(--color-neutral-900);`
+
+3. **Component Tokens**
+   - Component-specific variables that reference semantic tokens
+   - Scoped to components using CSS modules
+   - Example: `--button-bg: var(--color-primary-500);`
+
+## Implementation Strategy
+
+### File Organization
+
+```
+styles/
+  ├── tokens/
+  │   ├── _colors.css     # Color tokens
+  │   ├── _spacing.css    # Spacing tokens
+  │   ├── _typography.css # Typography tokens
+  │   └── _breakpoints.css # Breakpoint tokens (use sparingly)
+  ├── animations/        # Reusable animations
+  │   ├── _fade.css
+  │   ├── _slide.css
+  │   └── index.css      # Animation exports
+  ├── global.css          # Global styles and resets
+  └── themes/            # Theme definitions
+      ├── light.css
+      └── dark.css
+```
+
+## Styling Architecture
+
+### Global vs Component Styles
+
+**Global Styles (styles/global.css)**
+
+- Design tokens and theme variables
+- Base element styles (typography, forms, etc.)
+- Animation definitions
+- CSS resets and normalizations
+
+**Component Styles (ComponentName.module.css)**
+
+- Component-specific styles
+- Composed of a single class per element
+- Use CSS Modules for scoping
+- Leverage PostCSS features for maintainability
+- Import styles using s `import s from './styles.module.css';`
+
+## Best Practices
+
+### Do:
+
+- Use CSS custom properties for all design tokens
+- Prefer composition over inheritance
+- Keep selectors flat (avoid nesting > 2 levels)
+- Use logical properties for RTL support
+- Leverage CSS Grid for two-dimensional layouts
+- Use Flexbox for one-dimensional layouts
+- Define animations in global scope, reference in components
+- Use semantic HTML elements
+- Implement proper focus states and accessibility
+
+### No:
+
+- NO `!important` (except for utility overrides)
+- NO complex selectors (e.g., `.parent > div > span`)
+- NO ID selectors for styling
+- NO inline styles
+- NO fixed units (px) for typography or spacing
+- NO media queries for layout (prefer container queries)
+- NO CSS preprocessors (use native CSS features)
+- NO component-scoped styles (use global utility classes)
+- NO excessive component variants (style with utilities instead)
+- NO deep nesting (keep selectors flat)
+
+## Animation Guidelines
+
+1. **Define animations globally** in `styles/animations/`
+2. **Use semantic names** (e.g., `fade-in`, `slide-up`)
+3. **Keep animations subtle** and purposeful
+4. **Respect reduced motion** preferences:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+
+## Testing
+
+- Test components in both light and dark themes
+- Verify animations work with reduced motion
+- Check contrast ratios meet WCAG AA standards
+- Test keyboard navigation and focus states
+- Verify responsive behavior without viewport assumptions
