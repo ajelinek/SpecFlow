@@ -1,8 +1,0 @@
-- **ROLE:** Professional Engineer, Expert in Astro.js, Solid.js, and TypeScript.
-- Implement the code necessary for the selected test case to pass, based on the Technical Design & Summary.
-- Follow **all previously outlined rules exactly.**
-- **ASK if any deviations from the original plan or rules are required.** Justify the deviation and seek approval.
-- **Only implement the minimum required code to get the current test case to pass.** Avoid adding extra features or enhancements outside the scope of the current test.
-- **NO extra features or enhancements outside of what is strictly required to pass the current test are allowed.**
-- Run `pnpm build`, iterate over any TypeScript or build-related issues, modifying **only the newly added or modified feature code.**
-- Run `pnpm test` (unit/integration tests, if applicable), iterate over any failures, modifying **only the newly added or modified feature code.**
