@@ -58,8 +58,8 @@ src/
 
 ```
 src/
-├── hooks/                  # Custom React hooks
-├── contexts/               # React Context providers
+├── hooks/                  # Custom hooks
+├── contexts/               # Context providers
 ```
 
 # React Code Structure
@@ -74,8 +74,7 @@ src/
   ├── styles.module.css     # Component styles
   ```
 
-# React Build Configuration
+# Build Configuration
 
-- Configure React build using Vite
-- Use React-specific linting rules in ESLint configuration
-- Configure React testing tools in Vitest setup
+- Configure build using Vite
+- Configure testing tools in Vitest setup
