@@ -79,6 +79,8 @@ Apply these guidelines when writing tests of any type (unit, integration, e2e). 
 ## Test Structure
 
 - **Global State**: Avoid shared state between tests
+- **Nested Tests**: Avoid nesting tests within `describe` blocks. Nested tests with `beforeEach` hooks can create implicit dependencies and make it difficult to understand the state of any given test. Prefer flatter test structures and organize test suites by feature into separate files.
+- **`beforeEach` for Setup**: Do not use `beforeEach` to set up test-specific data or state. Instead, use setup helper functions that are called at the beginning of each test. `beforeEach` and `afterEach` should primarily be reserved for global cleanup tasks.
 - **Over-engineering**: Keep test setup simple and focused
 - **Test Interdependence**: Ensure tests can run in isolation
 - **Implementation Testing**: Focus on behavior, not implementation details
@@ -121,6 +123,7 @@ async function setupTest(initialData = {}) {
   return { db, userService }
 }
 
+// Each test is self-contained and sets up its own state, avoiding shared mutable variables.
 test('creates a new user with valid data', async () => {
   const { userService } = await setupTest()
   const userData = { name: 'New User', email: 'new@example.com' }

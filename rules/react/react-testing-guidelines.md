@@ -21,8 +21,14 @@ Apply these guidelines when writing tests for React components and hooks.
 - Test user flows, not component internals
 - Mock external dependencies but not React itself
 - Wrap tests in appropriate context providers
+- Avoid nesting tests within `describe` blocks.
+- Use setup functions to prepare component renders for each test, rather than using `beforeEach` hooks.
 
 ## React Component Test Structure
+
+- Use a flat test structure. Do not use `describe` blocks.
+- Render the component inside each test to ensure tests are isolated.
+- React Testing Library automatically unmounts components after each test, so manual cleanup is not usually necessary.
 
 ```tsx
 import { render, screen } from '@testing-library/react'
@@ -69,5 +75,5 @@ it('increments counter', () => {
 # React Test Performance
 
 - Minimize full component renders
-- Use setUp functions for test setup
-- Clean up fore tests tests
+- Use helper functions for test setup
+- Cleanup is handled automatically by React Testing Library.

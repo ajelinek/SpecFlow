@@ -21,10 +21,16 @@ Apply these guidelines when writing tests for SolidJS components and custom prim
 - Test user flows, not component internals.
 - Mock external dependencies (like APIs), but not SolidJS itself.
 - Wrap tests in appropriate Context Providers if needed.
+- Avoid nesting tests within `describe` blocks to keep test structure flat and readable.
+- Use setup functions to prepare component renders for each test, rather than using `beforeEach` hooks.
 
 ## Solid Component Test Structure
 
 Tests should be co-located with the component under test in a `*.test.tsx` file. Use Vitest as the test runner and Solid Testing Library for rendering.
+
+- Use a flat test structure without `describe` blocks.
+- Render the component inside each test to ensure tests run in isolation.
+- Solid Testing Library automatically handles cleanup, so manual cleanup calls are not typically needed.
 
 ```tsx
 // MyComponent.test.tsx
@@ -78,5 +84,5 @@ it('increments the counter', () => {
 # Solid Test Performance
 
 - Minimize the size and complexity of the component tree rendered in each test.
-- Use a setUp function for test setup and cleanup to avoid repetition.
-- Ensure all created effects or subscriptions are cleaned up after tests to prevent memory leaks.
+- Use helper functions for test setup to avoid repetition.
+- Cleanup is handled automatically by Solid Testing Library.

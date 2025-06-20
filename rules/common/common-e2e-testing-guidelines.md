@@ -24,7 +24,7 @@ description: Comprehensive guidelines for writing maintainable and reliable Play
 ### Test Setup
 
 - Use a `setUp` function for test initialization
-- Avoid `beforeEach`/`afterEach` unless absolutely necessary
+- Avoid `beforeEach`/`afterEach` unless absolutely necessary for global setup/teardown that must run reliably (e.g., starting/stopping a mock server, spying on global objects like `console`). Do not use them to share state or setup between tests.
 - No `describe` blocks
 - Clean up test data before each test
 - Return only the necessary context from setup functions
