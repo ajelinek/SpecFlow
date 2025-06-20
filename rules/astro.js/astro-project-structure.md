@@ -1,15 +1,18 @@
 ---
 description: Astro and Solid.js project folder structure, organization, and file conventions
 ruleType: project-structure
-globs: 
+globs:
 alwaysApply: false
 ---
+
 ## When to Use
+
 Apply these guidelines when setting up a new Astro/Solid.js project or organizing files within an existing project.
 
 # Astro Project Structure
 
 ## Root Level Organization
+
 ```
 ├── src/                    # Source code
 ├── public/                 # Static assets
@@ -17,12 +20,10 @@ Apply these guidelines when setting up a new Astro/Solid.js project or organizin
 ```
 
 ## Source Directory (`src/`)
+
 ```
 src/
 ├── components/             # UI components
-│   ├── astro/             # Astro components (.astro)
-│   ├── solid/             # Solid.js components (.tsx)
-│   └── foundation/        # Shared foundation components
 ├── layouts/                # Layout templates (.astro)
 ├── pages/                  # Page routes (.astro)
 ├── store/                  # State management
@@ -34,6 +35,7 @@ src/
 ```
 
 ## Astro-Specific Structure
+
 ```
 src/
 ├── layouts/                # Page layouts
@@ -49,10 +51,10 @@ src/
 ```
 
 ## Solid.js Islands Structure
+
 ```
 src/
 └── components/
-    └── solid/              # Client-side interactive components
         ├── Counter/        # Example interactive component
         │   ├── index.tsx   # Component implementation
         │   └── styles.module.css  # Scoped styles
@@ -60,20 +62,22 @@ src/
 ```
 
 # File Naming Conventions
+
 - Astro components: `PascalCase.astro`
-- Solid.js components: `PascalCase.tsx`
 - Layouts: `PascalCase.astro`
 - Pages: `kebab-case.astro` or `[dynamic].astro`
 - Utility files: `kebab-case.ts`
 - Style files: `kebab-case.css` or `PascalCase.module.css`
 
 # Project Configuration
+
 - `astro.config.mjs` for Astro configuration
 - `tsconfig.json` for TypeScript configuration
 - `package.json` for dependencies
 - Environment variables in `.env` files
 
 # Build and Output
+
 - Output generated in `dist/` directory
 - Public assets in `public/` directory
 - Static site generation by default

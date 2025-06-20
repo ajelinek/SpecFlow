@@ -1,45 +1,15 @@
 ---
-description: Apply for all component creation, accessibility, and dynamic UI logic
+description: 'React-specific rules for components, including state, hooks, and control flow.'
 ruleType: component
 globs:
 alwaysApply: false
 ---
 
-## When to Use
+These guidelines supplement the `common-component-guidelines.md`. Please review the common guidelines first.
 
-Apply these rules for all component creation, accessibility, and dynamic UI logic in React projects.
-
-# General Component Guidelines
-
-- Leverage foundation components as building blocks
-- Foundational components include (input, icons, alerts, etc)
-- Ensure consistency, composability, and use of foundational building blocks
-- Keep components small and single purpose
-
-# Accessibility and Semantic HTML Guidelines
-
-- Follow all A11y practices
-- Use semantic HTML elements (`<section>`, `<article>`, `<nav>`, etc.) instead of generic `<div>` with classes
-- Add ARIA attributes to sections: `<section aria-label="hero">` instead of `<section class="hero">`
-- Ensure all interactive elements have accessible names
-
-# Component Rules
-
-## File Structure
-
-PascalCase/
-├── index.tsx # Main component
-└── styles.module.css # Styles for the component
-
-## Component Definition
+# Component Definition
 
 ```tsx
-// types.ts
-type ExampleProps = {
-  title: string
-  onAction: () => void
-}
-
 // index.tsx
 import s from './styles.module.css'
 import type { ExampleProps } from './types'
@@ -49,49 +19,25 @@ export function Example(props: ExampleProps) {
 }
 ```
 
-## State and Hooks
+# State and Hooks
 
-- Use React useState for state
-- useMemo for computed values
-- useEffect for side effects and cleanup
+- Use React's `useState` for component-level state.
+- Use `useMemo` for expensive, memoized calculations.
+- Use `useEffect` for handling side effects, with proper dependency arrays and cleanup functions.
 
-## Control Flow
+# Control Flow
 
-- Use standard React conditional rendering (`&&`, ternary outside JSX, etc)
-- Use .map for lists
+- Use standard JavaScript operators for conditional rendering (`&&`, ternary operators outside of complex JSX).
+- Use the `.map()` method for rendering lists of elements.
 
-## Error Handling
+# Error Handling
 
-- Use React error boundaries for error handling
-- Display errors using Alert foundation component
+- Use React Error Boundaries to catch and handle errors in the component tree.
 
-## Required Patterns
+# Anti-Patterns to Avoid
 
-- Use foundation components for base UI
-- Type all props and events
-- Use CSS modules for styling
-- Follow A11y best practices
-- Focus on presentation, delegate to store/services for business logic
+- **Nested State Updates**: Avoid complex or nested state updates that are hard to read. Use reducers for complex state logic.
 
-## Form Validation
+# Performance Requirements
 
-- Input validation is done by the store/service layer
-- Errors come from service operations
-- Errors are displayed by the Alert component within the foundation
-
-## Anti-Patterns to Avoid
-
-- No prop drilling beyond one level
-- No inline styles
-- No direct DOM manipulation
-- No default exports except from index.tsx
-- No nested state updates
-- No untyped components or props
-- No ternary statements within JSX
-- No multiple return statements within a component
-
-## Performance Requirements
-
-- Lazy load large components
-- Use Suspense for async boundaries
-- Implement proper cleanup
+- **Suspense**: Use `<Suspense>` for declarative loading UI when components or data are being fetched asynchronously.
