@@ -43,3 +43,8 @@ Apply these general guidelines for all feature implementations to ensure consist
 ```ts
 export async function example() {}
 ```
+
+# Documentation
+
+- Ensure documents `_docs/design` are kept up-to-date as the project evolves.
+- Use clear, concise language suitable for both human and LLM consumption.
