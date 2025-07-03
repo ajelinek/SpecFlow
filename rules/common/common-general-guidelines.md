@@ -39,12 +39,12 @@ Apply these general guidelines for all feature implementations to ensure consist
 - **Helper Functions Last**: Place all helper/utility functions at the bottom of the file.
 - **Function Organization**: Group related functions together for better code organization.
 - Keep code within an if block small > 10 lines of code.
+- **Function Parameters**: Never pass more than 3 parameters to a function. If more than 3 values are needed, wrap them in an object and use that object consistently throughout the application.
+- **Encapsulation**: Encapsulate internal module details, exposing only necessary functionality through a public interface to reduce dependencies and isolate changes.
+- **SOLID Principles**: Apply SOLID principles (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion) to create scalable, flexible, and maintainable software.
+- **KISS (Keep It Simple, Stupid)**: Prioritize simplicity in design and implementation (KISS). Avoid adding unnecessary complexity that makes code harder to understand and maintain.
+- **YAGNI (You Ain't Gonna Need It)**: Do not add functionality until it is actually required (YAGNI). Avoid implementing features based on speculation about future needs.
 
 ```ts
 export async function example() {}
 ```
-
-# Documentation
-
-- Ensure documents `_docs/design` are kept up-to-date as the project evolves.
-- Use clear, concise language suitable for both human and LLM consumption.
