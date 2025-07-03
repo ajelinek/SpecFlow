@@ -21,8 +21,9 @@ sequenceDiagram
 
     loop Foundational Design
         Human->>+Gemini: Generate Design Document
-        Gemini-->>DesignDocs: Create/Update Doc
+        Gemini->>+DesignDocs: Create/Update Doc
         DesignDocs-->>-Human: Review
+        Gemini-->>-DesignDocs: Return to Gemini
     end
 
     Human->>+Gemini: Generate Feature Overview
@@ -30,9 +31,11 @@ sequenceDiagram
 
     loop For each Feature
         Human->>+Claude: Implement Feature
-        Claude-->>Codebase: Write Code and Tests
+        Claude->>+Codebase: Write Code and Tests
         Codebase-->>-Human: Review and Refine
+        Claude-->>-Codebase: Return to Claude
     end
+
 ```
 
 ## The Spark of an Idea
@@ -72,36 +75,6 @@ From this analysis, it builds out the high-level features. This includes the fea
 
 ## Iterative Building: The Development Loop
 
-```mermaid
-sequenceDiagram
-    participant Human
-    participant Gemini
-    participant Claude
-    participant TechnicalDesignDoc as TDD
-    participant Codebase
-
-    Human->>+Gemini: "Create High-Level Design 008"
-    Gemini-->>-TDD: Populate Feature Overview
-
-    Human->>+Gemini: "Create Test Scenarios 009"
-    Gemini-->>-TDD: Populate Gherkin Scenarios
-
-    Human->>+Gemini: "Create Implementation Design 010"
-    Gemini-->>-TDD: Populate Implementation Details
-
-    loop "For each Test Scenario"
-        Human->>+Claude: "Implement Scenario 011"
-        Claude-->>Codebase: **Make it Work**<br>Generate Test + Implementation
-        Codebase-->>Human: Review
-        Note over Human, Codebase: Verify correctness
-
-        Human->>+Claude: Refactor & Clean Up
-        Claude-->>Codebase: **Make it Right**<br>Update Implementation
-        Codebase-->>Human: Review
-        Note over Human, Codebase: **Make it Tight**<br>Finalize & DRY up tests
-    end
-```
-
 With the features identified, the iterative building begins. I take one feature and its stories and work through a series of prompts to build out the detailed design before any code is written. This process is guided by the following prompts:
 
 - [`008-high-level-design.md`](./workflows/V3/008-high-level-design.md): **Role: Senior Engineer and Architect.** This creates the initial technical design, outlining the feature's flow from a system perspective.
@@ -115,6 +88,19 @@ Now, it is time to write real code. For the coding itself, I switch to one of An
 The key here is to work in small, incremental batches, as this is paramount to success. I select only one or two test scenarios from the technical design and ask the AI to implement them. This approach keeps the amount of code I need to review small and manageable. This is also where the [`rules/`](./rules/) becomes very important, as they provide the AI with explicit instructions and constraints to follow during the build.
 
 The flow follows the classic mantra: "Make it work, make it right, make it tight." This iterative loop is built on a foundation of testing, which provides the critical safety blanket needed when working with an AI.
+
+```mermaid
+graph LR
+    A[Select Test Scenarios] --> B[Make it Work]
+    B --> C[Make it Right]
+    C --> D[Make it Tight]
+    D --> A
+
+    style A fill:#cce5ff,stroke:#339af0
+    style B fill:#d4edda,stroke:#28a745
+    style C fill:#fff3cd,stroke:#ffc107
+    style D fill:#f8d7da,stroke:#dc3545
+```
 
 1.  **Make it Work**: For a selected scenario, I have the AI generate both the test code and the implementation code at the same time. The immediate goal is simply to get a passing test. Since the high-level test logic was already defined in the Gherkin scenarios, I have confidence in the general direction. I don't worry about perfect code at this stage; getting a green test is the only priority.
 
