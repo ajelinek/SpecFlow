@@ -11,8 +11,9 @@
 1.  **Analyze Design**: Review the "Feature Overview" and "System / User Flow" sections of the provided design document.
 2.  **Generate Scenarios**: Populate the "Test Scenarios (Gherkin)" section of the `TEMPLATE`.
 3.  **Be Comprehensive**: Create scenarios for all happy paths, error conditions, and potential edge cases. Use `Example` tables to keep the scenarios DRY (Don't Repeat Yourself).
-4.  **Adhere to Constraints**: Follow all constraints listed below.
-5.  **Output**: Your sole output is the updated Technical Design document with the test scenarios filled in.
+4.  **Add Status Tag**: Ensure every `Scenario` is tagged with `@status_pending` and `@status_complete` to track implementation progress.
+5.  **Adhere to Constraints**: Follow all constraints listed below.
+6.  **Output**: Your sole output is the updated Technical Design document with the test scenarios filled in.
 
 ---
 
@@ -72,13 +73,13 @@ Feature: [Feature Name]
   # Function: [functionName]
   #---------------------------------------------------------------------------
 
-  @happyPath
+  @happyPath @status_pending
   Scenario: [Describe a success case]
     Given [a specific precondition]
     When [an action is performed]
     Then [a successful outcome is observed]
 
-  @errorPath
+  @errorPath @status_pending
   Scenario: [Describe a failure case]
     Given [a specific precondition that will lead to an error]
     When [an action is performed]
