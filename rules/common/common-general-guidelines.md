@@ -33,6 +33,7 @@ Apply these general guidelines for all feature implementations to ensure consist
 - Group modules logically, each doing one thing.
 - Keep functions small and understandable.
 - Avoid nesting > 2 levels (use functions, returns).
+- **Use Guard Clauses**: Exit early on preconditions to avoid nesting and improve readability.
 - Use immutable objects.
 - **Keep code DRY**: Do not repeat code.
 - **Public Functions First**: Place all exported/public functions at the top of the file.
