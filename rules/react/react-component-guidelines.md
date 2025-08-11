@@ -14,8 +14,8 @@ These guidelines supplement the `common-component-guidelines.md`. Please review 
 import s from './styles.module.css'
 import type { ExampleProps } from './types'
 
-export function Example(props: ExampleProps) {
-  return <div className={s.container}>{props.title}</div>
+export function Example({ title }: ExampleProps) {
+  return <div className={s.container}>{title}</div>
 }
 ```
 
@@ -29,6 +29,10 @@ export function Example(props: ExampleProps) {
 
 - Use standard JavaScript operators for conditional rendering (`&&`, ternary operators outside of complex JSX).
 - Use the `.map()` method for rendering lists of elements.
+
+# Props
+
+- Destructure props in the function signature; avoid accessing via `props.` inside the component body.
 
 # Error Handling
 

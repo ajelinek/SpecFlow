@@ -88,11 +88,9 @@ styles/
 - NO complex selectors (e.g., `.parent > div > span`)
 - NO ID selectors for styling
 - NO inline styles
-- NO fixed units (px) for typography or spacing
+- NO fixed units (px) for typography or spacing, use rem
 - NO media queries for layout (prefer container queries)
 - NO CSS preprocessors (use native CSS features)
-- NO component-scoped styles (use global utility classes)
-- NO excessive component variants (style with utilities instead)
 - NO deep nesting (keep selectors flat)
 
 ## Animation Guidelines
