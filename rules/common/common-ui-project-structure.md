@@ -5,10 +5,6 @@ globs:
 alwaysApply: false
 ---
 
-## When to Use
-
-Apply these guidelines when setting up or modifying the structure of a React project.
-
 # React Project Structure
 
 ## Component Organization

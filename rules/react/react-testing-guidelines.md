@@ -5,10 +5,6 @@ globs:
 alwaysApply: false
 ---
 
-## When to Use
-
-Apply these guidelines when writing tests for React components and hooks.
-
 # React Testing Library Guidelines
 
 - Prefer e2e tests using playwright over unit level component tests.

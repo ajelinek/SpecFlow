@@ -5,10 +5,6 @@ globs:
 alwaysApply: false
 ---
 
-## When to Use
-
-Apply these rules when implementing or modifying store architecture, repository, or service logic.
-
 # Store Architecture
 
 ## Layer Separation

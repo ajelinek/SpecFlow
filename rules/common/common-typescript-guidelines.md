@@ -5,10 +5,6 @@ globs:
 alwaysApply: false
 ---
 
-# When to Use
-
-Apply these rules when writing TypeScript code to ensure type safety and consistency.
-
 ## Core Principles
 
 ### Type Safety
@@ -78,26 +74,6 @@ Apply these rules when writing TypeScript code to ensure type safety and consist
 - Avoid `readonly` for service/repository types
 - Consider `readonly` for configuration objects
 - Use `as const` for literal value types
-
-## Type Safety
-
-```ts
-// Use discriminated unions
-type Action = { type: 'INCREMENT'; amount: number } | { type: 'DECREMENT'; amount: number } | { type: 'RESET' }
-
-// Use type guards
-function isUser(value: unknown): value is User {
-  return typeof value === 'object' && value !== null && 'id' in value && 'email' in value
-}
-
-// Use const assertions
-const Theme = {
-  LIGHT: 'light',
-  DARK: 'dark',
-} as const
-
-type Theme = (typeof Theme)[keyof typeof Theme]
-```
 
 ## TypeScript Configuration
 

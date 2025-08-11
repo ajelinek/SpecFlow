@@ -7,12 +7,10 @@ alwaysApply: false
 
 ## React State Management Rules
 
-## When to Use
-
 - Use these rules when SWR is your global data layer.
-- If using Apollo Client for GraphQL, follow `rules/apollo/apollo-react-state-integration.md` for server/global state. Continue to use Section 2 (Local Component State) here for pure UI state.
+- If using Apollo Client for GraphQL, follow `apollo-react-state-integration.md` for server/global state. Continue to use Section 2 (Local Component State) here for pure UI state.
 
-> Precedence: Apollo rules supersede Section 1 (Global State) of this file when Apollo Client is in use.
+> Precedence: Apollo rules supersede Section 1 (Global State) when Apollo Client is in use.
 
 ## 1. Global State with Service-SWR Pattern
 

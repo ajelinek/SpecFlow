@@ -5,49 +5,45 @@ globs:
 alwaysApply: false
 ---
 
-## When to Use
-
-Apply these guidelines when setting up a new Astro/Solid.js project or organizing files within an existing project.
-
 # Astro Project Structure
 
 ## Root Level Organization
 
 ```
-├── src/                    # Source code
-├── public/                 # Static assets
-└── astro.config.mjs        # Astro configuration
+├── src/
+├── public/
+└── astro.config.mjs
 ```
 
 ## Source Directory (`src/`)
 
 ```
 src/
-├── components/             # UI components
-├── layouts/                # Layout templates (.astro)
-├── pages/                  # Page routes (.astro)
-├── store/                  # State management
-│   ├── repository/         # External system interaction
-│   ├── service/           # Business logic and state
-│   └── config.ts          # Store configuration
-├── styles/                 # Global styles
-└── utils/                  # Utility functions
+├── components/
+├── layouts/
+├── pages/
+├── store/
+│   ├── repository/
+│   ├── service/
+│   └── config.ts
+├── styles/
+└── utils/
 ```
 
 ## Astro-Specific Structure
 
 ```
 src/
-├── layouts/                # Page layouts
-│   ├── BaseLayout.astro    # Base layout with common elements
-│   └── BlogLayout.astro    # Blog-specific layout
-├── pages/                  # Page routes (file-based routing)
-│   ├── index.astro         # Homepage
-│   ├── blog/               # Blog routes
-│   └── [dynamic].astro     # Dynamic routes
-└── content/                # Content collections (if using content system)
-    ├── blog/               # Blog posts
-    └── config.ts           # Content collection configuration
+├── layouts/
+│   ├── BaseLayout.astro
+│   └── BlogLayout.astro
+├── pages/
+│   ├── index.astro
+│   ├── blog/
+│   └── [dynamic].astro
+└── content/
+    ├── blog/
+    └── config.ts
 ```
 
 ## Solid.js Islands Structure
@@ -55,10 +51,10 @@ src/
 ```
 src/
 └── components/
-        ├── Counter/        # Example interactive component
-        │   ├── index.tsx   # Component implementation
-        │   └── styles.module.css  # Scoped styles
-        └── Form/           # Form components with reactivity
+        ├── Counter/
+        │   ├── index.tsx
+        │   └── styles.module.css
+        └── Form/
 ```
 
 # File Naming Conventions
@@ -66,19 +62,19 @@ src/
 - Astro components: `PascalCase.astro`
 - Layouts: `PascalCase.astro`
 - Pages: `kebab-case.astro` or `[dynamic].astro`
-- Utility files: `kebab-case.ts`
-- Style files: `kebab-case.css` or `PascalCase.module.css`
+- Utilities: `kebab-case.ts`
+- Styles: `kebab-case.css` or `PascalCase.module.css`
 
 # Project Configuration
 
-- `astro.config.mjs` for Astro configuration
-- `tsconfig.json` for TypeScript configuration
-- `package.json` for dependencies
-- Environment variables in `.env` files
+- `astro.config.mjs`
+- `tsconfig.json`
+- `package.json`
+- `.env`
 
 # Build and Output
 
-- Output generated in `dist/` directory
-- Public assets in `public/` directory
+- Build output: `dist/`
+- Static assets: `public/`
 - Static site generation by default
-- Server-side rendering option if needed
+- SSR optional

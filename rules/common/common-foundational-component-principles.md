@@ -5,10 +5,6 @@ globs:
 alwaysApply: false
 ---
 
-## When to Use
-
-Apply these guidelines when creating or modifying foundation-level UI components used across the application.
-
 Foundational components are the building blocks of the application, used across the application. They should be consistent and reusable and are stored in components/foundation.
 
 # Foundational Components

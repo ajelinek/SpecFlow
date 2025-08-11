@@ -5,10 +5,6 @@ globs:
 alwaysApply: false
 ---
 
-## When to Use
-
-Apply these guidelines when implementing forms, input handling, validation, or state management for user input.
-
 # Form Management Principles
 
 - All form validations will be managed within the store service, not in the component

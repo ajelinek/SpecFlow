@@ -5,10 +5,6 @@ globs:
 alwaysApply: true
 ---
 
-## When to Use
-
-Apply for all error handling across UI components, services, and backend/API layers.
-
 # Principles
 
 - Use consistent, machine-readable error categories.

@@ -5,7 +5,7 @@ globs:
 alwaysApply: false
 ---
 
-These guidelines supplement the `common-component-guidelines.md`. Please review the common guidelines first.
+Supplements `common-component-guidelines.md`; review that first.
 
 # Component Definition
 

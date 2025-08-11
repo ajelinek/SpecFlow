@@ -5,10 +5,6 @@ globs:
 alwaysApply: false
 ---
 
-## When to Use
-
-Apply these guidelines when writing tests of any type (unit, integration, e2e). For specific E2E testing guidelines, refer to the dedicated E2E testing documentation.
-
 # Testing Strategy
 
 ## Test Types

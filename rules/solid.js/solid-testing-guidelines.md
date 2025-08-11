@@ -5,10 +5,6 @@ globs:
 alwaysApply: false
 ---
 
-## When to Use
-
-Apply these guidelines when writing tests for SolidJS components and custom primitives (hooks).
-
 # Solid Testing Library Guidelines
 
 - Prefer e2e tests using Playwright over unit-level component tests.

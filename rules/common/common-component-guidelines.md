@@ -5,10 +5,6 @@ globs:
 alwaysApply: false
 ---
 
-# When to Use
-
-Apply these rules for all component creation, accessibility, and dynamic UI logic. Framework-specific guidelines are documented separately.
-
 # General Component Guidelines
 
 - Leverage foundation components as building blocks.
@@ -24,8 +20,6 @@ Apply these rules for all component creation, accessibility, and dynamic UI logi
 - Ensure all interactive elements have accessible names.
 
 # File Structure
-
-Components should follow a consistent file structure:
 
 ```
 PascalCase/

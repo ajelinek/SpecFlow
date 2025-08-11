@@ -5,10 +5,6 @@ globs:
 alwaysApply: true
 ---
 
-## When to Use
-
-Apply these general guidelines for all feature implementations to ensure consistent code quality and maintainability.
-
 # General Rules to Apply
 
 - **Check Rule Files**: Always determine which rule files need to be referenced.

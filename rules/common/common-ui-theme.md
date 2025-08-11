@@ -5,8 +5,6 @@ ruleType: styles
 
 # UI Theming Guidelines
 
-This document outlines how to approach UI theming within the project. Our theming system is designed to be flexible and consistent, integrating with the overall styling architecture.
-
 ## Core Concept
 
 Theming in this project is achieved by:
