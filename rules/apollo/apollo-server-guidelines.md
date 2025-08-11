@@ -9,10 +9,6 @@ alwaysApply: false
 
 Apply when creating or modifying GraphQL servers with `@apollo/server` v4.
 
-# Setup
-
-- For setup and integration patterns, see `utilities/apollo-server-setup.md`.
-
 # Schema & Types
 
 - Keep `Query/Mutation/Subscription` flat and cohesive; compose via modules.
@@ -20,17 +16,6 @@ Apply when creating or modifying GraphQL servers with `@apollo/server` v4.
 - Set `config.contextType` to shared context interface.
 - Never return naked scalars from Query/Mutation. Always return an object wrapper for forward-compatible expansion.
 - Naming: `{Entity}Result` for queries, `{Action}Result` for mutations. Include optional `meta` fields when useful. Do not include `errors` inside payloads; rely on GraphQL's top-level `errors` per spec.
-
-```graphql
-type UserResult {
-  user: User
-  meta: Meta
-}
-
-type UpdateUserResult {
-  user: User
-}
-```
 
 # Context
 
@@ -57,24 +42,6 @@ type UpdateUserResult {
 - Normalize validation failures to `BAD_USER_INPUT` with structured `extensions.fields` when applicable.
 - Map HTTP status consistently (e.g., 400, 401, 403, 404, 409, 429, 500) via `extensions.http.status`.
 - Optionally implement `formatError` to standardize outbound messages and strip internals in prod.
-
-```ts
-import { GraphQLError } from 'graphql'
-
-function assertAuthenticated(userId?: string) {
-  if (!userId) {
-    throw new GraphQLError('Unauthenticated', {
-      extensions: { code: 'UNAUTHENTICATED', http: { status: 401 } },
-    })
-  }
-}
-
-function validationError(message: string, fields?: Record<string, string>) {
-  throw new GraphQLError(message, {
-    extensions: { code: 'BAD_USER_INPUT', http: { status: 400 }, fields },
-  })
-}
-```
 
 # Security
 

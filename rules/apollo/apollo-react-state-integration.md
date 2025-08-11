@@ -13,6 +13,7 @@ Apply when building React services that consume GraphQL via Apollo Client.
 
 # Service-First Pattern
 
+- Use the service/store boundaries defined in `rules/apollo/apollo-store-architecture.md`.
 - Services own Apollo usage; components never import Apollo hooks.
 - Services expose hooks: `useEntity`, `useMutateEntity` with consistent shapes.
 - Prefer Apollo Client cache for GraphQL data; use SWR only for pure UI state if needed.

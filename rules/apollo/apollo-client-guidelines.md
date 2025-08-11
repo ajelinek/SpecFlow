@@ -9,10 +9,6 @@ alwaysApply: false
 
 Apply when creating or modifying clients with `@apollo/client`.
 
-# Setup
-
-- For setup and integration patterns, see `utilities/apollo-client-setup.md`.
-
 # Cache Policies
 
 - Define `keyFields` for all entities; disable normalization only when necessary.
@@ -22,8 +18,7 @@ Apply when creating or modifying clients with `@apollo/client`.
 
 # Component Integration
 
-- Components must consume data via service hooks only; never import Apollo hooks or `gql`.
-- Services map Apollo responses to stable shapes; components receive framework-agnostic data.
+- See `rules/apollo/apollo-store-architecture.md` (Component Usage) and `rules/apollo/apollo-react-state-integration.md` for service-hook patterns.
 
 # Performance
 
@@ -33,5 +28,5 @@ Apply when creating or modifying clients with `@apollo/client`.
 
 # Conventions
 
-- colocate `*.graphql` documents with in the `graphql/` with operation folders.
+- Colocate `*.graphql` documents under `graphql/` alongside operation folders.
 - Operation names: `Feature_Action` (unique and stable). Keep variables minimal.

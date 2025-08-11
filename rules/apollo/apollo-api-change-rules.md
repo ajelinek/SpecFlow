@@ -47,6 +47,7 @@ Apply for any breaking or non-breaking GraphQL API change (schema, resolvers, be
 - Provide `possibleTypes` updates if unions/interfaces change.
 - Define or update pagination policies for new list fields.
 - Publish operation manifests when using persisted queries.
+- Align client/server configuration and manifests in the same PR.
 
 # Testing
 
