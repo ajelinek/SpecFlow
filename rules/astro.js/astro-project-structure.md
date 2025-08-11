@@ -1,7 +1,11 @@
 ---
-description: Astro and Solid.js project folder structure, organization, and file conventions
+description: 'Use when creating or modifying Astro/Solid project structure: directories, file conventions, content collections, and naming.'
 ruleType: project-structure
-globs:
+applyTo:
+  - 'src/**'
+  - 'public/**'
+  - 'astro.config.*'
+  - 'content/**'
 alwaysApply: false
 ---
 

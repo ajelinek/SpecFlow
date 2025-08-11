@@ -1,7 +1,10 @@
 ---
-description: Apply when creating Astro components or island architecture implementations
+description: 'Use when authoring Astro components and islands: pages/layouts, hydration directives, SEO, scoped styles, and Astro APIs.'
 ruleType: astro-component
-globs:
+applyTo:
+  - 'src/**/pages/**/*.astro'
+  - 'src/**/layouts/**/*.astro'
+  - 'src/**/components/**/*.astro'
 alwaysApply: false
 ---
 

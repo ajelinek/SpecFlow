@@ -1,7 +1,10 @@
 ---
-description: Rules to follow whenever updating GraphQL API behavior, schema, or operations
+description: 'Use when making any GraphQL API change (schema, resolvers, behavior, caching, security, rollout). Guides safe, observable, versionable server updates.'
 ruleType: backend
-globs:
+applyTo:
+  - 'server/**/*.{ts,js}'
+  - 'backend/**/*.{ts,js}'
+  - 'api/**/*.{ts,js}'
 alwaysApply: true
 ---
 

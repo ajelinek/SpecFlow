@@ -1,7 +1,8 @@
 ---
-description: TypeScript best practices, typing patterns, and strict checking configurations
+description: 'Use when writing or reviewing TypeScript: strictness, type patterns, naming, organization, imports, performance, and configuration.'
 ruleType: typescript
-globs:
+applyTo:
+  - 'src/**/*.{ts,tsx}'
 alwaysApply: false
 ---
 

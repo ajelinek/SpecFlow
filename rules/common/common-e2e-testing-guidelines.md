@@ -1,5 +1,9 @@
 ---
-description: Comprehensive guidelines for writing maintainable and reliable Playwright tests
+description: 'Use when writing Playwright E2E tests: structure, page objects, selectors, data generation, performance, and anti-patterns.'
+applyTo:
+  - 'e2e/**/*.{ts,tsx}'
+  - 'tests/e2e/**/*.{ts,tsx}'
+  - 'playwright*.{ts,js}'
 ---
 
 # Playwright Testing Guidelines

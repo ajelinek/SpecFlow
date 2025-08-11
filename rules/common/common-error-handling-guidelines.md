@@ -1,7 +1,8 @@
 ---
-description: Centralized error handling guidelines for client UI, services, and APIs
+description: 'Use for error handling across UI, services, and backend: principles, categories, client mapping, and safe messaging.'
 ruleType: general
-globs:
+applyTo:
+  - '**/*'
 alwaysApply: true
 ---
 

@@ -1,6 +1,9 @@
 ---
-description: Apply when implementing component or application state, data fetching, or signal-based reactivity
-globs: *
+description: 'Use when implementing SolidJS state, services, and reactivity: signals, stores, createStore usage, update rules, and store integration patterns.'
+applyTo:
+  - 'src/**/store/**/*.{ts,tsx}'
+  - 'src/**/services/**/*.{ts,tsx}'
+  - 'src/**/*.{tsx,ts}'
 alwaysApply: false
 ---
 

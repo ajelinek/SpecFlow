@@ -1,7 +1,9 @@
 ---
-description: 'React-specific rules for components, including state, hooks, and control flow.'
+description: 'Use when authoring or modifying React components (.tsx): props, state, hooks, control flow, error boundaries, and performance. Applies to component/page implementation and refactors.'
 ruleType: component
-globs:
+applyTo:
+  - 'src/**/components/**/*.tsx'
+  - 'src/**/pages/**/*.tsx'
 alwaysApply: false
 ---
 

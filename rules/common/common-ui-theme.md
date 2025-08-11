@@ -1,6 +1,10 @@
 ---
-description: Guidelines for UI theming, explaining how to leverage the project's theming system.
+description: 'Use when implementing UI theming: CSS variables, theme switching via data-theme, file layout, and JS helpers for toggling/initialization.'
 ruleType: styles
+applyTo:
+  - 'src/styles/**/*'
+  - 'src/**/*.{css,module.css}'
+  - 'src/**/*.{ts,tsx}'
 ---
 
 # UI Theming Guidelines

@@ -1,7 +1,9 @@
 ---
-description: Apollo-specific store architecture mapping for repository/service separation
+description: 'Use when structuring GraphQL-backed repositories and services with Apollo Client: repo/service boundaries, graphql documents layout, caching, and testing.'
 ruleType: store
-globs:
+applyTo:
+  - 'src/**/store/**/*.{ts,tsx}'
+  - 'src/**/store/graphql/**/*.{ts,tsx}'
 alwaysApply: false
 ---
 

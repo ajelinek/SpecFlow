@@ -1,7 +1,8 @@
 ---
-description: Apply when creating or modifying foundation-level UI components used across the application
+description: 'Use when creating or modifying foundational UI components used across the app: consistency, accessibility, API patterns, and testing semantics.'
 ruleType: foundation-component
-globs:
+applyTo:
+  - 'src/**/components/foundation/**/*.{tsx,astro,ts}'
 alwaysApply: false
 ---
 

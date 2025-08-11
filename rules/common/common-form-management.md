@@ -1,7 +1,9 @@
 ---
-description: Form handling, validation, and state management patterns
+description: 'Use when implementing forms: input handling, validation, accessibility, submission UX, and state patterns.'
 ruleType: forms
-globs:
+applyTo:
+  - 'src/**/components/**/*.{tsx,astro}'
+  - 'src/**/pages/**/*.{tsx,astro}'
 alwaysApply: false
 ---
 

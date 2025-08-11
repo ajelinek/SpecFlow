@@ -1,7 +1,9 @@
 ---
-description: React service pattern alignment when using Apollo Client for GraphQL data
+description: 'Use when implementing React service patterns with Apollo Client for GraphQL: service-first hooks, query/mutation mapping, cache updates, and precedence with SWR rules.'
 ruleType: react-state
-globs:
+applyTo:
+  - 'src/**/services/**/*.{ts,tsx}'
+  - 'src/**/store/**/*.{ts,tsx}'
 alwaysApply: false
 ---
 

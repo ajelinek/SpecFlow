@@ -1,6 +1,8 @@
 ---
-description: "SolidJS-specific rules for components, including signals, control flow, and data fetching within an Astro project."
-globs: *
+description: 'Use when authoring or modifying SolidJS components (.tsx): signals, control flow, data fetching, cleanup, and error boundaries. Applies to component/page implementation and refactors.'
+applyTo:
+  - 'src/**/components/**/*.tsx'
+  - 'src/**/pages/**/*.tsx'
 alwaysApply: false
 ---
 

@@ -1,7 +1,10 @@
 ---
-description: Apollo Client best practices for updating features, cache policies, links, persisted queries, SSR, and testing
+description: 'Use when building or modifying Apollo Client usage in the frontend: cache policies, links, persisted queries, SSR, conventions, and testing.'
 ruleType: frontend
-globs:
+applyTo:
+  - 'src/**/store/**/*.{ts,tsx}'
+  - 'src/**/services/**/*.{ts,tsx}'
+  - 'src/**/graphql/**/*.{ts,tsx}'
 alwaysApply: false
 ---
 

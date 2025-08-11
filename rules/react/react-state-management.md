@@ -1,7 +1,10 @@
 ---
-description: React state management using SWR for global state (server and UI).
+description: 'Use when implementing or refactoring React state with SWR-backed services: global data, UI state, SWR config, and mutation patterns. Superseded by Apollo integration for GraphQL global state.'
 ruleType: react-state
-globs:
+applyTo:
+  - 'src/**/services/**/*.{ts,tsx}'
+  - 'src/**/repositories/**/*.{ts,tsx}'
+  - 'src/**/*.{tsx,ts}'
 alwaysApply: false
 ---
 

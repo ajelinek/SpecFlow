@@ -1,7 +1,8 @@
 ---
-description: Apply when implementing or modifying store architecture, repository, or service logic
+description: 'Use when implementing or refactoring store architecture: repository/service separation, state management, error handling, and usage patterns.'
 ruleType: store
-globs:
+applyTo:
+  - 'src/**/store/**/*.{ts,tsx}'
 alwaysApply: false
 ---
 

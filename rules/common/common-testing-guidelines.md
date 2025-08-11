@@ -1,7 +1,10 @@
 ---
-description: General testing guidelines for all test types and assertions
+description: 'Use for all non-E2E tests: unit/integration/E2E conventions, structure, data management, organization, performance, and anti-patterns.'
 ruleType: testing
-globs:
+applyTo:
+  - 'src/**/*.{test,spec}.{ts,tsx}'
+  - 'tests/**/*.{ts,tsx}'
+  - 'e2e/**/*.{ts,tsx}'
 alwaysApply: false
 ---
 

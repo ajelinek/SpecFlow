@@ -1,7 +1,10 @@
 ---
-description: Apollo Server v4 best practices for updating APIs, schema evolution, caching, errors, security, and testing
+description: 'Use when creating or modifying GraphQL servers with @apollo/server v4: schema, context, caching, errors, security, testing, and operations.'
 ruleType: backend
-globs:
+applyTo:
+  - 'server/**/*.{ts,js}'
+  - 'backend/**/*.{ts,js}'
+  - 'api/**/*.{ts,js}'
 alwaysApply: false
 ---
 

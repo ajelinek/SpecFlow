@@ -1,7 +1,10 @@
 ---
-description: Guidelines for implementing scalable, maintainable styling with design tokens and component architecture
+description: 'Use when implementing or refactoring styles: tokens (global/semantic/component), globals vs component CSS, responsive, animation, and accessibility.'
 ruleType: styles
-globs: '**/*.css,**/*.module.css,**/*.scss'
+applyTo:
+  - 'src/**/*.css'
+  - 'src/**/*.module.css'
+  - 'src/**/*.scss'
 alwaysApply: true
 ---
 

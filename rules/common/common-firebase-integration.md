@@ -1,6 +1,11 @@
 ---
-description: Apply when implementing or modifying Firebase Firestore, Auth, or Storage integration, security, or rules
+description: 'Use when implementing or modifying Firebase Firestore/Auth/Storage integration, security rules, and local emulation/testing.'
 ruleType: firebase
+applyTo:
+  - 'src/**/firebase/**/*.{ts,tsx}'
+  - 'src/**/store/**/*.{ts,tsx}'
+  - 'src/**/services/**/*.{ts,tsx}'
+  - 'src/**/repositories/**/*.{ts,tsx}'
 ---
 
 # Firebase Rules

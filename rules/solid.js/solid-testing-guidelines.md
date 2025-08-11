@@ -1,7 +1,9 @@
 ---
-description: 'SolidJS-specific testing guidelines using Vitest and Solid Testing Library.'
+description: 'Use when writing tests for SolidJS components and primitives: Solid Testing Library usage, structure, mocking, and performance. Applies to .test.tsx colocated with Solid code.'
 ruleType: testing
-globs:
+applyTo:
+  - 'src/**/*.{test,spec}.tsx'
+  - 'src/**/*.{test,spec}.ts'
 alwaysApply: false
 ---
 

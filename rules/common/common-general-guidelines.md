@@ -1,7 +1,8 @@
 ---
-description: General coding guidelines and best practices for the project
+description: 'Use for global coding rules across the project: scope control, minimal changes, readability, security, and organizational conventions.'
 ruleType: general
-globs:
+applyTo:
+  - '**/*'
 alwaysApply: true
 ---
 

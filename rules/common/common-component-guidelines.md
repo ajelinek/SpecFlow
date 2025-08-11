@@ -1,7 +1,10 @@
 ---
-description: 'Common component guidelines for file structure, accessibility, required patterns, and anti-patterns.'
+description: 'Use when building any UI component: file structure, accessibility, required patterns, performance, and anti-patterns. Framework-specific rules supplement this.'
 ruleType: component
-globs:
+applyTo:
+  - 'src/**/components/**/*.{tsx,astro}'
+  - 'src/**/pages/**/*.{tsx,astro}'
+  - 'src/**/layouts/**/*.astro'
 alwaysApply: false
 ---
 

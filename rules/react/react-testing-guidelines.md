@@ -1,7 +1,9 @@
 ---
-description: React-specific testing guidelines and best practices
+description: 'Use when writing tests for React components, hooks, and pages: RTL usage, structure, mocking, and performance. Applies to .test.tsx and .test.ts colocated with React code.'
 ruleType: testing
-globs:
+applyTo:
+  - 'src/**/*.{test,spec}.tsx'
+  - 'src/**/*.{test,spec}.ts'
 alwaysApply: false
 ---
 

@@ -1,7 +1,8 @@
 ---
-description: React-specific project structure and folder organization guidelines
+description: 'Use when organizing or refactoring the React UI project structure: components/pages layout, routing files, and supporting folders.'
 ruleType: react-project-structure
-globs:
+applyTo:
+  - 'src/**'
 alwaysApply: false
 ---
 
