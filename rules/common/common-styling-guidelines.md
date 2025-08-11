@@ -93,6 +93,16 @@ styles/
 - NO CSS preprocessors (use native CSS features)
 - NO deep nesting (keep selectors flat)
 
+## Responsive and Mobile
+
+- Mobile-first styles; progressively enhance for larger viewports.
+- Use container queries for layout; avoid viewport-coupled media queries when possible.
+- Fluid typography and spacing with `clamp()` and tokens.
+- Touch targets: minimum 44x44 logical pixels; provide adequate spacing.
+- Prefer logical properties (inline/block) for RTL and responsive layouts.
+- Responsive images: `srcset`, `sizes`, and modern formats (AVIF/WebP) where supported.
+- Avoid hover-only interactions; provide touch-friendly alternatives.
+
 ## Animation Guidelines
 
 1. **Define animations globally** in `styles/animations/`

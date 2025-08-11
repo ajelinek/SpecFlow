@@ -44,4 +44,4 @@ export function Example({ title }: ExampleProps) {
 
 # Performance Requirements
 
-- **Suspense**: Use `<Suspense>` for declarative loading UI when components or data are being fetched asynchronously.
+- Keep components focused and composable.

@@ -51,16 +51,10 @@ export default function MyComponent(props: props) {}
 
 _Note: The specific implementation inside `index.tsx` will vary by framework (e.g., `className` vs. `class`). Refer to framework-specific guidelines._
 
-# Error Handling
-
-- Display errors gracefully using the foundational `Alert` component.
-- Framework-specific error boundaries should be used to catch rendering errors.
-
 # Form Validation
 
 - Input validation is handled by the store/service layer, not within presentation components.
 - Components receive validation errors from service operations.
-- Errors are displayed by the foundational `Alert` component.
 
 # Required Patterns
 

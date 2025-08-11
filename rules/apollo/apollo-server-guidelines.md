@@ -50,13 +50,29 @@ type UpdateUserResult {
 
 # Errors & HTTP
 
-- Throw `GraphQLError` with `extensions.code` and `extensions.http.status` for auth/validation.
-- Mutate status/headers via `willSendResponse` when needed.
+- Throw `GraphQLError` with `extensions.code` and `extensions.http.status`.
+- Use a stable code set: `UNAUTHENTICATED`, `FORBIDDEN`, `BAD_USER_INPUT`, `NOT_FOUND`, `CONFLICT`, `RATE_LIMITED`, `INTERNAL_SERVER_ERROR`.
+- Do not include domain errors inside payload objects; rely on GraphQL top-level `errors`.
+- Mask internal details in production (no stack traces or PII in messages). Log full diagnostics server-side.
+- Normalize validation failures to `BAD_USER_INPUT` with structured `extensions.fields` when applicable.
+- Map HTTP status consistently (e.g., 400, 401, 403, 404, 409, 429, 500) via `extensions.http.status`.
+- Optionally implement `formatError` to standardize outbound messages and strip internals in prod.
 
 ```ts
 import { GraphQLError } from 'graphql'
-if (!ctx.userId) {
-  throw new GraphQLError('Unauthenticated', { extensions: { code: 'UNAUTHENTICATED', http: { status: 401 } } })
+
+function assertAuthenticated(userId?: string) {
+  if (!userId) {
+    throw new GraphQLError('Unauthenticated', {
+      extensions: { code: 'UNAUTHENTICATED', http: { status: 401 } },
+    })
+  }
+}
+
+function validationError(message: string, fields?: Record<string, string>) {
+  throw new GraphQLError(message, {
+    extensions: { code: 'BAD_USER_INPUT', http: { status: 400 }, fields },
+  })
 }
 ```
 

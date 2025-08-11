@@ -107,6 +107,12 @@ type Theme = (typeof Theme)[keyof typeof Theme]
 - Incremental builds enabled
 - Source maps for debugging
 
+### Project/CI standards
+
+- Use project references in monorepos.
+- Enforce `tsc --noEmit` in CI for type checks.
+- Prefer type-only imports and `export type` for re-exports.
+
 ## Must Avoid
 
 - Interfaces (except for class implementation)
