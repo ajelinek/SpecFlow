@@ -56,6 +56,8 @@ To keep things organized, we will use the following overall structure to manage 
 | **Code Cleanup Specialist**  | Code quality and refactoring specialist     | For DRY principles, code refactoring, technical debt reduction, or maintainability improvement          |
 | **Test Cleanup Specialist**  | Test quality and organization specialist    | When organizing test code, optimizing test coverage, or improving test maintainability                  |
 
+_There may be a need to have different frontend engineers depending on the project/framework_
+
 ## Agent Workflow Responsibilities
 
 ### Agent Workflow Mapping
