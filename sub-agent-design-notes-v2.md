@@ -13,7 +13,7 @@ To keep things organized, we will use the following overall structure to manage 
     - `Frontend_Architecture.md` - Higher level overview of the frontend architecture. It takes things down another level from the system architecture.
     - `Backend_Architecture.md` - Higher level overview of the backend architecture. It will take things down another level from the systems architecture.
     - `Data_Model.md` - This should have the conceptual data model for the application.
-    - `UI Design.md` - Outlines the UI design for the overall website, this includes colors, typgraphs, patterns, etc. This will be turned into css design tokens.
+    - `UI Design.md` - Outlines the UI design for the overall website, this includes colors, typgraphs, patterns, etc. This will be turned into css
   - `ui-flows` - Draw.IO and/or SVG wire diagrams. Each page will have its own folder, the folder represents the page, within the folder there will be the diagrams along with a pagename.md file which outlines the overall features of the page, the actions the user can take, along with interaction details.
   - `features`
     - `##-feature-name` - A file outlining the business purpose, the test scenarios, and the implementation details for a given feature
