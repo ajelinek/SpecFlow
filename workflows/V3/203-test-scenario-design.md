@@ -12,8 +12,10 @@
 2.  **Generate Scenarios**: Populate the "Test Scenarios (Gherkin)" section of the `TEMPLATE`.
 3.  **Be Comprehensive**: Create scenarios for all happy paths, error conditions, and potential edge cases. Use `Example` tables to keep the scenarios DRY (Don't Repeat Yourself).
 4.  **Add Status Tag**: Ensure every `Scenario` is tagged with `@status_pending` and `@status_complete` to track implementation progress.
-5.  **Adhere to Constraints**: Follow all constraints listed below.
-6.  **Output**: Your sole output is the updated Technical Design document with the test scenarios filled in.
+5.  **Number Scenarios**: Each test scenario must have a unique TS# identifier (e.g., TS1, TS2).
+6.  **Group by Modules**: Organize test scenarios into test modules using TSM# identifiers with descriptive module names.
+7.  **Adhere to Constraints**: Follow all constraints listed below.
+8.  **Output**: Your sole output is the updated Technical Design document with the test scenarios filled in.
 
 ---
 
@@ -69,19 +71,28 @@ _[This section will be completed in a later step.]_
 Feature: [Feature Name]
 
   #---------------------------------------------------------------------------
-  # Module: [ModuleName]
-  # Function: [functionName]
+  # TSM001: [Test Module Name]
   #---------------------------------------------------------------------------
 
-  @happyPath @status_pending
+  @TS001 @happyPath @status_pending
   Scenario: [Describe a success case]
     Given [a specific precondition]
     When [an action is performed]
     Then [a successful outcome is observed]
 
-  @errorPath @status_pending
+  @TS002 @errorPath @status_pending
   Scenario: [Describe a failure case]
     Given [a specific precondition that will lead to an error]
     When [an action is performed]
     Then [an error result is observed]
+
+  #---------------------------------------------------------------------------
+  # TSM002: [Another Test Module Name]
+  #---------------------------------------------------------------------------
+
+  @TS003 @happyPath @status_pending
+  Scenario: [Describe another success case]
+    Given [a specific precondition]
+    When [an action is performed]
+    Then [a successful outcome is observed]
 ```

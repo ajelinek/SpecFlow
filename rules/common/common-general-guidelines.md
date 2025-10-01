@@ -8,6 +8,7 @@ alwaysApply: true
 
 # General Rules to Apply
 
+- **Remove Failed Attempts (CRITICAL)**: If an approach doesn't work, remove the code you added before trying something new. Avoid additive changes that compound problems.
 - **Check Rule Files**: Always determine which rule files need to be referenced.
 - **Generate Minimum Code**: Only produce code necessary to fulfill the specific request.
 - **Avoid Unnecessary Updates**: Do not suggest changes to files unless there are actual modifications required.
