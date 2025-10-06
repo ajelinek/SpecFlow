@@ -124,6 +124,7 @@ Mocks should be avoided whenever possible as they create brittle tests that don'
 - **Test Duplication**: Extract common test utilities into common modules
 - **Overspecification**: Don't test what you don't own (e.g., third-party code)
 - **Time Dependencies**: Avoid tests that depend on timing without proper handling
+- **Conditional Logic**: No conditional logic in tests for any reason, be specific in what is tests
 
 ## Test Maintenance
 

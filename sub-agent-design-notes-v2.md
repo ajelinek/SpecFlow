@@ -16,24 +16,29 @@ To keep things organized, we will use the following overall structure to manage 
     - `UI Design.md` - Outlines the UI design for the overall website, this includes colors, typgraphs, patterns, etc. This will be turned into css
   - `ui-flows` - Draw.IO and/or SVG wire diagrams. Each page will have its own folder, the folder represents the page, within the folder there will be the diagrams along with a pagename.md file which outlines the overall features of the page, the actions the user can take, along with interaction details.
   - `features`
-    - `##-feature-name` - A file outlining the business purpose, the test scenarios, and the implementation details for a given feature
+    - `done` - Completed features
+      - `##-feature-name` - A file outlining the business purpose, the test scenarios, and the implementation details for a given feature
+    - `in-progress` - Features activity being worked on.
+      - `##-feature-name` - A file outlining the business purpose, the test scenarios, and the implementation details for a given feature
+    - `todo` - Completed featured
+      - `##-feature-name` - A file outlining the business purpose, the test scenarios, and the implementation details for a given feature
     - `feature-overview.md` - An overview of all the features and sub-features that make up a user experience feature.
 - `apps/packages`
   - `UI`
-    - `CLAUDE.md` - Additional details and rules for the frontend, outline the overall structure, patterns and details
+    - `AGENT.md` - Additional details and rules for the frontend, outline the overall structure, patterns and details
     - `store`
-      - `CLAUDE.md` - Details and rules for the store implementation, outline how the service, repository, and everything related works.
+      - `AGENT.md` - Details and rules for the store implementation, outline how the service, repository, and everything related works.
   - `API`
-    - `CLAUDE.md` - Additional details and rules for the API, outlining the overall structure, patterns, and details
+    - `AGENT.md` - Additional details and rules for the API, outlining the overall structure, patterns, and details
   - `E2E`
-    - `CLAUDE.md` - Additional details related to the E2E tests patterns
+    - `AGENT.md` - Additional details related to the E2E tests patterns
     - `pages`
-      - `CLAUDE.md` - Details and rules related to selectors
+      - `AGENT.md` - Details and rules related to selectors
     - `specs`
-      - `CLAUDE.md` - Additional details related to the E2E tests patterns
+      - `AGENT.md` - Additional details related to the E2E tests patterns
   - `data`
-    - `CLAUDE.md` - Additional details related to the database setup, data generation, etc.
-- `CLAUDE.md` - General project details and coding rules and standards for the full application.
+    - `AGENT.md` - Additional details related to the database setup, data generation, etc.
+- `AGENT.md` - General project details and coding rules and standards for the full application.
 
 ## Agent Overview
 
