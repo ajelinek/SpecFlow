@@ -1,0 +1,133 @@
+---
+description: 'Use when implementing or refactoring styles: tokens (global/semantic/component), globals vs component CSS, responsive, animation, and accessibility.'
+ruleType: styles
+applyTo:
+  - 'src/**/*.css'
+  - 'src/**/*.module.css'
+  - 'src/**/*.scss'
+alwaysApply: true
+---
+
+# Styling Architecture Guidelines
+
+## Design Token System
+
+### Three-Layer Token Architecture
+
+1. **Global Tokens**
+
+   - Base values (colors, spacing, typography, etc.)
+   - Defined in `:root` or theme-specific selectors
+   - Example: `--color-primary-500: #0066cc;`
+
+2. **Semantic Tokens**
+
+   - Contextual values that reference global tokens
+   - Define usage (e.g., `--color-text-primary`, `--spacing-md`)
+   - Example: `--color-text-primary: var(--color-neutral-900);`
+
+3. **Component Tokens**
+   - Component-specific variables that reference semantic tokens
+   - Scoped to components using CSS modules
+   - Example: `--button-bg: var(--color-primary-500);`
+
+## Implementation Strategy
+
+### File Organization
+
+```
+styles/
+  ├── tokens/
+  │   ├── _colors.css     # Color tokens
+  │   ├── _spacing.css    # Spacing tokens
+  │   ├── _typography.css # Typography tokens
+  │   └── _breakpoints.css # Breakpoint tokens (use sparingly)
+  ├── animations/        # Reusable animations
+  │   ├── _fade.css
+  │   ├── _slide.css
+  │   └── index.css      # Animation exports
+  ├── global.css          # Global styles and resets
+  └── themes/            # Theme definitions
+      ├── light.css
+      └── dark.css
+```
+
+## Styling Architecture
+
+### Global vs Component Styles
+
+**Global Styles (styles/global.css)**
+
+- Design tokens and theme variables
+- Base element styles (typography, forms, etc.)
+- Animation definitions
+- CSS resets and normalizations
+
+**Component Styles (ComponentName.module.css)**
+
+- Component-specific styles
+- Composed of a single class per element
+- Use CSS Modules for scoping
+- Leverage PostCSS features for maintainability
+- Import styles using s `import s from './styles.module.css';`
+
+## Best Practices
+
+### Do:
+
+- Use CSS custom properties for all design tokens
+- Prefer composition over inheritance
+- Keep selectors flat (avoid nesting > 2 levels)
+- Use logical properties for RTL support
+- Leverage CSS Grid for two-dimensional layouts
+- Use Flexbox for one-dimensional layouts
+- Define animations in global scope, reference in components
+- Use semantic HTML elements
+- Implement proper focus states and accessibility
+
+### No:
+
+- NO `!important` (except for utility overrides)
+- NO complex selectors (e.g., `.parent > div > span`)
+- NO ID selectors for styling
+- NO inline styles
+- NO fixed units (px) for typography or spacing, use rem
+- NO media queries for layout (prefer container queries)
+- NO CSS preprocessors (use native CSS features)
+- NO deep nesting (keep selectors flat)
+
+## Responsive and Mobile
+
+- Mobile-first styles; progressively enhance for larger viewports.
+- Use container queries for layout; avoid viewport-coupled media queries when possible.
+- Fluid typography and spacing with `clamp()` and tokens.
+- Touch targets: minimum 44x44 logical pixels; provide adequate spacing.
+- Prefer logical properties (inline/block) for RTL and responsive layouts.
+- Responsive images: `srcset`, `sizes`, and modern formats (AVIF/WebP) where supported.
+- Avoid hover-only interactions; provide touch-friendly alternatives.
+
+## Animation Guidelines
+
+1. **Define animations globally** in `styles/animations/`
+2. **Use semantic names** (e.g., `fade-in`, `slide-up`)
+3. **Keep animations subtle** and purposeful
+4. **Respect reduced motion** preferences:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+
+## Testing
+
+- Test components in both light and dark themes
+- Verify animations work with reduced motion
+- Check contrast ratios meet WCAG AA standards
+- Test keyboard navigation and focus states
+- Verify responsive behavior without viewport assumptions
