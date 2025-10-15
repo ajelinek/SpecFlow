@@ -1,14 +1,3 @@
----
-description: 'Use when creating or modifying Astro/Solid project structure: directories, file conventions, content collections, and naming.'
-ruleType: project-structure
-applyTo:
-  - 'src/**'
-  - 'public/**'
-  - 'astro.config.*'
-  - 'content/**'
-alwaysApply: false
----
-
 # Astro Project Structure
 
 ## Root Level Organization
@@ -81,4 +70,3 @@ src/
 - Build output: `dist/`
 - Static assets: `public/`
 - Static site generation by default
-- SSR optional

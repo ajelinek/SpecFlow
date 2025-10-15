@@ -1,12 +1,3 @@
----
-description: 'Use when structuring GraphQL-backed repositories and services with Apollo Client: repo/service boundaries, graphql documents layout, caching, and testing.'
-ruleType: store
-applyTo:
-  - 'src/**/store/**/*.{ts,tsx}'
-  - 'src/**/store/graphql/**/*.{ts,tsx}'
-alwaysApply: false
----
-
 # Store Layout Mapping
 
 /store
@@ -48,18 +39,3 @@ alwaysApply: false
 - Use GraphQL Code Generator with client preset for type generation.
 - Run `pnpm run codegen:watch` during development for automatic regeneration.
 - Generated files go in `store/generated/` and are automatically updated when GraphQL documents change.
-
-# Testing
-
-- Test service hooks with Jest/RTL using `MockedProvider` or MSW.
-- Mock the generated GraphQL documents, not the service layer.
-
----
-
-See also: `apollo-client-guidelines.mdc`, `common-data-store-architecture.mdc`
-
-- Service: test hooks with Jest/RTL using `MockedProvider` or MSW.
-
----
-
-See also: `apollo-client-guidelines.mdc`, `common-data-store-architecture.mdc`

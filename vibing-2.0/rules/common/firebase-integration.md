@@ -1,18 +1,3 @@
----
-description: 'Use when implementing or modifying Firebase Firestore/Auth/Storage integration, security rules, and local emulation/testing.'
-ruleType: firebase
-applyTo:
-  - 'src/**/firebase/**/*.{ts,tsx}'
-  - 'src/**/store/**/*.{ts,tsx}'
-  - 'src/**/services/**/*.{ts,tsx}'
-  - 'src/**/repositories/**/*.{ts,tsx}'
----
-
-# Firebase Rules
-
-- Apply these rules for any code that interacts with Firebase Firestore, Auth, or Storage.
-- Use for data access, authentication, file storage, and related security or validation logic.
-
 ## Firestore Patterns
 
 - Use transactions for metric or multi-document updates

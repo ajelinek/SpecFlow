@@ -37,6 +37,7 @@ alwaysApply: false
 
 ### Best Practices
 
+- Use `function` keyword over `const` for functions.
 - Avoid using `any` type (use `unknown` with type guards if needed)
 - Avoid non-null assertions (`!`)
 - Avoid type assertions (except when necessary with `as Type`)

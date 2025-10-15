@@ -1,13 +1,3 @@
----
-description: 'Use when implementing or refactoring styles: tokens (global/semantic/component), globals vs component CSS, responsive, animation, and accessibility.'
-ruleType: styles
-applyTo:
-  - 'src/**/*.css'
-  - 'src/**/*.module.css'
-  - 'src/**/*.scss'
-alwaysApply: true
----
-
 # Styling Architecture Guidelines
 
 ## Design Token System
@@ -123,11 +113,3 @@ styles/
   }
 }
 ```
-
-## Testing
-
-- Test components in both light and dark themes
-- Verify animations work with reduced motion
-- Check contrast ratios meet WCAG AA standards
-- Test keyboard navigation and focus states
-- Verify responsive behavior without viewport assumptions

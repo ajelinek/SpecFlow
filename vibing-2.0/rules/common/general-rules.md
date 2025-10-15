@@ -1,15 +1,6 @@
----
-description: 'Use for global coding rules across the project: scope control, minimal changes, readability, security, and organizational conventions.'
-ruleType: general
-applyTo:
-  - '**/*'
-alwaysApply: true
----
-
-# General Rules to Apply
+# General Rules
 
 - **Remove Failed Attempts (CRITICAL)**: If an approach doesn't work, remove the code you added before trying something new. Avoid additive changes that compound problems.
-- **Check Rule Files**: Always determine which rule files need to be referenced.
 - **Generate Minimum Code**: Only produce code necessary to fulfill the specific request.
 - **Avoid Unnecessary Updates**: Do not suggest changes to files unless there are actual modifications required.
 - **Respect Existing Patterns**: Follow established coding styles and avoid adding extra or unused code.
@@ -27,7 +18,6 @@ alwaysApply: true
 
 # Coding Guidelines
 
-- Use `function` keyword over `const` for functions.
 - Group modules logically, each doing one thing.
 - Keep functions small and understandable.
 - Avoid nesting > 2 levels (use functions, returns).
@@ -43,7 +33,3 @@ alwaysApply: true
 - **SOLID Principles**: Apply SOLID principles (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion) to create scalable, flexible, and maintainable software.
 - **KISS (Keep It Simple, Stupid)**: Prioritize simplicity in design and implementation (KISS). Avoid adding unnecessary complexity that makes code harder to understand and maintain.
 - **YAGNI (You Ain't Gonna Need It)**: Do not add functionality until it is actually required (YAGNI). Avoid implementing features based on speculation about future needs.
-
-```ts
-export async function example() {}
-```

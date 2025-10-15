@@ -1,11 +1,3 @@
----
-description: 'Use for error handling across UI, services, and backend: principles, categories, client mapping, and safe messaging.'
-ruleType: general
-applyTo:
-  - '**/*'
-alwaysApply: true
----
-
 # Principles
 
 - Use consistent, machine-readable error categories.
@@ -25,7 +17,7 @@ alwaysApply: true
 
 # Client/UI
 
-- Display errors via the foundational Alert component.
+- Display errors via the foundational Alert components.
 - Show brief, user-friendly text; provide next steps when applicable.
 - Avoid exposing technical details.
 

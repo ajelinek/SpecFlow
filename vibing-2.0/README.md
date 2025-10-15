@@ -90,6 +90,26 @@ Vibing 2.0 separates development guidance into distinct, interconnected componen
   - `technical-design-template.md` - Feature technical design template
   - `feature-overview-template.md` - Feature planning template
 
+## File Referencing Best Practices
+
+When referencing files in rules, context, or agent files, use the `@` symbol directly without backticks:
+
+✅ **Correct:**
+
+```
+@vibing-2.0/rules/common/test-context.md
+@agents/system-architect.md
+```
+
+❌ **Incorrect:**
+
+```
+`@vibing-2.0/rules/common/test-context.md`
+`@agents/system-architect.md`
+```
+
+The `@` symbol ensures the LLM actually looks up and incorporates the file content into its context, making it available for analysis and reference during the conversation.
+
 ## How Components Work Together
 
 ### 1. Workflow Orchestration

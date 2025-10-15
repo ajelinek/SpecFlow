@@ -107,3 +107,21 @@
 - **Security**: OAuth 2.0, API rate limiting, data encryption at rest and in transit
 - **Reliability**: Health checks, circuit breakers, automated backups, multi-AZ deployment
 - **Maintainability**: Modular architecture, comprehensive logging, automated testing
+
+## 7. Testing Architecture
+
+[Define the testing strategy and infrastructure required to support comprehensive testing across all system components.]
+
+**Format**:
+
+- **Testing Strategy**: [E2E > Integration > Unit testing approach with rationale]
+- **Test Data Management**: [TestContext system for consistent, realistic test data generation]
+- **Test Infrastructure**: [Testing tools, frameworks, and environment setup]
+- **Test Organization**: [How tests are structured and organized across the system]
+
+**Example**:
+
+- **Testing Strategy**: Prefer E2E tests using Playwright for user workflows, integration tests for component interactions, unit tests for business logic
+- **Test Data Management**: TestContext system with IdProvider, Generators, Scenario builder, and Selector for consistent test data across all test types
+- **Test Infrastructure**: Playwright for E2E, Vitest for unit/integration, Firebase emulators for local testing, TestContext for data management
+- **Test Organization**: Tests co-located with code, standardized setup patterns, TestContext for database integration, page objects for E2E

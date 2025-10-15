@@ -1,17 +1,3 @@
----
-description: 'Use when building or modifying Apollo Client usage in the frontend: cache policies, links, persisted queries, SSR, conventions, and testing.'
-ruleType: frontend
-applyTo:
-  - 'src/**/store/**/*.{ts,tsx}'
-  - 'src/**/services/**/*.{ts,tsx}'
-  - 'src/**/graphql/**/*.{ts,tsx}'
-alwaysApply: false
----
-
-## When to Use
-
-Apply when creating or modifying clients with `@apollo/client`.
-
 # Cache Policies
 
 - Define `keyFields` for all entities; disable normalization only when necessary.
@@ -21,7 +7,7 @@ Apply when creating or modifying clients with `@apollo/client`.
 
 # Component Integration
 
-- See `rules/apollo/apollo-store-architecture.md` (Component Usage) and `rules/apollo/apollo-react-state-integration.md` for service-hook patterns.
+- See @rules/apollo/store-architecture.md (Component Usage) and @rules/apollo/react-state-integration.md for service-hook patterns.
 
 # Performance
 

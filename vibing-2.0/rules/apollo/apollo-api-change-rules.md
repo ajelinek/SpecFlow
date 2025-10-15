@@ -1,17 +1,3 @@
----
-description: 'Use when making any GraphQL API change (schema, resolvers, behavior, caching, security, rollout). Guides safe, observable, versionable server updates.'
-ruleType: backend
-applyTo:
-  - 'server/**/*.{ts,js}'
-  - 'backend/**/*.{ts,js}'
-  - 'api/**/*.{ts,js}'
-alwaysApply: true
----
-
-## When to Use
-
-Apply for any breaking or non-breaking GraphQL API change (schema, resolvers, behavior, cache semantics).
-
 # Change Safety
 
 - Current policy (single consumer, monorepo): Breaking changes are allowed. Update the UI in the same PR to keep schema and client in sync.
@@ -51,19 +37,3 @@ Apply for any breaking or non-breaking GraphQL API change (schema, resolvers, be
 - Define or update pagination policies for new list fields.
 - Publish operation manifests when using persisted queries.
 - Align client/server configuration and manifests in the same PR.
-
-# Testing
-
-- Add `executeOperation` tests for new behavior and error codes.
-- Update e2e happy-paths and error-paths with `supertest`.
-- Validate negative scenarios and auth coverage.
-
-# Observability
-
-- Add metrics for new operations. Ensure error codes are aggregated.
-- Log high-latency resolvers and N+1 hotspots; add loaders where needed.
-
-# Rollout
-
-- Ship behind flags when risk is high. Announce deprecations with timelines.
-- Provide migration notes for clients and update CHANGELOG.
