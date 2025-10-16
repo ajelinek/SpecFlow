@@ -124,7 +124,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] State management strategy addresses all state types
 - [ ] Testing strategy covers unit, integration, and E2E testing
 - [ ] Performance and accessibility requirements explicitly addressed
-- [ ] Document follows @rules/common/response-formatting.md
 - [ ] Store completed document in `_docs/design/05 - Frontend Architecture.md`
 
 ---

@@ -92,7 +92,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Design philosophy traces back to business requirements and user goals
 - [ ] Accessibility compliance verified and design rationale clear
 - [ ] Design strategy integrates with frontend framework architecture
-- [ ] Document follows @rules/common/response-formatting.md
 - [ ] Store completed document in `_docs/design/06 - UI Design.md`
 
 ---
