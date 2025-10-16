@@ -122,7 +122,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Technology stack choices justified with clear rationale
 - [ ] Component architecture clearly defined with hierarchy
 - [ ] State management strategy addresses all state types
-- [ ] Styling approach integrates with design system
 - [ ] Testing strategy covers unit, integration, and E2E testing
 - [ ] Performance and accessibility requirements explicitly addressed
 - [ ] Document follows @rules/common/response-formatting.md
