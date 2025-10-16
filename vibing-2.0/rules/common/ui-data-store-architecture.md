@@ -1,11 +1,3 @@
----
-description: 'Use when implementing or refactoring store architecture: repository/service separation, state management, error handling, and usage patterns.'
-ruleType: store
-applyTo:
-  - 'src/**/store/**/*.{ts,tsx}'
-alwaysApply: false
----
-
 # Store Architecture
 
 ## Layer Separation

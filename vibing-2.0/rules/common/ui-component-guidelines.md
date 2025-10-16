@@ -1,13 +1,3 @@
----
-description: 'Use when building any UI component: file structure, accessibility, required patterns, performance, and anti-patterns. Framework-specific rules supplement this.'
-ruleType: component
-applyTo:
-  - 'src/**/components/**/*.{tsx,astro}'
-  - 'src/**/pages/**/*.{tsx,astro}'
-  - 'src/**/layouts/**/*.astro'
-alwaysApply: false
----
-
 # General Component Guidelines
 
 - Leverage foundation components as building blocks.
@@ -69,7 +59,6 @@ _Note: The specific implementation inside `index.tsx` will vary by framework (e.
 - **Direct DOM Manipulation**: Never manipulate the DOM directly.
 - **Untyped Code**: Do not allow untyped components or props.
 - **Complex JSX Logic**: Avoid ternary statements or complex logic directly within JSX. Use variables or helper functions.
-- **Multiple Returns**: A component should have a single, clear return statement.
 
 # Performance Requirements
 

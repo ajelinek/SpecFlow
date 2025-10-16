@@ -19,9 +19,11 @@ alwaysApply: false
 
 - Use foundation input components
 - Every input must have a label
+- All labels and input boxes must be tied together using a unique generated id
 - Consistent styling for form states
 - Support keyboard navigation
 - Implement proper focus management
+- Labels must have an id tied to the input
 - Ensure screen reader compatibility
 
 # Form Validation

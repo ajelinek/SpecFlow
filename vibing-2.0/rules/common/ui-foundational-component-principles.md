@@ -1,11 +1,3 @@
----
-description: 'Use when creating or modifying foundational UI components used across the app: consistency, accessibility, API patterns, and testing semantics.'
-ruleType: foundation-component
-applyTo:
-  - 'src/**/components/foundation/**/*.{tsx,astro,ts}'
-alwaysApply: false
----
-
 Foundational components are the building blocks of the application, used across the application. They should be consistent and reusable and are stored in components/foundation.
 
 # Foundational Components
