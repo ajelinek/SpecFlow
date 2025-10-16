@@ -132,3 +132,39 @@ Define how the page adapts across different screen sizes.
 
 - **Unified Experience**: [How the same functionality works across all devices]
 - **Progressive Enhancement**: [Core functionality that works everywhere, enhanced features for capable devices]
+
+## 6. Data Attributes & Requirements
+
+Define the data attributes displayed on this page and their access requirements.
+
+**Format**:
+
+### Data Attributes by Section
+
+#### Header Section
+
+- **User Profile Data**: [User name, avatar, role, etc.]
+- **Navigation State**: [Current page, breadcrumbs, etc.]
+
+#### Main Content Area
+
+- **Primary Data**: [Main content data attributes and their sources]
+- **Secondary Data**: [Supporting data attributes and their sources]
+
+#### Sidebar/Secondary Content
+
+- **Navigation Data**: [Menu items, user permissions, etc.]
+- **Contextual Data**: [Related information, quick stats, etc.]
+
+### Data Access Patterns
+
+- **Single Entity Queries**: [Data retrieved by single identifier]
+- **List Queries**: [Data retrieved as collections with filtering]
+- **Aggregated Data**: [Calculated or derived data attributes]
+- **Real-time Data**: [Data that updates automatically]
+
+### Data Loading Strategy
+
+- **Critical Path Data**: [Data needed for initial page render]
+- **Progressive Loading**: [Data loaded after initial render]
+- **Lazy Loading**: [Data loaded on demand or user interaction]
