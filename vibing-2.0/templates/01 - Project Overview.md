@@ -1,4 +1,4 @@
-# Project Overview Template
+# 01 - Project Overview Template
 
 **Purpose**: This document outlines the core business purpose, value proposition, key business scenarios, and success metrics for the application. It focuses on the **why** and **what** from a business perspective, providing context for development decisions and feature prioritization.
 
@@ -75,4 +75,3 @@
 - Sales Pipeline & Deal Tracking
 - Communication & Activity Logging
 - Reporting & Analytics
-

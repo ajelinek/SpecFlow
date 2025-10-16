@@ -1,4 +1,4 @@
-# System Architecture Template
+# 02 - System Architecture Template
 
 **Purpose**: This document describes the overall system architecture, including major components, their interactions, technology choices, and architectural patterns. It focuses on the **how** the system is structured at a high level, providing technical context for development decisions.
 

@@ -18,7 +18,7 @@
 
 ## Context Files
 
-- `_docs/design/Project_Overview.md`
+- `_docs/design/01 - Project Overview.md`
 
 ---
 
@@ -56,7 +56,7 @@
 ### 1. Invoke System Architect Agent
 
 - [ ] Activate @agents/system-architect.md persona
-- [ ] Review `_docs/design/Project_Overview.md` for business requirements
+- [ ] Review `_docs/design/01 - Project Overview.md` for business requirements
 - [ ] Consult with @agents/product-manager.md for business context
 
 ### 2. Research Technology & Patterns
@@ -88,10 +88,10 @@
 - [ ] Single points of failure identified and mitigated
 - [ ] Security measures defined at all layers
 - [ ] Document follows @rules/common/response-formatting.md
-- [ ] Store completed document in `_docs/design/System_Architecture.md`
+- [ ] Store completed document in `_docs/design/02 - System Architecture.md`
 
 ---
 
 ## Success Criteria
 
-Complete when all pre-flight validation requirements are met, System Architect agent has generated complete system architecture, and document is stored in `_docs/design/System_Architecture.md`.
+Complete when all pre-flight validation requirements are met, System Architect agent has generated complete system architecture, and document is stored in `_docs/design/02 - System Architecture.md`.

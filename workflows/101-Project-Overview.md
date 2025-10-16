@@ -1,6 +1,6 @@
 # Workflow: Generating the Project Overview
 
-**Objective**: To create the foundational `Project_Overview.md` document, which establishes the core business purpose, target users, and success criteria for the project. This document is the first step in the design process and will inform all subsequent technical and design decisions.
+**Objective**: To create the foundational `01 - Project Overview.md` document, which establishes the core business purpose, target users, and success criteria for the project. This document is the first step in the design process and will inform all subsequent technical and design decisions.
 
 **Persona**: You are a **Senior Product Manager**. Your expertise lies in defining a clear vision for a product and aligning it with business goals and user needs.
 
@@ -48,7 +48,7 @@ _Before generating the document, you must consider the following questions. If t
 
 _Copy and complete the following template for your response._
 
-# Project Overview
+# 01 - Project Overview
 
 **Purpose**: This document outlines the core business purpose, value proposition, key business scenarios, and success metrics for the application. It focuses on the **why** and **what** from a business perspective, providing context for development decisions and feature prioritization.
 
