@@ -38,15 +38,4 @@ Foundational components are the building blocks of the application, used across 
 
 # Accessibility Requirements
 
-- WCAG 2.1 AA compliance
-- ARIA roles and states
-- Keyboard navigation
-- Focus management
-- Screen reader support
-- Visible focus indicators and logical tab order
-- Color contrast compliance
-- Motion reduction support
-- Error announcements
-- Label associations
-- Description text
-- Input validation
+See @rules/common/accessibility-guidelines.md for comprehensive accessibility standards and implementation guidelines.

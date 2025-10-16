@@ -7,7 +7,7 @@
 
 # Accessibility and Semantic HTML Guidelines
 
-- Follow all A11y practices.
+- Follow all A11y practices. See @rules/common/accessibility-guidelines.md for comprehensive standards.
 - Use semantic HTML elements (`<section>`, `<article>`, `<nav>`, etc.) instead of generic `<div>`.
 - Add ARIA attributes to sections for semantic meaning (e.g., `<section aria-label="hero">`).
 - Ensure all interactive elements have accessible names.
@@ -48,7 +48,7 @@ _Note: The specific implementation inside `index.tsx` will vary by framework (e.
 - **Use Foundation Components**: Always use established foundation components for base UI elements.
 - **Type Everything**: All props and events must be strongly typed.
 - **CSS Modules**: Use CSS Modules for all styling to ensure encapsulation.
-- **A11y First**: Adhere to accessibility best practices.
+- **A11y First**: Adhere to accessibility best practices. See @rules/common/accessibility-guidelines.md.
 - **Presentation Logic Only**: Components should focus on presenting UI and delegating business logic to stores or services.
 - **Default Exports**: Component should use default export of the component name
 
