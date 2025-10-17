@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This modifier updates the test-related rules (`@rules/common/test-context.md`, `@rules/common/test-general.md`, `@rules/common/test-setup-examples.md`, `@rules/common/test-e2e.md`) for specific projects by replacing entity references, relationships, ID conventions, and feature tags with project-specific ones.
+This modifier updates the test-related rules (`@rules/common/test-context.md`, `@rules/common/test-general.md`, `@rules/common/test-setup-examples.md`, `@rules/common/test-e2e.md`, `@rules/common/test-e2e-tags.md`) for specific projects by replacing entity references, relationships, ID conventions, and feature tags with project-specific ones.
 
 ## What Changes
 
@@ -31,7 +31,7 @@ Update foreign key references:
 
 ### 4. Feature Tags
 
-Update E2E test feature tags in `@rules/common/test-e2e.md`:
+Update E2E test feature tags in `@rules/common/test-e2e-tags.md`:
 
 Replace generic feature tags with your project's features:
 
@@ -50,12 +50,13 @@ Replace generic feature tags with your project's features:
 
 ### Step 1: Update Entity References
 
-Find and replace entity names throughout all four files:
+Find and replace entity names throughout all five files:
 
 - `@rules/common/test-context.md`
 - `@rules/common/test-general.md`
 - `@rules/common/test-setup-examples.md`
 - `@rules/common/test-e2e.md`
+- `@rules/common/test-e2e-tags.md`
 
 ### Step 2: Update ID Conventions
 
@@ -67,7 +68,7 @@ Replace foreign key references to match your entity relationships.
 
 ### Step 4: Update Feature Tags
 
-Replace feature tags in `@rules/common/test-e2e.md` with your project's specific features.
+Replace feature tags in `@rules/common/test-e2e-tags.md` with your project's specific features.
 
 ## Example
 
