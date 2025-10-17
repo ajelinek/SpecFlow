@@ -62,9 +62,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Review @rules/apollo/apollo-client-guidelines.md if using GraphQL
 - [ ] Review @agents/seo-specialist.md for SEO requirements and implementation patterns
 
-### Business Requirements
-
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
+### Validation Questions
 
 1. **Frontend Framework**: What frontend framework/library do you prefer (React, Astro, SolidJS, Mix)?
 2. **Performance Requirements**: What are the performance requirements (Core Web Vitals targets, bundle size limits)?

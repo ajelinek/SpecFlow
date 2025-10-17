@@ -29,6 +29,8 @@
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
 
+### Validation Questions
+
 1. **API Style**: What API style will be used (REST, GraphQL, gRPC, tRPC)?
 2. **Authentication Method**: How will users authenticate (JWT, OAuth, session-based, API keys)?
 3. **Authorization Model**: What authorization approach (RBAC, ABAC, custom permissions)?

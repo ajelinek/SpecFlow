@@ -40,9 +40,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Review @rules/common/ui-styling-guidelines.md for design system patterns
 - [ ] Review @rules/common/ui-theme.md for theme and visual consistency patterns
 
-### Business Requirements
-
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
+### Validation Questions
 
 1. **User Roles**: What are the primary user roles and their different access patterns?
 2. **Application Structure**: What are the main functional areas or sections of the application?

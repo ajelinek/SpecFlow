@@ -22,6 +22,8 @@
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
 
+### Validation Questions
+
 1. **Pain Point**: What specific problem does this application solve that existing solutions don't address well?
 2. **Competitive Differentiation**: Who are direct competitors and how will this application differentiate itself?
 3. **User Workflows**: What are the most common user workflows in your target domain?

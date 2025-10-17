@@ -26,6 +26,8 @@
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
 
+### Validation Questions
+
 1. **Application Components**: What are the major components (web UI, mobile app, API backend, admin interface, background workers, scheduled tasks)?
 2. **Platform Targets**: What platforms need to be supported (web browsers, iOS, Android, desktop)?
 3. **Real-Time Requirements**: Do you need real-time features (live updates, notifications, collaborative editing)?

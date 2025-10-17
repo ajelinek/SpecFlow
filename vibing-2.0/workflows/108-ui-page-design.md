@@ -45,9 +45,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Review @rules/common/ui-theme.md for theme and color system patterns
 - [ ] Review @rules/common/ui-accessibility-guidelines.md for accessibility requirements
 
-### Page Requirements
-
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
+### Validation Questions
 
 1. **Page Purpose**: What is the primary purpose and business objective of this specific page?
 2. **User Goals**: What are the main user goals and tasks for this page?

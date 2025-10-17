@@ -27,6 +27,8 @@
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
 
+### Validation Questions
+
 1. **Core Business Entities**: What are the main business entities that need to be stored (users, projects, orders, etc.)?
 2. **Entity Relationships**: How do these entities relate to each other (one-to-many, many-to-many, etc.)?
 3. **Data Attributes**: What specific attributes does each entity need (name, email, status, dates, etc.)?

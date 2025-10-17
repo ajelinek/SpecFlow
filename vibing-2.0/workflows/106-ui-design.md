@@ -39,9 +39,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Review @rules/common/ui-styling-guidelines.md for CSS and design token approach
 - [ ] Review @rules/common/ui-theme.md for theme and color system patterns
 
-### Business Requirements
-
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
+### Validation Questions
 
 1. **Brand Identity**: What is the brand personality, tone, and visual identity (professional, playful, minimalist, bold)?
 2. **Target Audience**: What are the primary user demographics and accessibility requirements?
