@@ -1,6 +1,6 @@
 # Workflow: 110 - Feature Overview Generation
 
-**Objective**: Create the `10 - Feature Overview.md` document that provides a clear, actionable, and trackable plan for implementation by listing all features and their required user stories in a logical build order based on business requirements and technical architecture.
+**Objective**: Create the `10 - Feature Overview.md` document that provides a clear, actionable, and trackable plan for implementation by listing small, cross-cutting features that deliver end-to-end user value in vertical slices, following agile best practices while respecting foundational framework dependencies.
 
 ## Agents
 
@@ -41,14 +41,17 @@
 
 ### Validation Questions
 
-1. **Foundational Features**: What are the core foundational features that must be built first (authentication, data models, basic UI)?
-2. **App Differentiation**: What features differentiate this app from existing solutions in the market?
+1. **Foundational Frameworks**: What foundational frameworks must be built first (authentication, data models, basic UI components, API structure)?
+2. **Vertical Slices**: What are the smallest possible user interactions that deliver end-to-end value (single user operation from UI to data)?
 3. **User Journey**: What is the primary user journey that delivers the most value?
 4. **Business Value**: What features provide the highest business value and user impact?
 5. **Implementation Complexity**: Which features are easiest to implement with current team and technology?
 6. **WSJF Scoring**: How would you rank features using Weighted Shortest Job First (business value ÷ implementation effort)?
 7. **User Stories**: Do you have specific user stories or acceptance criteria for any features?
 8. **Quick Wins**: What are the high-impact, low-effort features that can deliver early value?
+9. **Cross-Cutting Features**: What features cut across all system layers (UI, API, data) to deliver complete user capabilities?
+10. **End-to-End Value**: Which features deliver complete user value from frontend to backend in a single iteration?
+11. **Foundation Dependencies**: Which features require foundational frameworks to be built first?
 
 ---
 
@@ -72,49 +75,58 @@
 - [ ] Consult with @agents/frontend-architect.md for UI/UX implementation dependencies
 - [ ] Consult with @agents/backend-architect.md for API and service implementation dependencies
 
-### 2. Analyze Business Requirements and Feature Prioritization
+### 2. Analyze Business Requirements and Vertical Slice Prioritization
 
 - [ ] Extract business requirements from Project Overview document
 - [ ] Identify user journeys and user stories from UI Experience Overview and UI Page Design
-- [ ] Review UI flows to identify feature requirements and user interactions
-- [ ] Identify foundational features that must be built first
-- [ ] Determine features that differentiate the app from existing solutions
-- [ ] Apply WSJF (Weighted Shortest Job First) methodology to prioritize features
+- [ ] Review UI flows to identify smallest possible user interactions
+- [ ] Identify foundational frameworks that must be built first (not features)
+- [ ] Break down large features into small, cross-cutting vertical slices
+- [ ] Ensure each feature delivers end-to-end value (UI → API → Data → Response)
+- [ ] Apply WSJF (Weighted Shortest Job First) methodology to prioritize vertical slices
 - [ ] Evaluate features based on business value, user impact, and implementation complexity
-- [ ] Prioritize high-impact, low-complexity features for early delivery
-- [ ] Order features from foundational to advanced functionality
+- [ ] Prioritize high-impact, low-complexity vertical slices for early delivery
+- [ ] Order features from foundational frameworks to vertical slice features
 
 ### 3. Generate Feature Overview Document
 
 - [ ] Use @templates/10 - Feature Overview.md template structure
-- [ ] Populate all 2 sections with specific feature details and user stories
-- [ ] Apply WSJF scoring to rank features by business value and implementation effort
+- [ ] Populate all 2 sections with specific vertical slice features and user stories
+- [ ] Apply WSJF scoring to rank vertical slices by business value and implementation effort
 - [ ] Ensure features are listed in WSJF priority order (highest value/effort ratio first)
-- [ ] Define clear user stories for each feature
-- [ ] Validate that foundational features appear first
-- [ ] Ensure high-impact, low-effort features are prioritized early
-- [ ] Focus on features that deliver the most business value with least implementation complexity
+- [ ] Define clear user stories for each vertical slice feature
+- [ ] Validate that foundational frameworks appear first (if needed)
+- [ ] Ensure each feature is a small, cross-cutting vertical slice
+- [ ] Focus on features that deliver complete end-to-end user value in single iterations
+- [ ] Verify features cut across all system layers (UI, API, data) to deliver user capabilities
 
 ### 4. Apply Quality Standards
 
 - [ ] Verify all features trace back to business requirements and user needs
-- [ ] Ensure user stories are specific and actionable
+- [ ] Ensure user stories are specific and actionable for vertical slices
 - [ ] Validate WSJF scoring methodology was applied consistently
-- [ ] Confirm high-impact, low-effort features are prioritized early
+- [ ] Confirm high-impact, low-effort vertical slices are prioritized early
 - [ ] Ensure feature ordering follows WSJF priority ranking
-- [ ] Verify foundational features are prioritized appropriately within WSJF framework
+- [ ] Verify foundational frameworks are prioritized appropriately within WSJF framework
+- [ ] Validate each feature is a small, cross-cutting vertical slice
+- [ ] Confirm features deliver end-to-end user value from UI to data
+- [ ] Ensure features are not layered but sliced across system layers
 
 ---
 
 ## Post-Validation Checklist
 
-- [ ] All 2 template sections populated with specific feature details
+- [ ] All 2 template sections populated with specific vertical slice feature details
 - [ ] Features listed in WSJF priority order (highest value/effort ratio first)
-- [ ] Each feature has clear user stories
-- [ ] WSJF scoring methodology applied consistently across all features
-- [ ] High-impact, low-effort features prioritized early
-- [ ] User stories are specific and actionable
+- [ ] Each feature is a small, cross-cutting vertical slice
+- [ ] Each feature delivers end-to-end user value (UI → API → Data → Response)
+- [ ] Each feature has clear user stories for complete user interactions
+- [ ] WSJF scoring methodology applied consistently across all vertical slices
+- [ ] High-impact, low-effort vertical slices prioritized early
+- [ ] User stories are specific and actionable for single user operations
 - [ ] Feature ordering follows WSJF priority ranking
+- [ ] Foundational frameworks identified and prioritized appropriately
+- [ ] Features cut across all system layers rather than being layered
 - [ ] Document aligns with all design documents and business requirements
 - [ ] Store completed document in `_docs/design/10 - Feature Overview.md`
 
@@ -122,4 +134,4 @@
 
 ## Success Criteria
 
-Complete when all pre-flight validation requirements are met, Product Manager agent has generated complete feature overview with logical build order, and document is stored in `_docs/design/10 - Feature Overview.md`.
+Complete when all pre-flight validation requirements are met, Product Manager agent has generated complete feature overview with small, cross-cutting vertical slices that deliver end-to-end user value, and document is stored in `_docs/design/10 - Feature Overview.md`.
