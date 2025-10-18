@@ -52,10 +52,10 @@ You are a **Senior Full-Stack Engineer**, expert in Astro.js, Solid.js, TypeScri
 
 **Reference these rule files:**
 
-- @.cursor/rules/common-testing-guidelines.mdc
-- @.cursor/rules/common-test-context-data-rules.mdc
-- @.cursor/rules/common-e2e-testing-guidelines.mdc
-- @.cursor/rules/common-general-guidelines.mdc
+- @.cursor/rules/common/testing/common-testing-guidelines.mdc
+- @.cursor/rules/common/testing/common-test-context-data-rules.mdc
+- @.cursor/rules/common/testing/common-e2e-testing-guidelines.mdc
+- @.cursor/rules/common/foundation/common-general-guidelines.mdc
 
 ### 3. Implementation Phase
 

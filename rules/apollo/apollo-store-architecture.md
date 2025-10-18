@@ -56,10 +56,10 @@ alwaysApply: false
 
 ---
 
-See also: `apollo-client-guidelines.mdc`, `common-data-store-architecture.mdc`
+See also: `apollo-client-guidelines.mdc`, `common/data/common-data-store-architecture.mdc`
 
 - Service: test hooks with Jest/RTL using `MockedProvider` or MSW.
 
 ---
 
-See also: `apollo-client-guidelines.mdc`, `common-data-store-architecture.mdc`
+See also: `apollo-client-guidelines.mdc`, `common/data/common-data-store-architecture.mdc`

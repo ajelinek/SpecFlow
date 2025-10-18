@@ -22,10 +22,10 @@ This workflow is for implementing test cases only when the implementation code i
 
 Reference these rule files:
 
-- @.cursor/rules/common-testing-guidelines.mdc
-- @.cursor/rules/common-test-context-data-rules.mdc
-- @.cursor/rules/common-e2e-testing-guidelines.mdc
-- @.cursor/rules/common-general-guidelines.mdc
+- @.cursor/rules/common/testing/common-testing-guidelines.mdc
+- @.cursor/rules/common/testing/common-test-context-data-rules.mdc
+- @.cursor/rules/common/testing/common-e2e-testing-guidelines.mdc
+- @.cursor/rules/common/foundation/common-general-guidelines.mdc
 
 ### 4. Test Implementation Checklist
 
@@ -74,4 +74,3 @@ Once tests are passing, evaluate cleanup opportunities following:
 - All tests must pass before marking complete
 - Follow all referenced rule files
 - Maintain clean, typed code
-

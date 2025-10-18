@@ -1,6 +1,6 @@
 # Customizing Testing Rules for Your Project
 
-This prompt guides you through customizing the three testing rule files (`common-test-context-data-rules.md`, `common-e2e-testing-guidelines.md`, and `common-testing-guidelines.md`) to match your specific project's data model and requirements.
+This prompt guides you through customizing the three testing rule files (`common/testing/common-test-context-data-rules.md`, `common/testing/common-e2e-testing-guidelines.md`, and `common/testing/common-testing-guidelines.md`) to match your specific project's data model and requirements.
 
 ## Overview
 
@@ -109,7 +109,7 @@ async function setUp(ctx: TestContext, testData: DataGenObject = {}) {
 }
 ```
 
-### 2. `common-e2e-testing-guidelines.md`
+### 2. `common/testing/common-e2e-testing-guidelines.md`
 
 **Minimal customization needed** - Mostly Playwright-specific patterns.
 
@@ -142,7 +142,7 @@ test('should display recent activities', async ({ page, ctx }) => {
 })
 ```
 
-### 3. `common-testing-guidelines.md`
+### 3. `common/testing/common-testing-guidelines.md`
 
 **Minimal customization needed** - Mostly generic testing principles.
 

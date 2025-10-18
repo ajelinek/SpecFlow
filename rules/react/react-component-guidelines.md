@@ -7,7 +7,7 @@ applyTo:
 alwaysApply: false
 ---
 
-Supplements `common-component-guidelines.md`; review that first.
+Supplements `common/ui/common-component-guidelines.md`; review that first.
 
 # Component Definition
 
