@@ -63,9 +63,7 @@
 5. **Data Requirements**: What data model changes or new data access patterns are needed?
 6. **API Requirements**: What new API endpoints or modifications are required?
 7. **UI Components**: What new UI components or modifications are needed?
-8. **Performance Impact**: What are the performance implications of this implementation?
-9. **Security Considerations**: What security measures need to be implemented?
-10. **Testing Strategy**: What testing approach is needed for this implementation?
+8. **Security Considerations**: What security measures need to be implemented?
 
 ---
 
@@ -85,7 +83,7 @@
 
 - [ ] Activate @agents/frontend-engineer.md for frontend implementation details
 - [ ] Review `_docs/design/05 - Frontend Architecture.md` for component patterns
-- [ ] Review `apps/packages/UI/AGENT.md` for existing frontend patterns
+- [ ] Review `UI/AGENT.md` for existing frontend patterns
 - [ ] Define new UI components and state management requirements
 - [ ] Ensure no duplication of existing frontend functionality
 
@@ -93,7 +91,7 @@
 
 - [ ] Activate @agents/backend-engineer.md for backend implementation details
 - [ ] Review `_docs/design/04 - Backend Architecture.md` for service patterns
-- [ ] Review `apps/packages/API/AGENT.md` for existing backend patterns
+- [ ] Review `API/AGENT.md` for existing backend patterns
 - [ ] Define new API endpoints and business logic requirements
 - [ ] Ensure no duplication of existing backend functionality
 
@@ -101,8 +99,8 @@
 
 - [ ] Activate @agents/data-engineer.md for data layer implementation details
 - [ ] Review `_docs/design/03 - Data Model.md` for data requirements
-- [ ] Review `apps/packages/data/AGENT.md` for existing data patterns
-- [ ] Define GraphQL schema changes and data access patterns
+- [ ] Review `API/AGENT.md` for existing data patterns
+- [ ] Define schema changes and data access patterns
 - [ ] Ensure no duplication of existing data functionality
 
 ### 3. Research Implementation Patterns
@@ -154,6 +152,15 @@
 - [ ] Verify implementation details follow WHAT/WHY documentation standards
 - [ ] Ensure all integration points are properly documented
 
+### 7. Quality Assurance Validation
+
+- [ ] **No Code Duplication**: Verify no existing functionality is being duplicated
+- [ ] **Architectural Consistency**: All implementations align with established patterns
+- [ ] **Future Expansion**: Design supports future feature requirements
+- [ ] **Clean Patterns**: Follow established coding standards and maintainability principles
+- [ ] **Integration Validation**: All cross-component integration points are properly designed
+- [ ] **Testing Coverage**: Comprehensive testing strategy for all implementation components
+
 ---
 
 ## Post-Validation Checklist
@@ -174,14 +181,3 @@
 ## Success Criteria
 
 Complete when Technical Architect agent has coordinated with all specialized engineer agents, generated comprehensive implementation design that addresses all test scenarios, ensures architectural consistency, prevents code duplication, and document is stored in the appropriate feature directory.
-
-## Quality Assurance
-
-The Technical Architect must ensure:
-
-1. **No Code Duplication**: Verify no existing functionality is being duplicated
-2. **Architectural Consistency**: All implementations align with established patterns
-3. **Future Expansion**: Design supports future feature requirements
-4. **Clean Patterns**: Follow established coding standards and maintainability principles
-5. **Integration Validation**: All cross-component integration points are properly designed
-6. **Testing Coverage**: Comprehensive testing strategy for all implementation components
