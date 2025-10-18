@@ -27,11 +27,8 @@ Before proceeding, evaluate the referenced rules to understand established patte
 3. **Test Framework**: What testing framework is being used (Playwright, Jest, Cypress)?
 4. **Test Data Requirements**: What test data is needed for the scenarios?
 5. **Accessibility Testing**: Are accessibility labels and ARIA attributes properly implemented?
-6. **Test Environment**: What test environment configuration is required?
-7. **Test Coverage**: What level of test coverage is expected for the feature?
-8. **Test Organization**: How should tests be organized and tagged?
-9. **Test Data Management**: What test data generation strategy is needed?
-10. **Performance Testing**: Are there performance requirements for the tests?
+6. **Test Organization**: How should tests be organized and tagged?
+7. **Test Data Management**: What test data generation strategy is needed?
 
 ---
 
@@ -40,11 +37,15 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ### 1. Invoke Test Automation Engineer Agent
 
 - [ ] Activate @agents/test-automation-engineer.md persona
-- [ ] Review context files: `_docs/design/01 - Project Overview.md`, `_docs/design/02 - System Architecture.md`, `_docs/design/03 - Data Model.md`, `_docs/design/04 - Backend Architecture.md`, `_docs/design/05 - Frontend Architecture.md`
+- [ ] Review `_docs/design/01 - Project Overview.md` for business requirements
+- [ ] Review `_docs/design/02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/03 - Data Model.md` for data access patterns
+- [ ] Review `_docs/design/04 - Backend Architecture.md` for API testing patterns
+- [ ] Review `_docs/design/05 - Frontend Architecture.md` for UI testing patterns
 - [ ] Review feature documentation for test scenario requirements
-- [ ] Review system architecture for integration testing patterns
-- [ ] Review data model for test data requirements
 - [ ] Consult with @agents/test-analyst.md for test scenario validation
+- [ ] Consult with @agents/frontend-engineer.md for UI component testing patterns
+- [ ] Consult with @agents/backend-engineer.md for API testing requirements
 
 ### 2. Analyze Test Requirements
 
@@ -102,7 +103,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Accessibility testing implemented where required
 - [ ] All tests pass consistently
 - [ ] Test coverage meets requirements
-- [ ] Documentation updated with test implementation details
 
 ---
 
