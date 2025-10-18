@@ -103,13 +103,6 @@
 - [ ] Define schema changes and data access patterns
 - [ ] Ensure no duplication of existing data functionality
 
-### 3. Research Implementation Patterns
-
-- [ ] Use web search for latest implementation patterns and best practices
-- [ ] Use context7 for official framework documentation and API patterns
-- [ ] Verify framework versions, compatibility, and ecosystem maturity
-- [ ] Research security best practices for implementation patterns
-
 ### 4. Generate Implementation Design
 
 - [ ] Use @templates/11 - Technical Design.md structure

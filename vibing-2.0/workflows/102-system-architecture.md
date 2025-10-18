@@ -61,12 +61,6 @@
 - [ ] Review `_docs/design/01 - Project Overview.md` for business requirements
 - [ ] Consult with @agents/product-manager.md for business context
 
-### 2. Research Technology & Patterns
-
-- [ ] Use web search for latest architectural patterns and best practices
-- [ ] Use context7 for official framework documentation
-- [ ] Verify framework versions, compatibility, and ecosystem maturity
-
 ### 3. Generate System Architecture
 
 - [ ] Use @templates/system-architecture.md structure

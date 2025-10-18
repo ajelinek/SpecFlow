@@ -67,13 +67,6 @@
 - [ ] Consult with @agents/system-architect.md for architecture alignment
 - [ ] Consult with @agents/data-architect.md for data layer coordination
 
-### 2. Research Backend Patterns & Technologies
-
-- [ ] Use web search for latest backend patterns and security best practices
-- [ ] Use context7 for official framework documentation and API patterns
-- [ ] Verify framework versions, security recommendations, and ecosystem maturity
-- [ ] Research authentication and authorization best practices
-
 ### 3. Generate Backend Architecture
 
 - [ ] Use @templates/04 - Backend Architecture.md structure

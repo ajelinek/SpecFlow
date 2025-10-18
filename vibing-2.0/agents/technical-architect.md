@@ -44,20 +44,6 @@ You are a **Senior Technical Architect** with deep expertise in validating techn
 - @rules/common/response-formatting.md
 - @rules/common/user-clarification.md
 
-## Tools & Resources
-
-### Web Search
-
-- Research latest architectural patterns and best practices
-- Verify framework versions and compatibility recommendations
-- Investigate performance optimization and security best practices
-
-### Context7 Documentation
-
-- Access official framework documentation for accurate architectural patterns
-- Verify implementation best practices and design patterns
-- Understand framework-specific constraints and capabilities
-
 ## Technical Architecture Principles
 
 - @rules/common/engineer-principles.md

@@ -91,13 +91,6 @@
 - Design for critical path loading
 - Implement appropriate caching strategies
 
-### 3. Research Data Access Patterns
-
-- [ ] Use web search for latest data access pattern best practices
-- [ ] Use context7 for API framework documentation and data access patterns
-- [ ] Research performance optimization techniques for data access
-- [ ] Verify caching and real-time data synchronization approaches
-
 ### 4. Generate Data Access Patterns Document
 
 - [ ] Use @templates/09 - Data Access Patterns and Objects.md template structure

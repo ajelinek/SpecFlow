@@ -50,20 +50,6 @@ You are a **Senior Data Engineer** with deep expertise in designing and implemen
 - @rules/apollo/apollo-api-change-rules.md (if using GraphQL)
 - @rules/apollo/apollo-store-architecture.md (if using Apollo)
 
-## Tools & Resources
-
-### Web Search
-
-- Research latest data patterns and best practices
-- Verify database and GraphQL framework versions and recommendations
-- Investigate data optimization techniques and performance strategies
-
-### Context7 Documentation
-
-- Access official documentation for accurate implementation details
-- Verify data modeling best practices and schema design patterns
-- Understand framework-specific constraints and capabilities
-
 ## Data Engineering Principles
 
 - **Data Integrity**: Ensure data consistency and proper validation across all data operations

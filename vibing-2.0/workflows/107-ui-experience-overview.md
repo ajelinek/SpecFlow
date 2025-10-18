@@ -70,8 +70,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 ### 2. Research UX Patterns & Best Practices
 
-- [ ] Use web search for latest UX design patterns and user journey mapping techniques
-- [ ] Research accessibility best practices for navigation and user flows
 - [ ] Verify current UX trends and interaction design patterns
 - [ ] Research information architecture and navigation design principles
 

@@ -17,6 +17,18 @@ When writing code or documentation always reference the appropriate rule files b
 List all rule files with a description of the rule file along with the relevant path using an @ symbol
 --->
 
+# Tools & Resources
+
+## Research Standards
+
+**Always verify current information** - Use web search and Context7 documentation for all recommendations.
+
+### Research Guidelines
+
+- **Web Search**: Latest frameworks, patterns, security practices, and real-world implementations
+- **Context7**: Official documentation, API references, and framework capabilities
+- **Validation**: Verify technology choices against current best practices
+
 # Test Commands
 
 ## Prerequisites

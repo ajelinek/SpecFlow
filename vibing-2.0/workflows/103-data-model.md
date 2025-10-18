@@ -55,8 +55,6 @@
 
 ### 2. Research Data Modeling Patterns
 
-- [ ] Use web search for latest data modeling best practices for the given database technology.
-- [ ] Use context7 for database documentation
 - [ ] Verify data modeling patterns and performance optimization techniques
 
 ### 3. Generate Data Model

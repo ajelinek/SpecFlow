@@ -64,8 +64,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 ### 2. Research Design Systems & Patterns
 
-- [ ] Use web search for latest design system trends and accessibility best practices
-- [ ] Research color theory and accessibility contrast requirements
 - [ ] Verify typography choices for readability and brand alignment
 - [ ] Research animation and interaction design best practices
 

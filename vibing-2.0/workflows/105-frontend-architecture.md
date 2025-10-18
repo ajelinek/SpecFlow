@@ -89,13 +89,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Consult with @agents/product-manager.md for user experience requirements
 - [ ] Consult with @agents/seo-specialist.md for SEO requirements and technical implementation
 
-### 2. Research Frontend Technologies & Patterns
-
-- [ ] Use web search for latest frontend frameworks and architectural patterns
-- [ ] Use context7 for official framework documentation
-- [ ] Verify framework versions, compatibility, and ecosystem maturity
-- [ ] Research performance optimization techniques and best practices
-
 ### 3. Generate Frontend Architecture
 
 - [ ] Use @templates/05 - Frontend Architecture.md structure
