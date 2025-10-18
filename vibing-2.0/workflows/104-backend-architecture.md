@@ -2,22 +2,6 @@
 
 **Objective**: Create the `04 - Backend Architecture.md` document that details backend service architecture, API design patterns, data access strategies, and security implementation required to support the system architecture.
 
-## Agents
-
-- @agents/backend-architect.md
-- @agents/system-architect.md
-- @agents/data-architect.md
-
-## Template
-
-- @templates/04 - Backend Architecture.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/02 - System Architecture.md`
-- `_docs/design/03 - Data Model.md`
-
 ---
 
 ## Pre-Flight Validation

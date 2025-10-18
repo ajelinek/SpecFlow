@@ -2,24 +2,6 @@
 
 **Objective**: Evaluate technical design plans for completeness, accuracy, and implementation readiness without writing production code. Provide structured assessment with actionable recommendations for plan improvement.
 
-## Agents
-
-- @agents/technical-architect.md (Primary - drives evaluation process)
-- @agents/frontend-architect.md, @agents/backend-architect.md, @agents/data-architect.md (Architecture validation)
-- @agents/frontend-engineer.md, @agents/backend-engineer.md, @agents/data-engineer.md (Code pattern validation)
-
-## Template & Rules
-
-- @templates/11 - Technical Design.md (Reference for structure validation)
-- @rules/\* - Evaluate all project rules
-
-## Context Files
-
-- **REQUIRED**: Specific feature file to evaluate (must be provided)
-- Technical design document to evaluate
-- `_docs/design/*` - Architecture documents
-- All `*/AGENT.md` files - Implementation patterns and architectural context related to the changes.
-
 ---
 
 ## Pre-Flight Validation

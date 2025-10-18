@@ -2,44 +2,6 @@
 
 **Objective**: Create the `05 - Frontend Architecture.md` document that describes frontend component structure, state management strategy, UI framework conventions, and development patterns required to deliver optimal user experience.
 
-## Agents
-
-- @agents/frontend-architect.md
-- @agents/system-architect.md
-- @agents/product-manager.md
-- @agents/seo-specialist.md
-
-## Template
-
-- @templates/05 - Frontend Architecture.md
-
-## Rules
-
-- @rules/common/typescript-guidelines.md
-- @rules/common/ui-component-guidelines.md
-- @rules/common/ui-styling-guidelines.md
-- @rules/common/ui-project-structure.md
-- @rules/common/error-handling-guidelines.md
-- @rules/common/test-general.md
-- @rules/common/test-e2e.md
-- @rules/apollo/apollo-client-guidelines.md
-- @rules/apollo/apollo-react-state-integration.md
-- @rules/apollo/apollo-store-architecture.md
-- @rules/react/react-component-guidelines.md
-- @rules/react/react-state-management.md
-- @rules/react/react-testing-guidelines.md
-- @rules/solid.js/solidjs-component-guidelines.md
-- @rules/solid.js/solid-state-management.md
-- @rules/solid.js/solid-testing-guidelines.md
-- @rules/astro.js/astro-component-guidelines.md
-- @rules/astro.js/astro-project-structure.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/02 - System Architecture.md`
-- `_docs/design/03 - Data Model.md`
-
 ---
 
 ## Pre-Flight Validation

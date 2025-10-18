@@ -2,55 +2,34 @@
 
 **Objective**: Create detailed technical implementation specifications that define specific code changes, types, functions, and design approaches required to satisfy feature requirements and test scenarios while ensuring architectural consistency and code quality.
 
-## Agents
-
-- @agents/frontend-engineer.md (Drives frontend changes)
-- @agents/backend-engineer.md (Drives backend changes)
-- @agents/data-engineer.md (Drives database/schema changes)
-- @agents/technical-architect.md (Validates and ensures consistency)
-
-## Template
-
-- @templates/11 - Technical Design.md
-
-## Rules
-
-- @rules/common/general-rules.md
-- @rules/common/typescript-guidelines.md
-- @rules/common/error-handling-guidelines.md
-- @rules/common/test-general.md
-- @rules/common/test-e2e.md
-- @rules/common/ui-component-guidelines.md
-- @rules/common/ui-project-structure.md
-- @rules/common/ui-data-store-architecture.md
-- @rules/common/data-attribute-naming-conventions.md
-- @rules/apollo/apollo-client-guidelines.md
-- @rules/apollo/apollo-server-guidelines.md
-- @rules/apollo/apollo-store-architecture.md
-- @rules/react/react-component-guidelines.md
-- @rules/react/react-state-management.md
-- @rules/solid.js/solidjs-component-guidelines.md
-- @rules/solid.js/solid-state-management.md
-- @rules/astro.js/astro-component-guidelines.md
-- @rules/astro.js/astro-project-structure.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/02 - System Architecture.md`
-- `_docs/design/03 - Data Model.md`
-- `_docs/design/04 - Backend Architecture.md`
-- `_docs/design/05 - Frontend Architecture.md`
-- `_docs/design/06 - UI Design.md`
-- '\_docs/design/ui-flows/\* (for the specific page in scope)
-- `_docs/features/in-progress/*` - Current feature being designed
-- All `*/AGENT.md` files - Implementation patterns and architectural context across all project packages
-
 ---
 
 ## Pre-Flight Validation
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+
+### Rule Evaluation
+
+Before proceeding, evaluate the referenced rules to understand established patterns:
+
+- [ ] Review @rules/common/general-rules.md for foundational implementation standards
+- [ ] Review @rules/common/typescript-guidelines.md for TypeScript standards
+- [ ] Review @rules/common/error-handling-guidelines.md for error management patterns
+- [ ] Review @rules/common/test-general.md for testing strategy
+- [ ] Review @rules/common/test-e2e.md for E2E testing patterns
+- [ ] Review @rules/common/ui-component-guidelines.md for component usage patterns
+- [ ] Review @rules/common/ui-project-structure.md for directory organization
+- [ ] Review @rules/common/ui-data-store-architecture.md for data store patterns
+- [ ] Review @rules/common/data-attribute-naming-conventions.md for data attribute naming standards
+- [ ] Review @rules/apollo/apollo-client-guidelines.md if using GraphQL
+- [ ] Review @rules/apollo/apollo-server-guidelines.md if using GraphQL
+- [ ] Review @rules/apollo/apollo-store-architecture.md if using GraphQL
+- [ ] Review @rules/react/react-component-guidelines.md if using React
+- [ ] Review @rules/react/react-state-management.md if using React
+- [ ] Review @rules/solid.js/solidjs-component-guidelines.md if using SolidJS
+- [ ] Review @rules/solid.js/solid-state-management.md if using SolidJS
+- [ ] Review @rules/astro.js/astro-component-guidelines.md if using Astro
+- [ ] Review @rules/astro.js/astro-project-structure.md if using Astro
 
 ### Validation Questions
 

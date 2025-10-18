@@ -2,32 +2,6 @@
 
 **Objective**: Create detailed page design specifications and wireframes for individual application pages, building upon the established UI design system and navigation architecture to create user-centered page designs.
 
-## Agents
-
-- @agents/ui-designer.md
-- @agents/ux-designer.md
-- @agents/frontend-architect.md
-- @agents/product-manager.md
-
-## Template
-
-- @templates/08 - UI Page Design.md
-
-## Rules
-
-- @rules/common/ui-component-guidelines.md
-- @rules/common/ui-styling-guidelines.md
-- @rules/common/ui-theme.md
-- @rules/common/accessibility-guidelines.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/02 - System Architecture.md`
-- `_docs/design/05 - Frontend Architecture.md`
-- `_docs/design/06 - UI Design.md`
-- `_docs/design/07 - UI Experience Overview.md`
-
 ---
 
 ## Pre-Flight Validation

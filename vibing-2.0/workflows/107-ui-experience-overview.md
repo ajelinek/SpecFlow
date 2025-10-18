@@ -2,29 +2,6 @@
 
 **Objective**: Create the `07 - UI Experience Overview.md` document that establishes comprehensive user experience architecture, navigation patterns, and user journey mapping for the application.
 
-## Agents
-
-- @agents/ux-designer.md
-- @agents/ui-designer.md
-- @agents/frontend-architect.md
-- @agents/product-manager.md
-
-## Template
-
-- @templates/07 - UI Experience Overview.md
-
-## Rules
-
-- @rules/common/ui-styling-guidelines.md
-- @rules/common/ui-theme.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/02 - System Architecture.md`
-- `_docs/design/05 - Frontend Architecture.md`
-- `_docs/design/06 - UI Design.md`
-
 ---
 
 ## Pre-Flight Validation

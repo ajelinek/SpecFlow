@@ -2,20 +2,6 @@
 
 **Objective**: Create the `03 - Data Model.md` document that details the persisted data model, including entities, their attributes, relationships, and constraints. This focuses solely on the data structure and relationships independent of access patterns or user experience.
 
-## Agents
-
-- @agents/data-architect.md
-- @agents/system-architect.md
-
-## Template
-
-- @templates/03 - Data Model.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/02 - System Architecture.md`
-
 ---
 
 ## Pre-Flight Validation

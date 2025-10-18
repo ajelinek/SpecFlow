@@ -2,29 +2,17 @@
 
 **Objective**: Create the `11 - Technical Design.md` document that defines the high-level business goals, user value proposition, and system flow for a new feature, establishing the foundation for detailed implementation planning.
 
-## Agents
-
-- @agents/product-manager.md
-
-## Template
-
-- @templates/11 - Technical Design.md
-
-## Rules
-
-- @rules/common/general-rules.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/10 - Feature Overview.md`
-- `_docs/features/in-progress/*.md` (current feature being designed)
-
 ---
 
 ## Pre-Flight Validation
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+
+### Rule Evaluation
+
+Before proceeding, evaluate the referenced rules to understand established patterns:
+
+- [ ] Review @rules/common/general-rules.md for foundational implementation standards
 
 ### Required Input
 

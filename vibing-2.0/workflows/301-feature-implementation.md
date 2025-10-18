@@ -2,30 +2,6 @@
 
 **Objective**: Implement features based on completed Technical Design documents, following Test-Driven Development (TDD) principles and adhering to strict coding standards. This workflow coordinates frontend and backend engineers with test automation to deliver complete, tested features.
 
-## Agents
-
-- @agents/frontend-engineer.md
-- @agents/backend-engineer.md
-- @agents/test-automation-engineer.md
-
-## Template
-
-- @templates/11 - Technical Design.md (completed)
-
-## Rules
-
-- See @rules/rule-list.md to determine appropriate rules to use.
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/02 - System Architecture.md`
-- `_docs/design/03 - Data Model.md`
-- `_docs/design/04 - Backend Architecture.md`
-- `_docs/design/05 - Frontend Architecture.md`
-- `_docs/design/06 - UI Design.md`
-- `_docs/features/[feature-name] - Technical Design.md` (completed)
-
 ---
 
 ## Pre-Flight Validation
@@ -43,8 +19,6 @@
 
 Before proceeding, evaluate the referenced rules to understand established patterns:
 
-- [ ] Review @rules/common/engineer-principles.md for implementation standards
-- [ ] Review @rules/common/engineer-guardrails.md for quality constraints
 - [ ] Review @rules/common/typescript-guidelines.md for TypeScript standards
 - [ ] Review @rules/common/test-e2e.md for test automation patterns
 - [ ] Review @rules/common/test-e2e-page-object.md for page object patterns
@@ -88,6 +62,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 - [ ] **VERIFY**: Test scenario ID(s) provided (e.g., TS001, TS002, TS003)
 - [ ] **VERIFY**: Completed Technical Design document available
+- [ ] Review context files: `_docs/design/01 - Project Overview.md`, `_docs/design/02 - System Architecture.md`, `_docs/design/03 - Data Model.md`, `_docs/design/04 - Backend Architecture.md`, `_docs/design/05 - Frontend Architecture.md`, `_docs/design/06 - UI Design.md`
 - [ ] Activate @agents/technical-architect.md for implementation validation
 - [ ] Review Technical Design document thoroughly
 - [ ] **Focus ONLY on specific test scenario(s) with provided IDs**

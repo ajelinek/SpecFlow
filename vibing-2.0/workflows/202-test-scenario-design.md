@@ -2,35 +2,20 @@
 
 **Objective**: Create comprehensive Gherkin test scenarios for a feature based on its high-level design, ui-flows, project overview, ensuring complete coverage of user workflows, business logic, and edge cases.
 
-## Agents
-
-- @agents/test-analyst.md
-- @agents/product-manager.md
-- @agents/frontend-architect.md
-
-## Template
-
-- @templates/11 - Technical Design.md
-
-## Rules
-
-- @rules/common/testing/test-general.md
-- @rules/common/testing/test-setup-examples.md
-- @rules/common/test-gherkin-definition.md
-- @rules/common/test-e2e-tags.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/07 - UI Experience Overview.md`
-- `_docs/ui-flows/[page-name].md` (relevant user flow pages)
-- `_docs/features/[feature-name]-Technical_Design.md` (partially completed)
-
 ---
 
 ## Pre-Flight Validation
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+
+### Rule Evaluation
+
+Before proceeding, evaluate the referenced rules to understand established patterns:
+
+- [ ] Review @rules/common/testing/test-general.md for testing strategy
+- [ ] Review @rules/common/testing/test-setup-examples.md for test setup patterns
+- [ ] Review @rules/common/test-gherkin-definition.md for Gherkin syntax standards
+- [ ] Review @rules/common/test-e2e-tags.md for test organization and tagging
 
 ### Scenario Design Principles
 

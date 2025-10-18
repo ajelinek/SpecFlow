@@ -2,35 +2,17 @@
 
 **Objective**: Create the `09 - Data Access Patterns and Objects.md` document that defines data access patterns, derived data objects, and API data structures required to support optimal user experience across all UI pages. This workflow analyzes UI flows to identify data requirements and bridges the gap between persisted data models and UI data needs.
 
-## Agents
-
-- @agents/data-architect.md
-- @agents/frontend-architect.md
-- @agents/backend-architect.md
-- @agents/product-manager.md
-
-## Template
-
-- @templates/09 - Data Access Patterns and Objects.md
-
-## Rules
-
-- @rules/common/data-attribute-naming-conventions.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/02 - System Architecture.md`
-- `_docs/design/03 - Data Model.md`
-- `_docs/design/05 - Frontend Architecture.md`
-- `_docs/design/06 - UI Design.md`
-- `_docs/ui-flows/*.md` (all UI flow markdown documents)
-
 ---
 
 ## Pre-Flight Validation
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+
+### Rule Evaluation
+
+Before proceeding, evaluate the referenced rules to understand established patterns:
+
+- [ ] Review @rules/common/data-attribute-naming-conventions.md for data attribute naming standards
 
 ### Validation Questions
 

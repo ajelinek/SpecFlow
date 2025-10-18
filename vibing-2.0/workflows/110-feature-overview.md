@@ -2,40 +2,17 @@
 
 **Objective**: Create the `10 - Feature Overview.md` document that provides a clear, actionable, and trackable plan for implementation by listing small, cross-cutting features that deliver end-to-end user value in vertical slices, following agile best practices while respecting foundational framework dependencies.
 
-## Agents
-
-- @agents/product-manager.md
-- @agents/domain-expert.md
-- @agents/system-architect.md
-- @agents/frontend-architect.md
-- @agents/backend-architect.md
-
-## Template
-
-- @templates/10 - Feature Overview.md
-
-## Rules
-
-- @rules/common/general-rules.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/02 - System Architecture.md`
-- `_docs/design/03 - Data Model.md`
-- `_docs/design/04 - Backend Architecture.md`
-- `_docs/design/05 - Frontend Architecture.md`
-- `_docs/design/06 - UI Design.md`
-- `_docs/design/07 - UI Experience Overview.md`
-- `_docs/design/08 - UI Page Design.md`
-- `_docs/design/09 - Data Access Patterns and Objects.md`
-- `_docs/ui-flows/*.md` (all UI flow markdown documents)
-
 ---
 
 ## Pre-Flight Validation
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+
+### Rule Evaluation
+
+Before proceeding, evaluate the referenced rules to understand established patterns:
+
+- [ ] Review @rules/common/general-rules.md for foundational implementation standards
 
 ### Validation Questions
 

@@ -2,19 +2,6 @@
 
 **Objective**: Create the `02 - System Architecture.md` document that describes high-level system structure, technology choices, and architectural patterns required to meet business needs.
 
-## Agents
-
-- @agents/system-architect.md
-- @agents/product-manager.md
-
-## Template
-
-- @templates/system-architecture.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-
 ---
 
 ## Pre-Flight Validation

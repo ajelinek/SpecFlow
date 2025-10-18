@@ -2,15 +2,6 @@
 
 **Objective**: Create the foundational `01 - Project Overview.md` document that establishes core business purpose, target users, and success criteria for the project.
 
-## Agents
-
-- @agents/product-manager.md
-- @agents/domain-expert.md
-
-## Template
-
-- @templates/project-overview.md
-
 ---
 
 ## Pre-Flight Validation

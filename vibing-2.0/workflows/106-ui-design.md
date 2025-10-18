@@ -2,27 +2,6 @@
 
 **Objective**: Create the `06 - UI Design.md` document that establishes strategic design decisions and visual system principles for the application, focusing on design philosophy rather than implementation details.
 
-## Agents
-
-- @agents/ui-designer.md
-- @agents/frontend-architect.md
-- @agents/product-manager.md
-
-## Template
-
-- @templates/06 - UI Design.md
-
-## Rules
-
-- @rules/common/ui-styling-guidelines.md
-- @rules/common/ui-theme.md
-
-## Context Files
-
-- `_docs/design/01 - Project Overview.md`
-- `_docs/design/02 - System Architecture.md`
-- `_docs/design/05 - Frontend Architecture.md`
-
 ---
 
 ## Pre-Flight Validation
