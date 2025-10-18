@@ -14,16 +14,7 @@
 
 ## Rules
 
-- @rules/common/engineer-principles.md
-- @rules/common/engineer-guardrails.md
-- @rules/common/typescript-guidelines.md
-- @rules/common/error-handling-guidelines.md
-- @rules/common/test-general.md
-- @rules/common/test-e2e.md
-- @rules/common/test-e2e-page-object.md
-- @rules/common/test-e2e-tags.md
-- @rules/common/test-context.md
-- @rules/common/test-setup-examples.md
+- See @rules/rule-list.md to determine appropriate rules to use.
 
 ## Context Files
 

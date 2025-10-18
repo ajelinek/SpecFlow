@@ -14,6 +14,8 @@
 
 ## Rules
 
+- @rules/common/testing/test-general.md
+- @rules/common/testing/test-setup-examples.md
 - @rules/common/test-gherkin-definition.md
 - @rules/common/test-e2e-tags.md
 

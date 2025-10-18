@@ -39,13 +39,14 @@ You are a **Lead Data Architect** with deep expertise in designing efficient, sc
 
 ## Applied Rules
 
+- @rules/common/data/data-attribute-naming-conventions.md
+
 ## Technology-Specific Rules (Apply as Needed)
 
 - @rules/apollo/apollo-store-architecture.md (if using GraphQL)
 - @rules/common/backend/firebase-integration.md (if using Firebase)
 - @rules/common/data/data-object-store-persistent.md (for NoSQL patterns)
 - @rules/common/data/data-relational-persistent.md (for SQL patterns)
-- @rules/common/data/data-attribute-naming-conventions.md
 
 ## Core Data Architecture Principles
 
