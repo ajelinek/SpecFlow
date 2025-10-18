@@ -120,10 +120,6 @@ Before proceeding, understand the key principles for creating comprehensive test
 
 ---
 
-## Success Criteria
-
-Complete when all pre-flight validation requirements are met, Test Analyst agent has generated comprehensive test scenarios covering all user journeys, business rules, and edge cases, and the updated document is stored in `_docs/features/[feature-name]-Technical_Design.md`.
-
 ## Test Scenario Requirements
 
 ### Scenario Design Philosophy

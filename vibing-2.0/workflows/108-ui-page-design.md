@@ -126,10 +126,4 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 ---
 
-## Success Criteria
-
-Complete when all pre-flight validation requirements are met, UI Designer agent has generated complete page design with wireframe, and documents are stored in the appropriate `_docs/ui-flows/[PageName]/` directory structure.
-
----
-
 **Note**: All responses should follow @fragments/response-formatting.md

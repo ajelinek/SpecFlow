@@ -122,10 +122,4 @@
 
 ---
 
-## Success Criteria
-
-Complete when all pre-flight validation requirements are met, Data Architect agent has analyzed all UI flows, generated complete data access patterns and objects documentation, and document is stored in `_docs/design/09 - Data Access Patterns and Objects.md`.
-
----
-
 **Note**: All responses should follow @fragments/response-formatting.md

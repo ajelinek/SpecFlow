@@ -152,10 +152,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 ---
 
-## Success Criteria
-
-Complete when all pre-flight validation requirements are met, specific test scenario(s) are implemented and passing, frontend and backend engineers have delivered complete functionality, test automation engineer has validated the implementation, and all code follows established quality standards.
-
 ## Key Constraints
 
 - **REQUIRED INPUT**: Test scenario ID(s) must be provided (e.g., TS001, TS002, TS003)

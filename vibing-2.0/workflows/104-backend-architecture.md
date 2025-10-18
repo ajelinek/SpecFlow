@@ -91,10 +91,4 @@
 
 ---
 
-## Success Criteria
-
-Complete when all pre-flight validation requirements are met, Backend Architect agent has generated complete backend architecture, and document is stored in `_docs/design/04 - Backend Architecture.md`.
-
----
-
 **Note**: All responses should follow @fragments/response-formatting.md

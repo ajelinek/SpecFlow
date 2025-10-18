@@ -83,10 +83,4 @@
 
 ---
 
-## Success Criteria
-
-Complete when all pre-flight validation requirements are met, System Architect agent has generated complete system architecture, and document is stored in `_docs/design/02 - System Architecture.md`.
-
----
-
 **Note**: All responses should follow @fragments/response-formatting.md

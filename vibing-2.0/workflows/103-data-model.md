@@ -80,10 +80,4 @@
 
 ---
 
-## Success Criteria
-
-Complete when all pre-flight validation requirements are met, Data Architect agent has generated complete persisted data model with ERD diagram, and document is stored in `_docs/design/03 - Data Model.md`.
-
----
-
 **Note**: All responses should follow @fragments/response-formatting.md

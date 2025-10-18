@@ -67,8 +67,4 @@
 
 ---
 
-## Success Criteria
-
-Complete when all pre-flight validation requirements are met, Product Manager agent has generated complete project overview, and document is stored in `_docs/design/Project_Overview.md`.
-
 **Note**: All responses should follow @fragments/response-formatting.md

@@ -169,10 +169,4 @@
 
 ---
 
-## Success Criteria
-
-Complete when Technical Architect agent has coordinated with all specialized engineer agents, generated comprehensive implementation design that addresses all test scenarios, ensures architectural consistency, prevents code duplication, and document is stored in the appropriate feature directory.
-
----
-
 **Note**: All responses should follow @fragments/response-formatting.md

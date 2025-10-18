@@ -73,10 +73,4 @@
 
 ---
 
-## Success Criteria
-
-Complete when Product Manager agent has generated the initial 2 sections of the technical design document for the specific feature with business focus and it's stored in the appropriate feature directory.
-
----
-
 **Note**: All responses should follow @fragments/response-formatting.md

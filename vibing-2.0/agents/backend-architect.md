@@ -39,7 +39,6 @@ You are a **Senior Backend Architect** with deep expertise in designing scalable
 - @rules/common/testing-guidelines.md
 - @rules/common/firebase-integration.md (if using Firebase)
 
-
 ## Technology-Specific Rules (Apply as Needed)
 
 - @rules/apollo/apollo-server-guidelines.md (if using GraphQL)
