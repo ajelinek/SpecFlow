@@ -11,11 +11,9 @@ All changes must be executed within the context of an agent. The agent should be
 
 # Rules
 
-When writing code or documentation always reference the appropriate rule files based on the provided descriptions. Rule files are primarily pulled in via agents, but can be accessed directly when needed.
+When writing code or documentation always reference the appropriate rule files based on the provided descriptions.
 
-<!-- PLACEHOLDER
-List all rule files with a description of the rule file along with the relevant path using an @ symbol
---->
+See @rules/rule-list.md
 
 # Tools & Resources
 
