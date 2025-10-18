@@ -14,17 +14,12 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 - [ ] Review @rules/common/testing/test-general.md for testing strategy
 - [ ] Review @rules/common/testing/test-setup-examples.md for test setup patterns
-- [ ] Review @rules/common/test-gherkin-definition.md for Gherkin syntax standards
+- [ ] Review @rules/common/test-gherkin-definition.md for Gherkin syntax standards and scenario writing guidelines
 - [ ] Review @rules/common/test-e2e-tags.md for test organization and tagging
 
 ### Scenario Design Principles
 
-Before proceeding, understand the key principles for creating comprehensive test scenarios:
-
-- [ ] **Favor Larger Scenarios**: Design comprehensive scenarios that cover entire user workflows rather than small, isolated tests
-- [ ] **Multiple Assertions**: Include multiple assertions within each scenario to validate various aspects of the user journey
-- [ ] **Business-Focused**: Focus on user behavior and business outcomes, not technical implementation details
-- [ ] **User Journey Coverage**: Ensure scenarios reflect real-world user interactions and decision points
+Design comprehensive test scenarios using these principles: favor larger scenarios covering entire user workflows, include multiple assertions per scenario, focus on business outcomes and user behavior, ensure real-world user journey coverage.
 
 ### Validation Questions
 
@@ -107,74 +102,15 @@ Before proceeding, understand the key principles for creating comprehensive test
 
 ---
 
-## Test Scenario Requirements
+## Scenario Requirements
 
-### Scenario Design Philosophy
+**Design**: Large scenarios covering complete user workflows with multiple assertions, business-focused steps, real-world interactions.
 
-- **Comprehensive Workflows**: Design large scenarios that cover entire user journeys from start to finish
-- **Multiple Assertions**: Include multiple Then statements to validate various aspects of the user experience
-- **Business-Focused**: Focus on user behavior and business outcomes, not technical implementation
-- **Real-World Interactions**: Scenarios should reflect actual user workflows and decision points
+**Organization**: Use TSM# modules, unique TS# identifiers, proper tagging from @rules/common/test-e2e-tags.md, @status_pending tags.
 
-### Scenario Organization
+**Coverage**: Complete user journeys, business decision points, error conditions, edge cases, cross-feature integration.
 
-- **Test Modules**: Group related scenarios using TSM# identifiers with descriptive names
-- **Scenario Numbering**: Each scenario must have unique TS# identifier (TS001, TS002, etc.)
-- **Tagging System**: Apply appropriate tags from @rules/common/test-e2e-tags.md
-- **Status Tracking**: All scenarios must include @status_pending tag
-
-### Coverage Requirements
-
-- **Complete User Journeys**: Cover entire user workflows with multiple validation points
-- **Business Decision Points**: Test all user decision points and their business implications
-- **Error Conditions**: Test user-facing error scenarios and recovery paths
-- **Edge Cases**: Include boundary conditions and unusual user inputs
-- **Cross-Feature Integration**: Test interactions between different features and user flows
-
-### Gherkin Standards
-
-- **Valid Syntax**: All scenarios must use proper Gherkin syntax in markdown code blocks
-- **Clear Steps**: Use Given-When-Then pattern with descriptive, business-focused steps
-- **Multiple Assertions**: Include multiple Then statements to validate comprehensive user experience
-- **DRY Principle**: Use Example tables to avoid scenario duplication where appropriate
-- **Readable**: Scenarios should be understandable by non-technical stakeholders
-
-## Template Structure
-
-The workflow uses the following template structure for test scenarios:
-
-```gherkin
-Feature: [Feature Name]
-
-  #---------------------------------------------------------------------------
-  # TSM001: [Test Module Name]
-  #---------------------------------------------------------------------------
-
-  @TS001 @happyPath @status_pending
-  Scenario: [Describe a success case]
-    Given [a specific precondition]
-    When [an action is performed]
-    Then [a successful outcome is observed]
-    And [additional expected outcomes]
-
-  @TS002 @errorPath @status_pending
-  Scenario: [Describe a failure case]
-    Given [a specific precondition that will lead to an error]
-    When [an action is performed]
-    Then [an error result is observed]
-    And [additional error outcomes]
-
-  #---------------------------------------------------------------------------
-  # TSM002: [Another Test Module Name]
-  #---------------------------------------------------------------------------
-
-  @TS003 @happyPath @status_pending
-  Scenario: [Describe another success case]
-    Given [a specific precondition]
-    When [an action is performed]
-    Then [a successful outcome is observed]
-    And [additional expected outcomes]
-```
+**Standards**: Valid Gherkin syntax, clear Given-When-Then steps, multiple assertions, DRY principle with Example tables, readable by non-technical stakeholders.
 
 ---
 

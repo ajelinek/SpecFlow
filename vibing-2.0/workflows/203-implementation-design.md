@@ -46,72 +46,30 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 ## Execution Checklist
 
-### 1. Invoke Technical Architect Agent (Primary)
+### 1. Invoke Technical Architect Agent
 
 - [ ] Activate @agents/technical-architect.md persona as workflow driver
-- [ ] Review all context files to understand current architecture and patterns
+- [ ] Review context files: `_docs/design/01 - Project Overview.md`, `_docs/design/02 - System Architecture.md`, `_docs/design/03 - Data Model.md`, `_docs/design/04 - Backend Architecture.md`, `_docs/design/05 - Frontend Architecture.md`
 - [ ] Analyze feature requirements and test scenarios
 - [ ] Coordinate with specialized engineer agents for implementation details
-- [ ] Validate implementation plan against architectural constraints
 
-### 2. Coordinate with Specialized Engineer Agents
+### 2. Coordinate with Engineer Agents
 
-#### Frontend Engineer Coordination
+- [ ] **Frontend**: Activate @agents/frontend-engineer.md, review `_docs/design/05 - Frontend Architecture.md` and `UI/AGENT.md`, define new UI components and state management requirements
+- [ ] **Backend**: Activate @agents/backend-engineer.md, review `_docs/design/04 - Backend Architecture.md` and `API/AGENT.md`, define new API endpoints and business logic requirements
+- [ ] **Data**: Activate @agents/data-engineer.md, review `_docs/design/03 - Data Model.md` and `API/AGENT.md`, define schema changes and data access patterns
+- [ ] Ensure no duplication of existing functionality across all layers
 
-- [ ] Activate @agents/frontend-engineer.md for frontend implementation details
-- [ ] Review `_docs/design/05 - Frontend Architecture.md` for component patterns
-- [ ] Review `UI/AGENT.md` for existing frontend patterns
-- [ ] Define new UI components and state management requirements
-- [ ] Ensure no duplication of existing frontend functionality
-
-#### Backend Engineer Coordination
-
-- [ ] Activate @agents/backend-engineer.md for backend implementation details
-- [ ] Review `_docs/design/04 - Backend Architecture.md` for service patterns
-- [ ] Review `API/AGENT.md` for existing backend patterns
-- [ ] Define new API endpoints and business logic requirements
-- [ ] Ensure no duplication of existing backend functionality
-
-#### Data Engineer Coordination
-
-- [ ] Activate @agents/data-engineer.md for data layer implementation details
-- [ ] Review `_docs/design/03 - Data Model.md` for data requirements
-- [ ] Review `API/AGENT.md` for existing data patterns
-- [ ] Define schema changes and data access patterns
-- [ ] Ensure no duplication of existing data functionality
-
-### 4. Generate Implementation Design
+### 3. Generate Implementation Design
 
 - [ ] Use @templates/11 - Technical Design.md structure
 - [ ] Populate Change Summary Table with all required modifications
 - [ ] Define detailed implementation specifications for each component using module/function format
 - [ ] Ensure all test scenarios are addressed in implementation details
-- [ ] Validate implementation against architectural constraints
 - [ ] Verify Change Summary Table completeness and accuracy
 - [ ] Ensure implementation details focus on WHAT and WHY, not HOW
 
-### 5. Validate Implementation Changes
-
-#### Change Summary Table Validation
-
-- [ ] Every entry in Change Summary Table has corresponding implementation details
-- [ ] No duplicate entries for the same file/function across the table
-- [ ] All changes trace back to test scenarios and business requirements
-- [ ] Status (New/Updated/Removed) accurately reflects the actual change being made
-- [ ] File paths are correct and follow project structure conventions
-- [ ] Item names are specific and unambiguous
-
-#### Implementation Details Validation
-
-- [ ] All components/functions focus on WHAT and WHY, not HOW
-- [ ] Every component has clear purpose and business rationale
-- [ ] Interfaces are properly defined with TypeScript signatures
-- [ ] Dependencies are documented and justified
-- [ ] Constraints (architectural, performance, security) are noted
-- [ ] Integration points with other system components are clearly specified
-- [ ] Module organization follows established patterns
-
-### 6. Apply Quality Standards
+### 4. Apply Quality Standards
 
 - [ ] Verify all implementation decisions align with established architecture
 - [ ] Ensure no code duplication across system components

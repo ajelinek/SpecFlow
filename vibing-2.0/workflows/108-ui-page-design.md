@@ -8,34 +8,18 @@
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
-### Rule Evaluation
-
-Before proceeding, evaluate the referenced rules to understand established patterns:
-
-- [ ] Review @rules/common/ui-component-guidelines.md for component usage patterns
-- [ ] Review @rules/common/ui-styling-guidelines.md for styling approach
-- [ ] Review @rules/common/ui-theme.md for theme and color system patterns
-- [ ] Review @rules/common/ui-accessibility-guidelines.md for accessibility requirements
-
 ### Validation Questions
 
-1. **Page Purpose**: What is the primary purpose and business objective of this specific page?
-2. **User Goals**: What are the main user goals and tasks for this page?
-3. **User Journey Context**: How does this page fit into the overall user journey and navigation flow?
-4. **Content Requirements**: What specific content, data, and information needs to be displayed?
-5. **User Interactions**: What user interactions and actions are possible on this page?
-6. **Success Criteria**: What defines success for this page (conversion, engagement, task completion)?
-7. **Page Priority**: What is the relative importance of this page in the overall application?
-8. **Fluid Layout Requirements**: How should the page adapt fluidly across all screen sizes without breakpoints?
-9. **Performance Requirements**: Are there specific performance requirements for this page?
-10. **Accessibility Requirements**: Are there specific accessibility considerations for this page?
-11. **Integration Points**: How does this page connect to other parts of the application?
-12. **Data Dependencies**: What data sources and APIs does this page depend on?
-13. **User Permissions**: What user roles and permissions affect this page's content and functionality?
-14. **Error Scenarios**: What error states and edge cases need to be handled?
-15. **Loading States**: What loading and transition states are needed?
-16. **Existing Page Patterns**: What existing pages should this page be consistent with?
-17. **Component Reuse**: What existing components and patterns can be reused from other pages?
+1. **Page Purpose & Goals**: What is the primary purpose, business objective, and main user goals for this page?
+2. **User Journey Context**: How does this page fit into the overall user journey and navigation flow?
+3. **Content & Interactions**: What content needs to be displayed and what user interactions are possible?
+4. **Success Criteria**: What defines success (conversion, engagement, task completion) and page priority?
+5. **Responsive Design**: How should the page adapt fluidly across all screen sizes and performance requirements?
+6. **Accessibility**: What accessibility standards and considerations need to be met?
+7. **Integration Points**: How does this page connect to other parts of the application and data dependencies?
+8. **User Permissions**: What user roles and permissions affect this page's content and functionality?
+9. **Error & Loading States**: What error scenarios, edge cases, and loading states need to be handled?
+10. **Design Consistency**: What existing pages and components should this page be consistent with for reuse?
 
 ---
 
@@ -59,9 +43,8 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Create high-fidelity SVG wireframes for major interactions (menus, modals, alerts, complex components)
 - [ ] Create Mermaid user journey diagrams and flow diagrams showing mobile-first and desktop enhancement patterns
 - [ ] Populate all 5 sections with core page design details
-- [ ] Ensure page design aligns with established UI design system
-- [ ] Define component usage and interaction patterns
-- [ ] Establish fluid responsive behavior without breakpoints
+- [ ] Ensure page design aligns with established UI design system and component patterns
+- [ ] Establish fluid responsive behavior and interaction patterns
 
 ### 3. Validate Against Existing Architecture
 
@@ -75,28 +58,20 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 - [ ] Verify accessibility compliance and component usage
 - [ ] Validate page design supports user goals and business objectives
-- [ ] Ensure fluid responsive design works across all screen sizes
-- [ ] Confirm integration with established design system
-- [ ] Validate consistency with existing page architecture and patterns
+- [ ] Confirm integration with established design system and consistency with existing patterns
 
 ---
 
 ## Post-Validation Checklist
 
 - [ ] All 5 template sections populated with core page design details
-- [ ] High-fidelity SVG wireframes created for major interactions (menus, modals, alerts, complex components)
-- [ ] Mermaid user journey diagrams and flow diagrams created showing mobile-first and desktop enhancement patterns
+- [ ] High-fidelity wireframes and flow diagrams created for major interactions and user journeys
 - [ ] Page design traces back to user goals and business requirements
-- [ ] Component usage references established design system components
-- [ ] Interaction flow maps complete user journeys with clear feedback
-- [ ] Fluid responsive behavior maintains usability across all screen sizes without breakpoints
-- [ ] Accessibility requirements addressed with proper component usage
-- [ ] Page design integrates with overall navigation and user experience
-- [ ] Page design is consistent with existing page patterns and component usage
-- [ ] Component reuse opportunities have been identified and implemented
-- [ ] Navigation patterns align with established user flows from other pages
-- [ ] Store completed document in `_docs/ui-flows/[PageName]/[PageName]-overview.md`
-- [ ] Store all wireframes and flow diagrams in `_docs/ui-flows/[PageName]/` directory
+- [ ] Component usage follows established design system and accessibility standards
+- [ ] Fluid responsive behavior and interaction patterns support all screen sizes
+- [ ] Design consistency with existing page patterns and component reuse opportunities
+- [ ] Navigation integration aligns with established user flows
+- [ ] Store completed document and assets in `_docs/ui-flows/[PageName]/` directory
 
 ---
 
