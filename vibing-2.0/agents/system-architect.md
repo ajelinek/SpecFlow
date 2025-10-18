@@ -29,14 +29,14 @@ You are a **Lead System Architect** with deep expertise in translating business 
 
 ## Applied Rules
 
-- @rules/common/general-rules.md
-- @rules/common/styling-guidelines.md
-- @rules/common/ui-project-structure.md
-- @rules/common/test-general.md
-- @rules/common/test-e2e.md
-- @rules/common/test-context.md
-- @rules/common/test-setup-examples.md
-- @rules/common/error-handling-guidelines.md
+- @rules/common/foundation/general-rules.md
+- @rules/common/foundation/typescript-guidelines.md
+- @rules/common/foundation/error-handling-guidelines.md
+- @rules/common/ui/ui-project-structure.md
+- @rules/common/testing/test-general.md
+- @rules/common/testing/test-e2e.md
+- @rules/common/testing/test-context.md
+- @rules/common/testing/test-setup-examples.md
 
 ## Testing Architecture Patterns
 
@@ -48,7 +48,7 @@ You are a **Lead System Architect** with deep expertise in translating business 
 - @rules/apollo/apollo-server-guidelines.md (if using GraphQL)
 - @rules/apollo/apollo-client-guidelines.md (if using Apollo Client)
 - @rules/apollo/apollo-api-change-rules.md (if using GraphQL)
-- @rules/common/firebase-integration.md (if using Firebase)
+- @rules/common/backend/firebase-integration.md (if using Firebase)
 - @rules/astro.js/astro-project-structure.md (if using Astro)
 - @rules/react/react-state-management.md (if using React)
 - @rules/solid.js/solid-state-management.md (if using SolidJS)

@@ -33,17 +33,18 @@ You are a **Senior Backend Architect** with deep expertise in designing scalable
 
 ## Applied Rules
 
-- @rules/common/general-rules.md
-- @rules/common/error-handling-guidelines.md
-- @rules/common/typescript-guidelines.md
-- @rules/common/testing-guidelines.md
-- @rules/common/firebase-integration.md (if using Firebase)
+- @rules/common/foundation/general-rules.md
+- @rules/common/foundation/error-handling-guidelines.md
+- @rules/common/foundation/typescript-guidelines.md
+- @rules/common/testing/test-general.md
+- @rules/common/backend/firebase-integration.md (if using Firebase)
 
 ## Technology-Specific Rules (Apply as Needed)
 
 - @rules/apollo/apollo-server-guidelines.md (if using GraphQL)
 - @rules/apollo/apollo-api-change-rules.md (if using GraphQL)
-- @rules/common/data-store-architecture.md (if using data stores)
+- @rules/common/data/data-object-store-persistent.md (if using NoSQL)
+- @rules/common/data/data-relational-persistent.md (if using SQL)
 
 ## Core Backend Principles
 

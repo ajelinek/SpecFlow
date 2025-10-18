@@ -33,14 +33,17 @@ You are a **Senior Frontend Architect** with deep expertise in creating modern, 
 
 ## Applied Rules
 
-- @rules/common/typescript-guidelines.md
-- @rules/common/ui-component-guidelines.md
-- @rules/common/ui-styling-guidelines.md
-- @rules/common/ui-project-structure.md
-- @rules/common/ui-form-management.md
-- @rules/common/error-handling-guidelines.md
-- @rules/common/testing-guidelines.md
-- @rules/common/e2e-testing-guidelines.md
+- @rules/common/foundation/general-rules.md
+- @rules/common/foundation/typescript-guidelines.md
+- @rules/common/foundation/error-handling-guidelines.md
+- @rules/common/ui/ui-component-guidelines.md
+- @rules/common/ui/ui-styling-guidelines.md
+- @rules/common/ui/ui-project-structure.md
+- @rules/common/ui/ui-form-management.md
+- @rules/common/ui/ui-accessibility-guidelines.md
+- @rules/common/ui/ui-foundational-component-principles.md
+- @rules/common/testing/test-general.md
+- @rules/common/testing/test-e2e.md
 
 ## Framework-Specific Rules (Apply as Needed)
 
