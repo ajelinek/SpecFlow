@@ -16,4 +16,4 @@
 - Offer examples or options when appropriate to guide the response
 - Do not proceed with assumptions when clarity is required
 
-Follow the @rules/common/response-formatting.md when asking questions.
+Follow the @fragments/response-formatting.md when asking questions.

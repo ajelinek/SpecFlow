@@ -24,7 +24,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Validation Questions
 
@@ -202,3 +202,7 @@ _Mitigation_: [...]
 - 🔴 **High**: Blocks implementation or significantly impacts correctness, security, or architecture
 - 🟡 **Medium**: High-impact gaps or inaccuracies; should be resolved in current iteration
 - 🔵 **Low**: Clarity or documentation issues; can be scheduled
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md

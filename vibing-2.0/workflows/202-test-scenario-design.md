@@ -14,8 +14,6 @@
 
 ## Rules
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 - @rules/common/test-gherkin-definition.md
 - @rules/common/test-e2e-tags.md
 
@@ -30,7 +28,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Scenario Design Principles
 
@@ -194,3 +192,7 @@ Feature: [Feature Name]
     Then [a successful outcome is observed]
     And [additional expected outcomes]
 ```
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md

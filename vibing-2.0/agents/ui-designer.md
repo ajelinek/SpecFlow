@@ -33,9 +33,6 @@ You are a **Senior UI Designer** with deep expertise in creating cohesive design
 
 ## Applied Rules
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
-
 ## Core UI Design Principles (2025-2026)
 
 ### Accessibility and Inclusivity

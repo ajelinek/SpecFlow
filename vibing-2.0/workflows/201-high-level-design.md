@@ -12,8 +12,6 @@
 
 ## Rules
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 - @rules/common/general-rules.md
 
 ## Context Files
@@ -26,7 +24,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Required Input
 
@@ -78,3 +76,7 @@
 ## Success Criteria
 
 Complete when Product Manager agent has generated the initial 2 sections of the technical design document for the specific feature with business focus and it's stored in the appropriate feature directory.
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md

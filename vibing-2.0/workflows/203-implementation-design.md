@@ -15,8 +15,6 @@
 
 ## Rules
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 - @rules/common/general-rules.md
 - @rules/common/typescript-guidelines.md
 - @rules/common/error-handling-guidelines.md
@@ -52,7 +50,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Validation Questions
 
@@ -174,3 +172,7 @@
 ## Success Criteria
 
 Complete when Technical Architect agent has coordinated with all specialized engineer agents, generated comprehensive implementation design that addresses all test scenarios, ensures architectural consistency, prevents code duplication, and document is stored in the appropriate feature directory.
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md

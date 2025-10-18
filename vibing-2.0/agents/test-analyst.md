@@ -34,8 +34,6 @@ You are a **Senior Quality Assurance Engineer** with deep expertise in test stra
 
 - @rules/common/test-gherkin-definition.md
 - @rules/common/ui-accessibility-guidelines.md
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 
 ## Core Testing Principles
 

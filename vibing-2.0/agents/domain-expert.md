@@ -20,11 +20,11 @@
 
 ## Consults With
 
-**User**: See `@rules/common/user-clarification.md`
+**User**: See `@fragments/user-clarification.md`
 
 ## Rule References
 
-- **Response Formatting**: @rules/common/response-formatting.md
+- **Response Formatting**: @fragments/response-formatting.md
 
 ## Guardrails
 

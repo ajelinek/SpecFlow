@@ -16,8 +16,6 @@
 
 ## Rules
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 - @rules/common/general-rules.md
 
 ## Context Files
@@ -37,7 +35,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Validation Questions
 
@@ -135,3 +133,7 @@
 ## Success Criteria
 
 Complete when all pre-flight validation requirements are met, Product Manager agent has generated complete feature overview with small, cross-cutting vertical slices that deliver end-to-end user value, and document is stored in `_docs/design/10 - Feature Overview.md`.
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md

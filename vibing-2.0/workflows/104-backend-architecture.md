@@ -12,11 +12,6 @@
 
 - @templates/04 - Backend Architecture.md
 
-## Rules
-
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
-
 ## Context Files
 
 - `_docs/design/01 - Project Overview.md`
@@ -27,7 +22,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Validation Questions
 
@@ -99,3 +94,7 @@
 ## Success Criteria
 
 Complete when all pre-flight validation requirements are met, Backend Architect agent has generated complete backend architecture, and document is stored in `_docs/design/04 - Backend Architecture.md`.
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md

@@ -14,8 +14,6 @@
 
 ## Rules
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 - @rules/common/engineer-principles.md
 - @rules/common/engineer-guardrails.md
 - @rules/common/typescript-guidelines.md
@@ -41,7 +39,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Required Inputs
 
@@ -169,3 +167,7 @@ Complete when all pre-flight validation requirements are met, specific test scen
 - Maintain clean, DRY, typed code
 - All tests must pass before marking complete
 - Ask for approval before any deviations from the plan
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md

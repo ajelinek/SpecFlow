@@ -42,9 +42,6 @@ You are a **Senior Frontend Architect** with deep expertise in creating modern, 
 - @rules/common/testing-guidelines.md
 - @rules/common/e2e-testing-guidelines.md
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
-
 ## Framework-Specific Rules (Apply as Needed)
 
 - @rules/react/react-component-guidelines.md (if using React)

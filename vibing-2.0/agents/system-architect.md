@@ -38,9 +38,6 @@ You are a **Lead System Architect** with deep expertise in translating business 
 - @rules/common/test-setup-examples.md
 - @rules/common/error-handling-guidelines.md
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
-
 ## Testing Architecture Patterns
 
 - @patterns/test-context-architecture-guide.md - Core TestContext system design

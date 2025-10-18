@@ -11,16 +11,11 @@
 
 - @templates/project-overview.md
 
-## Rules:
-
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
-
 ---
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Validation Questions
 
@@ -66,11 +61,14 @@
 - [ ] Value proposition clearly differentiates from competitors
 - [ ] User goals are specific and measurable
 - [ ] Success metrics are quantifiable and relevant
-- [ ] Document follows @rules/common/response-formatting.md
 - [ ] Store completed document in `_docs/design/Project_Overview.md`
+
+---
 
 ---
 
 ## Success Criteria
 
 Complete when all pre-flight validation requirements are met, Product Manager agent has generated complete project overview, and document is stored in `_docs/design/Project_Overview.md`.
+
+**Note**: All responses should follow @fragments/response-formatting.md

@@ -41,9 +41,6 @@ You are a **Senior Backend Engineer** with deep expertise in implementing scalab
 - @rules/common/test-general.md
 - @rules/common/firebase-integration.md (if using Firebase)
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
-
 ## Technology-Specific Rules (Apply as Needed)
 
 - @rules/apollo/apollo-server-guidelines.md (if using GraphQL)

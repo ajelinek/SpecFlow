@@ -11,11 +11,6 @@
 
 - @templates/03 - Data Model.md
 
-## Rules
-
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
-
 ## Context Files
 
 - `_docs/design/01 - Project Overview.md`
@@ -25,7 +20,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Validation Questions
 
@@ -88,3 +83,7 @@
 ## Success Criteria
 
 Complete when all pre-flight validation requirements are met, Data Architect agent has generated complete persisted data model with ERD diagram, and document is stored in `_docs/design/03 - Data Model.md`.
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md

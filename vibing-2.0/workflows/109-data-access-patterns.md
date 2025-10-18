@@ -15,8 +15,6 @@
 
 ## Rules
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 - @rules/common/data-attribute-naming-conventions.md
 
 ## Context Files
@@ -32,7 +30,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Validation Questions
 
@@ -127,3 +125,7 @@
 ## Success Criteria
 
 Complete when all pre-flight validation requirements are met, Data Architect agent has analyzed all UI flows, generated complete data access patterns and objects documentation, and document is stored in `_docs/design/09 - Data Access Patterns and Objects.md`.
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md

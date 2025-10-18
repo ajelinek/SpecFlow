@@ -41,9 +41,6 @@ You are a **Senior Data Engineer** with deep expertise in designing and implemen
 - @rules/common/data-relational-persistent.md
 - @rules/common/test-general.md
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
-
 ## Technology-Specific Rules (Apply as Needed)
 
 - @rules/apollo/apollo-server-guidelines.md (if using GraphQL)

@@ -44,9 +44,6 @@ You are a **Senior Frontend Engineer** with deep expertise in implementing moder
 - @rules/common/test-general.md
 - @rules/common/test-e2e.md
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
-
 ## Framework-Specific Rules (Apply as Needed)
 
 - @rules/react/react-component-guidelines.md (if using React)

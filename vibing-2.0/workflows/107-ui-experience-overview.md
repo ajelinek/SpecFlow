@@ -15,8 +15,6 @@
 
 ## Rules
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 - @rules/common/ui-styling-guidelines.md
 - @rules/common/ui-theme.md
 
@@ -31,7 +29,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Rule Evaluation
 
@@ -107,3 +105,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ## Success Criteria
 
 Complete when all pre-flight validation requirements are met, UX Designer agent has generated comprehensive user experience overview, and document is stored in `_docs/design/07 - UI Experience Overview.md`.
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md

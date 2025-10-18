@@ -39,8 +39,6 @@ You are a **Senior Backend Architect** with deep expertise in designing scalable
 - @rules/common/testing-guidelines.md
 - @rules/common/firebase-integration.md (if using Firebase)
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 
 ## Technology-Specific Rules (Apply as Needed)
 

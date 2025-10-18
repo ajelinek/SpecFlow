@@ -39,9 +39,6 @@ You are a **Lead Data Architect** with deep expertise in designing efficient, sc
 
 ## Applied Rules
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
-
 ## Technology-Specific Rules (Apply as Needed)
 
 - @rules/apollo/apollo-store-architecture.md (if using GraphQL)

@@ -41,8 +41,6 @@ You are a **Senior Technical Architect** with deep expertise in validating techn
 - @rules/common/typescript-guidelines.md
 - @rules/common/error-handling-guidelines.md
 - @rules/common/test-general.md
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 
 ## Technical Architecture Principles
 

@@ -15,8 +15,6 @@
 
 ## Rules
 
-- @rules/common/response-formatting.md
-- @rules/common/user-clarification.md
 - @rules/common/typescript-guidelines.md
 - @rules/common/ui-component-guidelines.md
 - @rules/common/ui-styling-guidelines.md
@@ -46,7 +44,7 @@
 
 ## Pre-Flight Validation
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @rules/common/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
 ### Rule Evaluation
 
@@ -122,3 +120,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ## Success Criteria
 
 Complete when all pre-flight validation requirements are met, Frontend Architect agent has generated complete frontend architecture, and document is stored in `_docs/design/05 - Frontend Architecture.md`.
+
+---
+
+**Note**: All responses should follow @fragments/response-formatting.md
