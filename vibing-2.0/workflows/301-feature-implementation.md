@@ -28,13 +28,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ### Validation Questions
 
 1. **Test Scenario IDs**: Which specific test scenario ID(s) should be implemented? (REQUIRED - e.g., TS001, TS002, TS003)
-2. **Technology Stack**: What frontend framework (React, SolidJS, Astro) and backend technology are being used?
-3. **Test Data Requirements**: What test data setup is needed for the specific scenarios?
-4. **Existing Code**: What existing components, utilities, or patterns can be leveraged?
-5. **Performance Requirements**: Are there specific performance constraints for the implementation?
-6. **Accessibility Requirements**: What accessibility standards need to be met?
-7. **Browser Support**: What browsers need to be supported for the E2E tests?
-8. **CI/CD Integration**: How should the tests integrate with the build pipeline?
+2. **Existing Code**: What existing components, utilities, or patterns can be leveraged?
 
 ---
 
@@ -63,6 +57,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] **VERIFY**: Test scenario ID(s) provided (e.g., TS001, TS002, TS003)
 - [ ] **VERIFY**: Completed Technical Design document available
 - [ ] Review context files: `_docs/design/01 - Project Overview.md`, `_docs/design/02 - System Architecture.md`, `_docs/design/03 - Data Model.md`, `_docs/design/04 - Backend Architecture.md`, `_docs/design/05 - Frontend Architecture.md`, `_docs/design/06 - UI Design.md`
+- [ ] Review `_docs/design/09 - Data Access Patterns.md` for data access requirements
 - [ ] Activate @agents/technical-architect.md for implementation validation
 - [ ] Review Technical Design document thoroughly
 - [ ] **Focus ONLY on specific test scenario(s) with provided IDs**

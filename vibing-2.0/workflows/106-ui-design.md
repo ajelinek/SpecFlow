@@ -21,9 +21,8 @@ Before proceeding, evaluate the referenced rules to understand established patte
 2. **Target Audience**: What are the primary user demographics and accessibility requirements?
 3. **Device Support**: What devices and screen sizes need to be supported (mobile-first, desktop-first, responsive)?
 4. **Theme Support**: Do you need light/dark theme support or single theme?
-5. **Accessibility**: What accessibility standards need to be met (WCAG 2.1 AA, specific requirements)?
-6. **Design System**: Do you have an existing design system or need to create one from scratch?
-7. **Competitive Landscape**: Who are the main competitors and how should the design differentiate?
+5. **Design System**: Do you have an existing design system or need to create one from scratch?
+6. **Competitive Landscape**: Who are the main competitors and how should the design differentiate?
 
 ---
 

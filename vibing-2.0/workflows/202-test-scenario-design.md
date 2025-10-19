@@ -30,7 +30,6 @@ Design comprehensive test scenarios using these principles: favor larger scenari
 5. **Business Outcomes**: What business results should be achieved at each step of the user journey?
 6. **Error Scenarios**: What business error conditions and user-facing failure modes exist?
 7. **User Decision Points**: Where do users make choices and what are the business implications?
-8. **Accessibility Requirements**: What accessibility standards need to be validated for user experience?
 
 ---
 

@@ -15,11 +15,10 @@
 3. **Content & Interactions**: What content needs to be displayed and what user interactions are possible?
 4. **Success Criteria**: What defines success (conversion, engagement, task completion) and page priority?
 5. **Responsive Design**: How should the page adapt fluidly across all screen sizes and performance requirements?
-6. **Accessibility**: What accessibility standards and considerations need to be met?
-7. **Integration Points**: How does this page connect to other parts of the application and data dependencies?
-8. **User Permissions**: What user roles and permissions affect this page's content and functionality?
-9. **Error & Loading States**: What error scenarios, edge cases, and loading states need to be handled?
-10. **Design Consistency**: What existing pages and components should this page be consistent with for reuse?
+6. **Integration Points**: How does this page connect to other parts of the application and data dependencies?
+7. **User Permissions**: What user roles and permissions affect this page's content and functionality?
+8. **Error & Loading States**: What error scenarios, edge cases, and loading states need to be handled?
+9. **Design Consistency**: What existing pages and components should this page be consistent with for reuse?
 
 ---
 
