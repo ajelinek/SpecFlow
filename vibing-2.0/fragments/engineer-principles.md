@@ -5,10 +5,8 @@
 - **Follow All Rules**: Adhere to all defined rules and patterns across the entire system
 - **AGENT.md Integration**: Read and honor all AGENT.md files, updating them as patterns evolve and change
 - **Documentation Excellence**: Write clean and clear module-level documentation that is always accurate and reflects the business WHY
-
-## Implementation Principles
-
 - **Architecture Compliance**: All implementations must follow established architecture patterns
+- **DRY (Don't Repeat Yourself)**: Eliminate code duplication through proper abstraction
 - **No Code Duplication**: Avoid duplicating existing functionality or patterns
 - **Future Expansion**: Design components to support future feature requirements
 - **Clean Patterns**: Follow established coding standards and maintainable code structure
