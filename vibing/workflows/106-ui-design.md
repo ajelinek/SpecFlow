@@ -29,19 +29,29 @@
 
 ## Execute Checklist
 
-- [ ] Verify typography choices for readability and brand alignment
-- [ ] Research animation and interaction design best practices
+**Content Creation**
+
 - [ ] Use @templates/T06 - UI Design.md structure
 - [ ] Populate all 7 sections with strategic design decisions
+
+**Research & Analysis**
+
+- [ ] Verify typography choices for readability and brand alignment
+- [ ] Research animation and interaction design best practices
 - [ ] Research design system trends and accessibility best practices
+
+**Quality Assurance**
+
 - [ ] Ensure design philosophy aligns with business requirements and frontend architecture
 - [ ] Verify accessibility compliance and design rationale
 - [ ] Validate design strategy supports success metrics and user goals
 - [ ] Ensure responsive design works across target devices
-- [ ] All 7 template sections populated with strategic design decisions
 - [ ] Design philosophy traces back to business requirements and user goals
 - [ ] Accessibility compliance verified and design rationale clear
 - [ ] Design strategy integrates with frontend framework architecture
+
+**Completion**
+
 - [ ] Store completed document in `_docs/design/D06 - UI Design.md`
 
 **Note**: All responses should follow @fragments/response-formatting.md

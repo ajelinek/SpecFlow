@@ -45,18 +45,26 @@
 
 ## Execute Checklist
 
+**Content Creation**
+
 - [ ] Use @templates/T04 - Backend Architecture.md structure
 - [ ] Populate all 7 sections with specific technical details
+- [ ] API design patterns clearly defined with examples
+
+**Quality Assurance**
+
 - [ ] Verify all technology choices have clear rationale and security considerations
 - [ ] Validate architecture supports stated performance and scalability requirements
 - [ ] Ensure error handling and monitoring strategies are comprehensive
 - [ ] Backend architecture decisions trace back to system architecture and business requirements
-- [ ] API design patterns clearly defined with examples
 - [ ] Security measures comprehensive and current
 - [ ] Data access patterns align with data model requirements
 - [ ] Background processing strategy defined if needed
 - [ ] Logging and monitoring strategy comprehensive
 - [ ] Performance and scalability considerations addressed
+
+**Completion**
+
 - [ ] Store completed document in `_docs/design/D04 - Backend Architecture.md`
 
 **Note**: All responses should follow @fragments/response-formatting.md

@@ -36,16 +36,22 @@
 
 ## Execute Checklist
 
+**Content Creation**
+
 - [ ] Use @templates/T11 - Technical Design.md structure
 - [ ] Replace `[F#] - [Feature Name]` with the specific feature name and ID
 - [ ] Populate Feature Overview section with business purpose and user value for the specific feature
 - [ ] Create System/User Flow section with Mermaid diagram showing user journey for the specific feature
+
+**Quality Assurance**
+
 - [ ] Focus on business outcomes and user experience for the specific feature rather than technical implementation
 - [ ] Specific feature name and ID clearly identified and used throughout document
-- [ ] All 2 template sections populated with business-focused details for the specific feature
 - [ ] Feature overview clearly describes business purpose and user value for the specific feature
 - [ ] System/User flow diagram accurately represents user journey and business workflow for the specific feature
-- [ ] Focus on business outcomes for the specific feature rather than technical implementation
+
+**Completion**
+
 - [ ] Store completed document in `_docs/features/in-progress/[specific-feature-name]-technical-design.md`
 
 **Note**: All responses should follow @fragments/response-formatting.md

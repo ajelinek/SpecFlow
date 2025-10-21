@@ -27,6 +27,7 @@
 
 ## Design Context
 
+- [ ] Use @templates/T12 - Technical Design Validation.md for evaluation report format
 - [ ] Analyze document against @templates/T11 - Technical Design.md structure
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business context, user goals, and success metrics
 - [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
@@ -39,7 +40,17 @@
 - [ ] Review `_docs/features/[feature-name]-Overview.md` for feature-specific business requirements
 - [ ] Review completed `_docs/features/[feature-name]-Technical_Design.md` for feature overview and system flow
 
-## Execute Checklist
+**Document Structure Validation**
+
+- [ ] Clear purpose, scope, and problem statement
+- [ ] Complete `Change Summary Table` (workflow 203)
+- [ ] Sufficient `Implementation Details` (no production code, workflow 203)
+- [ ] Feature Overview section present and complete (workflow 201)
+- [ ] System/User Flow section with Mermaid diagram (workflow 201)
+- [ ] Test Scenarios section with Gherkin syntax (workflow 202)
+- [ ] Document follows @templates/T11 - Technical Design.md structure
+
+**Technical Validation**
 
 - [ ] **Frontend**: Validate component patterns and state management
 - [ ] **Backend**: Validate API design and business logic
@@ -47,13 +58,6 @@
 - [ ] **Frontend**: Validate component architecture and integration points
 - [ ] **Backend**: Validate API design and business logic implementation
 - [ ] **Data**: Validate schema design and data access implementation
-- [ ] Clear purpose, scope, and problem statement
-- [ ] Complete `Change Summary Table` (workflow 010)
-- [ ] Sufficient `Implementation Details` (no production code, workflow 010)
-- [ ] Feature Overview section present and complete (workflow 008)
-- [ ] System/User Flow section with Mermaid diagram (workflow 008)
-- [ ] Test Scenarios section with Gherkin syntax (workflow 009)
-- [ ] Document follows @templates/T11 - Technical Design.md structure
 - [ ] All existing file paths referenced exist in repository
 - [ ] Function/module names are correct and discoverable
 - [ ] Data model changes align with `Data_Model.md`
@@ -75,6 +79,9 @@
 - [ ] Optimal implementation order determined
 - [ ] External dependencies checked
 - [ ] Implementation follows workflow 010 patterns (types, functions, modules structure)
+
+**Testing & Quality Validation**
+
 - [ ] Gherkin scenarios comprehensive and map to flow (workflow 009)
 - [ ] Edge/boundary cases covered
 - [ ] Integration points have test coverage
@@ -82,6 +89,9 @@
 - [ ] All scenarios tagged with @status_pending and @status_complete (workflow 009 requirement)
 - [ ] Scenarios use Example tables for DRY patterns (workflow 009 requirement)
 - [ ] Scenarios follow the @rules/common/test-gherkin-definition.md
+
+**Risk Assessment**
+
 - [ ] Potential failure points identified
 - [ ] Security implications addressed
 - [ ] Data loss risks assessed
@@ -92,20 +102,26 @@
 - [ ] External dependencies verified
 - [ ] Internal API contracts validated
 - [ ] Implementation timeline realistic
+
+**Evaluation & Reporting**
+
 - [ ] Evaluate completeness of implementation specifications
 - [ ] Assess technical feasibility and architectural alignment
 - [ ] Validate testing strategy comprehensiveness
 - [ ] Identify potential risks and mitigation strategies
 - [ ] Determine implementation order and dependencies
-- [ ] Create structured evaluation report with severity classifications
+- [ ] Generate evaluation report using @templates/T12 - Technical Design Validation.md format
+- [ ] Provide Executive Summary with high-level assessment
+- [ ] List all issues with severity classifications (🔴 High, 🟡 Medium, 🔵 Low)
 - [ ] Provide specific, actionable recommendations for each issue
 - [ ] Deliver clear overall assessment (Ready/Needs Work/Not Ready)
+- [ ] Include Severity Classifications reference in report
 - [ ] All document sections analyzed for completeness and accuracy
 - [ ] Technical accuracy verified against codebase and architecture
 - [ ] Implementation readiness assessed with clear recommendations
 - [ ] Risk assessment completed with mitigation strategies
-- [ ] Evaluation report generated with severity classifications
-- [ ] Actionable recommendations provided for all identified issues
-- [ ] Overall assessment delivered with clear next steps
+- [ ] Final response must be numbered as per template requirements
 
 **Note**: All responses should follow @fragments/response-formatting.md
+
+**Output Format**: Final evaluation report must use @templates/T12 - Technical Design Validation.md structure

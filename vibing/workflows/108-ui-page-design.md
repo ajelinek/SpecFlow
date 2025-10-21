@@ -35,27 +35,36 @@
 
 ## Execute Checklist
 
+**Content Creation**
+
 - [ ] Use @templates/T08 - UI Page Design.md structure
+- [ ] Populate all 5 sections with core page design details
 - [ ] Create high-fidelity SVG wireframes for major interactions (menus, modals, alerts, complex components)
 - [ ] Create Mermaid user journey diagrams and flow diagrams showing mobile-first and desktop enhancement patterns
-- [ ] Populate all 5 sections with core page design details
+
+**Design Consistency**
+
 - [ ] Ensure page design aligns with established UI design system and component patterns
 - [ ] Establish fluid responsive behavior and interaction patterns
 - [ ] Review existing page designs in `_docs/ui-flows/` for consistent patterns
 - [ ] Identify reusable components and layouts from existing pages
+- [ ] Check for opportunities to extend existing component patterns rather than creating new ones
+
+**Quality Assurance**
+
 - [ ] Ensure navigation patterns match established user flows
 - [ ] Verify component usage aligns with existing page implementations
-- [ ] Check for opportunities to extend existing component patterns rather than creating new ones
 - [ ] Verify accessibility compliance and component usage
 - [ ] Validate page design supports user goals and business objectives
 - [ ] Confirm integration with established design system and consistency with existing patterns
-- [ ] All 5 template sections populated with core page design details
-- [ ] High-fidelity wireframes and flow diagrams created for major interactions and user journeys
 - [ ] Page design traces back to user goals and business requirements
 - [ ] Component usage follows established design system and accessibility standards
 - [ ] Fluid responsive behavior and interaction patterns support all screen sizes
 - [ ] Design consistency with existing page patterns and component reuse opportunities
 - [ ] Navigation integration aligns with established user flows
+
+**Completion**
+
 - [ ] Store completed document and assets in `_docs/ui-flows/[PageName]/` directory
 
 **Note**: All responses should follow @fragments/response-formatting.md

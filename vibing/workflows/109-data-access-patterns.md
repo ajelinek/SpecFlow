@@ -25,30 +25,37 @@
 
 ## Execute Checklist
 
+**Analysis Phase**
+
 - [ ] Review all UI flow documents in `_docs/ui-flows/` directory
 - [ ] Extract data attributes from each page's "Data Attributes & Requirements" section
 - [ ] Identify common data patterns across multiple pages
 - [ ] Map UI data needs to current data model entities
 - [ ] Identify gaps between UI requirements and current data model
+
+**Content Creation**
+
 - [ ] Use @templates/T09 - Data Access Patterns and Objects.md template structure
 - [ ] Populate all 5 sections with specific technical details based on UI flow analysis
 - [ ] Define core data access patterns identified from UI requirements
 - [ ] Create data object tables with field definitions, sources, and derivation logic
+- [ ] Establish real-time data requirements based on UI interaction needs
+
+**Quality Assurance**
+
 - [ ] Identify data model gaps between UI needs and current data model
 - [ ] Define performance optimization strategies for identified query patterns
-- [ ] Establish real-time data requirements based on UI interaction needs
 - [ ] Verify all data access patterns support business requirements and user experience goals
 - [ ] Validate performance requirements are addressed with appropriate strategies
 - [ ] Ensure data security and access control are comprehensive
 - [ ] Confirm derived data objects optimize UI performance and user experience
-- [ ] All 5 template sections populated with specific technical details
 - [ ] Data access patterns clearly defined based on UI flow analysis
 - [ ] Data object tables created with field definitions, sources, and derivation logic
-- [ ] Data model gaps identified with proposed solutions
-- [ ] Performance optimization strategies identified for query patterns
-- [ ] Real-time data requirements defined with appropriate delivery methods
 - [ ] Each data object has its own table with clear field definitions
 - [ ] Document aligns with system architecture, data model, and frontend architecture
+
+**Completion**
+
 - [ ] Store completed document in `_docs/design/D09 - Data Access Patterns and Objects.md`
 
 **Note**: All responses should follow @fragments/response-formatting.md

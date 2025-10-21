@@ -30,17 +30,24 @@
 
 ## Execute Checklist
 
+**Content Creation**
+
+- [ ] Use @templates/T07 - UI Experience Overview.md structure
+- [ ] Populate all template sections with strategic UX decisions
+
+**Research & Analysis**
+
 - [ ] Verify current UX trends and interaction design patterns
 - [ ] Research information architecture and navigation design principles
-- [ ] Use @templates/T07 - UI Experience Overview.md structure
-- [ ] Populate Application Structure section (purpose, roles, functional areas)
-- [ ] Populate Navigation Philosophy section (approach, cross-platform, contextual)
-- [ ] Populate Information Architecture section (hierarchy, discovery, disclosure)
-- [ ] Populate Interaction Patterns section (core interactions, accessibility, error handling)
-- [ ] Populate Page Summary table with all application pages (name, route, description)
+
+**Quality Assurance**
+
 - [ ] Keep content concise and actionable
 - [ ] Verify accessibility compliance and user experience rationale
 - [ ] Ensure navigation patterns work across target devices and user roles
+
+**Completion**
+
 - [ ] Store completed document in `_docs/design/D07 - UI Experience Overview.md`
 
 **Note**: All responses should follow @fragments/response-formatting.md

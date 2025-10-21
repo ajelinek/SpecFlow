@@ -38,11 +38,16 @@
 
 ## Execute Checklist
 
+**Analysis Phase**
+
 - [ ] Extract all user journeys from the system/user flow diagram
 - [ ] Identify all business rules and validation requirements
 - [ ] Map out all integration points and external dependencies
 - [ ] Identify error conditions and edge cases
 - [ ] Determine data requirements and test data scenarios
+
+**Content Creation**
+
 - [ ] Use @templates/T11 - Technical Design.md structure
 - [ ] Populate the "Test Scenarios (Gherkin)" section with comprehensive scenarios
 - [ ] **Design Large, Comprehensive Scenarios**: Create scenarios that cover entire user workflows with multiple assertions
@@ -53,20 +58,22 @@
 - [ ] **Status Tracking**: Include @status_pending tags for implementation tracking
 - [ ] **Use Example Tables**: Keep scenarios DRY where appropriate
 - [ ] **Follow Gherkin Standards**: Use valid Gherkin syntax in markdown code blocks
+
+**Quality Assurance**
+
 - [ ] Verify all user journeys are covered by test scenarios
 - [ ] Ensure business rules and validation requirements are tested
 - [ ] Validate error conditions and edge cases are comprehensive
 - [ ] Confirm integration points have appropriate test coverage
 - [ ] Check that scenarios follow Gherkin best practices
-- [ ] All user journeys from system flow diagram covered by test scenarios
-- [ ] Business rules and validation requirements comprehensively tested
-- [ ] Error conditions and edge cases identified and tested
-- [ ] Integration points have appropriate test coverage
 - [ ] Test scenarios organized into logical modules with clear naming
 - [ ] Each scenario has unique TS# identifier and proper tagging
 - [ ] Gherkin syntax is valid and follows best practices
 - [ ] Example tables used to keep scenarios DRY where appropriate
 - [ ] All scenarios tagged with @status_pending for implementation tracking
+
+**Completion**
+
 - [ ] Store completed document in `_docs/features/[feature-name]-Technical_Design.md`
 
 **Note**: All responses should follow @fragments/response-formatting.md

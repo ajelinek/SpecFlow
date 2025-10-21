@@ -33,10 +33,15 @@
 
 ## Execute Checklist
 
-- [ ] Verify data modeling patterns and performance optimization techniques
+**Content Creation**
+
 - [ ] Use @templates/T03 - Data Model.md structure
 - [ ] Populate all 7 sections with specific technical details focused on persisted data
 - [ ] Create Mermaid ERD diagram for entity relationships
+
+**Quality Assurance**
+
+- [ ] Verify data modeling patterns and performance optimization techniques
 - [ ] Verify all entities have clear business purpose
 - [ ] Validate relationships support business workflows
 - [ ] Confirm security and privacy requirements are addressed
@@ -44,6 +49,9 @@
 - [ ] Data constraints and business rules documented
 - [ ] Security and privacy measures defined for sensitive data
 - [ ] Data model aligns with system architecture and business requirements
+
+**Completion**
+
 - [ ] Store completed document in `_docs/design/D03 - Data Model.md`
 
 **Note**: All responses should follow @fragments/response-formatting.md

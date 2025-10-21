@@ -22,6 +22,8 @@
 
 ## Execute Checklist
 
+**Analysis**
+
 - [ ] Identify scope of **SOURCE CODE ONLY** to analyze based on user input
 - [ ] Scan for DRY violations and code duplication in source code
 - [ ] Identify code smells and maintainability issues in source code
@@ -29,12 +31,16 @@
 - [ ] Review existing documentation coverage and quality
 - [ ] Document findings with specific examples and impact assessment
 - [ ] **CRITICAL**: Do NOT analyze or modify any test files
+
+**Planning**
+
 - [ ] Prioritize cleanup tasks by impact and effort
 - [ ] Plan module extraction opportunities (ask for approval before proceeding)
 - [ ] Assess risk of changes and potential breaking points
 - [ ] Create incremental refactoring plan for **SOURCE CODE ONLY**
-- [ ] Verify tests after each incremental change.
-- [ ] **CRITICAL**: Do NOT plan any test code modifications
+
+**Implementation**
+
 - [ ] Apply DRY principles to eliminate code duplication in **SOURCE CODE ONLY**
 - [ ] Improve code readability and maintainability
 - [ ] Consolidate similar functions and patterns
@@ -42,28 +48,19 @@
 - [ ] Clean up unused imports, variables, and functions
 - [ ] Create or update module-level AGENT.md files
 - [ ] Document public APIs and component interfaces
+
+**Validation**
+
 - [ ] Ensure all changes preserve existing functionality
-- [ ] **CRITICAL**: Do NOT modify any test files
 - [ ] Verify all existing tests still pass after source code changes
 - [ ] Ensure no breaking changes to public APIs that tests depend on
-- [ ] **CRITICAL**: Do NOT modify any test files - only validate they still work
 - [ ] Verify all functionality is preserved
 - [ ] Ensure code follows established patterns and conventions
 - [ ] Validate TypeScript compliance and proper typing
 - [ ] Confirm all tests continue to pass
 - [ ] Check build process completes successfully
 - [ ] Verify no breaking changes to public APIs
-- [ ] All code cleanup tasks completed with clear rationale
-- [ ] DRY principles applied appropriately without over-abstraction
-- [ ] Code readability and maintainability improved
-- [ ] Test organization and coverage optimized
-- [ ] Module-level documentation created or updated
-- [ ] AGENT.md files created or updated for modules
-- [ ] API documentation comprehensive and up-to-date
-- [ ] All existing functionality preserved
-- [ ] TypeScript compliance maintained
-- [ ] All tests pass without modification (unless explicitly approved)
-- [ ] Build process completes successfully
-- [ ] No breaking changes introduced
+- [ ] **CRITICAL**: Do NOT modify any test files
+- [ ] **CRITICAL**: Do NOT plan any test code modifications
 
 **Note**: All responses should follow @fragments/response-formatting.md

@@ -42,17 +42,23 @@
 
 ## Execute Checklist
 
+**Content Creation**
+
 - [ ] Use @templates/T02 - System Architecture.md structure
 - [ ] Populate all 6 sections with specific technical details
+- [ ] Component interactions clearly defined
+
+**Quality Assurance**
+
 - [ ] Ensure architecture decisions align with business requirements
 - [ ] Verify all technology choices have clear rationale
 - [ ] Validate architecture supports stated success metrics
-- [ ] All 6 template sections populated with specific technical details
 - [ ] Technology stack choices justified with clear rationale
-- [ ] Component interactions clearly defined
 - [ ] Single points of failure identified and mitigated
 - [ ] Security measures defined at all layers
-- [ ] Document follows @fragments/response-formatting.md
+
+**Completion**
+
 - [ ] Store completed document in `_docs/design/D02 - System Architecture.md`
 
 **Note**: All responses should follow @fragments/response-formatting.md
