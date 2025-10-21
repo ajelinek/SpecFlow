@@ -1,6 +1,6 @@
 # Workflow: 107 - UI Experience Overview Generation
 
-**Objective**: Create the `D07 - UI Experience Overview.md` document that establishes comprehensive user experience architecture, navigation patterns, and user journey mapping for the application.
+**Objective**: Create the `D07 - UI Experience Overview.md` document that establishes comprehensive user experience architecture and navigation patterns for the application.
 
 ---
 
@@ -19,14 +19,13 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 1. **User Roles**: What are the primary user roles and their different access patterns?
 2. **Application Structure**: What are the main functional areas or sections of the application?
-3. **User Journeys**: What are the primary user journeys and tasks that need to be supported?
-4. **Navigation Patterns**: What navigation patterns should be consistent across all pages?
-5. **Entry Points**: What are the entry and exit points for each major user flow?
-6. **Accessibility Requirements**: What accessibility standards need to be met for navigation and user flows?
-7. **Device Support**: What devices and screen sizes need to be supported for user experience?
-8. **Performance Requirements**: What are the performance requirements for user interactions and navigation?
-9. **Search and Discovery**: Do you need search functionality and how should content be discoverable?
-10. **User Feedback**: How should users understand their current location and progress through the application?
+3. **Navigation Patterns**: What navigation patterns should be consistent across all pages?
+4. **Entry Points**: What are the entry and exit points for each major user flow?
+5. **Accessibility Requirements**: What accessibility standards need to be met for navigation and user flows?
+6. **Device Support**: What devices and screen sizes need to be supported for user experience?
+7. **Performance Requirements**: What are the performance requirements for user interactions and navigation?
+8. **Search and Discovery**: Do you need search functionality and how should content be discoverable?
+9. **User Feedback**: How should users understand their current location and progress through the application?
 
 ---
 
@@ -53,7 +52,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Use @templates/T07 - UI Experience Overview.md structure
 - [ ] Populate all 8 sections with comprehensive UX strategy
 - [ ] Ensure user experience decisions align with business requirements and design system
-- [ ] Create user journey maps and navigation flow diagrams
+- [ ] Create navigation flow diagrams
 - [ ] Create page inventory table with all application pages and routes
 - [ ] Generate mermaid diagram showing screen flow and navigation paths
 
@@ -62,7 +61,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Verify accessibility compliance and user experience rationale
 - [ ] Validate UX strategy supports success metrics and user goals
 - [ ] Ensure navigation patterns work across target devices and user roles
-- [ ] Confirm user journey mapping covers all critical user paths
+- [ ] Confirm navigation patterns cover all critical user paths
 
 ---
 
@@ -73,7 +72,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Page inventory table includes all application pages with routes and descriptions
 - [ ] Navigation flow diagram shows clear paths between screens with action labels
 - [ ] Navigation architecture clearly defined with consistent patterns
-- [ ] User journey mapping covers all critical paths and user roles
+- [ ] Navigation patterns cover all critical paths and user roles
 - [ ] Accessibility requirements addressed for navigation and user flows
 - [ ] Store completed document in `_docs/design/D07 - UI Experience Overview.md`
 
