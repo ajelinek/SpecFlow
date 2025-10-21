@@ -24,9 +24,12 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/data-architect.md persona
+- [ ] Consult with @agents/system-architect.md for architecture alignment
+
+## Design Context
+
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business entities and requirements
 - [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
-- [ ] Consult with @agents/system-architect.md for architecture alignment
 
 ## Execute Checklist
 

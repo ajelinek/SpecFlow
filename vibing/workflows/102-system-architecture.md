@@ -34,8 +34,11 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/system-architect.md persona
-- [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
 - [ ] Consult with @agents/product-manager.md for business context
+
+## Design Context
+
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
 
 ## Execute Checklist
 

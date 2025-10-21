@@ -16,11 +16,6 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/test-cleanup-specialist.md persona
-- [ ] Review `_docs/design/D01 - Project Overview.md` for business context
-- [ ] Review `_docs/design/D02 - System Architecture.md` for architectural constraints
-- [ ] Review `_docs/design/D04 - Backend Architecture.md` for backend patterns
-- [ ] Review `_docs/design/D05 - Frontend Architecture.md` for frontend patterns
-- [ ] Review `_docs/design/D06 - UI Design.md` for design system constraints
 - [ ] Consult with @agents/technical-architect.md for quality standards validation
 - [ ] Consult with @agents/test-automation-engineer.md for test-specific cleanup patterns
 - [ ] Consult with @agents/frontend-engineer.md for frontend test patterns

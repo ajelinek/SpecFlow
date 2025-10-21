@@ -16,8 +16,13 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/technical-architect.md for implementation validation
-- [ ] Review context files: `_docs/design/D01 - Project Overview.md`, `_docs/design/D02 - System Architecture.md`, `_docs/design/D03 - Data Model.md`, `_docs/design/D04 - Backend Architecture.md`, `_docs/design/D05 - Frontend Architecture.md`, `_docs/design/D06 - UI Design.md`
-- [ ] Review `_docs/design/D09 - Data Access Patterns.md` for data access requirements
+- [ ] Activate @agents/test-automation-engineer.md for test implementation
+- [ ] Activate @agents/frontend-engineer.md for frontend development
+- [ ] Activate @agents/backend-engineer.md for backend development
+- [ ] Activate @agents/data-engineer.md for data layer implementation
+
+## Design Context
+
 - [ ] Review Technical Design document thoroughly
 
 ## Execute Checklist
@@ -28,7 +33,6 @@
 - [ ] Identify existing code for reuse/extension
 - [ ] Map dependencies and integration points
 - [ ] **VERIFY**: Test scenario ID(s) clearly identified
-- [ ] Activate @agents/test-automation-engineer.md for test implementation
 - [ ] Implement ONLY specific test scenario(s) with provided IDs
 - [ ] Follow TDD principles: Red → Green → Refactor
 - [ ] Use existing test patterns and utilities
@@ -45,7 +49,6 @@
 - [ ] Ensure all code follows DRY principles
 - [ ] Follow accessibility guidelines
 - [ ] Maintain consistent naming conventions
-- [ ] Activate @agents/frontend-engineer.md for frontend development
 - [ ] Implement minimum code required for test scenario(s) to pass
 - [ ] Leverage existing code before writing new code
 - [ ] Follow established patterns and conventions
@@ -61,7 +64,6 @@
 - [ ] Ensure all code follows DRY principles
 - [ ] Follow accessibility guidelines
 - [ ] Maintain consistent naming conventions
-- [ ] Activate @agents/backend-engineer.md for backend development
 - [ ] Implement backend services and APIs for test scenarios
 - [ ] Follow established backend architecture patterns
 - [ ] Ensure proper error handling and validation

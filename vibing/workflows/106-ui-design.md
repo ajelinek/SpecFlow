@@ -18,11 +18,14 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/ui-designer.md persona
+- [ ] Consult with @agents/frontend-architect.md for implementation feasibility
+- [ ] Consult with @agents/product-manager.md for user experience requirements
+
+## Design Context
+
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business context and user goals
 - [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
 - [ ] Review `_docs/design/D05 - Frontend Architecture.md` for component architecture constraints
-- [ ] Consult with @agents/frontend-architect.md for implementation feasibility
-- [ ] Consult with @agents/product-manager.md for user experience requirements
 
 ## Execute Checklist
 

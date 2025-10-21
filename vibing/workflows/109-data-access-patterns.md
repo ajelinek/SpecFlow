@@ -16,9 +16,12 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/data-architect.md persona
-- [ ] Review `_docs/design/D03 - Data Model.md` for current persisted data structure
 - [ ] Consult with @agents/frontend-architect.md for UI data consumption patterns
 - [ ] Consult with @agents/backend-architect.md for API design patterns
+
+## Design Context
+
+- [ ] Review `_docs/design/D03 - Data Model.md` for current persisted data structure
 
 ## Execute Checklist
 

@@ -19,6 +19,13 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/product-manager.md persona
+- [ ] Consult with @agents/domain-expert.md for business domain knowledge and requirements validation
+- [ ] Consult with @agents/system-architect.md for technical feasibility and architecture constraints
+- [ ] Consult with @agents/frontend-architect.md for UI/UX implementation dependencies
+- [ ] Consult with @agents/backend-architect.md for API and service implementation dependencies
+
+## Design Context
+
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements and success metrics
 - [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints and dependencies
 - [ ] Review `_docs/design/D03 - Data Model.md` for data requirements and relationships
@@ -29,10 +36,6 @@
 - [ ] Review `_docs/design/D08 - UI Page Design.md` for page-specific requirements and functionality
 - [ ] Review `_docs/design/D09 - Data Access Patterns and Objects.md` for data access requirements
 - [ ] Review all UI flow documents in `_docs/ui-flows/` for user interaction requirements
-- [ ] Consult with @agents/domain-expert.md for business domain knowledge and requirements validation
-- [ ] Consult with @agents/system-architect.md for technical feasibility and architecture constraints
-- [ ] Consult with @agents/frontend-architect.md for UI/UX implementation dependencies
-- [ ] Consult with @agents/backend-architect.md for API and service implementation dependencies
 
 ## Execute Checklist
 

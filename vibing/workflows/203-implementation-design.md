@@ -22,15 +22,28 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/technical-architect.md persona as workflow driver
-- [ ] Review context files: `_docs/design/D01 - Project Overview.md`, `_docs/design/D02 - System Architecture.md`, `_docs/design/D03 - Data Model.md`, `_docs/design/D04 - Backend Architecture.md`, `_docs/design/D05 - Frontend Architecture.md`
-- [ ] Analyze feature requirements and test scenarios
-- [ ] Coordinate with specialized engineer agents for implementation details
+- [ ] Consult with @agents/frontend-engineer.md for UI components and state management requirements
+- [ ] Consult with @agents/backend-engineer.md for API endpoints and business logic requirements
+- [ ] Consult With @agents/data-engineer.md for schema changes and data access patterns
+
+## Design Context
+
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business context, user goals, and success metrics
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D03 - Data Model.md` for data access patterns
+- [ ] Review `_docs/design/D04 - Backend Architecture.md` for API design patterns
+- [ ] Review `_docs/design/D05 - Frontend Architecture.md` for component architecture
+- [ ] Review `_docs/design/D06 - UI Design.md` for design system guidelines
+- [ ] Review `_docs/design/D07 - UI Experience Overview.md` for user journey architecture and navigation patterns
+- [ ] Review relevant `_docs/ui-flows/[page-name].md` files for impacted screens
+- [ ] Review `_docs/features/[feature-name]-Overview.md` for feature-specific business requirements
+- [ ] Review partially completed `_docs/features/[feature-name]-Technical_Design.md` for feature overview and system flow
 
 ## Execute Checklist
 
-- [ ] **Frontend**: Activate @agents/frontend-engineer.md, review `_docs/design/D05 - Frontend Architecture.md` and `UI/AGENT.md`, define new UI components and state management requirements
-- [ ] **Backend**: Activate @agents/backend-engineer.md, review `_docs/design/D04 - Backend Architecture.md` and `API/AGENT.md`, define new API endpoints and business logic requirements
-- [ ] **Data**: Activate @agents/data-engineer.md, review `_docs/design/D03 - Data Model.md` and `API/AGENT.md`, define schema changes and data access patterns
+- [ ] **Frontend**: Define new UI components and state management requirements
+- [ ] **Backend**: Define new API endpoints and business logic requirements
+- [ ] **Data**: Define schema changes and data access patterns
 - [ ] Ensure no duplication of existing functionality across all layers
 - [ ] Use @templates/T11 - Technical Design.md structure
 - [ ] Populate Change Summary Table with all required modifications

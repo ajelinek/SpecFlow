@@ -22,12 +22,15 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/frontend-architect.md persona
-- [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
-- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
-- [ ] Review `_docs/design/D03 - Data Model.md` for data structure requirements
 - [ ] Consult with @agents/system-architect.md for system integration patterns
 - [ ] Consult with @agents/product-manager.md for user experience requirements
 - [ ] Consult with @agents/seo-specialist.md for SEO requirements and technical implementation
+
+## Design Context
+
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D03 - Data Model.md` for data structure requirements
 
 ## Execute Checklist
 

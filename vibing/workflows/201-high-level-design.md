@@ -21,10 +21,18 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/product-manager.md persona
-- [ ] Confirm the specific feature name and ID from Feature Overview
-- [ ] Review `_docs/design/D01 - Project Overview.md` for business context and success metrics
-- [ ] Review `_docs/design/D10 - Feature Overview.md` for the specific feature requirements and user stories
-- [ ] Validate business requirements and user value proposition for the specific feature
+
+## Design Context
+
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business context, user goals, and success metrics
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D03 - Data Model.md` for data access patterns
+- [ ] Review `_docs/design/D04 - Backend Architecture.md` for API design patterns
+- [ ] Review `_docs/design/D05 - Frontend Architecture.md` for component architecture
+- [ ] Review `_docs/design/D06 - UI Design.md` for design system guidelines
+- [ ] Review `_docs/design/D07 - UI Experience Overview.md` for user journey architecture and navigation patterns
+- [ ] Review relevant `_docs/ui-flows/[page-name].md` files for impacted screens
+- [ ] Review `_docs/features/[feature-name]-Overview.md` for feature-specific business requirements
 
 ## Execute Checklist
 

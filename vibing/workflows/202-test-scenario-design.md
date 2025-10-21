@@ -21,12 +21,20 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/test-analyst.md persona
+- [ ] Consult with @agents/product-manager.md for business requirements and acceptance criteria
+
+## Design Context
+
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business context, user goals, and success metrics
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D03 - Data Model.md` for data access patterns
+- [ ] Review `_docs/design/D04 - Backend Architecture.md` for API design patterns
+- [ ] Review `_docs/design/D05 - Frontend Architecture.md` for component architecture
+- [ ] Review `_docs/design/D06 - UI Design.md` for design system guidelines
 - [ ] Review `_docs/design/D07 - UI Experience Overview.md` for user journey architecture and navigation patterns
-- [ ] Review relevant `_docs/ui-flows/[page-name].md` files for specific user interactions and page flows
+- [ ] Review relevant `_docs/ui-flows/[page-name].md` files for impacted screens
 - [ ] Review `_docs/features/[feature-name]-Overview.md` for feature-specific business requirements
 - [ ] Review partially completed `_docs/features/[feature-name]-Technical_Design.md` for feature overview and system flow
-- [ ] Consult with @agents/product-manager.md for business requirements and acceptance criteria
 
 ## Execute Checklist
 

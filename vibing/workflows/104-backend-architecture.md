@@ -34,11 +34,14 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/backend-architect.md persona
+- [ ] Consult with @agents/system-architect.md for architecture alignment
+- [ ] Consult with @agents/data-architect.md for data layer coordination
+
+## Design Context
+
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
 - [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
 - [ ] Review `_docs/design/D03 - Data Model.md` for data access patterns
-- [ ] Consult with @agents/system-architect.md for architecture alignment
-- [ ] Consult with @agents/data-architect.md for data layer coordination
 
 ## Execute Checklist
 

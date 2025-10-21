@@ -17,13 +17,16 @@
 ## Agents to Invoke
 
 - [ ] Activate @agents/ux-designer.md persona
+- [ ] Consult with @agents/ui-designer.md for visual design integration
+- [ ] Consult with @agents/frontend-architect.md for implementation feasibility
+- [ ] Consult with @agents/product-manager.md for user experience requirements
+
+## Design Context
+
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business context and user goals
 - [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
 - [ ] Review `_docs/design/D05 - Frontend Architecture.md` for component architecture constraints
 - [ ] Review `_docs/design/D06 - UI Design.md` for established design system
-- [ ] Consult with @agents/ui-designer.md for visual design integration
-- [ ] Consult with @agents/frontend-architect.md for implementation feasibility
-- [ ] Consult with @agents/product-manager.md for user experience requirements
 
 ## Execute Checklist
 

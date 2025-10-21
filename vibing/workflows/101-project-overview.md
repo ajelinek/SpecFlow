@@ -25,6 +25,10 @@
 - [ ] Activate @agents/product-manager.md persona
 - [ ] Consult with @agents/domain-expert.md for domain expertise
 
+## Design Context
+
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
+
 ## Execute Checklist
 
 - [ ] Use @templates/T01 - Project Overview.md structure
