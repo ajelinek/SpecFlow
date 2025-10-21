@@ -4,7 +4,7 @@
 
 ## Overview
 
-This modifier scans existing codebase to detect patterns, technologies, and architectural decisions, then generates comprehensive AGENT.md context files following the standardized AGENT.md specification. It analyzes all rules and agents to assign appropriate responsibilities and rule references.
+This modifier performs deep analysis of existing codebase to understand patterns, technologies, and architectural decisions, then generates focused AGENT.md context files following the standardized AGENT.md specification. Each AGENT.md file focuses on a single agent responsibility with deep analysis of the specific patterns and needs in that area, rather than superficial directory scanning.
 
 ## Inputs
 
@@ -13,183 +13,265 @@ This modifier scans existing codebase to detect patterns, technologies, and arch
 - **Rules Directory**: Complete analysis of `vibing/rules/` directory
 - **Agents Directory**: Complete analysis of `vibing/agents/` directory
 
-## Detection Strategy
+## Deep Analysis Strategy
 
-The generator uses a multi-phase approach to discover project structure and patterns:
+The generator uses a comprehensive multi-phase approach to perform deep analysis of the codebase, understanding not just directory structure but the actual patterns, technologies, and architectural decisions within each area:
 
-### Phase 1: Project Discovery
+### Phase 1: Deep Codebase Analysis
 
-1. **Package.json Analysis**:
+1. **Technology Stack Detection**:
 
-   - Read `package.json` for dependencies and scripts
-   - Detect frontend framework (React, SolidJS, Astro)
-   - Detect backend framework (Express, Fastify, etc.)
-   - Detect GraphQL/Apollo usage
-   - Detect testing frameworks (Playwright, Vitest, Jest)
-   - Detect build tools (Vite, Webpack)
-   - Detect package manager (npm/pnpm/yarn)
-   - Extract all scripts for commands section
+   - **Package.json Deep Analysis**: Read dependencies, devDependencies, scripts, and peerDependencies
+   - **Framework Detection**: Identify React, SolidJS, Astro, Vue, Svelte, etc. through imports and usage patterns
+   - **Backend Framework Detection**: Identify Express, Fastify, NestJS, Next.js API routes, etc.
+   - **State Management Detection**: Identify Redux, Zustand, MobX, Apollo Client, SWR, React Query, Solid stores
+   - **Database Detection**: Identify Firebase, PostgreSQL, MongoDB, Prisma, TypeORM, etc.
+   - **Testing Framework Detection**: Identify Jest, Vitest, Playwright, Cypress, Testing Library
+   - **Build Tool Detection**: Identify Vite, Webpack, Rollup, esbuild, Parcel
+   - **Language Detection**: Identify TypeScript, JavaScript, and their configurations
 
-2. **Directory Structure Analysis**:
+2. **Directory Structure Deep Analysis**:
 
-   - Scan for backend/API directory (`api/`, `backend/`, `server/`, `src/api/`)
-   - Scan for frontend directory (`ui/`, `frontend/`, `client/`, `src/`)
-   - Scan for store directory (`store/`, `data/`, `state/`)
-   - Scan for E2E tests directory (`e2e/`, `tests/e2e/`, `playwright/`)
-   - Scan for page objects directory (`pages/`, `page-objects/`)
-   - Scan for data layer directory (`data/`, `database/`, `db/`)
+   - **Backend Directories**: Analyze `api/`, `backend/`, `server/`, `src/api/` for:
 
-3. **Design Document Check**:
+     - API route patterns and conventions
+     - Service layer organization
+     - Repository/data access patterns
+     - Authentication middleware
+     - Error handling approaches
+     - Logging patterns
 
-   - Check for existing design documents in `_docs/design/`
-   - Use design docs to supplement code scanning when available
-   - Prefer code patterns over design docs (code is truth)
+   - **Frontend Directories**: Analyze `ui/`, `frontend/`, `client/`, `src/` for:
 
-4. **Rules and Agents Analysis**:
+     - Component organization (foundation/feature/utility)
+     - State management patterns
+     - Styling approaches (CSS, Tailwind, styled-components)
+     - Routing patterns
+     - Form handling libraries
+     - Testing patterns
 
-- Scan all files in `vibing/rules/` directory recursively
-- Scan all files in `vibing/agents/` directory recursively
-  - Categorize rules by technology and component type
-  - Map agents to component responsibilities
-    **Note**: No new rules should be created and all referenced rules and agents must already exist.
+   - **Store Directories**: Analyze `store/`, `state/`, `data/` for:
 
-### Phase 2: Pattern Detection
+     - Service-repository pattern implementation
+     - GraphQL/REST client setup
+     - Data fetching conventions
+     - Cache management
+     - Hook patterns
 
-#### Backend Analysis
+   - **E2E Directories**: Analyze `e2e/`, `tests/e2e/`, `playwright/` for:
 
-- **Route/Controller Files**: Scan for API patterns and conventions
-- **Service Layer**: Detect service layer organization and patterns
-- **Repository Pattern**: Identify repository/data access patterns
-- **Authentication**: Find authentication middleware and patterns
-- **Error Handling**: Analyze error handling approach and conventions
-- **Logging**: Detect logging patterns and frameworks
-- **Technology Detection**: Identify backend frameworks and libraries
-- **Rule Mapping**: Identify which backend rules apply
-- **Agent Assignment**: Assign backend-engineer agent
+     - Testing framework setup and configuration
+     - Page object patterns and organization
+     - Selector conventions and strategies
+     - Test data management
+     - Test organization
 
-#### Frontend Analysis
+   - **Page Objects Directories**: Analyze `pages/`, `page-objects/` for:
 
-- **Component Structure**: Scan component directories for organization
-- **Component Patterns**: Detect foundation/common/feature component patterns
-- **State Management**: Identify state management solutions (Zustand, Redux, SolidJS stores, Apollo Client, SWR)
-- **Styling Approach**: Find styling solutions (Tailwind, CSS Modules, styled-components)
-- **Routing**: Analyze routing patterns and frameworks
-- **Form Handling**: Detect form handling libraries and patterns
-- **Technology Detection**: Identify frontend frameworks and libraries
-- **Rule Mapping**: Identify which framework-specific rules apply
-- **Agent Assignment**: Assign frontend-engineer agent
+     - Page object structure and patterns
+     - Selector naming conventions
+     - Interaction patterns
+     - Element definitions
 
-#### Store Analysis
+   - **Data Directories**: Analyze `data/`, `database/`, `db/` for:
+     - Schema definitions and migrations
+     - ORM/query builder usage
+     - Seed data patterns
+     - Test data utilities
 
-- **Service-Repository Pattern**: Scan store files for service/repository pattern
-- **GraphQL/REST Client**: Detect GraphQL/REST client setup (Apollo, SWR, Firebase SDK)
-- **Data Fetching**: Identify data fetching patterns and conventions
-- **Cache Management**: Find cache management approach and patterns
-- **Hook Patterns**: Analyze hook patterns and usage
-- **Technology Detection**: Identify data management solutions
-- **Rule Mapping**: Identify which data management rules apply
-- **Agent Assignment**: Assign frontend-engineer agent
+3. **Code Pattern Analysis**:
 
-#### E2E Analysis
+   - **File Content Analysis**: Read and analyze actual file contents, not just directory names
+   - **Import/Export Analysis**: Understand module dependencies and relationships
+   - **Configuration Analysis**: Parse tsconfig.json, vite.config.js, etc. for project setup
+   - **Architecture Pattern Detection**: Identify MVC, MVVM, Clean Architecture, etc. patterns
+   - **Code Quality Analysis**: Detect linting rules, formatting standards, code organization
 
-- **Testing Framework**: Scan test files for framework (Playwright/Cypress)
-- **Page Object Patterns**: Detect page object patterns and organization
-- **Selector Conventions**: Identify selector conventions and patterns
-- **Test Data Patterns**: Find test data patterns and management
-- **Test Organization**: Analyze test organization and structure
-- **Technology Detection**: Identify E2E testing frameworks
-- **Rule Mapping**: Identify which testing rules apply
-- **Agent Assignment**: Assign test-automation-engineer agent
+4. **Design Document Integration**:
 
-#### Data Analysis
+   - **Design Doc Analysis**: Parse existing design documents for architectural context
+   - **Code vs Design Alignment**: Compare code patterns with documented architecture
+   - **Gap Analysis**: Identify discrepancies between design and implementation
 
-- **Schema Files**: Scan schema files for entity definitions
-- **Migration Patterns**: Detect migration patterns and conventions
-- **ORM/Query Builder**: Identify ORM/query builder usage (Firestore, SQL, etc.)
-- **Seed Data**: Find seed data patterns and utilities
-- **Test Data**: Analyze test data utilities and patterns
-- **Technology Detection**: Identify data persistence solutions
-- **Rule Mapping**: Identify which data persistence rules apply
-- **Agent Assignment**: Assign data-engineer agent
+5. **Rules and Agents Deep Mapping**:
 
-### Phase 3: Context Generation
+   - **Technology-Specific Rule Analysis**: Map detected technologies to relevant rules
+   - **Pattern-Specific Agent Assignment**: Assign agents based on detected patterns
+   - **Responsibility Mapping**: Create focused single-responsibility agent assignments
+   - **Rule Relevance Scoring**: Prioritize rules based on actual codebase patterns
+
+### Phase 2: Focused Agent Responsibility Analysis
+
+This phase creates focused, single-responsibility AGENT.md files for each detected pattern area, rather than trying to create comprehensive files for entire directories.
+
+#### Pattern-Specific Agent Creation
+
+1. **Backend API Agent** (if API patterns detected):
+
+   - **Focus**: API route patterns, request/response handling
+   - **Analysis**: Deep analysis of API structure, error handling, authentication patterns
+   - **Responsible Agent**: backend-engineer.md
+   - **Rules**: backend, foundation, error-handling
+
+2. **Service Layer Agent** (if service layer detected):
+
+   - **Focus**: Business logic organization, service patterns
+   - **Analysis**: Service layer structure, dependency injection, business logic patterns
+   - **Responsible Agent**: backend-engineer.md
+   - **Rules**: backend, foundation
+
+3. **Repository Agent** (if repository pattern detected):
+
+   - **Focus**: Data access patterns, repository implementations
+   - **Analysis**: Repository structure, query patterns, data transformation
+   - **Responsible Agent**: data-engineer.md
+   - **Rules**: data/persistence, foundation
+
+4. **Component Architecture Agent** (if component patterns detected):
+
+   - **Focus**: Component organization, reusability patterns
+   - **Analysis**: Component structure, prop patterns, composition strategies
+   - **Responsible Agent**: frontend-engineer.md
+   - **Rules**: ui/component-guidelines, foundation
+
+5. **State Management Agent** (if state management detected):
+
+   - **Focus**: State patterns, data flow, caching strategies
+   - **Analysis**: State management approach, data fetching, cache patterns
+   - **Responsible Agent**: frontend-engineer.md
+   - **Rules**: framework-specific state rules, foundation
+
+6. **Styling Agent** (if styling patterns detected):
+
+   - **Focus**: Styling approach, design system, responsive patterns
+   - **Analysis**: CSS methodology, component styling, design tokens
+   - **Responsible Agent**: ui-designer.md
+   - **Rules**: ui/styling, foundation
+
+7. **Testing Agent** (if testing patterns detected):
+
+   - **Focus**: Testing strategy, test organization, coverage patterns
+   - **Analysis**: Testing framework, test structure, mocking strategies
+   - **Responsible Agent**: test-analyst.md
+   - **Rules**: testing/general, framework-specific testing
+
+8. **E2E Testing Agent** (if E2E testing detected):
+
+   - **Focus**: End-to-end testing strategy, user journey testing
+   - **Analysis**: E2E framework setup, page object patterns, test data
+   - **Responsible Agent**: test-automation-engineer.md
+   - **Rules**: testing/e2e, testing/page-objects
+
+9. **Database Agent** (if database patterns detected):
+
+   - **Focus**: Database schema, migrations, query patterns
+   - **Analysis**: Database structure, ORM usage, migration patterns
+   - **Responsible Agent**: data-engineer.md
+   - **Rules**: data/persistence, foundation
+
+10. **Authentication Agent** (if auth patterns detected):
+    - **Focus**: Authentication, authorization, security patterns
+    - **Analysis**: Auth implementation, security measures, user management
+    - **Responsible Agent**: backend-engineer.md
+    - **Rules**: backend, foundation, security
+
+#### Agent File Structure
+
+Each AGENT.md file follows this focused structure:
+
+- **Single Responsibility**: One agent, one specific area of concern
+- **Deep Pattern Analysis**: Detailed understanding of patterns in that specific area
+- **Contextual Rules**: Only rules relevant to this specific responsibility
+- **Implementation Guidance**: Specific guidance for this area of the codebase
+
+### Phase 3: Focused AGENT.md Generation
 
 #### Global Context (Pre-created)
 
 **Note**: The global `vibing/context/AGENT.md` file should be pre-created and will not be generated by this modifier.
 
-#### Component-Specific Context Generation
+#### Pattern-Specific AGENT.md Creation
 
-1. **Backend Context**:
+The generator creates multiple focused AGENT.md files, each addressing a specific pattern or responsibility area:
 
-   - Backend overview inferred from code patterns
-   - Backend technology stack from detected frameworks
-   - API design patterns with agent assignments
-   - Service layer structure with responsibilities
-   - Data access patterns with agent assignments
-   - Authentication approach from detected patterns
-   - Error handling conventions from code analysis
-   - Backend-specific rule references
+1. **API Routes AGENT.md** (if API patterns detected):
 
-- **Responsible Agent**: @vibing/agents/backend-engineer.md
+   - **Location**: `{detected-backend-dir}/AGENT.md` (API routes focus)
+   - **Focus**: API endpoint patterns, request/response handling, error responses
+   - **Deep Analysis**: Route structure, parameter validation, response formatting
+   - **Responsible Agent**: @vibing/agents/backend-engineer.md
+   - **Rules**: @vibing/rules/common/backend/, @vibing/rules/common/foundation/error-handling-guidelines.md
 
-2. **Frontend Context**:
+2. **Service Layer AGENT.md** (if service layer detected):
 
-   - Frontend overview inferred from component analysis
-   - Frontend technology stack from detected frameworks
-   - Component architecture with agent assignments
-   - Directory structure with responsibilities
-   - State management strategy from detected patterns
-   - Styling approach from detected frameworks
-   - Testing patterns from test file analysis
-   - Framework-specific rule references
+   - **Location**: `{detected-backend-dir}/services/AGENT.md`
+   - **Focus**: Business logic organization, service patterns, dependency injection
+   - **Deep Analysis**: Service interfaces, business rules, error handling patterns
+   - **Responsible Agent**: @vibing/agents/backend-engineer.md
+   - **Rules**: @vibing/rules/common/backend/, @vibing/rules/common/foundation/general-rules.md
 
-- **Responsible Agent**: @vibing/agents/frontend-engineer.md
+3. **Repository AGENT.md** (if repository pattern detected):
 
-3. **Store Context**:
+   - **Location**: `{detected-data-dir}/repositories/AGENT.md` (or `{detected-backend-dir}/repositories/AGENT.md`)
+   - **Focus**: Data access patterns, query optimization, data transformation
+   - **Deep Analysis**: Repository interfaces, query patterns, caching strategies
+   - **Responsible Agent**: @vibing/agents/data-engineer.md
+   - **Rules**: @vibing/rules/common/data/, @vibing/rules/common/foundation/typescript-guidelines.md
 
-   - Store overview inferred from store file analysis
-   - Data management technology from detected patterns
-   - Service-Repository pattern with responsibilities
-   - GraphQL/REST client setup from detected usage
-   - Data fetching conventions from code patterns
-   - Hook patterns from detected usage
-   - Data management rule references
-   - TypeScript guidelines for store components
+4. **Component Architecture AGENT.md** (if component patterns detected):
 
-- **Responsible Agent**: @vibing/agents/frontend-engineer.md
+   - **Location**: `{detected-frontend-dir}/components/AGENT.md`
+   - **Focus**: Component organization, reusability, composition patterns
+   - **Deep Analysis**: Component structure, prop patterns, lifecycle management
+   - **Responsible Agent**: @vibing/agents/frontend-engineer.md
+   - **Rules**: @vibing/rules/common/ui/component-guidelines.md, @vibing/rules/common/foundation/general-rules.md
 
-4. **E2E Context**:
+5. **State Management AGENT.md** (if state management detected):
 
-   - E2E testing overview from test file analysis
-   - Testing framework setup from detected frameworks
-   - Page object patterns from detected usage
-   - Selector conventions from test file analysis
-   - Test data management from detected patterns
-   - Testing rule references
+   - **Location**: `{detected-store-dir}/AGENT.md`
+   - **Focus**: State patterns, data flow, caching, synchronization
+   - **Deep Analysis**: State structure, update patterns, side effect management
+   - **Responsible Agent**: @vibing/agents/frontend-engineer.md
+   - **Rules**: @vibing/rules/react/react-state-management.md (or framework-specific state rules)
 
-- **Responsible Agent**: @vibing/agents/test-automation-engineer.md
+6. **Styling AGENT.md** (if styling patterns detected):
 
-5. **Page Objects Context**:
+   - **Location**: `{detected-frontend-dir}/styles/AGENT.md` (or alongside components)
+   - **Focus**: Styling methodology, design system, responsive patterns
+   - **Deep Analysis**: CSS architecture, component styling, theme management
+   - **Responsible Agent**: @vibing/agents/ui-designer.md
+   - **Rules**: @vibing/rules/common/ui/styling-guidelines.md
 
-   - Page objects overview from page object file analysis
-   - Page object structure with responsibilities
-   - Selector naming conventions from detected patterns
-   - Interaction patterns from page object analysis
-   - Page object pattern rule references
+7. **Testing Strategy AGENT.md** (if testing patterns detected):
 
-- **Responsible Agent**: @vibing/agents/test-automation-engineer.md
+   - **Location**: `{detected-test-dir}/AGENT.md` (unit tests) or `{detected-e2e-dir}/AGENT.md` (E2E)
+   - **Focus**: Testing approach, coverage strategy, mocking patterns
+   - **Deep Analysis**: Test structure, assertion patterns, test data management
+   - **Responsible Agent**: @vibing/agents/test-analyst.md
+   - **Rules**: @vibing/rules/common/testing/test-general.md, @vibing/rules/common/testing/test-context.md
 
-6. **Data Context**:
-   - Data layer overview from schema and migration analysis
-   - Database technology from detected usage
-   - Entity definitions with responsibilities
-   - Schema overview from detected patterns
-   - Migration patterns from detected usage
-   - Test data utilities from detected patterns
-   - Data persistence rule references
+8. **E2E Testing AGENT.md** (if E2E testing detected):
 
-- **Responsible Agent**: @vibing/agents/data-engineer.md
+   - **Location**: `{detected-e2e-dir}/AGENT.md`
+   - **Focus**: End-to-end testing, user journey validation, integration testing
+   - **Deep Analysis**: E2E framework setup, page object patterns, test data strategies
+   - **Responsible Agent**: @vibing/agents/test-automation-engineer.md
+   - **Rules**: @vibing/rules/common/testing/test-e2e.md, @vibing/rules/common/testing/test-e2e-page-object.md
+
+9. **Database Schema AGENT.md** (if database patterns detected):
+
+   - **Location**: `{detected-data-dir}/AGENT.md`
+   - **Focus**: Database design, schema patterns, migration strategies
+   - **Deep Analysis**: Entity relationships, indexing strategies, migration patterns
+   - **Responsible Agent**: @vibing/agents/data-engineer.md
+   - **Rules**: @vibing/rules/common/data/data-relational-persistent.md (or appropriate data rules)
+
+10. **Authentication AGENT.md** (if auth patterns detected):
+    - **Location**: `{detected-backend-dir}/auth/AGENT.md` (or `{detected-frontend-dir}/auth/AGENT.md`)
+    - **Focus**: Authentication, authorization, security patterns
+    - **Deep Analysis**: Auth flow, token management, security measures
+    - **Responsible Agent**: @vibing/agents/backend-engineer.md
+    - **Rules**: @vibing/rules/common/backend/, @vibing/rules/common/foundation/error-handling-guidelines.md
 
 ### Phase 4: Validation and Reporting
 
@@ -210,20 +292,22 @@ The generator uses a multi-phase approach to discover project structure and patt
 
 ## Agent Responsibility Matrix
 
-The generator uses this matrix to assign agents to detected components:
+The generator creates focused, single-responsibility AGENT.md files for each detected pattern area:
 
-| Component Type        | Directory Pattern             | Responsible Agent           | Primary Rules                                  |
-| --------------------- | ----------------------------- | --------------------------- | ---------------------------------------------- |
-| Backend API           | `api/`, `backend/`, `server/` | backend-engineer.md         | backend, foundation, error-handling            |
-| Frontend UI           | `ui/`, `frontend/`, `client/` | frontend-engineer.md        | framework-specific, ui, foundation             |
-| Data Store            | `store/`, `state/`, `data/`   | frontend-engineer.md        | framework-specific, ui, foundation, typescript |
-| E2E Tests             | `e2e/`, `tests/e2e/`          | test-automation-engineer.md | testing/e2e, test-context                      |
-| Page Objects          | `pages/`, `page-objects/`     | test-automation-engineer.md | testing/page-objects                           |
-| Database              | `data/`, `database/`, `db/`   | data-engineer.md            | data/persistence                               |
-| Foundation Components | `components/foundation/`      | frontend-engineer.md        | ui/foundational-components                     |
-| Feature Components    | `components/features/`        | frontend-engineer.md        | ui/component-guidelines                        |
-| Services              | `services/`                   | backend-engineer.md         | backend, foundation                            |
-| Repositories          | `repositories/`               | data-engineer.md            | data, foundation                               |
+| Pattern Area           | Detection Criteria              | Responsible Agent           | Focus Area                                   | Primary Rules                               |
+| ---------------------- | ------------------------------- | --------------------------- | -------------------------------------------- | ------------------------------------------- |
+| API Routes             | API endpoints, routes, handlers | backend-engineer.md         | Request/response handling, error responses   | backend, foundation, error-handling         |
+| Service Layer          | Business logic, services        | backend-engineer.md         | Business rules, dependency injection         | backend, foundation                         |
+| Repository Pattern     | Data access, repositories       | data-engineer.md            | Query patterns, data transformation          | data/persistence, foundation                |
+| Component Architecture | Component organization          | frontend-engineer.md        | Reusability, composition patterns            | ui/component-guidelines, foundation         |
+| State Management       | State stores, data flow         | frontend-engineer.md        | State patterns, caching strategies           | framework-specific state rules, foundation  |
+| Styling System         | CSS, design system              | ui-designer.md              | Styling methodology, responsive patterns     | ui/styling, foundation                      |
+| Testing Strategy       | Unit tests, test organization   | test-analyst.md             | Testing approach, coverage patterns          | testing/general, framework-specific testing |
+| E2E Testing            | End-to-end tests                | test-automation-engineer.md | User journey validation, integration testing | testing/e2e, testing/page-objects           |
+| Database Schema        | Database design, migrations     | data-engineer.md            | Entity relationships, indexing strategies    | data/persistence, foundation                |
+| Authentication         | Auth flows, security            | backend-engineer.md         | Authentication, authorization patterns       | backend, foundation, security               |
+
+**Note**: Each pattern creates a separate focused AGENT.md file with deep analysis of that specific area, rather than trying to cover entire directories comprehensively.
 
 ## Rule Analysis and Mapping
 
@@ -365,22 +449,32 @@ All generated files follow this compact specification-compliant structure (under
 # - Agents: vibing/agents/
 
 # Outputs:
-# ✓ Generated Backend Context AGENT.md
+# ✓ Generated src/api/AGENT.md (API Routes Agent)
+#   - Focus: API endpoint patterns, request/response handling
+#   - Deep Analysis: Route structure, parameter validation, error responses
 #   - Responsible Agent: @vibing/agents/backend-engineer.md
-#   - Detected Express API patterns
-# ✓ Generated Frontend Context AGENT.md
+# ✓ Generated src/api/services/AGENT.md (Service Layer Agent)
+#   - Focus: Business logic organization, service patterns
+#   - Deep Analysis: Service interfaces, business rules, error handling
+#   - Responsible Agent: @vibing/agents/backend-engineer.md
+# ✓ Generated src/components/AGENT.md (Component Architecture Agent)
+#   - Focus: Component organization, reusability patterns
+#   - Deep Analysis: Component structure, prop patterns, composition
 #   - Responsible Agent: @vibing/agents/frontend-engineer.md
-#   - Detected React component patterns
-# ✓ Generated Store Context AGENT.md
+# ✓ Generated src/store/AGENT.md (State Management Agent)
+#   - Focus: State patterns, data flow, caching strategies
+#   - Deep Analysis: State structure, update patterns, side effects
 #   - Responsible Agent: @vibing/agents/frontend-engineer.md
-#   - Detected framework patterns, TypeScript rules
-# ✓ Generated E2E Context AGENT.md
+# ✓ Generated e2e/AGENT.md (E2E Testing Agent)
+#   - Focus: End-to-end testing, user journey validation
+#   - Deep Analysis: E2E framework setup, page object patterns
 #   - Responsible Agent: @vibing/agents/test-automation-engineer.md
-#   - Detected Playwright patterns
-# ✓ Generated Page Objects Context AGENT.md
-#   - Responsible Agent: @vibing/agents/test-automation-engineer.md
-#   - Detected page object patterns
-# ⚠ Skipped Data Context AGENT.md (no separate data layer detected)
+# ✓ Generated data/AGENT.md (Database Schema Agent)
+#   - Focus: Database design, schema patterns, migrations
+#   - Deep Analysis: Entity relationships, indexing strategies
+#   - Responsible Agent: @vibing/agents/data-engineer.md
+# ⚠ Skipped Authentication Agent (no auth patterns detected)
+# ⚠ Skipped Styling Agent (no styling patterns detected)
 ```
 
 ## Integration
