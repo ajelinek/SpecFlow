@@ -120,7 +120,7 @@ The generator uses a multi-phase approach to discover project structure and patt
 
 #### Component-Specific Context Generation
 
-1. **Backend Context** (`{detected-backend-dir}/AGENT.md`):
+1. **Backend Context**:
 
    - Backend overview inferred from code patterns
    - Backend technology stack from detected frameworks
@@ -133,7 +133,7 @@ The generator uses a multi-phase approach to discover project structure and patt
 
 - **Responsible Agent**: @vibing/agents/backend-engineer.md
 
-2. **Frontend Context** (`{detected-frontend-dir}/AGENT.md`):
+2. **Frontend Context**:
 
    - Frontend overview inferred from component analysis
    - Frontend technology stack from detected frameworks
@@ -146,7 +146,7 @@ The generator uses a multi-phase approach to discover project structure and patt
 
 - **Responsible Agent**: @vibing/agents/frontend-engineer.md
 
-3. **Store Context** (`{detected-store-dir}/AGENT.md`):
+3. **Store Context**:
 
    - Store overview inferred from store file analysis
    - Data management technology from detected patterns
@@ -159,7 +159,7 @@ The generator uses a multi-phase approach to discover project structure and patt
 
 - **Responsible Agent**: @vibing/agents/frontend-engineer.md
 
-4. **E2E Context** (`{detected-e2e-dir}/AGENT.md`):
+4. **E2E Context**:
 
    - E2E testing overview from test file analysis
    - Testing framework setup from detected frameworks
@@ -170,7 +170,7 @@ The generator uses a multi-phase approach to discover project structure and patt
 
 - **Responsible Agent**: @vibing/agents/test-automation-engineer.md
 
-5. **Page Objects Context** (`{detected-pages-dir}/AGENT.md`):
+5. **Page Objects Context**:
 
    - Page objects overview from page object file analysis
    - Page object structure with responsibilities
@@ -180,7 +180,7 @@ The generator uses a multi-phase approach to discover project structure and patt
 
 - **Responsible Agent**: @vibing/agents/test-automation-engineer.md
 
-6. **Data Context** (`{detected-data-dir}/AGENT.md`):
+6. **Data Context**:
    - Data layer overview from schema and migration analysis
    - Database technology from detected usage
    - Entity definitions with responsibilities
@@ -293,11 +293,9 @@ All generated files follow this compact specification-compliant structure (under
 - **Database**: [Detected from data layer]
 - **Testing**: [Detected from test files]
 
-## 3. Build, Test, and Development Commands
+## 3. Architecture and Design Patterns
 
-- `[command]` - [description from package.json scripts]
-- `[command]` - [description from package.json scripts]
-- `[command]` - [description from package.json scripts]
+[Brief description inferred from code organization and detected patterns]
 
 ## 4. Code Style and Conventions
 
@@ -305,37 +303,32 @@ All generated files follow this compact specification-compliant structure (under
 - **TypeScript**: @vibing/rules/common/foundation/typescript-guidelines.md
 - **General**: @vibing/rules/common/foundation/general-rules.md
 
-## 5. Architecture and Design Patterns
-
-[Brief description inferred from code organization and detected patterns]
-
-## 6. Component/Module Responsibilities
+## 5. Component/Module Responsibilities
 
 ### [Component/Module Name]
 
-- **Location**: `[detected path]`
 - **Responsible Agent**: @vibing/agents/[agent-name].md
 - **Purpose**: [Inferred from code analysis]
 - **Rules**: @vibing/rules/[category]/[rule-file].md, @vibing/rules/[category]/[rule-file].md
 
-## 7. Testing Guidelines
+## 6. Testing Guidelines
 
 - **Strategy**: @vibing/rules/common/testing/test-general.md
 - **Test Data**: @vibing/rules/common/testing/test-context.md
 - **E2E**: @vibing/rules/common/testing/test-e2e.md
 - **Framework**: @vibing/rules/[framework]/[framework]-testing-guidelines.md
 
-## 8. Security Considerations
+## 7. Security Considerations
 
 - **Error Handling**: @vibing/rules/common/foundation/error-handling-guidelines.md
 - **Authentication**: [Brief security practices inferred from code]
 - **Data Protection**: [Brief data handling practices inferred from code]
 
-## 9. Configuration
+## 8. Configuration
 
 [Brief environment setup and configuration management inferred from files]
 
-## 10. Common Tasks
+## 9. Common Tasks
 
 ### [Task Category]
 
@@ -372,22 +365,22 @@ All generated files follow this compact specification-compliant structure (under
 # - Agents: vibing/agents/
 
 # Outputs:
-# ✓ Generated src/api/AGENT.md
+# ✓ Generated Backend Context AGENT.md
 #   - Responsible Agent: @vibing/agents/backend-engineer.md
 #   - Detected Express API patterns
-# ✓ Generated src/ui/AGENT.md
+# ✓ Generated Frontend Context AGENT.md
 #   - Responsible Agent: @vibing/agents/frontend-engineer.md
 #   - Detected React component patterns
-# ✓ Generated src/ui/store/AGENT.md
+# ✓ Generated Store Context AGENT.md
 #   - Responsible Agent: @vibing/agents/frontend-engineer.md
 #   - Detected framework patterns, TypeScript rules
-# ✓ Generated e2e/AGENT.md
+# ✓ Generated E2E Context AGENT.md
 #   - Responsible Agent: @vibing/agents/test-automation-engineer.md
 #   - Detected Playwright patterns
-# ✓ Generated e2e/pages/AGENT.md
+# ✓ Generated Page Objects Context AGENT.md
 #   - Responsible Agent: @vibing/agents/test-automation-engineer.md
 #   - Detected page object patterns
-# ⚠ Skipped data/AGENT.md (no separate data layer detected)
+# ⚠ Skipped Data Context AGENT.md (no separate data layer detected)
 ```
 
 ## Integration
