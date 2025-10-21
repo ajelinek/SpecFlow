@@ -56,8 +56,8 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 - [ ] **VERIFY**: Test scenario ID(s) provided (e.g., TS001, TS002, TS003)
 - [ ] **VERIFY**: Completed Technical Design document available
-- [ ] Review context files: `_docs/design/01 - Project Overview.md`, `_docs/design/02 - System Architecture.md`, `_docs/design/03 - Data Model.md`, `_docs/design/04 - Backend Architecture.md`, `_docs/design/05 - Frontend Architecture.md`, `_docs/design/06 - UI Design.md`
-- [ ] Review `_docs/design/09 - Data Access Patterns.md` for data access requirements
+- [ ] Review context files: `_docs/design/D01 - Project Overview.md`, `_docs/design/D02 - System Architecture.md`, `_docs/design/D03 - Data Model.md`, `_docs/design/D04 - Backend Architecture.md`, `_docs/design/D05 - Frontend Architecture.md`, `_docs/design/D06 - UI Design.md`
+- [ ] Review `_docs/design/D09 - Data Access Patterns.md` for data access requirements
 - [ ] Activate @agents/technical-architect.md for implementation validation
 - [ ] Review Technical Design document thoroughly
 - [ ] **Focus ONLY on specific test scenario(s) with provided IDs**

@@ -23,7 +23,7 @@ The generator expects these design documents in `_docs/design/`:
 - `Data_Model.md` - Entity definitions and relationships
 - `Backend_Architecture.md` - API and service layer patterns
 - `Frontend_Architecture.md` - UI framework and component architecture
-- `09 - Data Access Patterns and Objects.md` - Data layer patterns
+- `D09 - Data Access Patterns and Objects.md` - Data layer patterns
 
 ## Agent-to-Component Mapping
 
@@ -288,7 +288,7 @@ All generated files follow this specification-compliant structure:
    - Extract data model from `Data_Model.md`
    - Extract backend patterns from `Backend_Architecture.md`
    - Extract frontend patterns from `Frontend_Architecture.md`
-   - Extract data access patterns from `09 - Data Access Patterns and Objects.md`
+   - Extract data access patterns from `D09 - Data Access Patterns and Objects.md`
 
 3. **Analyze Rules and Agents**:
 

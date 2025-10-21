@@ -1,6 +1,6 @@
 # Workflow: 109 - Data Access Patterns and Objects
 
-**Objective**: Create the `09 - Data Access Patterns and Objects.md` document that defines data access patterns, derived data objects, and API data structures required to support optimal user experience across all UI pages. This workflow analyzes UI flows to identify data requirements and bridges the gap between persisted data models and UI data needs.
+**Objective**: Create the `D09 - Data Access Patterns and Objects.md` document that defines data access patterns, derived data objects, and API data structures required to support optimal user experience across all UI pages. This workflow analyzes UI flows to identify data requirements and bridges the gap between persisted data models and UI data needs.
 
 ---
 
@@ -28,7 +28,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ### 1. Invoke Data Architect Agent
 
 - [ ] Activate @agents/data-architect.md persona
-- [ ] Review `_docs/design/03 - Data Model.md` for current persisted data structure
+- [ ] Review `_docs/design/D03 - Data Model.md` for current persisted data structure
 - [ ] Consult with @agents/frontend-architect.md for UI data consumption patterns
 - [ ] Consult with @agents/backend-architect.md for API design patterns
 
@@ -71,7 +71,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 ### 4. Generate Data Access Patterns Document
 
-- [ ] Use @templates/09 - Data Access Patterns and Objects.md template structure
+- [ ] Use @templates/T09 - Data Access Patterns and Objects.md template structure
 - [ ] Populate all 5 sections with specific technical details based on UI flow analysis
 - [ ] Define core data access patterns identified from UI requirements
 - [ ] Create data object tables with field definitions, sources, and derivation logic
@@ -98,7 +98,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Real-time data requirements defined with appropriate delivery methods
 - [ ] Each data object has its own table with clear field definitions
 - [ ] Document aligns with system architecture, data model, and frontend architecture
-- [ ] Store completed document in `_docs/design/09 - Data Access Patterns and Objects.md`
+- [ ] Store completed document in `_docs/design/D09 - Data Access Patterns and Objects.md`
 
 ---
 

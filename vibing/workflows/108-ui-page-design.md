@@ -27,18 +27,18 @@
 ### 1. Invoke UI Designer Agent
 
 - [ ] Activate @agents/ui-designer.md persona
-- [ ] Review `_docs/design/01 - Project Overview.md` for business context
-- [ ] Review `_docs/design/02 - System Architecture.md` for technical constraints
-- [ ] Review `_docs/design/05 - Frontend Architecture.md` for component architecture
-- [ ] Review `_docs/design/06 - UI Design.md` for design system guidelines
-- [ ] Review `_docs/design/07 - UI Experience Overview.md` for navigation context
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business context
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D05 - Frontend Architecture.md` for component architecture
+- [ ] Review `_docs/design/D06 - UI Design.md` for design system guidelines
+- [ ] Review `_docs/design/D07 - UI Experience Overview.md` for navigation context
 - [ ] Consult with @agents/ux-designer.md for user experience flow
 - [ ] Consult with @agents/frontend-architect.md for implementation feasibility
 - [ ] Consult with @agents/product-manager.md for business requirements
 
 ### 2. Generate Page Design
 
-- [ ] Use @templates/08 - UI Page Design.md structure
+- [ ] Use @templates/T08 - UI Page Design.md structure
 - [ ] Create high-fidelity SVG wireframes for major interactions (menus, modals, alerts, complex components)
 - [ ] Create Mermaid user journey diagrams and flow diagrams showing mobile-first and desktop enhancement patterns
 - [ ] Populate all 5 sections with core page design details

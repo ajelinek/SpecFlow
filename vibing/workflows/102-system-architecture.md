@@ -1,6 +1,6 @@
 # Workflow: 102 - System Architecture Generation
 
-**Objective**: Create the `02 - System Architecture.md` document that describes high-level system structure, technology choices, and architectural patterns required to meet business needs.
+**Objective**: Create the `D02 - System Architecture.md` document that describes high-level system structure, technology choices, and architectural patterns required to meet business needs.
 
 ---
 
@@ -40,12 +40,12 @@
 ### 1. Invoke System Architect Agent
 
 - [ ] Activate @agents/system-architect.md persona
-- [ ] Review `_docs/design/01 - Project Overview.md` for business requirements
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
 - [ ] Consult with @agents/product-manager.md for business context
 
 ### 3. Generate System Architecture
 
-- [ ] Use @templates/system-architecture.md structure
+- [ ] Use @templates/T02 - System Architecture.md structure
 - [ ] Populate all 6 sections with specific technical details
 - [ ] Ensure architecture decisions align with business requirements
 
@@ -66,7 +66,7 @@
 - [ ] Single points of failure identified and mitigated
 - [ ] Security measures defined at all layers
 - [ ] Document follows @fragments/response-formatting.md
-- [ ] Store completed document in `_docs/design/02 - System Architecture.md`
+- [ ] Store completed document in `_docs/design/D02 - System Architecture.md`
 
 ---
 

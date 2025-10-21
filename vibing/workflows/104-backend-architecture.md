@@ -1,6 +1,6 @@
 # Workflow: 104 - Backend Architecture Generation
 
-**Objective**: Create the `04 - Backend Architecture.md` document that details backend service architecture, API design patterns, data access strategies, and security implementation required to support the system architecture.
+**Objective**: Create the `D04 - Backend Architecture.md` document that details backend service architecture, API design patterns, data access strategies, and security implementation required to support the system architecture.
 
 ---
 
@@ -40,15 +40,15 @@
 ### 1. Invoke Backend Architect Agent
 
 - [ ] Activate @agents/backend-architect.md persona
-- [ ] Review `_docs/design/01 - Project Overview.md` for business requirements
-- [ ] Review `_docs/design/02 - System Architecture.md` for technical constraints
-- [ ] Review `_docs/design/03 - Data Model.md` for data access patterns
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D03 - Data Model.md` for data access patterns
 - [ ] Consult with @agents/system-architect.md for architecture alignment
 - [ ] Consult with @agents/data-architect.md for data layer coordination
 
 ### 3. Generate Backend Architecture
 
-- [ ] Use @templates/04 - Backend Architecture.md structure
+- [ ] Use @templates/T04 - Backend Architecture.md structure
 - [ ] Populate all 7 sections with specific technical details
 - [ ] Ensure backend decisions align with system architecture and business requirements
 - [ ] Validate security measures are comprehensive and current
@@ -71,7 +71,7 @@
 - [ ] Background processing strategy defined if needed
 - [ ] Logging and monitoring strategy comprehensive
 - [ ] Performance and scalability considerations addressed
-- [ ] Store completed document in `_docs/design/04 - Backend Architecture.md`
+- [ ] Store completed document in `_docs/design/D04 - Backend Architecture.md`
 
 ---
 

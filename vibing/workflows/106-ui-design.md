@@ -1,6 +1,6 @@
 # Workflow: 106 - UI Design Generation
 
-**Objective**: Create the `06 - UI Design.md` document that establishes strategic design decisions and visual system principles for the application, focusing on design philosophy rather than implementation details.
+**Objective**: Create the `D06 - UI Design.md` document that establishes strategic design decisions and visual system principles for the application, focusing on design philosophy rather than implementation details.
 
 ---
 
@@ -31,9 +31,9 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ### 1. Invoke UI Designer Agent
 
 - [ ] Activate @agents/ui-designer.md persona
-- [ ] Review `_docs/design/01 - Project Overview.md` for business context and user goals
-- [ ] Review `_docs/design/02 - System Architecture.md` for technical constraints
-- [ ] Review `_docs/design/05 - Frontend Architecture.md` for component architecture constraints
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business context and user goals
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D05 - Frontend Architecture.md` for component architecture constraints
 - [ ] Consult with @agents/frontend-architect.md for implementation feasibility
 - [ ] Consult with @agents/product-manager.md for user experience requirements
 
@@ -44,7 +44,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 ### 3. Generate Strategic UI Design
 
-- [ ] Use @templates/06 - UI Design.md structure
+- [ ] Use @templates/T06 - UI Design.md structure
 - [ ] Populate all 7 sections with strategic design decisions
 - [ ] Research design system trends and accessibility best practices
 - [ ] Ensure design philosophy aligns with business requirements and frontend architecture
@@ -63,7 +63,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Design philosophy traces back to business requirements and user goals
 - [ ] Accessibility compliance verified and design rationale clear
 - [ ] Design strategy integrates with frontend framework architecture
-- [ ] Store completed document in `_docs/design/06 - UI Design.md`
+- [ ] Store completed document in `_docs/design/D06 - UI Design.md`
 
 ---
 

@@ -1,6 +1,6 @@
 # Workflow: 103 - Data Model Generation
 
-**Objective**: Create the `03 - Data Model.md` document that details the persisted data model, including entities, their attributes, relationships, and constraints. This focuses solely on the data structure and relationships independent of access patterns or user experience.
+**Objective**: Create the `D03 - Data Model.md` document that details the persisted data model, including entities, their attributes, relationships, and constraints. This focuses solely on the data structure and relationships independent of access patterns or user experience.
 
 ---
 
@@ -30,8 +30,8 @@
 ### 1. Invoke Data Architect Agent
 
 - [ ] Activate @agents/data-architect.md persona
-- [ ] Review `_docs/design/01 - Project Overview.md` for business entities and requirements
-- [ ] Review `_docs/design/02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business entities and requirements
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
 - [ ] Consult with @agents/system-architect.md for architecture alignment
 
 ### 2. Research Data Modeling Patterns
@@ -40,7 +40,7 @@
 
 ### 3. Generate Data Model
 
-- [ ] Use @templates/03 - Data Model.md structure
+- [ ] Use @templates/T03 - Data Model.md structure
 - [ ] Populate all 7 sections with specific technical details focused on persisted data
 - [ ] Ensure data model supports business requirements and system architecture
 - [ ] Create Mermaid ERD diagram for entity relationships
@@ -62,7 +62,7 @@
 - [ ] Data lifecycle and schema management documented
 - [ ] Mermaid ERD diagram accurately represents entity relationships
 - [ ] Data model aligns with system architecture and business requirements
-- [ ] Store completed document in `_docs/design/03 - Data Model.md`
+- [ ] Store completed document in `_docs/design/D03 - Data Model.md`
 
 ---
 

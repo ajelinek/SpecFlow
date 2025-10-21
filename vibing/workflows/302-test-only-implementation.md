@@ -32,11 +32,11 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ### 1. Invoke Test Automation Engineer Agent
 
 - [ ] Activate @agents/test-automation-engineer.md persona
-- [ ] Review `_docs/design/01 - Project Overview.md` for business requirements
-- [ ] Review `_docs/design/02 - System Architecture.md` for technical constraints
-- [ ] Review `_docs/design/03 - Data Model.md` for data access patterns
-- [ ] Review `_docs/design/04 - Backend Architecture.md` for API testing patterns
-- [ ] Review `_docs/design/05 - Frontend Architecture.md` for UI testing patterns
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D03 - Data Model.md` for data access patterns
+- [ ] Review `_docs/design/D04 - Backend Architecture.md` for API testing patterns
+- [ ] Review `_docs/design/D05 - Frontend Architecture.md` for UI testing patterns
 - [ ] Review feature documentation for test scenario requirements
 - [ ] Consult with @agents/test-analyst.md for test scenario validation
 - [ ] Consult with @agents/frontend-engineer.md for UI component testing patterns

@@ -33,15 +33,15 @@
 
 - [ ] Activate @agents/technical-architect.md as workflow driver
 - [ ] Review technical design document for structure and completeness
-- [ ] Analyze document against @templates/11 - Technical Design.md structure
+- [ ] Analyze document against @templates/T11 - Technical Design.md structure
 - [ ] Coordinate with specialized architect agents for domain-specific validation
 - [ ] Coordinate with engineer agents for implementation pattern validation
 
 ### 2. Architecture Validation
 
-- [ ] **Frontend**: Activate @agents/frontend-architect.md, review `_docs/design/05 - Frontend Architecture.md`, validate component patterns and state management
-- [ ] **Backend**: Activate @agents/backend-architect.md, review `_docs/design/04 - Backend Architecture.md`, validate API design and business logic
-- [ ] **Data**: Activate @agents/data-architect.md, review `_docs/design/03 - Data Model.md`, validate schema changes and data access patterns
+- [ ] **Frontend**: Activate @agents/frontend-architect.md, review `_docs/design/D05 - Frontend Architecture.md`, validate component patterns and state management
+- [ ] **Backend**: Activate @agents/backend-architect.md, review `_docs/design/D04 - Backend Architecture.md`, validate API design and business logic
+- [ ] **Data**: Activate @agents/data-architect.md, review `_docs/design/D03 - Data Model.md`, validate schema changes and data access patterns
 
 ### 3. Code Pattern Validation
 
@@ -57,7 +57,7 @@
 - [ ] Feature Overview section present and complete (workflow 008)
 - [ ] System/User Flow section with Mermaid diagram (workflow 008)
 - [ ] Test Scenarios section with Gherkin syntax (workflow 009)
-- [ ] Document follows @templates/11 - Technical Design.md structure
+- [ ] Document follows @templates/T11 - Technical Design.md structure
 
 ### 5. Technical Accuracy Verification
 
@@ -153,27 +153,17 @@ Provide high-level assessment of plan completeness, accuracy, and readiness for 
 
 ### Issues
 
-#### I1. 🔴|🟡|🔵 [Describe what is wrong]
+#### 1. 🔴|🟡|🔵 [Describe what is wrong]
 
 _Action_: [Exact, concise fix]
 
-#### I2. 🔴|🟡|🔵 [...]
+#### 2. 🔴|🟡|🔵 [...]
 
 _Action_: [...]
 
-#### I3. 🔴|🟡|🔵 [...]
+#### 3. 🔴|🟡|🔵 [...]
 
 _Action_: [...]
-
-### Risk Assessment
-
-#### R1. 🔴|🟡|🔵 [Describe the risk]
-
-_Mitigation_: [Action to reduce risk]
-
-#### R2. 🔴|🟡|🔵 [...]
-
-_Mitigation_: [...]
 
 ### Conclusion
 

@@ -1,6 +1,6 @@
 # Workflow: 101 - Project Overview Generation
 
-**Objective**: Create the foundational `01 - Project Overview.md` document that establishes core business purpose, target users, and success criteria for the project.
+**Objective**: Create the foundational `D01 - Project Overview.md` document that establishes core business purpose, target users, and success criteria for the project.
 
 ---
 
@@ -33,7 +33,7 @@
 
 ### 2. Generate Project Overview
 
-- [ ] Use @templates/project-overview.md structure
+- [ ] Use @templates/T01 - Project Overview.md structure
 - [ ] Populate all 6 sections with specific content
 - [ ] Create 3-5 critical user journeys
 - [ ] Establish measurable success metrics

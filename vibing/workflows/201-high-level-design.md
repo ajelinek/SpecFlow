@@ -1,6 +1,6 @@
 # Workflow: 201 - High-Level Feature Design
 
-**Objective**: Create the `11 - Technical Design.md` document that defines the high-level business goals, user value proposition, and system flow for a new feature, establishing the foundation for detailed implementation planning.
+**Objective**: Create the `D11 - Technical Design.md` document that defines the high-level business goals, user value proposition, and system flow for a new feature, establishing the foundation for detailed implementation planning.
 
 ---
 
@@ -36,13 +36,13 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 - [ ] Activate @agents/product-manager.md persona
 - [ ] Confirm the specific feature name and ID from Feature Overview
-- [ ] Review `_docs/design/01 - Project Overview.md` for business context and success metrics
-- [ ] Review `_docs/design/10 - Feature Overview.md` for the specific feature requirements and user stories
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business context and success metrics
+- [ ] Review `_docs/design/D10 - Feature Overview.md` for the specific feature requirements and user stories
 - [ ] Validate business requirements and user value proposition for the specific feature
 
 ### 2. Generate High-Level Design
 
-- [ ] Use @templates/11 - Technical Design.md structure
+- [ ] Use @templates/T11 - Technical Design.md structure
 - [ ] Replace `[F#] - [Feature Name]` with the specific feature name and ID
 - [ ] Populate Feature Overview section with business purpose and user value for the specific feature
 - [ ] Create System/User Flow section with Mermaid diagram showing user journey for the specific feature

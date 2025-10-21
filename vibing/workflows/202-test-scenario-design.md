@@ -38,8 +38,8 @@ Design comprehensive test scenarios using these principles: favor larger scenari
 ### 1. Invoke Test Analyst Agent
 
 - [ ] Activate @agents/test-analyst.md persona
-- [ ] Review `_docs/design/01 - Project Overview.md` for business context, user goals, and success metrics
-- [ ] Review `_docs/design/07 - UI Experience Overview.md` for user journey architecture and navigation patterns
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business context, user goals, and success metrics
+- [ ] Review `_docs/design/D07 - UI Experience Overview.md` for user journey architecture and navigation patterns
 - [ ] Review relevant `_docs/ui-flows/[page-name].md` files for specific user interactions and page flows
 - [ ] Review `_docs/features/[feature-name]-Overview.md` for feature-specific business requirements
 - [ ] Review partially completed `_docs/features/[feature-name]-Technical_Design.md` for feature overview and system flow
@@ -55,7 +55,7 @@ Design comprehensive test scenarios using these principles: favor larger scenari
 
 ### 3. Generate Test Scenarios
 
-- [ ] Use @templates/11 - Technical Design.md structure
+- [ ] Use @templates/T11 - Technical Design.md structure
 - [ ] Populate the "Test Scenarios (Gherkin)" section with comprehensive scenarios
 - [ ] **Design Large, Comprehensive Scenarios**: Create scenarios that cover entire user workflows with multiple assertions
 - [ ] **Include Multiple Assertions**: Each scenario should validate various aspects of the user journey

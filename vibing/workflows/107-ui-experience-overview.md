@@ -1,6 +1,6 @@
 # Workflow: 107 - UI Experience Overview Generation
 
-**Objective**: Create the `07 - UI Experience Overview.md` document that establishes comprehensive user experience architecture, navigation patterns, and user journey mapping for the application.
+**Objective**: Create the `D07 - UI Experience Overview.md` document that establishes comprehensive user experience architecture, navigation patterns, and user journey mapping for the application.
 
 ---
 
@@ -35,10 +35,10 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ### 1. Invoke UX Designer Agent
 
 - [ ] Activate @agents/ux-designer.md persona
-- [ ] Review `_docs/design/01 - Project Overview.md` for business context and user goals
-- [ ] Review `_docs/design/02 - System Architecture.md` for technical constraints
-- [ ] Review `_docs/design/05 - Frontend Architecture.md` for component architecture constraints
-- [ ] Review `_docs/design/06 - UI Design.md` for established design system
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business context and user goals
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D05 - Frontend Architecture.md` for component architecture constraints
+- [ ] Review `_docs/design/D06 - UI Design.md` for established design system
 - [ ] Consult with @agents/ui-designer.md for visual design integration
 - [ ] Consult with @agents/frontend-architect.md for implementation feasibility
 - [ ] Consult with @agents/product-manager.md for user experience requirements
@@ -50,7 +50,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 ### 3. Generate UI Experience Overview
 
-- [ ] Use @templates/07 - UI Experience Overview.md structure
+- [ ] Use @templates/T07 - UI Experience Overview.md structure
 - [ ] Populate all 8 sections with comprehensive UX strategy
 - [ ] Ensure user experience decisions align with business requirements and design system
 - [ ] Create user journey maps and navigation flow diagrams
@@ -75,7 +75,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Navigation architecture clearly defined with consistent patterns
 - [ ] User journey mapping covers all critical paths and user roles
 - [ ] Accessibility requirements addressed for navigation and user flows
-- [ ] Store completed document in `_docs/design/07 - UI Experience Overview.md`
+- [ ] Store completed document in `_docs/design/D07 - UI Experience Overview.md`
 
 ---
 

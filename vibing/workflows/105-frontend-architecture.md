@@ -1,6 +1,6 @@
 # Workflow: 105 - Frontend Architecture Generation
 
-**Objective**: Create the `05 - Frontend Architecture.md` document that describes frontend component structure, state management strategy, UI framework conventions, and development patterns required to deliver optimal user experience.
+**Objective**: Create the `D05 - Frontend Architecture.md` document that describes frontend component structure, state management strategy, UI framework conventions, and development patterns required to deliver optimal user experience.
 
 ---
 
@@ -42,16 +42,16 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ### 1. Invoke Frontend Architect Agent
 
 - [ ] Activate @agents/frontend-architect.md persona
-- [ ] Review `_docs/design/01 - Project Overview.md` for business requirements
-- [ ] Review `_docs/design/02 - System Architecture.md` for technical constraints
-- [ ] Review `_docs/design/03 - Data Model.md` for data structure requirements
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
+- [ ] Review `_docs/design/D03 - Data Model.md` for data structure requirements
 - [ ] Consult with @agents/system-architect.md for system integration patterns
 - [ ] Consult with @agents/product-manager.md for user experience requirements
 - [ ] Consult with @agents/seo-specialist.md for SEO requirements and technical implementation
 
 ### 3. Generate Frontend Architecture
 
-- [ ] Use @templates/05 - Frontend Architecture.md structure
+- [ ] Use @templates/T05 - Frontend Architecture.md structure
 - [ ] Populate all 8 sections with specific technical details
 - [ ] Ensure architecture decisions align with business requirements and system architecture
 - [ ] Define component hierarchy and state management patterns
@@ -75,7 +75,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] State management strategy addresses all state types
 - [ ] Testing strategy covers unit, integration, and E2E testing
 - [ ] Performance and accessibility requirements explicitly addressed
-- [ ] Store completed document in `_docs/design/05 - Frontend Architecture.md`
+- [ ] Store completed document in `_docs/design/D05 - Frontend Architecture.md`
 
 ---
 

@@ -49,20 +49,20 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ### 1. Invoke Technical Architect Agent
 
 - [ ] Activate @agents/technical-architect.md persona as workflow driver
-- [ ] Review context files: `_docs/design/01 - Project Overview.md`, `_docs/design/02 - System Architecture.md`, `_docs/design/03 - Data Model.md`, `_docs/design/04 - Backend Architecture.md`, `_docs/design/05 - Frontend Architecture.md`
+- [ ] Review context files: `_docs/design/D01 - Project Overview.md`, `_docs/design/D02 - System Architecture.md`, `_docs/design/D03 - Data Model.md`, `_docs/design/D04 - Backend Architecture.md`, `_docs/design/D05 - Frontend Architecture.md`
 - [ ] Analyze feature requirements and test scenarios
 - [ ] Coordinate with specialized engineer agents for implementation details
 
 ### 2. Coordinate with Engineer Agents
 
-- [ ] **Frontend**: Activate @agents/frontend-engineer.md, review `_docs/design/05 - Frontend Architecture.md` and `UI/AGENT.md`, define new UI components and state management requirements
-- [ ] **Backend**: Activate @agents/backend-engineer.md, review `_docs/design/04 - Backend Architecture.md` and `API/AGENT.md`, define new API endpoints and business logic requirements
-- [ ] **Data**: Activate @agents/data-engineer.md, review `_docs/design/03 - Data Model.md` and `API/AGENT.md`, define schema changes and data access patterns
+- [ ] **Frontend**: Activate @agents/frontend-engineer.md, review `_docs/design/D05 - Frontend Architecture.md` and `UI/AGENT.md`, define new UI components and state management requirements
+- [ ] **Backend**: Activate @agents/backend-engineer.md, review `_docs/design/D04 - Backend Architecture.md` and `API/AGENT.md`, define new API endpoints and business logic requirements
+- [ ] **Data**: Activate @agents/data-engineer.md, review `_docs/design/D03 - Data Model.md` and `API/AGENT.md`, define schema changes and data access patterns
 - [ ] Ensure no duplication of existing functionality across all layers
 
 ### 3. Generate Implementation Design
 
-- [ ] Use @templates/11 - Technical Design.md structure
+- [ ] Use @templates/T11 - Technical Design.md structure
 - [ ] Populate Change Summary Table with all required modifications
 - [ ] Define detailed implementation specifications for each component using module/function format
 - [ ] Ensure all test scenarios are addressed in implementation details

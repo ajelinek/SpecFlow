@@ -1,6 +1,6 @@
 # Workflow: 110 - Feature Overview Generation
 
-**Objective**: Create the `10 - Feature Overview.md` document that provides a clear, actionable, and trackable plan for implementation by listing small, cross-cutting features that deliver end-to-end user value in vertical slices, following agile best practices while respecting foundational framework dependencies.
+**Objective**: Create the `D10 - Feature Overview.md` document that provides a clear, actionable, and trackable plan for implementation by listing small, cross-cutting features that deliver end-to-end user value in vertical slices, following agile best practices while respecting foundational framework dependencies.
 
 ---
 
@@ -35,15 +35,15 @@ Before proceeding, evaluate the referenced rules to understand established patte
 ### 1. Invoke Product Manager Agent
 
 - [ ] Activate @agents/product-manager.md persona
-- [ ] Review `_docs/design/01 - Project Overview.md` for business requirements and success metrics
-- [ ] Review `_docs/design/02 - System Architecture.md` for technical constraints and dependencies
-- [ ] Review `_docs/design/03 - Data Model.md` for data requirements and relationships
-- [ ] Review `_docs/design/04 - Backend Architecture.md` for API and service dependencies
-- [ ] Review `_docs/design/05 - Frontend Architecture.md` for component and UI dependencies
-- [ ] Review `_docs/design/06 - UI Design.md` for design system and user experience requirements
-- [ ] Review `_docs/design/07 - UI Experience Overview.md` for user journey and interaction patterns
-- [ ] Review `_docs/design/08 - UI Page Design.md` for page-specific requirements and functionality
-- [ ] Review `_docs/design/09 - Data Access Patterns and Objects.md` for data access requirements
+- [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements and success metrics
+- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints and dependencies
+- [ ] Review `_docs/design/D03 - Data Model.md` for data requirements and relationships
+- [ ] Review `_docs/design/D04 - Backend Architecture.md` for API and service dependencies
+- [ ] Review `_docs/design/D05 - Frontend Architecture.md` for component and UI dependencies
+- [ ] Review `_docs/design/D06 - UI Design.md` for design system and user experience requirements
+- [ ] Review `_docs/design/D07 - UI Experience Overview.md` for user journey and interaction patterns
+- [ ] Review `_docs/design/D08 - UI Page Design.md` for page-specific requirements and functionality
+- [ ] Review `_docs/design/D09 - Data Access Patterns and Objects.md` for data access requirements
 - [ ] Review all UI flow documents in `_docs/ui-flows/` for user interaction requirements
 - [ ] Consult with @agents/domain-expert.md for business domain knowledge and requirements validation
 - [ ] Consult with @agents/system-architect.md for technical feasibility and architecture constraints
@@ -65,7 +65,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 
 ### 3. Generate Feature Overview Document
 
-- [ ] Use @templates/10 - Feature Overview.md template structure
+- [ ] Use @templates/T10 - Feature Overview.md template structure
 - [ ] Populate all 2 sections with specific vertical slice features and user stories
 - [ ] Apply WSJF scoring to rank vertical slices by business value and implementation effort
 - [ ] Ensure features are listed in WSJF priority order (highest value/effort ratio first)
@@ -103,7 +103,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Foundational frameworks identified and prioritized appropriately
 - [ ] Features cut across all system layers rather than being layered
 - [ ] Document aligns with all design documents and business requirements
-- [ ] Store completed document in `_docs/design/10 - Feature Overview.md`
+- [ ] Store completed document in `_docs/design/D10 - Feature Overview.md`
 
 ---
 
