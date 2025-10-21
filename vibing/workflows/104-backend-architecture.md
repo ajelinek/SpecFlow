@@ -2,13 +2,11 @@
 
 **Objective**: Create the `D04 - Backend Architecture.md` document that details backend service architecture, API design patterns, data access strategies, and security implementation required to support the system architecture.
 
----
-
-## Pre-Flight Validation
+## Required Inputs
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
-### Validation Questions
+## Validation Questions
 
 1. **API Style**: What API style will be used (REST, GraphQL, gRPC, tRPC)?
 2. **Authentication Method**: How will users authenticate (JWT, OAuth, session-based, API keys)?
@@ -33,11 +31,7 @@
 21. **Performance Requirements**: What are the performance requirements (response times, throughput)?
 22. **Security Compliance**: Are there specific security compliance requirements (GDPR, HIPAA, SOC 2)?
 
----
-
-## Execution Checklist
-
-### 1. Invoke Backend Architect Agent
+## Agents to Invoke
 
 - [ ] Activate @agents/backend-architect.md persona
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
@@ -46,24 +40,13 @@
 - [ ] Consult with @agents/system-architect.md for architecture alignment
 - [ ] Consult with @agents/data-architect.md for data layer coordination
 
-### 3. Generate Backend Architecture
+## Execute Checklist
 
 - [ ] Use @templates/T04 - Backend Architecture.md structure
 - [ ] Populate all 7 sections with specific technical details
-- [ ] Ensure backend decisions align with system architecture and business requirements
-- [ ] Validate security measures are comprehensive and current
-
-### 4. Apply Quality Standards
-
 - [ ] Verify all technology choices have clear rationale and security considerations
 - [ ] Validate architecture supports stated performance and scalability requirements
 - [ ] Ensure error handling and monitoring strategies are comprehensive
-
----
-
-## Post-Validation Checklist
-
-- [ ] All 7 template sections populated with specific technical details
 - [ ] Backend architecture decisions trace back to system architecture and business requirements
 - [ ] API design patterns clearly defined with examples
 - [ ] Security measures comprehensive and current
@@ -72,7 +55,5 @@
 - [ ] Logging and monitoring strategy comprehensive
 - [ ] Performance and scalability considerations addressed
 - [ ] Store completed document in `_docs/design/D04 - Backend Architecture.md`
-
----
 
 **Note**: All responses should follow @fragments/response-formatting.md

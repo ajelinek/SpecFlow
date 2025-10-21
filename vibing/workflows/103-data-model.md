@@ -2,13 +2,11 @@
 
 **Objective**: Create the `D03 - Data Model.md` document that details the persisted data model, including entities, their attributes, relationships, and constraints. This focuses solely on the data structure and relationships independent of access patterns or user experience.
 
----
-
-## Pre-Flight Validation
+## Required Inputs
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
-### Validation Questions
+## Validation Questions
 
 1. **Core Business Entities**: What are the main business entities that need to be stored (users, projects, orders, etc.)?
 2. **Entity Relationships**: How do these entities relate to each other (one-to-many, many-to-many, etc.)?
@@ -23,47 +21,26 @@
 11. **Data Migration**: Do you have existing data that needs to be migrated?
 12. **Data Archival**: How should old or inactive data be handled?
 
----
-
-## Execution Checklist
-
-### 1. Invoke Data Architect Agent
+## Agents to Invoke
 
 - [ ] Activate @agents/data-architect.md persona
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business entities and requirements
 - [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
 - [ ] Consult with @agents/system-architect.md for architecture alignment
 
-### 2. Research Data Modeling Patterns
+## Execute Checklist
 
 - [ ] Verify data modeling patterns and performance optimization techniques
-
-### 3. Generate Data Model
-
 - [ ] Use @templates/T03 - Data Model.md structure
 - [ ] Populate all 7 sections with specific technical details focused on persisted data
-- [ ] Ensure data model supports business requirements and system architecture
 - [ ] Create Mermaid ERD diagram for entity relationships
-
-### 4. Apply Quality Standards
-
 - [ ] Verify all entities have clear business purpose
 - [ ] Validate relationships support business workflows
 - [ ] Confirm security and privacy requirements are addressed
-
----
-
-## Post-Validation Checklist
-
-- [ ] All 7 template sections populated with specific technical details focused on persisted data
 - [ ] Entity relationships clearly defined with proper constraints
 - [ ] Data constraints and business rules documented
 - [ ] Security and privacy measures defined for sensitive data
-- [ ] Data lifecycle and schema management documented
-- [ ] Mermaid ERD diagram accurately represents entity relationships
 - [ ] Data model aligns with system architecture and business requirements
 - [ ] Store completed document in `_docs/design/D03 - Data Model.md`
-
----
 
 **Note**: All responses should follow @fragments/response-formatting.md

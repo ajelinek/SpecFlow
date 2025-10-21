@@ -2,13 +2,11 @@
 
 **Objective**: Create the foundational `D01 - Project Overview.md` document that establishes core business purpose, target users, and success criteria for the project.
 
----
-
-## Pre-Flight Validation
+## Required Inputs
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
-### Validation Questions
+## Validation Questions
 
 1. **Pain Point**: What specific problem does this application solve that existing solutions don't address well?
 2. **Competitive Differentiation**: Who are direct competitors and how will this application differentiate itself?
@@ -22,40 +20,22 @@
 10. **Security/Compliance**: Are there specific security, compliance, or regulatory requirements?
 11. **Deployment Environment**: What's your preferred deployment environment and infrastructure setup?
 
----
-
-## Execution Checklist
-
-### 1. Invoke Product Manager Agent
+## Agents to Invoke
 
 - [ ] Activate @agents/product-manager.md persona
 - [ ] Consult with @agents/domain-expert.md for domain expertise
 
-### 2. Generate Project Overview
+## Execute Checklist
 
 - [ ] Use @templates/T01 - Project Overview.md structure
-- [ ] Populate all 6 sections with specific content
 - [ ] Create 3-5 critical user journeys
 - [ ] Establish measurable success metrics
-
-### 3. Apply Quality Standards
-
 - [ ] Ensure business clarity (no technical jargon)
-- [ ] Verify all sections populated with specific content
 - [ ] Check logical flow and organization
-
----
-
-## Post-Validation Checklist
-
-- [ ] All 6 template sections populated with specific content
 - [ ] Value proposition clearly differentiates from competitors
 - [ ] User goals are specific and measurable
 - [ ] Success metrics are quantifiable and relevant
+- [ ] All 6 template sections populated with specific content
 - [ ] Store completed document in `_docs/design/Project_Overview.md`
-
----
-
----
 
 **Note**: All responses should follow @fragments/response-formatting.md

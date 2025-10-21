@@ -88,7 +88,7 @@ The generator uses a multi-phase approach to discover project structure and patt
 - **Hook Patterns**: Analyze hook patterns and usage
 - **Technology Detection**: Identify data management solutions
 - **Rule Mapping**: Identify which data management rules apply
-- **Agent Assignment**: Assign data-engineer agent
+- **Agent Assignment**: Assign frontend-engineer agent
 
 #### E2E Analysis
 
@@ -155,8 +155,9 @@ The generator uses a multi-phase approach to discover project structure and patt
    - Data fetching conventions from code patterns
    - Hook patterns from detected usage
    - Data management rule references
+   - TypeScript guidelines for store components
 
-- **Responsible Agent**: @vibing/agents/data-engineer.md
+- **Responsible Agent**: @vibing/agents/frontend-engineer.md
 
 4. **E2E Context** (`{detected-e2e-dir}/AGENT.md`):
 
@@ -211,18 +212,18 @@ The generator uses a multi-phase approach to discover project structure and patt
 
 The generator uses this matrix to assign agents to detected components:
 
-| Component Type        | Directory Pattern             | Responsible Agent           | Primary Rules                       |
-| --------------------- | ----------------------------- | --------------------------- | ----------------------------------- |
-| Backend API           | `api/`, `backend/`, `server/` | backend-engineer.md         | backend, foundation, error-handling |
-| Frontend UI           | `ui/`, `frontend/`, `client/` | frontend-engineer.md        | framework-specific, ui, foundation  |
-| Data Store            | `store/`, `state/`, `data/`   | data-engineer.md            | apollo/data-management, data        |
-| E2E Tests             | `e2e/`, `tests/e2e/`          | test-automation-engineer.md | testing/e2e, test-context           |
-| Page Objects          | `pages/`, `page-objects/`     | test-automation-engineer.md | testing/page-objects                |
-| Database              | `data/`, `database/`, `db/`   | data-engineer.md            | data/persistence                    |
-| Foundation Components | `components/foundation/`      | frontend-engineer.md        | ui/foundational-components          |
-| Feature Components    | `components/features/`        | frontend-engineer.md        | ui/component-guidelines             |
-| Services              | `services/`                   | backend-engineer.md         | backend, foundation                 |
-| Repositories          | `repositories/`               | data-engineer.md            | data, foundation                    |
+| Component Type        | Directory Pattern             | Responsible Agent           | Primary Rules                                  |
+| --------------------- | ----------------------------- | --------------------------- | ---------------------------------------------- |
+| Backend API           | `api/`, `backend/`, `server/` | backend-engineer.md         | backend, foundation, error-handling            |
+| Frontend UI           | `ui/`, `frontend/`, `client/` | frontend-engineer.md        | framework-specific, ui, foundation             |
+| Data Store            | `store/`, `state/`, `data/`   | frontend-engineer.md        | framework-specific, ui, foundation, typescript |
+| E2E Tests             | `e2e/`, `tests/e2e/`          | test-automation-engineer.md | testing/e2e, test-context                      |
+| Page Objects          | `pages/`, `page-objects/`     | test-automation-engineer.md | testing/page-objects                           |
+| Database              | `data/`, `database/`, `db/`   | data-engineer.md            | data/persistence                               |
+| Foundation Components | `components/foundation/`      | frontend-engineer.md        | ui/foundational-components                     |
+| Feature Components    | `components/features/`        | frontend-engineer.md        | ui/component-guidelines                        |
+| Services              | `services/`                   | backend-engineer.md         | backend, foundation                            |
+| Repositories          | `repositories/`               | data-engineer.md            | data, foundation                               |
 
 ## Rule Analysis and Mapping
 
@@ -271,7 +272,7 @@ The generator uses this matrix to assign agents to detected components:
 
 ## Standardized AGENT.md Structure
 
-All generated files follow this specification-compliant structure:
+All generated files follow this compact specification-compliant structure (under 75 lines):
 
 ```markdown
 # [Component Name] Context
@@ -282,11 +283,9 @@ All generated files follow this specification-compliant structure:
 
 ## 1. Project Overview & Purpose
 
-[Inferred from codebase analysis]
+[Brief summary inferred from codebase analysis]
 
 ## 2. Core Technologies & Stack
-
-### Primary Technologies
 
 - **Language**: [Detected from package.json and files]
 - **Framework**: [Detected from dependencies and usage]
@@ -294,51 +293,21 @@ All generated files follow this specification-compliant structure:
 - **Database**: [Detected from data layer]
 - **Testing**: [Detected from test files]
 
-### Key Dependencies
-
-[List major dependencies with versions from package.json]
-
 ## 3. Build, Test, and Development Commands
 
-### Development
-
 - `[command]` - [description from package.json scripts]
-
-### Testing
-
 - `[command]` - [description from package.json scripts]
-
-### Build
-
 - `[command]` - [description from package.json scripts]
 
 ## 4. Code Style and Conventions
 
-### Naming Conventions
-
-[Reference: @vibing/rules/common/data/data-attribute-naming-conventions.md]
-
-### TypeScript Guidelines
-
-[Reference: @vibing/rules/common/foundation/typescript-guidelines.md]
-
-### General Coding Standards
-
-[Reference: @vibing/rules/common/foundation/general-rules.md]
+- **Naming**: @vibing/rules/common/data/data-attribute-naming-conventions.md
+- **TypeScript**: @vibing/rules/common/foundation/typescript-guidelines.md
+- **General**: @vibing/rules/common/foundation/general-rules.md
 
 ## 5. Architecture and Design Patterns
 
-### Architectural Style
-
-[Inferred from code organization]
-
-### Key Patterns
-
-[Detected patterns from code analysis]
-
-### Directory Structure
-
-[Detected component organization]
+[Brief description inferred from code organization and detected patterns]
 
 ## 6. Component/Module Responsibilities
 
@@ -347,60 +316,31 @@ All generated files follow this specification-compliant structure:
 - **Location**: `[detected path]`
 - **Responsible Agent**: @vibing/agents/[agent-name].md
 - **Purpose**: [Inferred from code analysis]
-- **Rules**:
-  - @vibing/rules/[category]/[rule-file].md
-  - @vibing/rules/[category]/[rule-file].md
+- **Rules**: @vibing/rules/[category]/[rule-file].md, @vibing/rules/[category]/[rule-file].md
 
 ## 7. Testing Guidelines
 
-### Testing Strategy
-
-[Reference: @vibing/rules/common/testing/test-general.md]
-
-### Test Data Management
-
-[Reference: @vibing/rules/common/testing/test-context.md]
-
-### E2E Testing
-
-[Reference: @vibing/rules/common/testing/test-e2e.md]
-
-### Framework-Specific Testing
-
-- If React: [Reference: @vibing/rules/react/react-testing-guidelines.md]
-- If Solid.js: [Reference: @vibing/rules/solid.js/solid-testing-guidelines.md]
-- If Astro: [No framework-specific testing guide; use common testing rules]
+- **Strategy**: @vibing/rules/common/testing/test-general.md
+- **Test Data**: @vibing/rules/common/testing/test-context.md
+- **E2E**: @vibing/rules/common/testing/test-e2e.md
+- **Framework**: @vibing/rules/[framework]/[framework]-testing-guidelines.md
 
 ## 8. Security Considerations
 
-### Error Handling
-
-[Reference: @vibing/rules/common/foundation/error-handling-guidelines.md]
-
-### Authentication & Authorization
-
-[Inferred from code patterns]
-
-### Data Protection
-
-[Inferred from data handling patterns]
+- **Error Handling**: @vibing/rules/common/foundation/error-handling-guidelines.md
+- **Authentication**: [Brief security practices inferred from code]
+- **Data Protection**: [Brief data handling practices inferred from code]
 
 ## 9. Configuration
 
-### Environment Setup
-
-[Inferred from environment files]
-
-### Configuration Management
-
-[Inferred from configuration patterns]
+[Brief environment setup and configuration management inferred from files]
 
 ## 10. Common Tasks
 
 ### [Task Category]
 
 - **Agent**: @vibing/agents/[agent-name].md
-- **Steps**: [Inferred from code patterns]
+- **Steps**: [Brief task steps inferred from code patterns]
 - **Rules**: @vibing/rules/[category]/[rule-file].md
 ```
 
@@ -439,8 +379,8 @@ All generated files follow this specification-compliant structure:
 #   - Responsible Agent: @vibing/agents/frontend-engineer.md
 #   - Detected React component patterns
 # ✓ Generated src/ui/store/AGENT.md
-#   - Responsible Agent: @vibing/agents/data-engineer.md
-#   - Detected Apollo Client patterns
+#   - Responsible Agent: @vibing/agents/frontend-engineer.md
+#   - Detected framework patterns, TypeScript rules
 # ✓ Generated e2e/AGENT.md
 #   - Responsible Agent: @vibing/agents/test-automation-engineer.md
 #   - Detected Playwright patterns

@@ -2,36 +2,13 @@
 
 **Objective**: Create detailed technical implementation specifications that define specific code changes, types, functions, and design approaches required to satisfy feature requirements and test scenarios while ensuring architectural consistency and code quality.
 
----
-
-## Pre-Flight Validation
+## Required Inputs
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
-### Rule Evaluation
+- Specific feature ID/name from Feature Overview document
 
-Before proceeding, evaluate the referenced rules to understand established patterns:
-
-- [ ] Review @rules/common/general-rules.md for foundational implementation standards
-- [ ] Review @rules/common/typescript-guidelines.md for TypeScript standards
-- [ ] Review @rules/common/error-handling-guidelines.md for error management patterns
-- [ ] Review @rules/common/test-general.md for testing strategy
-- [ ] Review @rules/common/test-e2e.md for E2E testing patterns
-- [ ] Review @rules/common/ui-component-guidelines.md for component usage patterns
-- [ ] Review @rules/common/ui-project-structure.md for directory organization
-- [ ] Review @rules/common/ui-data-store-architecture.md for data store patterns
-- [ ] Review @rules/common/data-attribute-naming-conventions.md for data attribute naming standards
-- [ ] Review @rules/apollo/apollo-client-guidelines.md if using GraphQL
-- [ ] Review @rules/apollo/apollo-server-guidelines.md if using GraphQL
-- [ ] Review @rules/apollo/apollo-store-architecture.md if using GraphQL
-- [ ] Review @rules/react/react-component-guidelines.md if using React
-- [ ] Review @rules/react/react-state-management.md if using React
-- [ ] Review @rules/solid.js/solidjs-component-guidelines.md if using SolidJS
-- [ ] Review @rules/solid.js/solid-state-management.md if using SolidJS
-- [ ] Review @rules/astro.js/astro-component-guidelines.md if using Astro
-- [ ] Review @rules/astro.js/astro-project-structure.md if using Astro
-
-### Validation Questions
+## Validation Questions
 
 1. **Feature Context**: What specific feature is being designed for implementation?
 2. **Test Scenarios**: Are Gherkin test scenarios already defined for this feature?
@@ -42,35 +19,25 @@ Before proceeding, evaluate the referenced rules to understand established patte
 7. **UI Components**: What new UI components or modifications are needed?
 8. **Security Considerations**: What security measures need to be implemented?
 
----
-
-## Execution Checklist
-
-### 1. Invoke Technical Architect Agent
+## Agents to Invoke
 
 - [ ] Activate @agents/technical-architect.md persona as workflow driver
 - [ ] Review context files: `_docs/design/D01 - Project Overview.md`, `_docs/design/D02 - System Architecture.md`, `_docs/design/D03 - Data Model.md`, `_docs/design/D04 - Backend Architecture.md`, `_docs/design/D05 - Frontend Architecture.md`
 - [ ] Analyze feature requirements and test scenarios
 - [ ] Coordinate with specialized engineer agents for implementation details
 
-### 2. Coordinate with Engineer Agents
+## Execute Checklist
 
 - [ ] **Frontend**: Activate @agents/frontend-engineer.md, review `_docs/design/D05 - Frontend Architecture.md` and `UI/AGENT.md`, define new UI components and state management requirements
 - [ ] **Backend**: Activate @agents/backend-engineer.md, review `_docs/design/D04 - Backend Architecture.md` and `API/AGENT.md`, define new API endpoints and business logic requirements
 - [ ] **Data**: Activate @agents/data-engineer.md, review `_docs/design/D03 - Data Model.md` and `API/AGENT.md`, define schema changes and data access patterns
 - [ ] Ensure no duplication of existing functionality across all layers
-
-### 3. Generate Implementation Design
-
 - [ ] Use @templates/T11 - Technical Design.md structure
 - [ ] Populate Change Summary Table with all required modifications
 - [ ] Define detailed implementation specifications for each component using module/function format
 - [ ] Ensure all test scenarios are addressed in implementation details
 - [ ] Verify Change Summary Table completeness and accuracy
 - [ ] Ensure implementation details focus on WHAT and WHY, not HOW
-
-### 4. Apply Quality Standards
-
 - [ ] Verify all implementation decisions align with established architecture
 - [ ] Ensure no code duplication across system components
 - [ ] Validate implementation supports future expansion requirements
@@ -79,20 +46,12 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Validate Change Summary Table accuracy and completeness
 - [ ] Verify implementation details follow WHAT/WHY documentation standards
 - [ ] Ensure all integration points are properly documented
-
-### 7. Quality Assurance Validation
-
 - [ ] **No Code Duplication**: Verify no existing functionality is being duplicated
 - [ ] **Architectural Consistency**: All implementations align with established patterns
 - [ ] **Future Expansion**: Design supports future feature requirements
 - [ ] **Clean Patterns**: Follow established coding standards and maintainability principles
 - [ ] **Integration Validation**: All cross-component integration points are properly designed
 - [ ] **Testing Coverage**: Comprehensive testing strategy for all implementation components
-
----
-
-## Post-Validation Checklist
-
 - [ ] All template sections populated with specific implementation details
 - [ ] Implementation details address all test scenarios and requirements
 - [ ] No duplication of existing functionality across system components
@@ -103,7 +62,5 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] All integration points properly designed and documented
 - [ ] Change Summary Table and Implementation Details validation completed
 - [ ] Store completed document in `_docs/features/in-progress/[feature-name]-technical-design.md`
-
----
 
 **Note**: All responses should follow @fragments/response-formatting.md

@@ -2,19 +2,7 @@
 
 **Objective**: Create the `D10 - Feature Overview.md` document that provides a clear, actionable, and trackable plan for implementation by listing small, cross-cutting features that deliver end-to-end user value in vertical slices, following agile best practices while respecting foundational framework dependencies.
 
----
-
-## Pre-Flight Validation
-
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
-
-### Rule Evaluation
-
-Before proceeding, evaluate the referenced rules to understand established patterns:
-
-- [ ] Review @rules/common/general-rules.md for foundational implementation standards
-
-### Validation Questions
+## Validation Questions
 
 1. **Foundational Frameworks**: What foundational frameworks must be built first (authentication, data models, basic UI components, API structure)?
 2. **Vertical Slices**: What are the smallest possible user interactions that deliver end-to-end value (single user operation from UI to data)?
@@ -28,11 +16,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 10. **End-to-End Value**: Which features deliver complete user value from frontend to backend in a single iteration?
 11. **Foundation Dependencies**: Which features require foundational frameworks to be built first?
 
----
-
-## Execution Checklist
-
-### 1. Invoke Product Manager Agent
+## Agents to Invoke
 
 - [ ] Activate @agents/product-manager.md persona
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements and success metrics
@@ -50,7 +34,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Consult with @agents/frontend-architect.md for UI/UX implementation dependencies
 - [ ] Consult with @agents/backend-architect.md for API and service implementation dependencies
 
-### 2. Analyze Business Requirements and Vertical Slice Prioritization
+## Execute Checklist
 
 - [ ] Extract business requirements from Project Overview document
 - [ ] Identify user journeys and user stories from UI Experience Overview and UI Page Design
@@ -62,9 +46,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Evaluate features based on business value, user impact, and implementation complexity
 - [ ] Prioritize high-impact, low-complexity vertical slices for early delivery
 - [ ] Order features from foundational frameworks to vertical slice features
-
-### 3. Generate Feature Overview Document
-
 - [ ] Use @templates/T10 - Feature Overview.md template structure
 - [ ] Populate all 2 sections with specific vertical slice features and user stories
 - [ ] Apply WSJF scoring to rank vertical slices by business value and implementation effort
@@ -74,9 +55,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Ensure each feature is a small, cross-cutting vertical slice
 - [ ] Focus on features that deliver complete end-to-end user value in single iterations
 - [ ] Verify features cut across all system layers (UI, API, data) to deliver user capabilities
-
-### 4. Apply Quality Standards
-
 - [ ] Verify all features trace back to business requirements and user needs
 - [ ] Ensure user stories are specific and actionable for vertical slices
 - [ ] Validate WSJF scoring methodology was applied consistently
@@ -86,11 +64,6 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Validate each feature is a small, cross-cutting vertical slice
 - [ ] Confirm features deliver end-to-end user value from UI to data
 - [ ] Ensure features are not layered but sliced across system layers
-
----
-
-## Post-Validation Checklist
-
 - [ ] All 2 template sections populated with specific vertical slice feature details
 - [ ] Features listed in WSJF priority order (highest value/effort ratio first)
 - [ ] Each feature is a small, cross-cutting vertical slice
@@ -104,7 +77,5 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Features cut across all system layers rather than being layered
 - [ ] Document aligns with all design documents and business requirements
 - [ ] Store completed document in `_docs/design/D10 - Feature Overview.md`
-
----
 
 **Note**: All responses should follow @fragments/response-formatting.md

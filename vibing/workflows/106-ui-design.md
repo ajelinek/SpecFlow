@@ -2,20 +2,11 @@
 
 **Objective**: Create the `D06 - UI Design.md` document that establishes strategic design decisions and visual system principles for the application, focusing on design philosophy rather than implementation details.
 
----
-
-## Pre-Flight Validation
+## Required Inputs
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
-### Rule Evaluation
-
-Before proceeding, evaluate the referenced rules to understand established patterns:
-
-- [ ] Review @rules/common/ui-styling-guidelines.md for CSS and design token approach
-- [ ] Review @rules/common/ui-theme.md for theme and color system patterns
-
-### Validation Questions
+## Validation Questions
 
 1. **Brand Identity**: What is the brand personality, tone, and visual identity (professional, playful, minimalist, bold)?
 2. **Target Audience**: What are the primary user demographics and accessibility requirements?
@@ -24,11 +15,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 5. **Design System**: Do you have an existing design system or need to create one from scratch?
 6. **Competitive Landscape**: Who are the main competitors and how should the design differentiate?
 
----
-
-## Execution Checklist
-
-### 1. Invoke UI Designer Agent
+## Agents to Invoke
 
 - [ ] Activate @agents/ui-designer.md persona
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business context and user goals
@@ -37,34 +24,21 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Consult with @agents/frontend-architect.md for implementation feasibility
 - [ ] Consult with @agents/product-manager.md for user experience requirements
 
-### 2. Research Design Systems & Patterns
+## Execute Checklist
 
 - [ ] Verify typography choices for readability and brand alignment
 - [ ] Research animation and interaction design best practices
-
-### 3. Generate Strategic UI Design
-
 - [ ] Use @templates/T06 - UI Design.md structure
 - [ ] Populate all 7 sections with strategic design decisions
 - [ ] Research design system trends and accessibility best practices
 - [ ] Ensure design philosophy aligns with business requirements and frontend architecture
-
-### 3. Apply Quality Standards
-
 - [ ] Verify accessibility compliance and design rationale
 - [ ] Validate design strategy supports success metrics and user goals
 - [ ] Ensure responsive design works across target devices
-
----
-
-## Post-Validation Checklist
-
 - [ ] All 7 template sections populated with strategic design decisions
 - [ ] Design philosophy traces back to business requirements and user goals
 - [ ] Accessibility compliance verified and design rationale clear
 - [ ] Design strategy integrates with frontend framework architecture
 - [ ] Store completed document in `_docs/design/D06 - UI Design.md`
-
----
 
 **Note**: All responses should follow @fragments/response-formatting.md

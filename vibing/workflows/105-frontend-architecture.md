@@ -2,27 +2,11 @@
 
 **Objective**: Create the `D05 - Frontend Architecture.md` document that describes frontend component structure, state management strategy, UI framework conventions, and development patterns required to deliver optimal user experience.
 
----
-
-## Pre-Flight Validation
+## Required Inputs
 
 **MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
 
-### Rule Evaluation
-
-Before proceeding, evaluate the referenced rules to understand established patterns:
-
-- [ ] Review @rules/common/typescript-guidelines.md for TypeScript standards
-- [ ] Review @rules/common/ui-component-guidelines.md for component patterns
-- [ ] Review @rules/common/ui-styling-guidelines.md for CSS and design token approach
-- [ ] Review @rules/common/ui-project-structure.md for directory organization
-- [ ] Review @rules/common/error-handling-guidelines.md for error management patterns
-- [ ] Review @rules/common/test-general.md for testing strategy
-- [ ] Review framework-specific state management rules based on chosen framework
-- [ ] Review @rules/apollo/apollo-client-guidelines.md if using GraphQL
-- [ ] Review @agents/seo-specialist.md for SEO requirements and implementation patterns
-
-### Validation Questions
+## Validation Questions
 
 1. **Frontend Framework**: What frontend framework/library do you prefer (React, Astro, SolidJS, Mix)?
 2. **Performance Requirements**: What are the performance requirements (Core Web Vitals targets, bundle size limits)?
@@ -35,11 +19,7 @@ Before proceeding, evaluate the referenced rules to understand established patte
 9. **SEO Requirements**: What SEO features are needed (meta tags, structured data, server-side rendering)?
 10. **Design System**: Do you have an existing design system or need to create one?
 
----
-
-## Execution Checklist
-
-### 1. Invoke Frontend Architect Agent
+## Agents to Invoke
 
 - [ ] Activate @agents/frontend-architect.md persona
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business requirements
@@ -49,25 +29,17 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Consult with @agents/product-manager.md for user experience requirements
 - [ ] Consult with @agents/seo-specialist.md for SEO requirements and technical implementation
 
-### 3. Generate Frontend Architecture
+## Execute Checklist
 
 - [ ] Use @templates/T05 - Frontend Architecture.md structure
 - [ ] Populate all 8 sections with specific technical details
 - [ ] Ensure architecture decisions align with business requirements and system architecture
 - [ ] Define component hierarchy and state management patterns
 - [ ] Establish styling approach and design system integration
-
-### 4. Apply Quality Standards
-
 - [ ] Verify all technology choices have clear rationale
 - [ ] Validate architecture supports stated success metrics and user experience goals
 - [ ] Ensure accessibility and performance requirements are addressed
 - [ ] Confirm testing strategy covers all architectural components
-
----
-
-## Post-Validation Checklist
-
 - [ ] All 8 template sections populated with specific technical details
 - [ ] Frontend architecture decisions trace back to business requirements
 - [ ] Technology stack choices justified with clear rationale
@@ -76,7 +48,5 @@ Before proceeding, evaluate the referenced rules to understand established patte
 - [ ] Testing strategy covers unit, integration, and E2E testing
 - [ ] Performance and accessibility requirements explicitly addressed
 - [ ] Store completed document in `_docs/design/D05 - Frontend Architecture.md`
-
----
 
 **Note**: All responses should follow @fragments/response-formatting.md

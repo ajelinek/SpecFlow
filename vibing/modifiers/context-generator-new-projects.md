@@ -29,16 +29,16 @@ The generator expects these design documents in `_docs/design/`:
 
 The generator maps components to responsible agents using this matrix:
 
-| Component/Directory     | Responsible Agent                          | Applicable Rules                            |
-| ----------------------- | ------------------------------------------ | ------------------------------------------- |
-| `api/` or `backend/`    | @vibing/agents/backend-engineer.md         | backend, foundation, data, testing          |
-| `ui/` or `frontend/`    | @vibing/agents/frontend-engineer.md        | framework-specific, ui, foundation, testing |
-| `ui/store/` or `store/` | @vibing/agents/data-engineer.md            | apollo/data-management, foundation          |
-| `e2e/`                  | @vibing/agents/test-automation-engineer.md | testing/e2e                                 |
-| `e2e/pages/`            | @vibing/agents/test-automation-engineer.md | testing/page-objects                        |
-| `data/`                 | @vibing/agents/data-engineer.md            | data/persistence, foundation                |
-| Components (foundation) | @vibing/agents/frontend-engineer.md        | ui/foundational-components                  |
-| Components (features)   | @vibing/agents/frontend-engineer.md        | ui/component-guidelines                     |
+| Component/Directory     | Responsible Agent                          | Applicable Rules                               |
+| ----------------------- | ------------------------------------------ | ---------------------------------------------- |
+| `api/` or `backend/`    | @vibing/agents/backend-engineer.md         | backend, foundation, data, testing             |
+| `ui/` or `frontend/`    | @vibing/agents/frontend-engineer.md        | framework-specific, ui, foundation, testing    |
+| `ui/store/` or `store/` | @vibing/agents/frontend-engineer.md        | framework-specific, ui, foundation, typescript |
+| `e2e/`                  | @vibing/agents/test-automation-engineer.md | testing/e2e                                    |
+| `e2e/pages/`            | @vibing/agents/test-automation-engineer.md | testing/page-objects                           |
+| `data/`                 | @vibing/agents/data-engineer.md            | data/persistence, foundation                   |
+| Components (foundation) | @vibing/agents/frontend-engineer.md        | ui/foundational-components                     |
+| Components (features)   | @vibing/agents/frontend-engineer.md        | ui/component-guidelines                        |
 
 ## Generated Files
 
@@ -92,7 +92,7 @@ The generator maps components to responsible agents using this matrix:
 - Data fetching conventions
 - Hook patterns
 - Data management rule references
-- **Responsible Agent**: @vibing/agents/data-engineer.md
+- **Responsible Agent**: @vibing/agents/frontend-engineer.md
 
 ### 5. E2E Context (`{e2e-dir}/AGENT.md`)
 
@@ -138,7 +138,7 @@ The generator maps components to responsible agents using this matrix:
 
 ## Standardized AGENT.md Structure
 
-All generated files follow this specification-compliant structure:
+All generated files follow this compact specification-compliant structure (under 75 lines):
 
 ```markdown
 # [Component Name] Context
@@ -149,11 +149,9 @@ All generated files follow this specification-compliant structure:
 
 ## 1. Project Overview & Purpose
 
-[Summarize main objectives and domain]
+[Brief summary of main objectives and domain]
 
 ## 2. Core Technologies & Stack
-
-### Primary Technologies
 
 - **Language**: [e.g., TypeScript]
 - **Framework**: [e.g., React, Solid.js, Astro]
@@ -161,51 +159,21 @@ All generated files follow this specification-compliant structure:
 - **Database**: [e.g., Firebase Firestore, PostgreSQL]
 - **Testing**: [e.g., Playwright, Vitest]
 
-### Key Dependencies
-
-[List major dependencies with versions]
-
 ## 3. Build, Test, and Development Commands
 
-### Development
-
 - `[command]` - [description]
-
-### Testing
-
 - `[command]` - [description]
-
-### Build
-
 - `[command]` - [description]
 
 ## 4. Code Style and Conventions
 
-### Naming Conventions
-
-[Reference: @vibing/rules/common/data/data-attribute-naming-conventions.md]
-
-### TypeScript Guidelines
-
-[Reference: @vibing/rules/common/foundation/typescript-guidelines.md]
-
-### General Coding Standards
-
-[Reference: @vibing/rules/common/foundation/general-rules.md]
+- **Naming**: @vibing/rules/common/data/data-attribute-naming-conventions.md
+- **TypeScript**: @vibing/rules/common/foundation/typescript-guidelines.md
+- **General**: @vibing/rules/common/foundation/general-rules.md
 
 ## 5. Architecture and Design Patterns
 
-### Architectural Style
-
-[Description of architecture]
-
-### Key Patterns
-
-[List design patterns in use]
-
-### Directory Structure
-
-[Component organization]
+[Brief description of architecture and key patterns]
 
 ## 6. Component/Module Responsibilities
 
@@ -214,60 +182,31 @@ All generated files follow this specification-compliant structure:
 - **Location**: `[path]`
 - **Responsible Agent**: @vibing/agents/[agent-name].md
 - **Purpose**: [What this component does]
-- **Rules**:
-  - @vibing/rules/[category]/[rule-file].md
-  - @vibing/rules/[category]/[rule-file].md
+- **Rules**: @vibing/rules/[category]/[rule-file].md, @vibing/rules/[category]/[rule-file].md
 
 ## 7. Testing Guidelines
 
-### Testing Strategy
-
-[Reference: @vibing/rules/common/testing/test-general.md]
-
-### Test Data Management
-
-[Reference: @vibing/rules/common/testing/test-context.md]
-
-### E2E Testing
-
-[Reference: @vibing/rules/common/testing/test-e2e.md]
-
-### Framework-Specific Testing
-
-- If React: [Reference: @vibing/rules/react/react-testing-guidelines.md]
-- If Solid.js: [Reference: @vibing/rules/solid.js/solid-testing-guidelines.md]
-- If Astro: [No framework-specific testing guide; use common testing rules]
+- **Strategy**: @vibing/rules/common/testing/test-general.md
+- **Test Data**: @vibing/rules/common/testing/test-context.md
+- **E2E**: @vibing/rules/common/testing/test-e2e.md
+- **Framework**: @vibing/rules/[framework]/[framework]-testing-guidelines.md
 
 ## 8. Security Considerations
 
-### Error Handling
-
-[Reference: @vibing/rules/common/foundation/error-handling-guidelines.md]
-
-### Authentication & Authorization
-
-[Security practices and data protection]
-
-### Data Protection
-
-[Sensitive data handling]
+- **Error Handling**: @vibing/rules/common/foundation/error-handling-guidelines.md
+- **Authentication**: [Brief security practices]
+- **Data Protection**: [Brief data handling practices]
 
 ## 9. Configuration
 
-### Environment Setup
-
-[Environment variables and configuration]
-
-### Configuration Management
-
-[How configuration is managed]
+[Brief environment setup and configuration management]
 
 ## 10. Common Tasks
 
 ### [Task Category]
 
 - **Agent**: @vibing/agents/[agent-name].md
-- **Steps**: [How to perform task]
+- **Steps**: [Brief task steps]
 - **Rules**: @vibing/rules/[category]/[rule-file].md
 ```
 
@@ -325,7 +264,7 @@ All generated files follow this specification-compliant structure:
 2. **Component-to-Agent Mapping**:
    - Map backend components to backend-engineer.md
    - Map frontend components to frontend-engineer.md
-   - Map data store components to data-engineer.md
+   - Map frontend store components to frontend-engineer.md
    - Map E2E components to test-automation-engineer.md
    - Map data layer components to data-engineer.md
 
@@ -361,6 +300,7 @@ All generated files follow this specification-compliant structure:
    - Data fetching conventions
    - Hook patterns
    - Data management rule references
+   - TypeScript guidelines for store components
    - Responsible agent assignment
 
 4. **Generate E2E Context** (`{e2e-dir}/AGENT.md`):
@@ -434,8 +374,8 @@ All generated files follow this specification-compliant structure:
 #   - Responsible Agent: @vibing/agents/frontend-engineer.md
 #   - React rules, UI/UX rules, Component rules
 # ✓ Generated ui/store/AGENT.md
-#   - Responsible Agent: @vibing/agents/data-engineer.md
-#   - Apollo rules, Data management rules
+#   - Responsible Agent: @vibing/agents/frontend-engineer.md
+#   - Framework rules, UI rules, TypeScript rules
 # ✓ Generated e2e/AGENT.md
 #   - Responsible Agent: @vibing/agents/test-automation-engineer.md
 #   - Playwright rules, Testing rules
