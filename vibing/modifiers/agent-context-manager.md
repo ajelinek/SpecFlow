@@ -295,10 +295,12 @@ src/
 
 **Before creating any AGENT.md file**:
 
-1. Verify the path is not protected (not root, not vibing/, not node_modules/, not hidden)
-2. Determine if it should be higher-level (structure only) or lower-level (implementation details)
-3. Ensure no content duplication with existing parent/child files
-4. Validate all rule and agent references are correct
+1. **Pattern Matching**: Use Common Project Patterns to identify directory type and expected content
+2. Verify the path is not protected (not root, not vibing/, not node_modules/, not hidden)
+3. Determine if it should be higher-level (structure only) or lower-level (implementation details)
+4. **Content Validation**: Ensure no content duplication with existing parent/child files
+5. Validate all rule and agent references are correct
+6. **Template Selection**: Choose appropriate template based on pattern matching results
 
 ## Error Handling
 
