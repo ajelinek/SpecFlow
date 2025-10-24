@@ -22,25 +22,44 @@
 
 ## Detection Strategy
 
+### Pattern Recognition
+**Apply the Common Project Patterns & Layouts section** to identify:
+1. **Monorepo vs Single-repo**: Look for `apps/` or `packages/` directories
+2. **Framework patterns**: Match against React, Vue, Astro, Next.js structures
+3. **Testing organization**: Identify `tests/`, `__tests__/`, or framework-specific test patterns
+4. **Backend patterns**: Detect controllers, services, routes, middleware organization
+
 ### Project Type Detection
 
 - **New Projects**: Look for `_docs/design/` directory with architecture documents
 - **Existing Projects**: Analyze existing code patterns and structure
 - **Hybrid**: Use design docs as primary source but validate against code
 
+**Pattern Matching Priority**:
+1. Match against known framework patterns (Next.js, Nuxt, Astro)
+2. Identify monorepo structure (apps/, packages/)
+3. Detect testing organization patterns
+4. Classify by depth and subdirectory relationships
+
 ### Hierarchy Classification
+**Use common patterns above to classify**:
 
 **Higher-Level Files** (Application Structure):
-
-- Examples: `apps/api/src/`, `apps/web-app/src/`, `src/`, `packages/*/src/`
-- Content: ONLY Purpose & Scope, Structure, Key Interfaces, Conventions
-- Restrictions: NO agent references, NO rule references, NO implementation details
+- **Monorepo roots**: `apps/*/src/`, `packages/*/src/`
+- **Main organization**: `src/`, `lib/`, `app/` (Next.js), `pages/` (Nuxt/Astro)
+- **Test organization**: `tests/`, `e2e/`, `playwright/`, `cypress/`
+- **Content**: ONLY Purpose & Scope, Structure, Key Interfaces, Conventions
+- **Restrictions**: NO agent references, NO rule references, NO implementation details
 
 **Lower-Level Files** (Implementation Details):
-
-- Examples: `src/modules/admin/`, `src/components/`, `src/api/`, `src/store/`
-- Content: ALL implementation details, agent assignments, rule references, tasks
-- Restrictions: NO organizational overview (covered in parent files)
+- **Feature modules**: `src/modules/*`, `src/features/*`, `pages/*`
+- **Components**: `src/components/*`, `src/ui/*`, `src/layouts/*`
+- **Business logic**: `src/controllers/*`, `src/services/*`, `src/models/*`
+- **State management**: `src/stores/*`, `src/hooks/*`, `src/composables/*`
+- **Utilities**: `src/utils/*`, `src/lib/*`, `src/helpers/*`
+- **Test implementation**: `tests/unit/*`, `tests/integration/*`, `src/**/__tests__/*`
+- **Content**: ALL implementation details, agent assignments, rule references, tasks
+- **Restrictions**: NO organizational overview (covered in parent files)
 
 ## Content Generation Rules
 
