@@ -5,6 +5,7 @@
 ## Core Execution Rules
 
 **CRITICAL PROTECTION RULES** (never violate these):
+
 - **NEVER create or modify the project root AGENT.md file** - it should be a standalone copy of @AGENT.md
 - **NEVER create AGENT.md files in the vibing/ directory** - this contains the agent system itself
 - **NEVER create AGENT.md files in protected paths**: node_modules/, .git/, any hidden directories (starting with .)
@@ -13,6 +14,7 @@
 ## Project Analysis
 
 **Your task is to**:
+
 1. Analyze the project structure and detect if it's a new project (design docs) or existing project (code)
 2. Determine the appropriate hierarchy levels for AGENT.md files
 3. Generate focused content that avoids duplication between levels
@@ -21,17 +23,21 @@
 ## Detection Strategy
 
 ### Project Type Detection
+
 - **New Projects**: Look for `_docs/design/` directory with architecture documents
 - **Existing Projects**: Analyze existing code patterns and structure
 - **Hybrid**: Use design docs as primary source but validate against code
 
 ### Hierarchy Classification
+
 **Higher-Level Files** (Application Structure):
+
 - Examples: `apps/api/src/`, `apps/web-app/src/`, `src/`, `packages/*/src/`
 - Content: ONLY Purpose & Scope, Structure, Key Interfaces, Conventions
 - Restrictions: NO agent references, NO rule references, NO implementation details
 
 **Lower-Level Files** (Implementation Details):
+
 - Examples: `src/modules/admin/`, `src/components/`, `src/api/`, `src/store/`
 - Content: ALL implementation details, agent assignments, rule references, tasks
 - Restrictions: NO organizational overview (covered in parent files)
@@ -39,6 +45,7 @@
 ## Content Generation Rules
 
 ### Higher-Level File Template
+
 ```markdown
 # [Application/Section] Structure
 
@@ -51,11 +58,13 @@
 The [application/section] is organized into:
 
 ### [Area 1]
+
 - **Location**: [path]
 - **Purpose**: [One sentence responsibility]
 - **Key Components**: [Main subdirectories]
 
 ### [Area 2]
+
 - **Location**: [path]
 - **Purpose**: [One sentence responsibility]
 - **Key Components**: [Main subdirectories]
@@ -70,6 +79,7 @@ The [application/section] is organized into:
 ```
 
 ### Lower-Level File Template
+
 ```markdown
 # [Component] Context
 
@@ -96,6 +106,7 @@ The [application/section] is organized into:
 ## 5. Component/Module Responsibilities
 
 ### [Component Name]
+
 - **Responsible Agent**: @vibing/agents/[agent].md
 - **Purpose**: [Implementation purpose]
 - **Rules**: @vibing/rules/[category]/[rule].md
@@ -116,14 +127,111 @@ The [application/section] is organized into:
 ## 9. Common Tasks
 
 ### [Task Category]
+
 - **Agent**: @vibing/agents/[agent].md
 - **Steps**: [Task steps]
 - **Rules**: @vibing/rules/[category]/[rule].md
 ```
 
+## Common Project Patterns & Layouts
+
+**Recognize these patterns** to properly classify hierarchy levels:
+
+### Monorepo Patterns
+```
+apps/                    # Higher-level: Application organization
+├── api/                # Higher-level: Backend application
+│   └── src/           # Higher-level: API source structure
+├── web-app/            # Higher-level: Frontend application
+│   └── src/           # Higher-level: Frontend source structure
+└── admin/              # Higher-level: Admin application
+
+packages/                # Higher-level: Shared package organization
+├── ui-components/      # Lower-level: Reusable UI library
+│   └── src/           # Lower-level: Component implementation
+└── shared-types/       # Lower-level: Type definitions
+```
+
+### Frontend Patterns
+```
+src/                     # Higher-level: Main source organization
+├── components/          # Lower-level: Reusable component implementation
+│   ├── ui/             # Lower-level: Basic UI components
+│   └── forms/          # Lower-level: Form components
+├── pages/               # Lower-level: Page components
+│   ├── admin/          # Lower-level: Admin pages
+│   └── user/           # Lower-level: User pages
+├── hooks/               # Lower-level: Custom React hooks
+├── utils/               # Lower-level: Utility functions
+├── stores/              # Lower-level: State management
+└── types/               # Lower-level: TypeScript definitions
+```
+
+### Backend Patterns
+```
+src/                     # Higher-level: Backend source organization
+├── controllers/         # Lower-level: Request handlers
+├── services/            # Lower-level: Business logic
+├── models/              # Lower-level: Data models
+├── middleware/          # Lower-level: Express middleware
+├── routes/              # Lower-level: Route definitions
+│   ├── api/            # Lower-level: API route groups
+│   └── admin/          # Lower-level: Admin routes
+├── utils/               # Lower-level: Backend utilities
+└── config/              # Lower-level: Configuration files
+```
+
+### Testing Patterns
+```
+tests/                   # Higher-level: Test organization
+├── unit/                # Lower-level: Unit tests
+│   └── components/     # Lower-level: Component tests
+├── integration/         # Lower-level: Integration tests
+│   └── api/            # Lower-level: API tests
+└── e2e/                 # Lower-level: End-to-end tests
+    └── pages/          # Lower-level: Page journey tests
+
+__tests__/               # Lower-level: Co-located tests
+src/                     # Higher-level: Source with tests
+├── components/          # Lower-level: Components with tests
+│   └── Button/         # Lower-level: Component with test
+└── utils/               # Lower-level: Utils with tests
+```
+
+### Framework-Specific Patterns
+
+**React/Next.js**:
+```
+src/
+├── app/                 # Higher-level: Next.js app directory
+│   └── (routes)/       # Lower-level: Route groups
+├── components/          # Lower-level: Shared components
+├── lib/                 # Lower-level: Library code
+└── hooks/               # Lower-level: Custom hooks
+```
+
+**Vue/Nuxt**:
+```
+src/
+├── components/          # Lower-level: Vue components
+├── composables/         # Lower-level: Vue composables
+├── pages/               # Lower-level: Page components
+└── stores/              # Lower-level: Pinia stores
+```
+
+**Astro**:
+```
+src/
+├── components/          # Lower-level: Astro components
+├── layouts/             # Lower-level: Layout components
+├── pages/               # Lower-level: Page routes
+└── content/             # Lower-level: Content collections
+```
+
 ## Technology Detection
 
 **Always scan for**:
+
 1. Package.json for dependencies and scripts
 2. Framework detection (React, SolidJS, Astro, Vue, Svelte)
 3. Backend technologies (Express, Fastify, Next.js API)
@@ -133,30 +241,33 @@ The [application/section] is organized into:
 
 ## Agent Responsibility Mapping
 
-| Pattern Area | Detection | Responsible Agent | Rules |
-|--------------|-----------|-------------------|-------|
-| API Routes | API endpoints | backend-engineer.md | backend, foundation, error-handling |
-| Services | Business logic | backend-engineer.md | backend, foundation |
-| Data Access | Repositories, queries | data-engineer.md | data/persistence, foundation |
-| Components | UI components | frontend-engineer.md | ui/component-guidelines |
-| State Management | Stores, data flow | frontend-engineer.md | framework-specific state |
-| Database Schema | Migrations, entities | data-engineer.md | data/persistence |
-| E2E Testing | User journeys | test-automation-engineer.md | testing/e2e, page-objects |
-| Authentication | Auth flows | backend-engineer.md | backend, foundation, security |
+| Pattern Area     | Detection             | Responsible Agent           | Rules                               |
+| ---------------- | --------------------- | --------------------------- | ----------------------------------- |
+| API Routes       | API endpoints         | backend-engineer.md         | backend, foundation, error-handling |
+| Services         | Business logic        | backend-engineer.md         | backend, foundation                 |
+| Data Access      | Repositories, queries | data-engineer.md            | data/persistence, foundation        |
+| Components       | UI components         | frontend-engineer.md        | ui/component-guidelines             |
+| State Management | Stores, data flow     | frontend-engineer.md        | framework-specific state            |
+| Database Schema  | Migrations, entities  | data-engineer.md            | data/persistence                    |
+| E2E Testing      | User journeys         | test-automation-engineer.md | testing/e2e, page-objects           |
+| Authentication   | Auth flows            | backend-engineer.md         | backend, foundation, security       |
 
 ## Execution Commands
 
 **Generate Mode**:
+
 ```
 @vibing/modifiers/agent-context-manager.md --mode=generate
 ```
 
 **Maintain Mode**:
+
 ```
 @vibing/modifiers/agent-context-manager.md --mode=maintain
 ```
 
 **Fix Mode**:
+
 ```
 @vibing/modifiers/agent-context-manager.md --mode=fix --target=path/to/file
 ```
@@ -164,6 +275,7 @@ The [application/section] is organized into:
 ## Safety Validation
 
 **Before creating any AGENT.md file**:
+
 1. Verify the path is not protected (not root, not vibing/, not node_modules/, not hidden)
 2. Determine if it should be higher-level (structure only) or lower-level (implementation details)
 3. Ensure no content duplication with existing parent/child files
@@ -172,6 +284,7 @@ The [application/section] is organized into:
 ## Error Handling
 
 **If issues are found**:
+
 - Report missing source material (design docs or code)
 - Report low confidence detections
 - Report broken references
@@ -181,6 +294,7 @@ The [application/section] is organized into:
 ## Output Requirements
 
 **Always provide a summary**:
+
 ```
 # AGENT.md Context Management Summary
 
@@ -204,6 +318,7 @@ The [application/section] is organized into:
 ```
 
 **File Headers**: Every generated AGENT.md file must include:
+
 ```
 <!-- Generated by: agent-context-manager.md -->
 <!-- Generated on: [timestamp] -->
