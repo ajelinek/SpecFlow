@@ -11,7 +11,8 @@
 - **NEVER create AGENT.md files in protected paths**: node_modules/, .git/, any hidden directories (starting with .)
 - **FOCUS ON USEFULNESS** - Every generated file must provide actionable guidance for LLMs making code changes
 - **NO RULE DUPLICATION** - Never duplicate content from @vibing/rules/ files - only reference them
-- **CHECK ALL RULE FILES** - Before adding any code examples or patterns, verify they don't exist in @vibing/rules/
+- **MANDATORY VERIFICATION** - Before adding ANY code examples or patterns, you MUST verify they don't exist in @vibing/rules/
+- **REMOVE DUPLICATION** - If duplication is found, it MUST be removed immediately
 
 ## Project Analysis
 
@@ -22,7 +23,8 @@
 3. **Identify implementation needs** - Determine what guidance LLMs need to make effective code changes
 4. **Generate actionable content** - Create files that provide specific, implementable recommendations
 5. **Avoid rule duplication** - Reference @vibing/rules/ files, never duplicate their content
-6. **Verify against all rules** - Check every code example and pattern against existing @vibing/rules/ content
+6. **MANDATORY RULE VERIFICATION** - Check every code example and pattern against existing @vibing/rules/ content
+7. **REMOVE ANY DUPLICATION** - If any duplication is found, remove it immediately and replace with rule references only
 
 ## Detection Strategy
 
@@ -79,28 +81,31 @@
 
 **CRITICAL**: Never duplicate content from @vibing/rules/ files. Only reference them with `@vibing/rules/[path]` links.
 
-**DUPLICATION CHECK PROCESS**:
+**MANDATORY DUPLICATION PREVENTION PROCESS**:
 
-1. **Read all relevant rule files** before adding any code examples
-2. **Compare patterns** - Ensure no code patterns match existing rule content
-3. **Check e2e test patterns** - Especially verify against @vibing/rules/common/testing/test-e2e.md
-4. **Verify component patterns** - Check against framework-specific component rules
-5. **Validate state management** - Ensure no duplication of state management patterns
+1. **READ ALL RULE FILES FIRST** - Before adding ANY code examples, you MUST read all relevant rule files
+2. **COMPARE EVERY PATTERN** - Ensure NO code patterns match existing rule content
+3. **VERIFY E2E PATTERNS** - Especially check against @vibing/rules/common/testing/test-e2e.md
+4. **CHECK COMPONENT PATTERNS** - Verify against framework-specific component rules
+5. **VALIDATE STATE PATTERNS** - Ensure no duplication of state management patterns
+6. **REMOVE DUPLICATION IMMEDIATELY** - If any duplication is found, remove it and replace with rule references
 
 **E2E TEST DUPLICATION PREVENTION**:
 
-- **ALWAYS check** @vibing/rules/common/testing/test-e2e.md before adding any e2e test examples
-- **ALWAYS check** @vibing/rules/common/testing/test-e2e-page-object.md before adding page object patterns
-- **ALWAYS check** @vibing/rules/common/testing/test-e2e-tags.md before adding test tagging patterns
-- **NEVER duplicate** test setup, page object, or tagging patterns from these rule files
+- **MANDATORY CHECK** @vibing/rules/common/testing/test-e2e.md before adding any e2e test examples
+- **MANDATORY CHECK** @vibing/rules/common/testing/test-e2e-page-object.md before adding page object patterns
+- **MANDATORY CHECK** @vibing/rules/common/testing/test-e2e-tags.md before adding test tagging patterns
+- **NEVER DUPLICATE** test setup, page object, or tagging patterns from these rule files
+- **REMOVE IMMEDIATELY** if any duplication is found
 
-**VERIFICATION CHECKLIST FOR E2E TESTS**:
+**MANDATORY VERIFICATION CHECKLIST FOR E2E TESTS**:
 
-1. **Read test-e2e.md** - Check for existing test patterns and examples
-2. **Read test-e2e-page-object.md** - Verify no page object patterns are duplicated
-3. **Read test-e2e-tags.md** - Ensure no test tagging patterns are copied
-4. **Compare code examples** - Ensure no test code matches existing rule content
-5. **Reference only** - Use @vibing/rules/common/testing/test-e2e.md references instead of duplicating
+1. **READ test-e2e.md** - Check for existing test patterns and examples
+2. **READ test-e2e-page-object.md** - Verify no page object patterns are duplicated
+3. **READ test-e2e-tags.md** - Ensure no test tagging patterns are copied
+4. **COMPARE ALL CODE EXAMPLES** - Ensure no test code matches existing rule content
+5. **REMOVE ANY DUPLICATION** - If found, remove immediately and replace with rule references
+6. **REFERENCE ONLY** - Use @vibing/rules/common/testing/test-e2e.md references instead of duplicating
 
 ### Application-Level Template
 
@@ -312,6 +317,8 @@ const useStore = create(set => ({
 - ❌ Outdated or incorrect technology detection
 - ❌ No validation criteria for successful implementation
 - ❌ **DUPLICATING RULE CONTENT** - Never copy content from @vibing/rules/ files
+- ❌ **FAILING TO VERIFY** - Not checking rule files before adding examples
+- ❌ **NOT REMOVING DUPLICATION** - Finding duplication but not removing it
 
 ## Common Project Patterns & Layouts
 
@@ -506,9 +513,10 @@ src/
 4. **Content Quality**: Ensure file contains real examples and actionable guidance
 5. **Agent Validation**: Verify all agent references point to existing files
 6. **Rule Validation**: Ensure all rule references are correct and relevant
-7. **No Rule Duplication**: Verify no content is duplicated from @vibing/rules/ files
-8. **E2E Test Verification**: Specifically check against all e2e testing rule files
-9. **LLM Usability**: Test that the file provides clear guidance for LLMs making code changes
+7. **MANDATORY RULE DUPLICATION CHECK**: Verify NO content is duplicated from @vibing/rules/ files
+8. **MANDATORY E2E TEST VERIFICATION**: Specifically check against all e2e testing rule files
+9. **REMOVE ANY DUPLICATION FOUND**: If duplication is detected, remove it immediately
+10. **LLM Usability**: Test that the file provides clear guidance for LLMs making code changes
 
 ## Error Handling
 
@@ -558,8 +566,9 @@ src/
 - Missing code examples: [list]
 - Invalid agent references: [list]
 - Outdated rule references: [list]
-- Rule content duplication: [list]
-- E2E test pattern duplication: [list]
+- Rule content duplication: [list] - **MUST BE REMOVED**
+- E2E test pattern duplication: [list] - **MUST BE REMOVED**
+- Verification failures: [list] - **MUST BE FIXED**
 - Low LLM usability: [list]
 
 ```
