@@ -49,7 +49,10 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T11 - Technical Design.md structure
+- [ ] Use @templates/T11c - Implementation Design.md structure
+- [ ] **ONLY populate sections 3-4**: Change Summary Table and Implementation Details
+- [ ] **Read existing sections 1-2 and 5** from the file (Feature Overview, System/User Flow, and Test Scenarios)
+- [ ] **Leave sections 1-2 and 5 unchanged** - do not modify Feature Overview, System/User Flow, or Test Scenarios
 - [ ] Populate Change Summary Table with all required modifications
 - [ ] Define detailed implementation specifications for each component using module/function format
 - [ ] Ensure all test scenarios are addressed in implementation details
@@ -79,6 +82,7 @@
 - [ ] Implementation follows established architectural patterns
 - [ ] Comprehensive error handling and testing strategies defined
 - [ ] Change Summary Table and Implementation Details validation completed
+- [ ] **VERIFY**: Only sections 3-4 are populated, sections 1-2 and 5 remain unchanged
 
 **Completion**
 

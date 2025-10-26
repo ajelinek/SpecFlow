@@ -38,8 +38,10 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T11 - Technical Design.md structure
+- [ ] Use @templates/T11a - High-Level Design.md structure
 - [ ] Replace `[F#] - [Feature Name]` with the specific feature name and ID
+- [ ] **ONLY populate sections 1-2**: Feature Overview and System/User Flow
+- [ ] **Leave sections 3-5 as TODO placeholders** - do not populate Change Summary Table, Implementation Details, or Test Scenarios
 - [ ] Populate Feature Overview section with business purpose and user value for the specific feature
 - [ ] Create System/User Flow section with Mermaid diagram showing user journey for the specific feature
 
@@ -49,6 +51,7 @@
 - [ ] Specific feature name and ID clearly identified and used throughout document
 - [ ] Feature overview clearly describes business purpose and user value for the specific feature
 - [ ] System/User flow diagram accurately represents user journey and business workflow for the specific feature
+- [ ] **VERIFY**: Only sections 1-2 are populated, sections 3-5 remain as TODO placeholders
 
 **Completion**
 

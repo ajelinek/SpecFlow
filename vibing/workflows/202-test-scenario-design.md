@@ -48,7 +48,10 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T11 - Technical Design.md structure
+- [ ] Use @templates/T11b - Test Scenario Design.md structure
+- [ ] **ONLY populate section 5**: Test Scenarios (Gherkin)
+- [ ] **Read existing sections 1-2** from the file (Feature Overview and System/User Flow)
+- [ ] **Leave sections 3-4 as TODO placeholders** - do not populate Change Summary Table or Implementation Details
 - [ ] Populate the "Test Scenarios (Gherkin)" section with comprehensive scenarios
 - [ ] **Design Large, Comprehensive Scenarios**: Create scenarios that cover entire user workflows with multiple assertions
 - [ ] **Include Multiple Assertions**: Each scenario should validate various aspects of the user journey
@@ -71,6 +74,7 @@
 - [ ] Gherkin syntax is valid and follows best practices
 - [ ] Example tables used to keep scenarios DRY where appropriate
 - [ ] All scenarios tagged with @status_pending for implementation tracking
+- [ ] **VERIFY**: Only section 5 is populated, sections 3-4 remain as TODO placeholders
 
 **Completion**
 
