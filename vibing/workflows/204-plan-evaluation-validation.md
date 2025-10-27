@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
 
 - Specific feature file path for evaluation (e.g., `_docs/features/in-progress/feature-name-technical-design.md`)
 
@@ -122,6 +122,6 @@
 - [ ] Risk assessment completed with mitigation strategies
 - [ ] Final response must be numbered as per template requirements
 
-**Note**: All responses should follow @vibing/fragments/response-formatting.md
+**Note**: All responses should follow the response formatting guidelines in AGENT.md
 
 **Output Format**: Final evaluation report must use @vibing/templates/T12 - Technical Design Validation.md structure

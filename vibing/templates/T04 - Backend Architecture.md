@@ -78,56 +78,18 @@
 - **Token Management**: Short-lived access tokens, long-lived refresh tokens, token blacklisting
 - **Security Measures**: Rate limiting, input validation, CORS configuration, HTTPS enforcement
 
-## 5. Background Jobs & Asynchronous Processing
+## 4. Security & Operations
 
-[Describe how long-running or deferred tasks are handled.]
-
-**Format**:
-
-- **Framework**: [Technology used for background processing]
-- **Use Cases**: [Types of background jobs]
-- **Workflow**: [How jobs are created, processed, and monitored]
-- **Error Handling**: [How failed jobs are handled]
-
-**Example**:
-
-- **Framework**: BullMQ with Redis for job queuing
-- **Use Cases**: Email sending, file processing, report generation, data synchronization
-- **Workflow**: Services add jobs to queues, workers process jobs, status tracking
-- **Error Handling**: Retry mechanisms, dead letter queues, job failure notifications
-
-## 6. Logging & Monitoring
-
-[Define the strategy for observability and debugging.]
+[Detail security measures, background processing, and observability across the backend.]
 
 **Format**:
 
-- **Logging Strategy**: [How application events are logged]
-- **Monitoring Approach**: [How system health is monitored]
-- **Error Tracking**: [How errors are captured and reported]
-- **Performance Metrics**: [What metrics are tracked]
+- **Security Implementation**: [Input validation, data protection, API security, infrastructure security]
+- **Background Processing**: [Framework, use cases, workflow, error handling for async tasks]
+- **Logging & Monitoring**: [Logging strategy, monitoring approach, error tracking, performance metrics]
 
 **Example**:
 
-- **Logging Strategy**: Structured JSON logging with correlation IDs
-- **Monitoring Approach**: Health checks, metrics collection, alerting
-- **Error Tracking**: Global error handler with Sentry integration
-- **Performance Metrics**: Response times, throughput, error rates, resource usage
-
-## 7. Security Implementation
-
-[Detail specific security measures implemented across the backend.]
-
-**Format**:
-
-- **Input Validation**: [How user input is validated and sanitized]
-- **Data Protection**: [How sensitive data is protected]
-- **API Security**: [API-specific security measures]
-- **Infrastructure Security**: [Server and deployment security]
-
-**Example**:
-
-- **Input Validation**: DTO validation, SQL injection prevention, XSS protection
-- **Data Protection**: Encryption at rest and in transit, PII handling
-- **API Security**: Rate limiting, CORS, API key management
-- **Infrastructure Security**: Secure headers, environment variable management, container security
+- **Security Implementation**: DTO validation, SQL injection prevention, encryption at rest/transit, rate limiting, CORS, secure headers
+- **Background Processing**: BullMQ with Redis for email sending, file processing, report generation; retry mechanisms, dead letter queues
+- **Logging & Monitoring**: Structured JSON logging with correlation IDs, health checks, Sentry integration, response time/throughput metrics

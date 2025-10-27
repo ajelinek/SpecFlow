@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
 
 - Specific feature ID from the Feature Overview document
 
@@ -57,4 +57,4 @@
 
 - [ ] Store completed document in `_docs/features/in-progress/[specific-feature-name]-technical-design.md`
 
-**Note**: All responses should follow @vibing/fragments/response-formatting.md
+**Note**: All responses should follow the response formatting guidelines in AGENT.md

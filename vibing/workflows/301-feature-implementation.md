@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
 
 - Specific test scenario ID(s) from Technical Design document (e.g., TS001, TS002, TS003)
 - Completed Technical Design document with test scenarios
@@ -99,4 +99,4 @@
 - [ ] Build completes successfully
 - [ ] Code follows established patterns
 
-**Note**: All responses should follow @vibing/fragments/response-formatting.md
+**Note**: All responses should follow the response formatting guidelines in AGENT.md

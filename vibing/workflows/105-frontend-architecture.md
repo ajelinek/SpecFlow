@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
 
 ## Validation Questions
 
@@ -37,7 +37,7 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T05 - Frontend Architecture.md structure
-- [ ] Populate all 8 sections with specific technical details
+- [ ] Populate all 5 sections with specific technical details
 - [ ] Define component hierarchy and state management patterns
 - [ ] Establish styling approach and design system integration
 
@@ -58,4 +58,4 @@
 
 - [ ] Store completed document in `_docs/design/D05 - Frontend Architecture.md`
 
-**Note**: All responses should follow @vibing/fragments/response-formatting.md
+**Note**: All responses should follow the response formatting guidelines in AGENT.md

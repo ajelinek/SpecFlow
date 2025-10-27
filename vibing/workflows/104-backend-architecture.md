@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
 
 ## Validation Questions
 
@@ -48,7 +48,7 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T04 - Backend Architecture.md structure
-- [ ] Populate all 7 sections with specific technical details
+- [ ] Populate all 4 sections with specific technical details
 - [ ] API design patterns clearly defined with examples
 
 **Quality Assurance**
@@ -67,4 +67,4 @@
 
 - [ ] Store completed document in `_docs/design/D04 - Backend Architecture.md`
 
-**Note**: All responses should follow @vibing/fragments/response-formatting.md
+**Note**: All responses should follow the response formatting guidelines in AGENT.md

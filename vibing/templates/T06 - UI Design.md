@@ -57,74 +57,20 @@ Define the typography approach and hierarchy philosophy.
 - **Secondary Font**: [Supporting font if needed]
 - **Monospace Font**: [Code or data display font]
 
-## 4. Layout & Spacing Philosophy
+## 4. Layout & Component Strategy
 
-Define the spatial design approach and grid system strategy.
-
-**Format**:
-
-### Layout Philosophy
-
-- **Grid System Approach**: [CSS Grid vs Flexbox vs traditional grid strategy]
-- **Spacing Philosophy**: [Consistent spacing scale approach]
-- **Content Density**: [Information density and white space strategy]
-
-### Responsive Strategy
-
-- **Breakpoint Philosophy**: [Approach to responsive breakpoints]
-- **Content Adaptation**: [How content adapts across screen sizes]
-- **Navigation Strategy**: [Mobile navigation approach]
-
-## 5. Component Design Strategy
-
-Define the approach to interactive components and user feedback.
+Define the spatial design approach, component design philosophy, and visual assets strategy.
 
 **Format**:
 
-### Component Philosophy
+- **Layout & Spacing**: [Grid system approach, spacing philosophy, content density, responsive strategy]
+- **Component Design**: [Design system approach, state design, feedback philosophy, key component categories]
+- **Visual Assets**: [Icon strategy, imagery approach, performance considerations]
+- **Motion & Interaction**: [Animation purpose, performance strategy, accessibility considerations]
 
-- **Design System Approach**: [Atomic design vs component-based approach]
-- **State Design Strategy**: [How interactive states are communicated]
-- **Feedback Philosophy**: [Approach to user feedback and error states]
+**Example**:
 
-### Key Component Categories
-
-- **Navigation Components**: [Primary navigation strategy and patterns]
-- **Form Components**: [Form design approach and validation patterns]
-- **Feedback Components**: [Loading, error, and success state strategy]
-
-## 6. Visual Assets Strategy
-
-Define the approach to icons, imagery, and visual elements.
-
-**Format**:
-
-### Icon Strategy
-
-- **Icon Philosophy**: [Icon style and approach to visual communication]
-- **Icon Library**: [Icon set selection and customization approach]
-- **Icon Usage**: [When and how icons support user experience]
-
-### Imagery Strategy
-
-- **Image Style**: [Photography vs illustration approach]
-- **Visual Hierarchy**: [How images support content hierarchy]
-- **Performance Considerations**: [Image optimization and loading strategy]
-
-## 7. Motion & Interaction Strategy
-
-Define the animation philosophy and micro-interaction approach.
-
-**Format**:
-
-### Motion Philosophy
-
-- **Animation Purpose**: [When and why animations are used]
-- **Performance Strategy**: [Animation performance and accessibility considerations]
-- **Interaction Feedback**: [How motion provides user feedback]
-
-### Accessibility Considerations
-
-- **Reduced Motion**: [Respecting user motion preferences]
-- **Focus Management**: [Visual focus indicators and keyboard navigation]
-- **Screen Reader Support**: [Ensuring animations don't interfere with assistive technology]
+- **Layout & Spacing**: CSS Grid for complex layouts, Flexbox for components, consistent 8px spacing scale, mobile-first responsive breakpoints
+- **Component Design**: Atomic design methodology, clear interactive states, consistent feedback patterns, navigation/form/feedback component categories
+- **Visual Assets**: Consistent icon library (Heroicons), photography for real content, illustrations for concepts, optimized image loading
+- **Motion & Interaction**: Purposeful animations for state changes, 60fps performance, respect reduced motion preferences, keyboard navigation support

@@ -66,76 +66,9 @@ Define key components used and how this page relates to existing patterns.
 - **Reused Patterns**: [Components and layouts borrowed from other pages]
 - **New Elements**: [Any new components or patterns needed]
 
-## 4. User Experience Flow
+## 4. Data Attributes & Requirements
 
-Define the primary user journey and key interactions on this page.
-
-**Format**:
-
-### User Journey Flow
-
-```mermaid
-journey
-    title User Journey: [Page Name]
-    section Entry
-      User arrives at page: 5: User
-      User sees initial content: 4: User
-    section Primary Action
-      User completes main task: 5: User
-      System provides feedback: 4: User
-    section Secondary Actions
-      User takes additional actions: 3: User
-      User navigates to other areas: 3: User
-    section Exit
-      User leaves page: 4: User
-```
-
-**Note**: Customize the journey sections, task names, and satisfaction scores (1-5) to match your specific page. See [Mermaid User Journey syntax](https://mermaid.js.org/syntax/userJourney.html) for details.
-
-### Primary User Journey
-
-1. **Entry Point**: [How users arrive at this page]
-2. **Initial State**: [What users see when they first land]
-3. **Primary Action**: [Main user action and expected outcome]
-4. **Secondary Actions**: [Additional actions users can take]
-5. **Exit Points**: [How users leave this page and where they go]
-
-### Key Interactions
-
-- **Primary Interactions**: [Main user actions and their outcomes]
-- **Secondary Interactions**: [Additional actions and navigation]
-- **Error Handling**: [How errors are communicated and resolved]
-
-## 5. Responsive Behavior
-
-Define how the page adapts across different screen sizes.
-
-**Format**:
-
-### Layout Flow Patterns
-
-#### Mobile-First Flow
-
-![Mobile Flow Diagram](./flow-mobile.svg)
-
-- **Content Stacking**: [How content stacks vertically on narrow screens]
-- **Touch Optimization**: [Touch target sizing and gesture support]
-
-#### Desktop Enhancement Flow
-
-![Desktop Flow Diagram](./flow-desktop.svg)
-
-- **Content Distribution**: [How content spreads horizontally on wider screens]
-- **Hover Interactions**: [Mouse hover states and interactions]
-
-### Cross-Device Consistency
-
-- **Unified Experience**: [How the same functionality works across all devices]
-- **Progressive Enhancement**: [Core functionality that works everywhere, enhanced features for capable devices]
-
-## 6. Data Attributes & Requirements
-
-Define the data attributes displayed on this page and their access requirements.
+Define the specific data attributes displayed on this page and their access requirements.
 
 **Format**:
 
@@ -168,3 +101,17 @@ Define the data attributes displayed on this page and their access requirements.
 - **Critical Path Data**: [Data needed for initial page render]
 - **Progressive Loading**: [Data loaded after initial render]
 - **Lazy Loading**: [Data loaded on demand or user interaction]
+
+## 5. User Experience & Responsive Behavior
+
+Define the user journey and how the page adapts across different screen sizes.
+
+**Format**:
+
+- **User Journey Flow**: [Primary user journey with entry points, actions, and exit points]
+- **Responsive Behavior**: [Mobile-first flow, desktop enhancements, cross-device consistency]
+
+**Example**:
+
+- **User Journey Flow**: Entry via navigation → see initial content → complete primary action → take secondary actions → exit to other pages
+- **Responsive Behavior**: Mobile-first with content stacking, touch optimization, desktop with horizontal distribution and hover interactions

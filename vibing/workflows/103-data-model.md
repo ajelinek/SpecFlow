@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
 
 ## Validation Questions
 
@@ -36,7 +36,7 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T03 - Data Model.md structure
-- [ ] Populate all 7 sections with specific technical details focused on persisted data
+- [ ] Populate all 4 sections with specific technical details focused on persisted data
 - [ ] Create Mermaid ERD diagram for entity relationships
 
 **Quality Assurance**
@@ -54,4 +54,4 @@
 
 - [ ] Store completed document in `_docs/design/D03 - Data Model.md`
 
-**Note**: All responses should follow @vibing/fragments/response-formatting.md
+**Note**: All responses should follow the response formatting guidelines in AGENT.md

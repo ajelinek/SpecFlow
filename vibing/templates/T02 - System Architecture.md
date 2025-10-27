@@ -70,58 +70,30 @@
 2. **Authentication Flow**: JWT tokens issued by auth service, validated by API gateway
 3. **Data Processing Pipeline**: User actions trigger events → business logic processing → database updates → UI refresh
 
-## 5. Infrastructure & Deployment Architecture
+## 5. Infrastructure & Non-Functional Requirements
 
-[Define the deployment environment, scaling strategy, and infrastructure components.]
-
-**Format**:
-
-- **Deployment Model**: [How the application will be deployed and hosted]
-- **Scaling Strategy**: [How the system will handle increased load]
-- **Infrastructure Services**: [Supporting services like databases, caches, queues]
-- **Security & Networking**: [Security measures and network architecture]
-
-**Example**:
-
-- **Deployment Model**: Containerized applications deployed to Kubernetes cluster
-- **Scaling Strategy**: Horizontal scaling with load balancers and auto-scaling groups
-- **Infrastructure Services**: Managed database service, Redis cluster, message queue service
-- **Security & Networking**: VPC with private subnets, WAF, SSL/TLS encryption
-
-## 6. Non-Functional Requirements Implementation
-
-[Explain how the architecture addresses key non-functional requirements.]
+[Define deployment environment, scaling strategy, and how the architecture addresses key non-functional requirements.]
 
 **Format**:
 
-- **Performance**: [How the architecture ensures performance requirements]
-- **Scalability**: [How the system scales to meet demand]
-- **Security**: [Security measures built into the architecture]
-- **Reliability**: [How the system ensures uptime and fault tolerance]
-- **Maintainability**: [How the architecture supports ongoing maintenance]
+- **Infrastructure & Deployment**: [Deployment model, scaling strategy, infrastructure services, security & networking]
+- **Non-Functional Requirements**: [Performance, scalability, security, reliability, maintainability implementation]
 
 **Example**:
 
-- **Performance**: CDN for static assets, database indexing, caching layer for frequent queries
-- **Scalability**: Stateless services, horizontal scaling, database read replicas
-- **Security**: OAuth 2.0, API rate limiting, data encryption at rest and in transit
-- **Reliability**: Health checks, circuit breakers, automated backups, multi-AZ deployment
-- **Maintainability**: Modular architecture, comprehensive logging, automated testing
+- **Infrastructure & Deployment**: Containerized applications on Kubernetes, horizontal scaling with load balancers, managed database service, VPC with private subnets and WAF
+- **Non-Functional Requirements**: CDN for static assets, database indexing, stateless services for scalability, OAuth 2.0 and encryption, health checks and circuit breakers, modular architecture for maintainability
 
-## 7. Testing Architecture
+## 6. Testing Strategy
 
-[Define the testing strategy and infrastructure required to support comprehensive testing across all system components.]
+[Define the high-level testing approach and tools for the system.]
 
 **Format**:
 
-- **Testing Strategy**: [E2E > Integration > Unit testing approach with rationale]
-- **Test Data Management**: [TestContext system for consistent, realistic test data generation]
-- **Test Infrastructure**: [Testing tools, frameworks, and environment setup]
-- **Test Organization**: [How tests are structured and organized across the system]
+- **Testing Philosophy**: [E2E > Integration > Unit testing approach with rationale]
+- **Testing Tools**: [Primary testing frameworks and tools for each test type]
 
 **Example**:
 
-- **Testing Strategy**: Prefer E2E tests using Playwright for user workflows, integration tests for component interactions, unit tests for business logic
-- **Test Data Management**: TestContext system with IdProvider, Generators, Scenario builder, and Selector for consistent test data across all test types
-- **Test Infrastructure**: Playwright for E2E, Vitest for unit/integration, Firebase emulators for local testing, TestContext for data management
-- **Test Organization**: Tests co-located with code, standardized setup patterns, TestContext for database integration, page objects for E2E
+- **Testing Philosophy**: Prefer E2E tests using Playwright for user workflows, integration tests for component interactions, unit tests for business logic
+- **Testing Tools**: Playwright for E2E, Vitest for unit/integration, TestContext for data management (see testing rules for detailed implementation)

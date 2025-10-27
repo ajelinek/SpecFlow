@@ -94,28 +94,23 @@
   - The **Service Layer** (`/store/service`) uses the repository and manages server state using `React Query`
   - Components consume this state exclusively through **custom hooks** exposed by the Service Layer (e.g., `useProjects()`), ensuring clean separation of concerns
 
-## 5. Styling Approach
+## 4. Styling & User Experience
 
-[Describe the conventions for applying styles to components.]
+[Describe styling conventions, performance optimization, accessibility, and user experience standards.]
 
 **Format**:
 
-- **Design System**: [How design tokens and system are implemented]
-- **Styling Method**: [Primary approach for applying styles]
-- **Component Styling**: [How complex component styles are handled]
-- **Theming**: [How theme switching and customization works]
+- **Design System**: [Design tokens, styling method, component styling, theming approach]
+- **Performance & Optimization**: [Code splitting, lazy loading, caching strategy, bundle optimization]
+- **Accessibility & UX**: [WCAG compliance, UX patterns, responsive design, error handling]
 
 **Example**:
 
-- **Design System**: All styling derived from a three-layer design token system defined in `/styles/tokens`:
-  1. **Global Tokens**: Base values (e.g., `--color-blue-500`, `--spacing-md`)
-  2. **Semantic Tokens**: Contextual variables (e.g., `--color-background-brand` which maps to global tokens)
-  3. **Component Tokens**: Scoped to individual components (e.g., `--button-background-color: var(--color-background-brand)`)
-- **Styling Method**: Primarily use `Tailwind CSS` for applying styles directly in JSX with utility classes
-- **Component Styling**: For complex styles, use `CSS Modules` imported with `import s from './[ComponentName].module.css'` and use the `s.className` convention. These modules leverage the established token system
-- **Theming**: Theme switching (e.g., light/dark mode) handled by loading different theme files from `/styles/themes` which redefine global CSS variable values
+- **Design System**: Three-layer design token system (global → semantic → component), Tailwind CSS for utility classes, CSS Modules for complex components, theme switching via CSS variables
+- **Performance & Optimization**: Route-based code splitting with Next.js dynamic imports, lazy load non-critical components, React Query for server state caching, tree shaking and bundle analysis
+- **Accessibility & UX**: WCAG 2.1 AA compliance with semantic HTML and ARIA labels, consistent loading states and error handling, mobile-first responsive design with Tailwind CSS
 
-## 6. Testing Strategy
+## 5. Testing Strategy
 
 [Outline the approach for ensuring code quality and application stability.]
 
@@ -132,39 +127,3 @@
 - **End-to-End Tests**: Use `Playwright` to test critical user flows from the user's perspective, running against real browsers
 - **Test Organization**: Tests co-located with components, standardized setup patterns, page objects for E2E tests
 - **Test Data Management**: Use TestContext system for consistent, realistic test data generation across all test types
-
-## 7. Performance & Optimization
-
-[Define strategies for maintaining optimal performance and user experience.]
-
-**Format**:
-
-- **Code Splitting**: [How code is split for optimal loading]
-- **Lazy Loading**: [When and how components are lazy loaded]
-- **Caching Strategy**: [How data and assets are cached]
-- **Bundle Optimization**: [How bundles are optimized for size and performance]
-
-**Example**:
-
-- **Code Splitting**: Route-based code splitting with Next.js dynamic imports for feature modules
-- **Lazy Loading**: Lazy load non-critical components and images below the fold
-- **Caching Strategy**: React Query for server state caching, service worker for static asset caching
-- **Bundle Optimization**: Tree shaking, dynamic imports, and bundle analysis to maintain performance budgets
-
-## 8. Accessibility & User Experience
-
-[Define standards and approaches for accessibility and user experience.]
-
-**Format**:
-
-- **Accessibility Standards**: [WCAG compliance level and implementation approach]
-- **User Experience Patterns**: [Common UX patterns and interactions]
-- **Responsive Design**: [How the application adapts to different screen sizes]
-- **Error Handling**: [How errors are communicated to users]
-
-**Example**:
-
-- **Accessibility Standards**: WCAG 2.1 AA compliance with semantic HTML, proper ARIA labels, keyboard navigation, and screen reader support
-- **User Experience Patterns**: Consistent loading states, optimistic updates, clear error messages, and intuitive navigation patterns
-- **Responsive Design**: Mobile-first approach with breakpoint-based responsive design using Tailwind CSS
-- **Error Handling**: Global error boundary for unexpected errors, inline validation for forms, toast notifications for user feedback

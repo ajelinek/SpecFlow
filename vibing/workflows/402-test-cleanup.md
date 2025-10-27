@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding.
 
 - Scope definition: what test code should be analyzed (recent commits, staged changes, specific test files, or directories)
 
@@ -72,4 +72,4 @@
 - [ ] Test utility modules created or updated
 - [ ] Test documentation comprehensive and up-to-date
 
-**Note**: All responses should follow @vibing/fragments/response-formatting.md
+**Note**: All responses should follow the response formatting guidelines in AGENT.md
