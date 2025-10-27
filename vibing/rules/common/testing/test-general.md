@@ -34,7 +34,7 @@ Mocks should be avoided whenever possible, Instead:
   - Database operations
   - API integrations
   - Cross-component data flow
-- **Data Management**: Use TestContext for database integration (see @rules/common/test-context.md)
+- **Data Management**: Use TestContext for database integration (see @vibing/rules/common/testing/test-context.md)
 
 ### E2E Tests (Playwright)
 
@@ -45,7 +45,7 @@ Mocks should be avoided whenever possible, Instead:
   - Cross-component interactions
   - Authentication and authorization flows
   - Features spanning multiple layers
-- **Data Management**: Use TestContext for all data management (see @rules/common/test-context.md)
+- **Data Management**: Use TestContext for all data management (see @vibing/rules/common/testing/test-context.md)
 
 # Testing Principles
 
@@ -67,7 +67,7 @@ Mocks should be avoided whenever possible, Instead:
 
 ### For Integration Tests
 
-- Use TestContext for all data management (see @rules/common/test-context.md)
+- Use TestContext for all data management (see @vibing/rules/common/testing/test-context.md)
 - Follow standardized setup patterns with `ctx.setupEnv()`
 - Use shorthand ID conventions (U1, O1, G1, etc.)
 
@@ -75,7 +75,7 @@ Mocks should be avoided whenever possible, Instead:
 
 - Place unit/integration tests in `__tests__` folders next to the code they test
 - Name test files as `[module-name].test.ts` or `[module-name].test.tsx`
-- For E2E tests, see @rules/common/e2e-testing-guidelines.md
+- For E2E tests, see @vibing/rules/common/testing/test-e2e.md
 
 ## Test Performance
 

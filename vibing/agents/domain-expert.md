@@ -20,11 +20,11 @@
 
 ## Consults With
 
-**User**: See `@fragments/user-clarification.md`
+**User**: See `@vibing/fragments/user-clarification.md`
 
 ## Rule References
 
-- **Response Formatting**: @fragments/response-formatting.md
+- **Response Formatting**: @vibing/fragments/response-formatting.md
 
 ## Guardrails
 

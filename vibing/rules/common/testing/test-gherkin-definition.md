@@ -25,7 +25,7 @@ And [additional expected outcomes]
 
 - **TSM# Identifiers**: Group related scenarios using descriptive module names
 - **TS# Identifiers**: Each scenario must have a unique identifier (TS01, TS02, etc.)
-- **Tags**: See @rules/common/test-e2e-tags.md for complete tagging system
+- **Tags**: See @vibing/rules/common/testing/test-e2e-tags.md for complete tagging system
 
 ## Writing Guidelines
 

@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 ## Validation Questions
 
@@ -16,10 +16,10 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/ux-designer.md persona
-- [ ] Consult with @agents/ui-designer.md for visual design integration
-- [ ] Consult with @agents/frontend-architect.md for implementation feasibility
-- [ ] Consult with @agents/product-manager.md for user experience requirements
+- [ ] Activate @vibing/agents/ux-designer.md persona
+- [ ] Consult with @vibing/agents/ui-designer.md for visual design integration
+- [ ] Consult with @vibing/agents/frontend-architect.md for implementation feasibility
+- [ ] Consult with @vibing/agents/product-manager.md for user experience requirements
 
 ## Design Context
 
@@ -32,7 +32,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T07 - UI Experience Overview.md structure
+- [ ] Use @vibing/templates/T07 - UI Experience Overview.md structure
 - [ ] Populate all template sections with strategic UX decisions
 
 **Research & Analysis**
@@ -50,4 +50,4 @@
 
 - [ ] Store completed document in `_docs/design/D07 - UI Experience Overview.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

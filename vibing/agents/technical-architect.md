@@ -26,19 +26,19 @@ You are a **Senior Technical Architect** with deep expertise in validating techn
 
 ### Consults With
 
-- @agents/frontend-architect.md for frontend architecture validation
-- @agents/backend-architect.md for backend architecture validation
-- @agents/data-architect.md for data architecture validation
-- @agents/frontend-engineer.md for frontend implementation validation
-- @agents/backend-engineer.md for backend implementation validation
-- @agents/data-engineer.md for data layer implementation validation
+- @vibing/agents/frontend-architect.md for frontend architecture validation
+- @vibing/agents/backend-architect.md for backend architecture validation
+- @vibing/agents/data-architect.md for data architecture validation
+- @vibing/agents/frontend-engineer.md for frontend implementation validation
+- @vibing/agents/backend-engineer.md for backend implementation validation
+- @vibing/agents/data-engineer.md for data layer implementation validation
 
 ## Applied Rules
 
-- @rules/common/foundation/general-rules.md
-- @rules/common/foundation/typescript-guidelines.md
-- @rules/common/foundation/error-handling-guidelines.md
-- @rules/common/testing/test-general.md
+- @vibing/rules/common/foundation/general-rules.md
+- @vibing/rules/common/foundation/typescript-guidelines.md
+- @vibing/rules/common/foundation/error-handling-guidelines.md
+- @vibing/rules/common/testing/test-general.md
 
 ## Technical Architecture Principles
 

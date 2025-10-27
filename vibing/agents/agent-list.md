@@ -6,52 +6,52 @@ This document provides a comprehensive list of all available agents organized by
 
 **High-level system and architectural design**
 
-- @agents/system-architect.md - Overall system architecture, technology stack decisions, and high-level design patterns. Use for system-wide architectural decisions, technology selection, and integration strategies across all layers
+- @vibing/agents/system-architect.md - Overall system architecture, technology stack decisions, and high-level design patterns. Use for system-wide architectural decisions, technology selection, and integration strategies across all layers
 
-- @agents/backend-architect.md - Backend service architecture, API design patterns, and server-side implementation strategies. Use for backend service design, API architecture, data access patterns, and server-side security implementation
+- @vibing/agents/backend-architect.md - Backend service architecture, API design patterns, and server-side implementation strategies. Use for backend service design, API architecture, data access patterns, and server-side security implementation
 
-- @agents/frontend-architect.md - Frontend architecture, component patterns, and user interface design strategies. Use for frontend architecture decisions, component library design, state management patterns, and UI/UX implementation strategies
+- @vibing/agents/frontend-architect.md - Frontend architecture, component patterns, and user interface design strategies. Use for frontend architecture decisions, component library design, state management patterns, and UI/UX implementation strategies
 
-- @agents/data-architect.md - Data modeling, database design, and data flow architecture. Use for data modeling, database schema design, data access patterns, and data integration strategies
+- @vibing/agents/data-architect.md - Data modeling, database design, and data flow architecture. Use for data modeling, database schema design, data access patterns, and data integration strategies
 
-- @agents/technical-architect.md - Technical implementation validation, code quality assurance, and architectural compliance. Use for technical validation, code review, architectural compliance checking, and implementation quality assurance
+- @vibing/agents/technical-architect.md - Technical implementation validation, code quality assurance, and architectural compliance. Use for technical validation, code review, architectural compliance checking, and implementation quality assurance
 
 ## Implementation Agents
 
 **Concrete implementation and development**
 
-- @agents/backend-engineer.md - Backend service implementation, API development, and server-side coding. Use for implementing backend services, API endpoints, business logic, data access layers, and server-side functionality
+- @vibing/agents/backend-engineer.md - Backend service implementation, API development, and server-side coding. Use for implementing backend services, API endpoints, business logic, data access layers, and server-side functionality
 
-- @agents/frontend-engineer.md - Frontend component implementation, UI development, and client-side coding. Use for implementing React/SolidJS components, UI features, state management, and frontend functionality
+- @vibing/agents/frontend-engineer.md - Frontend component implementation, UI development, and client-side coding. Use for implementing React/SolidJS components, UI features, state management, and frontend functionality
 
-- @agents/data-engineer.md - Data layer implementation, database operations, and data service development. Use for implementing data access layers, database operations, data services, and data integration functionality
+- @vibing/agents/data-engineer.md - Data layer implementation, database operations, and data service development. Use for implementing data access layers, database operations, data services, and data integration functionality
 
 ## Testing Agents
 
 **Test strategy, automation, and quality assurance**
 
-- @agents/test-analyst.md - Test strategy, scenario analysis, and test coverage planning. Use for test planning, scenario analysis, test coverage assessment, and testing strategy development
+- @vibing/agents/test-analyst.md - Test strategy, scenario analysis, and test coverage planning. Use for test planning, scenario analysis, test coverage assessment, and testing strategy development
 
-- @agents/test-automation-engineer.md - Test automation implementation, Playwright E2E testing, and test framework development. Use for implementing automated tests, E2E test automation, test data management, and test framework setup
+- @vibing/agents/test-automation-engineer.md - Test automation implementation, Playwright E2E testing, and test framework development. Use for implementing automated tests, E2E test automation, test data management, and test framework setup
 
-- @agents/test-cleanup-specialist.md - Test cleanup, maintenance, and test optimization. Use for test cleanup, test maintenance, test optimization, and test suite management
+- @vibing/agents/test-cleanup-specialist.md - Test cleanup, maintenance, and test optimization. Use for test cleanup, test maintenance, test optimization, and test suite management
 
 ## Design Agents
 
 **User experience and interface design**
 
-- @agents/ui-designer.md - User interface design, component design, and visual design patterns. Use for UI design, component design, visual design patterns, and interface design decisions
+- @vibing/agents/ui-designer.md - User interface design, component design, and visual design patterns. Use for UI design, component design, visual design patterns, and interface design decisions
 
-- @agents/ux-designer.md - User experience design, interaction patterns, and usability strategies. Use for UX design, user research, interaction design, and usability optimization
+- @vibing/agents/ux-designer.md - User experience design, interaction patterns, and usability strategies. Use for UX design, user research, interaction design, and usability optimization
 
-- @agents/product-manager.md - Product strategy, feature planning, and business requirements. Use for product planning, feature prioritization, business requirements, and product strategy decisions
+- @vibing/agents/product-manager.md - Product strategy, feature planning, and business requirements. Use for product planning, feature prioritization, business requirements, and product strategy decisions
 
 ## Specialized Agents
 
 **Domain-specific expertise and specialized tasks**
 
-- @agents/domain-expert.md - Domain knowledge, business logic, and specialized expertise. Use for domain-specific knowledge, business logic implementation, and specialized expertise
+- @vibing/agents/domain-expert.md - Domain knowledge, business logic, and specialized expertise. Use for domain-specific knowledge, business logic implementation, and specialized expertise
 
-- @agents/seo-specialist.md - SEO optimization, search engine strategies, and content optimization. Use for SEO implementation, search optimization, content strategy, and search engine optimization
+- @vibing/agents/seo-specialist.md - SEO optimization, search engine strategies, and content optimization. Use for SEO implementation, search optimization, content strategy, and search engine optimization
 
-- @agents/code-cleanup-specialist.md - Code cleanup, refactoring, and code quality improvement. Use for code cleanup, refactoring, code quality improvement, and technical debt reduction
+- @vibing/agents/code-cleanup-specialist.md - Code cleanup, refactoring, and code quality improvement. Use for code cleanup, refactoring, code quality improvement, and technical debt reduction

@@ -7,7 +7,7 @@
 
 # Component Integration
 
-- See @rules/apollo/store-architecture.md (Component Usage) and @rules/apollo/react-state-integration.md for service-hook patterns.
+- See @vibing/rules/apollo/store-architecture.md (Component Usage) and @vibing/rules/apollo/react-state-integration.md for service-hook patterns.
 
 # Performance
 

@@ -25,33 +25,33 @@ You are a **Lead System Architect** with deep expertise in translating business 
 
 ### Consults With
 
-- @agents/product-manager.md for business requirements and priorities
+- @vibing/agents/product-manager.md for business requirements and priorities
 
 ## Applied Rules
 
-- @rules/common/foundation/general-rules.md
-- @rules/common/foundation/typescript-guidelines.md
-- @rules/common/foundation/error-handling-guidelines.md
-- @rules/common/ui/ui-project-structure.md
-- @rules/common/testing/test-general.md
-- @rules/common/testing/test-e2e.md
-- @rules/common/testing/test-context.md
-- @rules/common/testing/test-setup-examples.md
+- @vibing/rules/common/foundation/general-rules.md
+- @vibing/rules/common/foundation/typescript-guidelines.md
+- @vibing/rules/common/foundation/error-handling-guidelines.md
+- @vibing/rules/common/ui/ui-project-structure.md
+- @vibing/rules/common/testing/test-general.md
+- @vibing/rules/common/testing/test-e2e.md
+- @vibing/rules/common/testing/test-context.md
+- @vibing/rules/common/testing/test-setup-examples.md
 
 ## Testing Architecture Patterns
 
-- @patterns/test-context-architecture-guide.md - Core TestContext system design
-- @patterns/test-data-generation-design.md - Data generation patterns and entity generators
+- @vibing/patterns/test-context-architecture-guide.md - Core TestContext system design
+- @vibing/patterns/test-data-generation-design.md - Data generation patterns and entity generators
 
 ## Technology-Specific Rules (Apply as Needed)
 
-- @rules/apollo/apollo-server-guidelines.md (if using GraphQL)
-- @rules/apollo/apollo-client-guidelines.md (if using Apollo Client)
-- @rules/apollo/apollo-api-change-rules.md (if using GraphQL)
-- @rules/common/backend/firebase-integration.md (if using Firebase)
-- @rules/astro.js/astro-project-structure.md (if using Astro)
-- @rules/react/react-state-management.md (if using React)
-- @rules/solid.js/solid-state-management.md (if using SolidJS)
+- @vibing/rules/apollo/apollo-server-guidelines.md (if using GraphQL)
+- @vibing/rules/apollo/apollo-client-guidelines.md (if using Apollo Client)
+- @vibing/rules/apollo/apollo-api-change-rules.md (if using GraphQL)
+- @vibing/rules/common/backend/firebase-integration.md (if using Firebase)
+- @vibing/rules/astro.js/astro-project-structure.md (if using Astro)
+- @vibing/rules/react/react-state-management.md (if using React)
+- @vibing/rules/solid.js/solid-state-management.md (if using SolidJS)
 
 ## Core Architectural Principles
 

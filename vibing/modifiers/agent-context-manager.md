@@ -7,6 +7,7 @@
 **CRITICAL PROTECTION RULES** (never violate these):
 
 - **NEVER create or modify the project root AGENT.md file** - it should be a standalone copy of @AGENT.md
+- **PROTECT ROOT AGENT.md** - The root AGENT.md file is protected and must never be touched by this script
 - **NEVER create AGENT.md files in the vibing/ directory** - this contains the agent system itself
 - **NEVER create AGENT.md files in protected paths**: node_modules/, .git/, any hidden directories (starting with .)
 - **FOCUS ON USEFULNESS** - Every generated file must provide actionable guidance for LLMs making code changes
@@ -319,6 +320,8 @@ const useStore = create(set => ({
 - ❌ **DUPLICATING RULE CONTENT** - Never copy content from @vibing/rules/ files
 - ❌ **FAILING TO VERIFY** - Not checking rule files before adding examples
 - ❌ **NOT REMOVING DUPLICATION** - Finding duplication but not removing it
+- ❌ **CREATING ROOT AGENT.MD** - Never create or modify the root AGENT.md file
+- ❌ **MODIFYING ROOT FILES** - Never create or modify any file in the project root directory
 
 ## Common Project Patterns & Layouts
 
@@ -510,6 +513,8 @@ src/
 1. **Code Analysis**: Read and analyze actual source files to understand implementation patterns
 2. **Technology Detection**: Verify detected technologies against actual code usage
 3. **Path Validation**: Ensure path is not protected (not root, not vibing/, not node_modules/, not hidden)
+   - **CRITICAL**: Never create or modify the root AGENT.md file
+   - **CRITICAL**: Never create or modify any file in the project root directory
 4. **Content Quality**: Ensure file contains real examples and actionable guidance
 5. **Agent Validation**: Verify all agent references point to existing files
 6. **Rule Validation**: Ensure all rule references are correct and relevant
@@ -527,6 +532,8 @@ src/
 - Report broken references
 - Provide partial results when possible
 - Never create files in protected paths
+- **CRITICAL**: Never create or modify the root AGENT.md file
+- **CRITICAL**: Never create or modify any file in the project root directory
 
 ## Output Requirements
 
@@ -546,6 +553,7 @@ src/
 - Updated: [number]
 - Validated: [number]
 - Protected: [number] (root, vibing/, etc.)
+- Root AGENT.md protected: [yes/no]
 
 ## Quality Metrics
 
@@ -569,6 +577,7 @@ src/
 - Rule content duplication: [list] - **MUST BE REMOVED**
 - E2E test pattern duplication: [list] - **MUST BE REMOVED**
 - Verification failures: [list] - **MUST BE FIXED**
+- Root AGENT.md violations: [list] - **MUST BE PREVENTED**
 - Low LLM usability: [list]
 
 ```

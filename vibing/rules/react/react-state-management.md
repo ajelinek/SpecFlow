@@ -23,9 +23,9 @@
 
 ## 3. State Management Integration
 
-- **Apollo Client**: Follow @rules/apollo/apollo-react-state-integration.md for GraphQL server state
-- **SWR**: Follow @rules/react/react-state-with-swr.md` for REST API state management
-- **Firebase SDK**: Follow @rules/common/firebase-integration.md for Firebase Server Data
+- **Apollo Client**: Follow @vibing/rules/apollo/apollo-react-state-integration.md for GraphQL server state
+- **SWR**: Follow @vibing/rules/react/react-state-with-swr.md` for REST API state management
+- **Firebase SDK**: Follow @vibing/rules/common/firebase-integration.md for Firebase Server Data
 - **Local State**: Use React hooks for component-specific state
 
 ## 4. Required Practices

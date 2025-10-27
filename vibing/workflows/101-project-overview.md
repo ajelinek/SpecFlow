@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 ## Validation Questions
 
@@ -22,8 +22,8 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/product-manager.md persona
-- [ ] Consult with @agents/domain-expert.md for domain expertise
+- [ ] Activate @vibing/agents/product-manager.md persona
+- [ ] Consult with @vibing/agents/domain-expert.md for domain expertise
 
 ## Design Context
 
@@ -33,7 +33,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T01 - Project Overview.md structure
+- [ ] Use @vibing/templates/T01 - Project Overview.md structure
 - [ ] Populate 6 template sections populated with specific content
 - [ ] Create 3-5 critical user journeys
 - [ ] Establish measurable success metrics
@@ -50,4 +50,4 @@
 
 - [ ] Store completed document in `_docs/design/Project_Overview.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

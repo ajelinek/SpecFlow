@@ -8,9 +8,9 @@ This modifier analyzes all project files (workflows, agents, templates, agent fi
 
 ### Required Parameters
 
-- **Agent File Path**: The path to the agent file that contains the complete rule inventory with descriptions (e.g., `@context/global.AGENT.md`, `@agents/master.AGENT.md`, etc.)
+- **Agent File Path**: The path to the agent file that contains the complete rule inventory with descriptions (e.g., `@vibing/context/global.AGENT.md`, `@vibing/agents/master.AGENT.md`, etc.)
 - **Project Root**: The root directory of the project to analyze
-- **Rule Directory**: The directory containing all rule files (e.g., `@rules/`, `@guidelines/`, etc.)
+- **Rule Directory**: The directory containing all rule files (e.g., `@vibing/rules/`, `@vibing/guidelines/`, etc.)
 
 ### Optional Parameters
 
@@ -82,8 +82,8 @@ All content (rules, bullets, workflows, templates) and their descriptions are ma
 
 The agent file location is configurable and can be:
 
-- `@context/global.AGENT.md` (default)
-- `@agents/master.AGENT.md`
+- `@vibing/context/global.AGENT.md` (default)
+- `@vibing/agents/master.AGENT.md`
 - `@config/rules.AGENT.md`
 - Any custom path to the agent file
 
@@ -248,10 +248,10 @@ The analyzer updates project files to reflect the filtered content set:
 technology-stack-analyzer --project-root ./my-project
 
 # Specifying custom agent file location
-technology-stack-analyzer --project-root ./my-project --agent-file @context/global.AGENT.md
+technology-stack-analyzer --project-root ./my-project --agent-file @vibing/context/global.AGENT.md
 
 # Using different agent file locations
-technology-stack-analyzer --project-root ./my-project --agent-file @agents/master.AGENT.md
+technology-stack-analyzer --project-root ./my-project --agent-file @vibing/agents/master.AGENT.md
 technology-stack-analyzer --project-root ./my-project --agent-file @config/rules.AGENT.md
 technology-stack-analyzer --project-root ./my-project --agent-file ./custom/agent.md
 ```
@@ -262,8 +262,8 @@ technology-stack-analyzer --project-root ./my-project --agent-file ./custom/agen
 # With custom rule directory and exclude patterns
 technology-stack-analyzer \
   --project-root ./my-project \
-  --agent-file @context/global.AGENT.md \
-  --rule-directory @rules/ \
+  --agent-file @vibing/context/global.AGENT.md \
+  --rule-directory @vibing/rules/ \
   --exclude-patterns "node_modules/,dist/,*.test.*" \
   --custom-mappings ./custom-mappings.json
 ```
@@ -379,7 +379,7 @@ The analyzer would read the specified agent file and include:
 
 ## Benefits
 
-1. **Single Source of Truth**: Uses `@context/global.AGENT.md` as the authoritative content inventory
+1. **Single Source of Truth**: Uses `@vibing/context/global.AGENT.md` as the authoritative content inventory
 2. **Automatic Optimization**: Only includes content for technologies actually used
 3. **Reduced Noise**: Eliminates irrelevant content references and technology-specific bullets
 4. **Better Performance**: Fewer content items to process and validate

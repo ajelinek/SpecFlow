@@ -8,7 +8,7 @@
 - **Use single responsibility principle** - one page object per page/component
 - **Centralize shared assertions** - common validations must be reusable
 - **Cache locators in constructor** for performance
-- **Use semantic selectors only** - prioritize accessibility and user-facing attributes. See @rules/common/accessibility-guidelines.md for accessibility testing requirements.
+- **Use semantic selectors only** - prioritize accessibility and user-facing attributes. See @vibing/rules/common/ui/ui-accessibility-guidelines.md for accessibility testing requirements.
 - **Expose actions, not locators** - methods should perform operations, not return elements
 
 ### Step Decorator Requirements
@@ -21,7 +21,7 @@
 
 ### Selector Priority (MANDATORY ORDER)
 
-1. `getByRole()` - Best for accessibility and user-facing elements (see @rules/common/accessibility-guidelines.md)
+1. `getByRole()` - Best for accessibility and user-facing elements (see @vibing/rules/common/ui/ui-accessibility-guidelines.md)
 2. `getByLabel()` - For form fields with labels
 3. `getByText()` - For text content and buttons
 4. `getByPlaceholder()` - For inputs with placeholder text

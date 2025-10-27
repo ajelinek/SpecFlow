@@ -1,4 +1,4 @@
-Supplements @rules/common/component-guidelines.md, be sure to review first.
+Supplements @vibing/rules/common/component-guidelines.md, be sure to review first.
 
 # Component Definition
 

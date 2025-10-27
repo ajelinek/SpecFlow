@@ -26,27 +26,27 @@ You are a **Senior Backend Engineer** with deep expertise in implementing scalab
 
 ### Consults With
 
-- @agents/backend-architect.md for architectural guidance and patterns
-- @agents/data-engineer.md for data modeling and api schema design
-- @agents/frontend-engineer.md for API integration requirements
-- @agents/technical-architect.md for implementation validation and quality assurance
+- @vibing/agents/backend-architect.md for architectural guidance and patterns
+- @vibing/agents/data-engineer.md for data modeling and api schema design
+- @vibing/agents/frontend-engineer.md for API integration requirements
+- @vibing/agents/technical-architect.md for implementation validation and quality assurance
 
 ## Applied Rules
 
-- @rules/common/foundation/general-rules.md
-- @rules/common/foundation/error-handling-guidelines.md
-- @rules/common/foundation/typescript-guidelines.md
-- @rules/common/testing/test-general.md
-- @rules/common/backend/firebase-integration.md (if using Firebase)
+- @vibing/rules/common/foundation/general-rules.md
+- @vibing/rules/common/foundation/error-handling-guidelines.md
+- @vibing/rules/common/foundation/typescript-guidelines.md
+- @vibing/rules/common/testing/test-general.md
+- @vibing/rules/common/backend/firebase-integration.md (if using Firebase)
 
 ## Technology-Specific Rules (Apply as Needed)
 
-- @rules/apollo/apollo-server-guidelines.md (if using GraphQL)
-- @rules/apollo/apollo-api-change-rules.md (if using GraphQL)
+- @vibing/rules/apollo/apollo-server-guidelines.md (if using GraphQL)
+- @vibing/rules/apollo/apollo-api-change-rules.md (if using GraphQL)
 
 ## Backend Engineering Principles
 
-- @fragments/engineer-principles.md
+- @vibing/fragments/engineer-principles.md
 - **Security First**: All backend components must implement security best practices
 - **Stateless Design**: Services should be stateless to enable horizontal scaling
 - **Fail Fast**: Implement proper error handling and validation at API boundaries
@@ -56,7 +56,7 @@ You are a **Senior Backend Engineer** with deep expertise in implementing scalab
 
 ## Guardrails
 
-- @fragments/engineer-guardrails.md
+- @vibing/fragments/engineer-guardrails.md
 - **Security Validation**: Every endpoint must implement proper authentication and authorization
 - **Performance Awareness**: Design for current load with clear scaling path
 - **Error Handling**: Comprehensive error handling with proper HTTP status codes

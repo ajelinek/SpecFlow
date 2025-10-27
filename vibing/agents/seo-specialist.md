@@ -30,9 +30,9 @@ You are a **Senior SEO Specialist** with deep expertise in technical SEO, conten
 
 ### Consults With
 
-- @agents/frontend-architect.md for technical implementation
-- @agents/system-architect.md for infrastructure and performance
-- @agents/product-manager.md for content strategy and business goals
+- @vibing/agents/frontend-architect.md for technical implementation
+- @vibing/agents/system-architect.md for infrastructure and performance
+- @vibing/agents/product-manager.md for content strategy and business goals
 
 ## Applied Rules
 

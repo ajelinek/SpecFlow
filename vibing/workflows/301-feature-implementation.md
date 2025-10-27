@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 - Specific test scenario ID(s) from Technical Design document (e.g., TS001, TS002, TS003)
 - Completed Technical Design document with test scenarios
@@ -15,11 +15,11 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/technical-architect.md for implementation validation
-- [ ] Activate @agents/test-automation-engineer.md for test implementation
-- [ ] Activate @agents/frontend-engineer.md for frontend development
-- [ ] Activate @agents/backend-engineer.md for backend development
-- [ ] Activate @agents/data-engineer.md for data layer implementation
+- [ ] Activate @vibing/agents/technical-architect.md for implementation validation
+- [ ] Activate @vibing/agents/test-automation-engineer.md for test implementation
+- [ ] Activate @vibing/agents/frontend-engineer.md for frontend development
+- [ ] Activate @vibing/agents/backend-engineer.md for backend development
+- [ ] Activate @vibing/agents/data-engineer.md for data layer implementation
 
 ## Design Context
 
@@ -37,7 +37,7 @@
 
 **Test Implementation** (Test Automation Engineer)
 
-- [ ] Activate @agents/test-automation-engineer.md for test implementation
+- [ ] Activate @vibing/agents/test-automation-engineer.md for test implementation
 - [ ] Implement test scenarios for specific test scenario ID(s)
 - [ ] Follow TDD principles: Red → Green → Refactor
 - [ ] Use existing test patterns and utilities
@@ -52,7 +52,7 @@
 
 **Frontend Source Code** (Frontend Engineer)
 
-- [ ] Activate @agents/frontend-engineer.md for frontend development
+- [ ] Activate @vibing/agents/frontend-engineer.md for frontend development
 - [ ] Implement ONLY specific test scenario(s) with provided IDs
 - [ ] Follow existing component patterns
 - [ ] Reuse existing utilities and helpers
@@ -64,7 +64,7 @@
 
 **Backend Source Code** (Backend Engineer)
 
-- [ ] Activate @agents/backend-engineer.md for backend development
+- [ ] Activate @vibing/agents/backend-engineer.md for backend development
 - [ ] Implement backend services and APIs for test scenarios
 - [ ] Follow established backend architecture patterns
 - [ ] Follow existing API patterns and conventions
@@ -75,7 +75,7 @@
 
 **Data Source Code** (Data Engineer)
 
-- [ ] Activate @agents/data-engineer.md for data layer implementation
+- [ ] Activate @vibing/agents/data-engineer.md for data layer implementation
 - [ ] Implement data layer changes for test scenarios
 - [ ] **SCOPE CONSTRAINT**: No additional code created outside test scenario scope - only code needed for test scenario. Less code is more.
 
@@ -99,4 +99,4 @@
 - [ ] Build completes successfully
 - [ ] Code follows established patterns
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

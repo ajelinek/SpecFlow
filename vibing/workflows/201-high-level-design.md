@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 - Specific feature ID from the Feature Overview document
 
@@ -20,7 +20,7 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/product-manager.md persona
+- [ ] Activate @vibing/agents/product-manager.md persona
 
 ## Design Context
 
@@ -38,7 +38,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T11a - High-Level Design.md structure
+- [ ] Use @vibing/templates/T11a - High-Level Design.md structure
 - [ ] Replace `[F#] - [Feature Name]` with the specific feature name and ID
 - [ ] **ONLY populate sections 1-2**: Feature Overview and System/User Flow
 - [ ] **Leave sections 3-5 as TODO placeholders** - do not populate Change Summary Table, Implementation Details, or Test Scenarios
@@ -57,4 +57,4 @@
 
 - [ ] Store completed document in `_docs/features/in-progress/[specific-feature-name]-technical-design.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

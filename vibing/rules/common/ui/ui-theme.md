@@ -5,7 +5,7 @@
 - Use `data-theme` attribute on `<html>` element for theme switching
 - Define theme-specific CSS custom properties in theme files
 - Store theme preference in localStorage for persistence
-- Reference @rules/styling-guidelines.md for design token system
+- Reference @vibing/rules/common/ui/ui-styling-guidelines.md for design token system
 
 ## Theme Implementation
 

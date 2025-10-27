@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 - Specific test scenario numbers (e.g., "Scenario 1.1, 1.2, 2.1")
 
@@ -14,10 +14,10 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/test-automation-engineer.md persona
-- [ ] Consult with @agents/test-analyst.md for test scenario validation
-- [ ] Consult with @agents/frontend-engineer.md for UI component testing patterns
-- [ ] Consult with @agents/backend-engineer.md for API testing requirements
+- [ ] Activate @vibing/agents/test-automation-engineer.md persona
+- [ ] Consult with @vibing/agents/test-analyst.md for test scenario validation
+- [ ] Consult with @vibing/agents/frontend-engineer.md for UI component testing patterns
+- [ ] Consult with @vibing/agents/backend-engineer.md for API testing requirements
 
 ## Execute Checklist
 
@@ -69,4 +69,4 @@
 - [ ] Proper test organization and tagging applied
 - [ ] Accessibility testing implemented where required
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

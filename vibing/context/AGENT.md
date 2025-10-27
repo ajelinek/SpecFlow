@@ -3,7 +3,9 @@
 - Always assume the user is wrong until proven otherwise.
 - NEVER make assumptions. ALWAYS ask for clarification / direction.
 - NEVER execute git add/commit/checkout/merge commands unless specifically asked.
-- ALWAYS read referenced files
+- ALWAYS read referenced files (files with @vibing prefix) based on context of what you are doing
+- Error on the side of reading MORE files than not - when in doubt, read the file
+- Summarize the rules and agents that were read/used in every response
 
 # Agent Selection Logic
 
@@ -18,7 +20,7 @@
 **Otherwise (ad-hoc tasks):**
 
 - Auto-select agent from `vibing/agents/` based on task description
-- Reference `@rules/agent-list.md` for agent descriptions and responsibilities
+- Reference `@vibing/rules/agent-list.md` for agent descriptions and responsibilities
 - Match task requirements to agent responsibilities
 - Read selected agent file and follow their context
 
@@ -27,7 +29,7 @@
 ## Auto-Loading Rules
 
 - Auto-read rules from `vibing/rules/` based on detected technologies/patterns
-- Reference `@rules/rule-list.md` for descriptions to determine relevance
+- Reference `@vibing/rules/rule-list.md` for descriptions to determine relevance
 - Load rules only when needed for specific implementation tasks
 - Apply technology-specific rules based on project stack detection
 
@@ -35,9 +37,13 @@
 
 For project-specific commands and test patterns, see:
 
-- @context/common-commands.md
+- @vibing/context/common-commands.md
 
 # Tools & Resources
+
+## Response Formatting
+
+- Follow @vibing/fragments/response-formatting.md for all response structure and tone guidelines
 
 ## Research Standards
 

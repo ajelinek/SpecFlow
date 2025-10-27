@@ -18,11 +18,11 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/product-manager.md persona
-- [ ] Consult with @agents/domain-expert.md for business domain knowledge and requirements validation
-- [ ] Consult with @agents/system-architect.md for technical feasibility and architecture constraints
-- [ ] Consult with @agents/frontend-architect.md for UI/UX implementation dependencies
-- [ ] Consult with @agents/backend-architect.md for API and service implementation dependencies
+- [ ] Activate @vibing/agents/product-manager.md persona
+- [ ] Consult with @vibing/agents/domain-expert.md for business domain knowledge and requirements validation
+- [ ] Consult with @vibing/agents/system-architect.md for technical feasibility and architecture constraints
+- [ ] Consult with @vibing/agents/frontend-architect.md for UI/UX implementation dependencies
+- [ ] Consult with @vibing/agents/backend-architect.md for API and service implementation dependencies
 
 ## Design Context
 
@@ -61,7 +61,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T10 - Feature Overview.md template structure
+- [ ] Use @vibing/templates/T10 - Feature Overview.md template structure
 - [ ] Populate all 2 sections with specific vertical slice features and user stories
 - [ ] Apply WSJF scoring to rank vertical slices by business value and implementation effort
 - [ ] Ensure features are listed in WSJF priority order (highest value/effort ratio first)
@@ -78,4 +78,4 @@
 
 - [ ] Store completed document in `_docs/design/D10 - Feature Overview.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 ## Validation Questions
 
@@ -23,8 +23,8 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/data-architect.md persona
-- [ ] Consult with @agents/system-architect.md for architecture alignment
+- [ ] Activate @vibing/agents/data-architect.md persona
+- [ ] Consult with @vibing/agents/system-architect.md for architecture alignment
 
 ## Design Context
 
@@ -35,7 +35,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T03 - Data Model.md structure
+- [ ] Use @vibing/templates/T03 - Data Model.md structure
 - [ ] Populate all 7 sections with specific technical details focused on persisted data
 - [ ] Create Mermaid ERD diagram for entity relationships
 
@@ -54,4 +54,4 @@
 
 - [ ] Store completed document in `_docs/design/D03 - Data Model.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

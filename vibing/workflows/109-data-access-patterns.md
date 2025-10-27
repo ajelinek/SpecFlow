@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 ## Validation Questions
 
@@ -15,9 +15,9 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/data-architect.md persona
-- [ ] Consult with @agents/frontend-architect.md for UI data consumption patterns
-- [ ] Consult with @agents/backend-architect.md for API design patterns
+- [ ] Activate @vibing/agents/data-architect.md persona
+- [ ] Consult with @vibing/agents/frontend-architect.md for UI data consumption patterns
+- [ ] Consult with @vibing/agents/backend-architect.md for API design patterns
 
 ## Design Context
 
@@ -35,7 +35,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T09 - Data Access Patterns and Objects.md template structure
+- [ ] Use @vibing/templates/T09 - Data Access Patterns and Objects.md template structure
 - [ ] Populate all 5 sections with specific technical details based on UI flow analysis
 - [ ] Define core data access patterns identified from UI requirements
 - [ ] Create data object tables with field definitions, sources, and derivation logic
@@ -58,4 +58,4 @@
 
 - [ ] Store completed document in `_docs/design/D09 - Data Access Patterns and Objects.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

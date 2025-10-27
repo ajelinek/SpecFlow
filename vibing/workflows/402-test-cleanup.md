@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 - Scope definition: what test code should be analyzed (recent commits, staged changes, specific test files, or directories)
 
@@ -15,17 +15,17 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/test-cleanup-specialist.md persona
-- [ ] Consult with @agents/technical-architect.md for quality standards validation
-- [ ] Consult with @agents/test-automation-engineer.md for test-specific cleanup patterns
-- [ ] Consult with @agents/frontend-engineer.md for frontend test patterns
-- [ ] Consult with @agents/backend-engineer.md for backend test patterns
+- [ ] Activate @vibing/agents/test-cleanup-specialist.md persona
+- [ ] Consult with @vibing/agents/technical-architect.md for quality standards validation
+- [ ] Consult with @vibing/agents/test-automation-engineer.md for test-specific cleanup patterns
+- [ ] Consult with @vibing/agents/frontend-engineer.md for frontend test patterns
+- [ ] Consult with @vibing/agents/backend-engineer.md for backend test patterns
 
 ## Execute Checklist
 
 **Delegation**
 
-- [ ] Delegate test code analysis to @agents/test-cleanup-specialist.md
+- [ ] Delegate test code analysis to @vibing/agents/test-cleanup-specialist.md
 - [ ] Ensure agent follows established test cleanup principles
 - [ ] Validate agent applies appropriate testing standards
 - [ ] **CRITICAL**: Confirm agent focuses on **TEST CODE ONLY**
@@ -72,4 +72,4 @@
 - [ ] Test utility modules created or updated
 - [ ] Test documentation comprehensive and up-to-date
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

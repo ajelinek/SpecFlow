@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 ## Validation Questions
 
@@ -21,10 +21,10 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/frontend-architect.md persona
-- [ ] Consult with @agents/system-architect.md for system integration patterns
-- [ ] Consult with @agents/product-manager.md for user experience requirements
-- [ ] Consult with @agents/seo-specialist.md for SEO requirements and technical implementation
+- [ ] Activate @vibing/agents/frontend-architect.md persona
+- [ ] Consult with @vibing/agents/system-architect.md for system integration patterns
+- [ ] Consult with @vibing/agents/product-manager.md for user experience requirements
+- [ ] Consult with @vibing/agents/seo-specialist.md for SEO requirements and technical implementation
 
 ## Design Context
 
@@ -36,7 +36,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T05 - Frontend Architecture.md structure
+- [ ] Use @vibing/templates/T05 - Frontend Architecture.md structure
 - [ ] Populate all 8 sections with specific technical details
 - [ ] Define component hierarchy and state management patterns
 - [ ] Establish styling approach and design system integration
@@ -58,4 +58,4 @@
 
 - [ ] Store completed document in `_docs/design/D05 - Frontend Architecture.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

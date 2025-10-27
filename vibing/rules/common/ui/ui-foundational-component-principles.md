@@ -38,4 +38,4 @@ Foundational components are the building blocks of the application, used across 
 
 # Accessibility Requirements
 
-See @rules/common/accessibility-guidelines.md for comprehensive accessibility standards and implementation guidelines.
+See @vibing/rules/common/ui/ui-accessibility-guidelines.md for comprehensive accessibility standards and implementation guidelines.

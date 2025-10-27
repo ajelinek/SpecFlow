@@ -6,7 +6,7 @@
 
 This modifier scans the entire vibing directory structure to:
 
-1. Find all references to agent files (both `@agents/` and `@context/` patterns)
+1. Find all references to agent files (both `@vibing/agents/` and `@vibing/context/` patterns)
 2. Update incorrect or outdated paths
 3. Ensure all agent references point to the correct files in the current structure
 
@@ -38,22 +38,22 @@ This modifier scans the entire vibing directory structure to:
 
 ### 1. Agent References in Workflows
 
-**Pattern**: `@agents/{agent-name}.md`
+**Pattern**: `@vibing/agents/{agent-name}.md`
 **Correct Path**: `@vibing/agents/{agent-name}.md`
 
 **Examples**:
 
-- `@agents/product-manager.md` → `@vibing/agents/product-manager.md`
-- `@agents/frontend-architect.md` → `@vibing/agents/frontend-architect.md`
+- `@vibing/agents/product-manager.md` → `@vibing/agents/product-manager.md`
+- `@vibing/agents/frontend-architect.md` → `@vibing/agents/frontend-architect.md`
 
 ### 2. Agent References in Other Agents
 
-**Pattern**: `@agents/{agent-name}.md`
+**Pattern**: `@vibing/agents/{agent-name}.md`
 **Correct Path**: `@vibing/agents/{agent-name}.md`
 
 ### 3. Global Agent Context References
 
-**Pattern**: `@context/global.AGENT.md`
+**Pattern**: `@vibing/context/global.AGENT.md`
 **Correct Path**: `@vibing/context/global.AGENT.md`
 
 ## Execution Instructions
@@ -95,19 +95,19 @@ For each dynamically identified lower-level AGENT.md file:
 
 1. **Agent Section References**:
 
-   - Update `@agents/{name}.md` → `@vibing/agents/{name}.md`
+   - Update `@vibing/agents/{name}.md` → `@vibing/agents/{name}.md`
 
 2. **Workflow Step References**:
 
-   - Update `@agents/{name}.md` → `@vibing/agents/{name}.md`
+   - Update `@vibing/agents/{name}.md` → `@vibing/agents/{name}.md`
 
 3. **Rule References**:
 
-   - Update `@rules/{category}/{rule-file}.md` → `@vibing/rules/{category}/{rule-file}.md`
+   - Update `@vibing/rules/{category}/{rule-file}.md` → `@vibing/rules/{category}/{rule-file}.md`
    - Update any other rule reference patterns to use `@vibing/rules/`
 
 4. **Context References**:
-   - Update `@context/global.AGENT.md` → `@vibing/context/global.AGENT.md`
+   - Update `@vibing/context/global.AGENT.md` → `@vibing/context/global.AGENT.md`
 
 ### Step 3: Hierarchy Compliance Enforcement
 
@@ -168,10 +168,10 @@ After updating all references, verify:
 - [ ] **DYNAMIC HIERARCHY**: All dynamically identified higher-level directories contain ONLY structural content (Purpose & Scope, Structure, Key Interfaces, Conventions)
 - [ ] **DYNAMIC HIERARCHY**: Higher-level files have NO agent or rule references
 - [ ] **DYNAMIC HIERARCHY**: All dynamically identified lower-level directories have appropriate agent and rule references and implementation details
-- [ ] All `@agents/` references now use `@vibing/agents/` (in lower-level files only)
-- [ ] All `@rules/` references now use `@vibing/rules/` (in lower-level files only)
+- [ ] All `@vibing/agents/` references now use `@vibing/agents/` (in lower-level files only)
+- [ ] All `@vibing/rules/` references now use `@vibing/rules/` (in lower-level files only)
 - [ ] All rule reference patterns use `@vibing/rules/`
-- [ ] All `@context/` references now use `@vibing/context/` (in appropriate files)
+- [ ] All `@vibing/context/` references now use `@vibing/context/` (in appropriate files)
 - [ ] No broken or missing agent references in updated files
 - [ ] All lower-level files can properly reference their required agents and rules
 - [ ] **CRITICAL**: Root AGENT.md file (`vibing/context/AGENT.md`) was NOT modified

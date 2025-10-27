@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 ## Validation Questions
 
@@ -20,10 +20,10 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/ui-designer.md persona
-- [ ] Consult with @agents/ux-designer.md for user experience flow
-- [ ] Consult with @agents/frontend-architect.md for implementation feasibility
-- [ ] Consult with @agents/product-manager.md for business requirements
+- [ ] Activate @vibing/agents/ui-designer.md persona
+- [ ] Consult with @vibing/agents/ux-designer.md for user experience flow
+- [ ] Consult with @vibing/agents/frontend-architect.md for implementation feasibility
+- [ ] Consult with @vibing/agents/product-manager.md for business requirements
 
 ## Design Context
 
@@ -37,7 +37,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T08 - UI Page Design.md structure
+- [ ] Use @vibing/templates/T08 - UI Page Design.md structure
 - [ ] Populate all 5 sections with core page design details
 - [ ] Create high-fidelity SVG wireframes for major interactions (menus, modals, alerts, complex components)
 - [ ] Create Mermaid user journey diagrams and flow diagrams showing mobile-first and desktop enhancement patterns
@@ -67,4 +67,4 @@
 
 - [ ] Store completed document and assets in `_docs/ui-flows/[PageName]/` directory
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

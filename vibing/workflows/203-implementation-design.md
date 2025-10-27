@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 - Specific feature ID/name from Feature Overview document
 
@@ -21,10 +21,10 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/technical-architect.md persona as workflow driver
-- [ ] Consult with @agents/frontend-engineer.md for UI components and state management requirements
-- [ ] Consult with @agents/backend-engineer.md for API endpoints and business logic requirements
-- [ ] Consult With @agents/data-engineer.md for schema changes and data access patterns
+- [ ] Activate @vibing/agents/technical-architect.md persona as workflow driver
+- [ ] Consult with @vibing/agents/frontend-engineer.md for UI components and state management requirements
+- [ ] Consult with @vibing/agents/backend-engineer.md for API endpoints and business logic requirements
+- [ ] Consult With @vibing/agents/data-engineer.md for schema changes and data access patterns
 
 ## Design Context
 
@@ -49,7 +49,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T11c - Implementation Design.md structure
+- [ ] Use @vibing/templates/T11c - Implementation Design.md structure
 - [ ] **ONLY populate sections 3-4**: Change Summary Table and Implementation Details
 - [ ] **Read existing sections 1-2 and 5** from the file (Feature Overview, System/User Flow, and Test Scenarios)
 - [ ] **Leave sections 1-2 and 5 unchanged** - do not modify Feature Overview, System/User Flow, or Test Scenarios
@@ -88,4 +88,4 @@
 
 - [ ] Store completed document in `_docs/features/in-progress/[feature-name]-technical-design.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

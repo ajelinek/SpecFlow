@@ -55,12 +55,11 @@ This modifier creates a comprehensive commands reference file that contains all 
 
 ## Generated Content Structure
 
+The generator creates a concise commands file with:
+
 ### Prerequisites Section
 
-- Development server requirements
-- Emulator requirements (Firebase, etc.)
-- Database setup requirements
-- Environment configuration needs
+- Essential server and environment requirements
 - Package manager requirements
 
 ### Test Commands Section
@@ -68,20 +67,16 @@ This modifier creates a comprehensive commands reference file that contains all 
 - Unit test commands with filtering options
 - E2E test commands with filtering options
 - Test debugging and UI options
-- Test data management commands
 
 ### Build Commands Section
 
 - Development server commands
 - Build commands
 - Linting and type checking commands
-- Cleanup commands
 
 ### Important Notes Section
 
-- Test data management patterns
-- Server restart requirements
-- Database reset patterns
+- Critical operational procedures
 - Common troubleshooting notes
 
 ## Output Files
@@ -95,11 +90,11 @@ This modifier creates a comprehensive commands reference file that contains all 
 
 ## Prerequisites
 
-[Server and environment requirements]
+[Essential server and environment requirements]
 
 ## Test Commands
 
-[Unit and E2E test commands with filtering]
+[Concise unit and E2E test commands with filtering]
 
 ## Build Commands
 
@@ -107,32 +102,8 @@ This modifier creates a comprehensive commands reference file that contains all 
 
 ## Important Notes
 
-[Operational procedures and troubleshooting]
+[Critical operational procedures and troubleshooting]
 ```
-
-### Secondary Output: Root `AGENT.md` Update
-
-**Requirements**:
-
-- Root `AGENT.md` file must exist in project root
-- If missing, generator will error with clear message
-- Updates `AGENT.md` to reference the generated `context/common-commands.md`
-
-**Error Handling**:
-
-```
-ERROR: Root AGENT.md file not found at [project-root]/AGENT.md
-This file is required for the common-commands-generator to function.
-Please ensure AGENT.md exists in the project root before running this generator.
-```
-
-**Update Process**:
-
-1. Verify `AGENT.md` exists in project root
-2. Read current `AGENT.md` content
-3. Add or update reference to `context/common-commands.md`
-4. Preserve existing content and structure
-5. Write updated content back to `AGENT.md`
 
 ## Usage
 
@@ -143,30 +114,17 @@ This modifier should be run when:
 - Adding new test or build configurations
 - Modifying development workflows
 
-## Integration
-
-The generated `context/common-commands.md` file is referenced by:
-
-- Root `AGENT.md` - Updated to reference the generated commands file
-- Workflow files - For command execution patterns
-- Agent files - For specific command requirements
-
-## Prerequisites
-
-**Required Files**:
-
-- Root `AGENT.md` must exist in project root directory
-- `package.json` for dependency and script analysis
-- Test configuration files (playwright.config.ts, vitest.config.ts, etc.)
-
 **Validation Steps**:
 
-1. Check for root `AGENT.md` existence
-2. Verify `package.json` exists and is readable
-3. Scan for test configuration files
-4. Validate project structure for command patterns
+1. Verify `package.json` exists and is readable
+2. Scan for test configuration files
+3. Validate project structure for command patterns
 
 ## Example Output
+
+The generator will create a `context/common-commands.md` file:
+
+**Generated `context/common-commands.md`:**
 
 ````markdown
 # Common Commands

@@ -26,14 +26,14 @@ You are a **Senior Quality Assurance Engineer** with deep expertise in test stra
 
 ### Consults With
 
-- @agents/product-manager.md for business requirements and acceptance criteria
-- @agents/domain-expert.md for domain-specific business rules and workflows
-- @agents/frontend-architect.md for UI interaction patterns and user experience validation
+- @vibing/agents/product-manager.md for business requirements and acceptance criteria
+- @vibing/agents/domain-expert.md for domain-specific business rules and workflows
+- @vibing/agents/frontend-architect.md for UI interaction patterns and user experience validation
 
 ## Applied Rules
 
-- @rules/common/testing/test-gherkin-definition.md
-- @rules/common/ui/ui-accessibility-guidelines.md
+- @vibing/rules/common/testing/test-gherkin-definition.md
+- @vibing/rules/common/ui/ui-accessibility-guidelines.md
 
 ## Core Testing Principles
 

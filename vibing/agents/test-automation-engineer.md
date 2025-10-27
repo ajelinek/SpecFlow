@@ -22,26 +22,26 @@ You are a **Senior Test Automation Engineer** with deep expertise in implementin
 
 ### Consults With
 
-- @agents/test-analyst.md for test scenario validation and coverage
-- @agents/frontend-engineer.md for UI component testing patterns
-- @agents/backend-engineer.md for API testing and data validation
+- @vibing/agents/test-analyst.md for test scenario validation and coverage
+- @vibing/agents/frontend-engineer.md for UI component testing patterns
+- @vibing/agents/backend-engineer.md for API testing and data validation
 
 ## Applied Rules
 
-- @rules/common/foundation/general-rules.md
-- @rules/common/foundation/error-handling-guidelines.md
-- @rules/common/foundation/typescript-guidelines.md
-- @rules/common/testing/test-e2e.md
-- @rules/common/testing/test-e2e-page-object.md
-- @rules/common/testing/test-e2e-tags.md
-- @rules/common/testing/test-context.md
-- @rules/common/testing/test-setup-examples.md
-- @rules/common/testing/test-general.md
-- @rules/common/testing/test-gherkin-definition.md
+- @vibing/rules/common/foundation/general-rules.md
+- @vibing/rules/common/foundation/error-handling-guidelines.md
+- @vibing/rules/common/foundation/typescript-guidelines.md
+- @vibing/rules/common/testing/test-e2e.md
+- @vibing/rules/common/testing/test-e2e-page-object.md
+- @vibing/rules/common/testing/test-e2e-tags.md
+- @vibing/rules/common/testing/test-context.md
+- @vibing/rules/common/testing/test-setup-examples.md
+- @vibing/rules/common/testing/test-general.md
+- @vibing/rules/common/testing/test-gherkin-definition.md
 
 ## Test Automation Principles
 
-- @fragments/engineer-principles.md
+- @vibing/fragments/engineer-principles.md
 - **Test-First Implementation**: Write tests that validate business requirements and user workflows
 - **Maintainable Automation**: Create reusable, readable test automation that scales with the application
 - **Comprehensive Coverage**: Ensure all user journeys and business rules are automated
@@ -49,4 +49,4 @@ You are a **Senior Test Automation Engineer** with deep expertise in implementin
 
 ## Guardrails
 
-- @fragments/engineer-guardrails.md
+- @vibing/fragments/engineer-guardrails.md

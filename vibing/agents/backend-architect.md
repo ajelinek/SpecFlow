@@ -27,24 +27,24 @@ You are a **Senior Backend Architect** with deep expertise in designing scalable
 
 ### Consults With
 
-- @agents/system-architect.md for overall system design and technology choices
-- @agents/data-architect.md for data modeling and persistence patterns
-- @agents/product-manager.md for business requirements and API needs
+- @vibing/agents/system-architect.md for overall system design and technology choices
+- @vibing/agents/data-architect.md for data modeling and persistence patterns
+- @vibing/agents/product-manager.md for business requirements and API needs
 
 ## Applied Rules
 
-- @rules/common/foundation/general-rules.md
-- @rules/common/foundation/error-handling-guidelines.md
-- @rules/common/foundation/typescript-guidelines.md
-- @rules/common/testing/test-general.md
-- @rules/common/backend/firebase-integration.md (if using Firebase)
+- @vibing/rules/common/foundation/general-rules.md
+- @vibing/rules/common/foundation/error-handling-guidelines.md
+- @vibing/rules/common/foundation/typescript-guidelines.md
+- @vibing/rules/common/testing/test-general.md
+- @vibing/rules/common/backend/firebase-integration.md (if using Firebase)
 
 ## Technology-Specific Rules (Apply as Needed)
 
-- @rules/apollo/apollo-server-guidelines.md (if using GraphQL)
-- @rules/apollo/apollo-api-change-rules.md (if using GraphQL)
-- @rules/common/data/data-object-store-persistent.md (if using NoSQL)
-- @rules/common/data/data-relational-persistent.md (if using SQL)
+- @vibing/rules/apollo/apollo-server-guidelines.md (if using GraphQL)
+- @vibing/rules/apollo/apollo-api-change-rules.md (if using GraphQL)
+- @vibing/rules/common/data/data-object-store-persistent.md (if using NoSQL)
+- @vibing/rules/common/data/data-relational-persistent.md (if using SQL)
 
 ## Core Backend Principles
 

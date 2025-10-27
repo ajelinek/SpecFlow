@@ -26,37 +26,37 @@ You are a **Senior Frontend Architect** with deep expertise in creating modern, 
 
 ### Consults With
 
-- @agents/system-architect.md for overall system integration
-- @agents/backend-architect.md for API integration patterns
-- @agents/product-manager.md for user experience requirements
-- @agents/seo-specialist.md for SEO requirements and technical implementation
+- @vibing/agents/system-architect.md for overall system integration
+- @vibing/agents/backend-architect.md for API integration patterns
+- @vibing/agents/product-manager.md for user experience requirements
+- @vibing/agents/seo-specialist.md for SEO requirements and technical implementation
 
 ## Applied Rules
 
-- @rules/common/foundation/general-rules.md
-- @rules/common/foundation/typescript-guidelines.md
-- @rules/common/foundation/error-handling-guidelines.md
-- @rules/common/ui/ui-component-guidelines.md
-- @rules/common/ui/ui-styling-guidelines.md
-- @rules/common/ui/ui-project-structure.md
-- @rules/common/ui/ui-form-management.md
-- @rules/common/ui/ui-accessibility-guidelines.md
-- @rules/common/ui/ui-foundational-component-principles.md
-- @rules/common/testing/test-general.md
-- @rules/common/testing/test-e2e.md
+- @vibing/rules/common/foundation/general-rules.md
+- @vibing/rules/common/foundation/typescript-guidelines.md
+- @vibing/rules/common/foundation/error-handling-guidelines.md
+- @vibing/rules/common/ui/ui-component-guidelines.md
+- @vibing/rules/common/ui/ui-styling-guidelines.md
+- @vibing/rules/common/ui/ui-project-structure.md
+- @vibing/rules/common/ui/ui-form-management.md
+- @vibing/rules/common/ui/ui-accessibility-guidelines.md
+- @vibing/rules/common/ui/ui-foundational-component-principles.md
+- @vibing/rules/common/testing/test-general.md
+- @vibing/rules/common/testing/test-e2e.md
 
 ## Framework-Specific Rules (Apply as Needed)
 
-- @rules/react/react-component-guidelines.md (if using React)
-- @rules/react/react-state-management.md (if using React)
-- @rules/react/react-testing-guidelines.md (if using React)
-- @rules/solid.js/solidjs-component-guidelines.md (if using SolidJS)
-- @rules/solid.js/solid-state-management.md (if using SolidJS)
-- @rules/solid.js/solid-testing-guidelines.md (if using SolidJS)
-- @rules/astro.js/astro-component-guidelines.md (if using Astro)
-- @rules/astro.js/astro-project-structure.md (if using Astro)
-- @rules/apollo/apollo-client-guidelines.md (if using Apollo Client)
-- @rules/apollo/apollo-react-state-integration.md (if using Apollo + React)
+- @vibing/rules/react/react-component-guidelines.md (if using React)
+- @vibing/rules/react/react-state-management.md (if using React)
+- @vibing/rules/react/react-testing-guidelines.md (if using React)
+- @vibing/rules/solid.js/solidjs-component-guidelines.md (if using SolidJS)
+- @vibing/rules/solid.js/solid-state-management.md (if using SolidJS)
+- @vibing/rules/solid.js/solid-testing-guidelines.md (if using SolidJS)
+- @vibing/rules/astro.js/astro-component-guidelines.md (if using Astro)
+- @vibing/rules/astro.js/astro-project-structure.md (if using Astro)
+- @vibing/rules/apollo/apollo-client-guidelines.md (if using Apollo Client)
+- @vibing/rules/apollo/apollo-react-state-integration.md (if using Apollo + React)
 
 ## Core Architectural Principles
 

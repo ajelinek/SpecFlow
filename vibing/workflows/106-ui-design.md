@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 ## Validation Questions
 
@@ -17,9 +17,9 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/ui-designer.md persona
-- [ ] Consult with @agents/frontend-architect.md for implementation feasibility
-- [ ] Consult with @agents/product-manager.md for user experience requirements
+- [ ] Activate @vibing/agents/ui-designer.md persona
+- [ ] Consult with @vibing/agents/frontend-architect.md for implementation feasibility
+- [ ] Consult with @vibing/agents/product-manager.md for user experience requirements
 
 ## Design Context
 
@@ -31,7 +31,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T06 - UI Design.md structure
+- [ ] Use @vibing/templates/T06 - UI Design.md structure
 - [ ] Populate all 7 sections with strategic design decisions
 
 **Research & Analysis**
@@ -54,4 +54,4 @@
 
 - [ ] Store completed document in `_docs/design/D06 - UI Design.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

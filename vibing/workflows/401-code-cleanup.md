@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 - Scope definition: what code should be analyzed (recent commits, staged changes, specific files, or directories)
 
@@ -15,10 +15,10 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/code-cleanup-specialist.md persona
-- [ ] Consult with @agents/technical-architect.md for quality standards validation
-- [ ] Consult with @agents/frontend-engineer.md for frontend-specific cleanup patterns
-- [ ] Consult with @agents/backend-engineer.md for backend-specific cleanup patterns
+- [ ] Activate @vibing/agents/code-cleanup-specialist.md persona
+- [ ] Consult with @vibing/agents/technical-architect.md for quality standards validation
+- [ ] Consult with @vibing/agents/frontend-engineer.md for frontend-specific cleanup patterns
+- [ ] Consult with @vibing/agents/backend-engineer.md for backend-specific cleanup patterns
 
 ## Execute Checklist
 
@@ -63,4 +63,4 @@
 - [ ] **CRITICAL**: Do NOT modify any test files
 - [ ] **CRITICAL**: Do NOT plan any test code modifications
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

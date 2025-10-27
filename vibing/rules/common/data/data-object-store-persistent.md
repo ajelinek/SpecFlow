@@ -18,7 +18,7 @@
 
 ## Naming Conventions
 
-See @rules/common/data-attribute-naming-conventions.md for comprehensive naming standards.
+See @vibing/rules/common/data-attribute-naming-conventions.md for comprehensive naming standards.
 
 ## Data Types & Standards
 

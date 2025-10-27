@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 - Specific feature file path for evaluation (e.g., `_docs/features/in-progress/feature-name-technical-design.md`)
 
@@ -18,17 +18,17 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/technical-architect.md as workflow driver
-- [ ] Consults with @agents/backend-architect.md for API design and business logic validation
-- [ ] Consults with @agents/data-architect.md for schema changes and data access patterns validation
-- [ ] Consults with @agents/frontend-engineer.md for component architecture and integration points validation
-- [ ] Consults with @agents/backend-engineer.md for API design and business logic implementation validation
-- [ ] Consults with @agents/data-engineer.md for schema design and data access implementation validation
+- [ ] Activate @vibing/agents/technical-architect.md as workflow driver
+- [ ] Consults with @vibing/agents/backend-architect.md for API design and business logic validation
+- [ ] Consults with @vibing/agents/data-architect.md for schema changes and data access patterns validation
+- [ ] Consults with @vibing/agents/frontend-engineer.md for component architecture and integration points validation
+- [ ] Consults with @vibing/agents/backend-engineer.md for API design and business logic implementation validation
+- [ ] Consults with @vibing/agents/data-engineer.md for schema design and data access implementation validation
 
 ## Design Context
 
-- [ ] Use @templates/T12 - Technical Design Validation.md for evaluation report format
-- [ ] Analyze document against @templates/T11 - Technical Design.md structure
+- [ ] Use @vibing/templates/T12 - Technical Design Validation.md for evaluation report format
+- [ ] Analyze document against @vibing/templates/T11 - Technical Design.md structure
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business context, user goals, and success metrics
 - [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
 - [ ] Review `_docs/design/D03 - Data Model.md` for data access patterns
@@ -48,7 +48,7 @@
 - [ ] Feature Overview section present and complete (workflow 201)
 - [ ] System/User Flow section with Mermaid diagram (workflow 201)
 - [ ] Test Scenarios section with Gherkin syntax (workflow 202)
-- [ ] Document follows @templates/T11 - Technical Design.md structure
+- [ ] Document follows @vibing/templates/T11 - Technical Design.md structure
 
 **Technical Validation**
 
@@ -88,7 +88,7 @@
 - [ ] E2E tests align with existing patterns
 - [ ] All scenarios tagged with @status_pending and @status_complete (workflow 009 requirement)
 - [ ] Scenarios use Example tables for DRY patterns (workflow 009 requirement)
-- [ ] Scenarios follow the @rules/common/test-gherkin-definition.md
+- [ ] Scenarios follow the @vibing/rules/common/test-gherkin-definition.md
 
 **Risk Assessment**
 
@@ -110,7 +110,7 @@
 - [ ] Validate testing strategy comprehensiveness
 - [ ] Identify potential risks and mitigation strategies
 - [ ] Determine implementation order and dependencies
-- [ ] Generate evaluation report using @templates/T12 - Technical Design Validation.md format
+- [ ] Generate evaluation report using @vibing/templates/T12 - Technical Design Validation.md format
 - [ ] Provide Executive Summary with high-level assessment
 - [ ] List all issues with severity classifications (🔴 High, 🟡 Medium, 🔵 Low)
 - [ ] Provide specific, actionable recommendations for each issue
@@ -122,6 +122,6 @@
 - [ ] Risk assessment completed with mitigation strategies
 - [ ] Final response must be numbered as per template requirements
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md
 
-**Output Format**: Final evaluation report must use @templates/T12 - Technical Design Validation.md structure
+**Output Format**: Final evaluation report must use @vibing/templates/T12 - Technical Design Validation.md structure

@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 - Specific feature ID/name from Feature Overview document
 
@@ -20,8 +20,8 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/test-analyst.md persona
-- [ ] Consult with @agents/product-manager.md for business requirements and acceptance criteria
+- [ ] Activate @vibing/agents/test-analyst.md persona
+- [ ] Consult with @vibing/agents/product-manager.md for business requirements and acceptance criteria
 
 ## Design Context
 
@@ -48,7 +48,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T11b - Test Scenario Design.md structure
+- [ ] Use @vibing/templates/T11b - Test Scenario Design.md structure
 - [ ] **ONLY populate section 5**: Test Scenarios (Gherkin)
 - [ ] **Read existing sections 1-2** from the file (Feature Overview and System/User Flow)
 - [ ] **Leave sections 3-4 as TODO placeholders** - do not populate Change Summary Table or Implementation Details
@@ -57,7 +57,7 @@
 - [ ] **Include Multiple Assertions**: Each scenario should validate various aspects of the user journey
 - [ ] **Organize into Test Modules**: Group scenarios using TSM# identifiers with descriptive module names
 - [ ] **Unique Scenario Numbers**: Each scenario must have a unique TS# identifier (TS001, TS002, etc.)
-- [ ] **Apply Tagging System**: Use appropriate tags from @rules/common/test-e2e-tags.md
+- [ ] **Apply Tagging System**: Use appropriate tags from @vibing/rules/common/test-e2e-tags.md
 - [ ] **Status Tracking**: Include @status_pending tags for implementation tracking
 - [ ] **Use Example Tables**: Keep scenarios DRY where appropriate
 - [ ] **Follow Gherkin Standards**: Use valid Gherkin syntax in markdown code blocks
@@ -80,4 +80,4 @@
 
 - [ ] Store completed document in `_docs/features/[feature-name]-Technical_Design.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

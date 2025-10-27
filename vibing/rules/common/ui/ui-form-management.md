@@ -13,7 +13,7 @@ alwaysApply: false
 - All form fields require appropriate labels and validation
 - Error messages must be clear and user-friendly
 - All inputs must have appropriate HTML5 types
-- All forms should have proper accessibility attributes. See @rules/common/accessibility-guidelines.md for comprehensive form accessibility standards.
+- All forms should have proper accessibility attributes. See @vibing/rules/common/ui/ui-accessibility-guidelines.md for comprehensive form accessibility standards.
 
 # Input Components
 
@@ -21,7 +21,7 @@ alwaysApply: false
 - Every input must have a label
 - All labels and input boxes must be tied together using a unique generated id
 - Consistent styling for form states
-- Support keyboard navigation and proper focus management. See @rules/common/accessibility-guidelines.md for detailed keyboard navigation requirements.
+- Support keyboard navigation and proper focus management. See @vibing/rules/common/ui/ui-accessibility-guidelines.md for detailed keyboard navigation requirements.
 - Labels must have an id tied to the input
 - Ensure screen reader compatibility
 

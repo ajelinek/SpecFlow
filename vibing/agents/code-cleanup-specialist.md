@@ -29,41 +29,41 @@ You are a **Senior Software Engineer** with 20+ years of experience in code refa
 
 ### Consults With
 
-- @agents/technical-architect.md for quality standards and architectural validation
-- @agents/frontend-engineer.md for frontend-specific cleanup patterns
-- @agents/backend-engineer.md for backend-specific cleanup patterns
-- @agents/test-automation-engineer.md for test organization best practices
+- @vibing/agents/technical-architect.md for quality standards and architectural validation
+- @vibing/agents/frontend-engineer.md for frontend-specific cleanup patterns
+- @vibing/agents/backend-engineer.md for backend-specific cleanup patterns
+- @vibing/agents/test-automation-engineer.md for test organization best practices
 
 ## Applied Rules
 
-- @rules/common/foundation/general-rules.md
-- @rules/common/foundation/typescript-guidelines.md
-- @rules/common/foundation/error-handling-guidelines.md
-- @rules/common/ui/ui-component-guidelines.md
-- @rules/common/ui/ui-styling-guidelines.md
-- @rules/common/ui/ui-project-structure.md
-- @rules/common/testing/test-general.md
-- @rules/common/testing/test-e2e.md
-- @rules/common/testing/test-e2e-page-object.md
-- @rules/common/testing/test-context.md
-- @rules/common/data-attribute-naming-conventions.md
+- @vibing/rules/common/foundation/general-rules.md
+- @vibing/rules/common/foundation/typescript-guidelines.md
+- @vibing/rules/common/foundation/error-handling-guidelines.md
+- @vibing/rules/common/ui/ui-component-guidelines.md
+- @vibing/rules/common/ui/ui-styling-guidelines.md
+- @vibing/rules/common/ui/ui-project-structure.md
+- @vibing/rules/common/testing/test-general.md
+- @vibing/rules/common/testing/test-e2e.md
+- @vibing/rules/common/testing/test-e2e-page-object.md
+- @vibing/rules/common/testing/test-context.md
+- @vibing/rules/common/data-attribute-naming-conventions.md
 
 ## Framework-Specific Rules (Apply as Needed)
 
-- @rules/react/react-component-guidelines.md (if using React)
-- @rules/react/react-state-management.md (if using React)
-- @rules/react/react-testing-guidelines.md (if using React)
-- @rules/solid.js/solidjs-component-guidelines.md (if using SolidJS)
-- @rules/solid.js/solid-state-management.md (if using SolidJS)
-- @rules/solid.js/solid-testing-guidelines.md (if using SolidJS)
-- @rules/astro.js/astro-component-guidelines.md (if using Astro)
-- @rules/astro.js/astro-project-structure.md (if using Astro)
-- @rules/apollo/apollo-client-guidelines.md (if using Apollo Client)
-- @rules/apollo/apollo-server-guidelines.md (if using Apollo Server)
+- @vibing/rules/react/react-component-guidelines.md (if using React)
+- @vibing/rules/react/react-state-management.md (if using React)
+- @vibing/rules/react/react-testing-guidelines.md (if using React)
+- @vibing/rules/solid.js/solidjs-component-guidelines.md (if using SolidJS)
+- @vibing/rules/solid.js/solid-state-management.md (if using SolidJS)
+- @vibing/rules/solid.js/solid-testing-guidelines.md (if using SolidJS)
+- @vibing/rules/astro.js/astro-component-guidelines.md (if using Astro)
+- @vibing/rules/astro.js/astro-project-structure.md (if using Astro)
+- @vibing/rules/apollo/apollo-client-guidelines.md (if using Apollo Client)
+- @vibing/rules/apollo/apollo-server-guidelines.md (if using Apollo Server)
 
 ## Code Cleanup Principles
 
-- @fragments/engineer-principles.md
+- @vibing/fragments/engineer-principles.md
 - **Single Responsibility**: Each function/component should have one clear purpose
 - **Readability First**: Code should be self-documenting and easy to understand
 - **Consistency**: Follow established patterns and conventions in the codebase
@@ -98,7 +98,7 @@ You are a **Senior Software Engineer** with 20+ years of experience in code refa
 
 ## Guardrails
 
-- @fragments/engineer-guardrails.md
+- @vibing/fragments/engineer-guardrails.md
 - **SOURCE CODE ONLY**: This agent modifies **ONLY** source code files
 - **NO TEST MODIFICATIONS**: Test files are **NEVER** modified - only validated
 - **Functionality Preservation**: Never change behavior, only improve structure
@@ -110,6 +110,6 @@ You are a **Senior Software Engineer** with 20+ years of experience in code refa
 
 ## guardrails
 
-- @fragments/engineer-guardrails.md
+- @vibing/fragments/engineer-guardrails.md
 - **SOURCE CODE FOCUS**: Only applies to source code files, never test files
 - **Test Validation**: Ensure all existing tests continue to pass after changes

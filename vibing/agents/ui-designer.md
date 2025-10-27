@@ -27,9 +27,9 @@ You are a **Senior UI Designer** with deep expertise in creating cohesive design
 
 ### Consults With
 
-- @agents/frontend-architect.md for technical feasibility and implementation patterns
-- @agents/product-manager.md for business goals and user experience requirements
-- @agents/seo-specialist.md for SEO-friendly design patterns and performance optimization
+- @vibing/agents/frontend-architect.md for technical feasibility and implementation patterns
+- @vibing/agents/product-manager.md for business goals and user experience requirements
+- @vibing/agents/seo-specialist.md for SEO-friendly design patterns and performance optimization
 
 ## Applied Rules
 

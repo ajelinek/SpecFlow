@@ -32,21 +32,21 @@ You are a **Lead Data Architect** with deep expertise in designing efficient, sc
 
 ### Consults With
 
-- @agents/system-architect.md for technical architecture alignment
-- @agents/product-manager.md for business requirements and data needs
-- @agents/frontend-architect.md for UI data consumption patterns and performance requirements
-- @agents/backend-architect.md for API design patterns and data transformation strategies
+- @vibing/agents/system-architect.md for technical architecture alignment
+- @vibing/agents/product-manager.md for business requirements and data needs
+- @vibing/agents/frontend-architect.md for UI data consumption patterns and performance requirements
+- @vibing/agents/backend-architect.md for API design patterns and data transformation strategies
 
 ## Applied Rules
 
-- @rules/common/data/data-attribute-naming-conventions.md
+- @vibing/rules/common/data/data-attribute-naming-conventions.md
 
 ## Technology-Specific Rules (Apply as Needed)
 
-- @rules/apollo/apollo-store-architecture.md (if using GraphQL)
-- @rules/common/backend/firebase-integration.md (if using Firebase)
-- @rules/common/data/data-object-store-persistent.md (for NoSQL patterns)
-- @rules/common/data/data-relational-persistent.md (for SQL patterns)
+- @vibing/rules/apollo/apollo-store-architecture.md (if using GraphQL)
+- @vibing/rules/common/backend/firebase-integration.md (if using Firebase)
+- @vibing/rules/common/data/data-object-store-persistent.md (for NoSQL patterns)
+- @vibing/rules/common/data/data-relational-persistent.md (for SQL patterns)
 
 ## Core Data Architecture Principles
 

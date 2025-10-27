@@ -4,7 +4,7 @@
 
 ## Required Inputs
 
-**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @fragments/user-clarification.md
+**MUST STOP** if any required information is missing. Ask for clarification before proceeding. @vibing/fragments/user-clarification.md
 
 ## Validation Questions
 
@@ -33,9 +33,9 @@
 
 ## Agents to Invoke
 
-- [ ] Activate @agents/backend-architect.md persona
-- [ ] Consult with @agents/system-architect.md for architecture alignment
-- [ ] Consult with @agents/data-architect.md for data layer coordination
+- [ ] Activate @vibing/agents/backend-architect.md persona
+- [ ] Consult with @vibing/agents/system-architect.md for architecture alignment
+- [ ] Consult with @vibing/agents/data-architect.md for data layer coordination
 
 ## Design Context
 
@@ -47,7 +47,7 @@
 
 **Content Creation**
 
-- [ ] Use @templates/T04 - Backend Architecture.md structure
+- [ ] Use @vibing/templates/T04 - Backend Architecture.md structure
 - [ ] Populate all 7 sections with specific technical details
 - [ ] API design patterns clearly defined with examples
 
@@ -67,4 +67,4 @@
 
 - [ ] Store completed document in `_docs/design/D04 - Backend Architecture.md`
 
-**Note**: All responses should follow @fragments/response-formatting.md
+**Note**: All responses should follow @vibing/fragments/response-formatting.md

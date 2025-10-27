@@ -27,9 +27,9 @@ You are a **Senior UX Designer** with deep expertise in user experience architec
 
 ### Consults With
 
-- @agents/ui-designer.md for visual design integration and design system alignment
-- @agents/frontend-architect.md for technical feasibility and implementation patterns
-- @agents/product-manager.md for business goals and user experience requirements
+- @vibing/agents/ui-designer.md for visual design integration and design system alignment
+- @vibing/agents/frontend-architect.md for technical feasibility and implementation patterns
+- @vibing/agents/product-manager.md for business goals and user experience requirements
 
 ## Applied Rules
 

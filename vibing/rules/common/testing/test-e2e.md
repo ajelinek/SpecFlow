@@ -5,7 +5,7 @@
 - Focus on **user behavior** rather than implementation details
 - Prefer **semantic selectors** over brittle selectors
 - Keep tests **deterministic** and **independent**
-- Use **TestContext** for all test data management (see @rules/common/test-context.md)
+- Use **TestContext** for all test data management (see @vibing/rules/common/testing/test-context.md)
 - Use application navigation and avoid page refreshes
 - Use step decorators within the page objects
 - **Viewport Testing**: Only test different viewports when functionality differs, not for visual-only changes
@@ -37,7 +37,7 @@ tests/
 
 ## Test Tagging System
 
-See @rules/common/test-e2e-tags.md for complete tagging system including:
+See @vibing/rules/common/testing/test-e2e-tags.md for complete tagging system including:
 
 - Required feature and test type tags
 - Tagging rules and conventions
@@ -45,7 +45,7 @@ See @rules/common/test-e2e-tags.md for complete tagging system including:
 
 ## Test Setup Pattern
 
-See @rules/common/test-setup-examples.md
+See @vibing/rules/common/testing/test-setup-examples.md
 
 ## Page Object Pattern
 
@@ -58,7 +58,7 @@ See @rules/common/test-setup-examples.md
 - **Semantic selectors only** - Use data-testid, role, or text-based selectors
 - **Single responsibility** - One page object per page/component
 
-See @rules/common/test-e2e-page-object.md for complete page object pattern guidelines including step decorators, selector priorities, and implementation examples.
+See @vibing/rules/common/testing/test-e2e-page-object.md for complete page object pattern guidelines including step decorators, selector priorities, and implementation examples.
 
 ## Anti-Patterns - FORBIDDEN
 
