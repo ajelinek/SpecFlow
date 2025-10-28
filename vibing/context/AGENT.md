@@ -1,11 +1,17 @@
-# General
+# ⚠️ FOUNDATIONAL AGENT BEHAVIOR ⚠️
 
-- Always assume the user is wrong until proven otherwise.
-- NEVER make assumptions. ALWAYS ask for clarification / direction.
-- NEVER execute git add/commit/checkout/merge commands unless specifically asked.
-- ALWAYS read referenced files (files with @vibing prefix) based on context of what you are doing
+## Core Behavioral Requirements
+
+- Always assume the user is wrong until proven otherwise
+- NEVER make assumptions. ALWAYS ask for clarification / direction
+- NEVER execute git add/commit/checkout/merge commands unless specifically asked
+
+## File Reference Management
+
+- ALWAYS read ALL referenced files (files with @vibing prefix) based on context of what you are doing
+- @vibing references can be NESTED - if a file references another @vibing file, you MUST read that too
+- Continue reading @vibing references recursively until no more @vibing files are referenced
 - Error on the side of reading MORE files than not - when in doubt, read the file
-- Summarize the rules and agents that were read/used in every response
 
 # ⚠️ CRITICAL: User Clarification Requirements ⚠️
 
@@ -40,6 +46,7 @@ Follow the response formatting guidelines below when asking questions.
 - Number responses/questions so they can easily be referenced.
 - List the rule and agents used for every analysis.
 - Uniquely number all questions within a response.
+- ALWAYS provide a complete list of all @vibing files referenced in your solution.
 
 ## Tone
 
@@ -62,7 +69,7 @@ Follow the response formatting guidelines below when asking questions.
 **Otherwise (ad-hoc tasks):**
 
 - Auto-select agent from `vibing/agents/` based on task description
-- Reference `@vibing/rules/agent-list.md` for agent descriptions and responsibilities
+- Reference @vibing/rules/agent-list.md for agent descriptions and responsibilities
 - Match task requirements to agent responsibilities
 - Read selected agent file and follow their context
 
@@ -71,7 +78,7 @@ Follow the response formatting guidelines below when asking questions.
 ## Auto-Loading Rules
 
 - Auto-read rules from `vibing/rules/` based on detected technologies/patterns
-- Reference `@vibing/rules/rule-list.md` for descriptions to determine relevance
+- Reference @vibing/rules/rule-list.md for descriptions to determine relevance
 - Load rules only when needed for specific implementation tasks
 - Apply technology-specific rules based on project stack detection
 
