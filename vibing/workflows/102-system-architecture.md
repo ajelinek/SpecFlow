@@ -9,27 +9,14 @@
 ## Validation Questions
 
 1. **Application Components**: What are the major components (web UI, mobile app, API backend, admin interface, background workers, scheduled tasks)?
-2. **Platform Targets**: What platforms need to be supported (web browsers, iOS, Android, desktop)?
-3. **Real-Time Requirements**: Do you need real-time features (live updates, notifications, collaborative editing)?
-4. **Background Processing**: Do you need background job processing, scheduled tasks, or event-driven workflows?
-5. **Frontend Preference**: What frontend framework/library do you prefer (React, Vue, Svelte, Astro, SolidJS)?
-6. **Backend Preference**: What backend technology do you prefer (Node.js, Python, Go, .NET)?
-7. **Database Requirements**: What type of data storage fits your needs (relational, document, graph, key-value)?
-8. **Team Expertise**: What are your team's technology expertise and constraints?
-9. **API Style**: How should frontend and backend communicate (REST, GraphQL, tRPC)?
-10. **External Integrations**: What third-party services or APIs need integration (auth providers, payment, analytics)?
-11. **Third-Party Failures**: How should the system handle third-party service failures or downtime?
-12. **Traffic Patterns**: What are expected traffic patterns and peak load requirements?
-13. **Data Growth**: How will you handle data growth over time (storage, query performance)?
-14. **Caching Strategy**: What data needs caching for performance?
-15. **Authentication/Authorization**: What are authentication and authorization requirements (OAuth, SSO, RBAC)?
-16. **Compliance**: Are there specific compliance requirements (GDPR, HIPAA, SOC 2)?
-17. **Sensitive Data**: How will sensitive data be stored and transmitted?
-18. **Deployment Environment**: What's the preferred deployment environment (cloud provider, on-premises, hybrid)?
-19. **Environment Management**: How many environments needed (dev, staging, production, preview)?
-20. **Monitoring Strategy**: What monitoring, logging, and alerting approach will you use?
-21. **Architecture Drivers**: What are the primary drivers for architectural choices (performance, scalability, team size, timeline, cost)?
-22. **Testing Approach**: What's the testing strategy for different components (unit, integration, E2E)?
+2. **Frontend Preference**: What frontend framework/library do you prefer (React, Vue, Svelte, Astro, SolidJS)?
+3. **Backend Preference**: What backend technology do you prefer (Node.js, Python, Go, .NET)?
+4. **Database Requirements**: What type of data storage fits your needs (relational, document, graph, key-value)?
+5. **API Style**: How should frontend and backend communicate (REST, GraphQL, tRPC)?
+6. **Traffic Patterns**: What are expected traffic patterns and peak load requirements?
+7. **Deployment Environment**: What's the preferred deployment environment (cloud provider, on-premises, hybrid)?
+8. **Architecture Drivers**: What are the primary drivers for architectural choices (performance, scalability, team size, timeline, cost)?
+9. **Testing Approach**: What's the testing strategy for different components (unit, integration, E2E)?
 
 ## Agents to Invoke
 
@@ -45,7 +32,7 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T02 - System Architecture.md structure
-- [ ] Populate all 6 sections with specific technical details
+- [ ] Populate all 4 sections with specific technical details
 - [ ] Component interactions clearly defined
 
 **Quality Assurance**

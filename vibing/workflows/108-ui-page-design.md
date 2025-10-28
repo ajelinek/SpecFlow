@@ -11,12 +11,8 @@
 1. **Page Purpose & Goals**: What is the primary purpose, business objective, and main user goals for this page?
 2. **User Journey Context**: How does this page fit into the overall user journey and navigation flow?
 3. **Content & Interactions**: What content needs to be displayed and what user interactions are possible?
-4. **Success Criteria**: What defines success (conversion, engagement, task completion) and page priority?
-5. **Responsive Design**: How should the page adapt fluidly across all screen sizes and performance requirements?
-6. **Integration Points**: How does this page connect to other parts of the application and data dependencies?
-7. **User Permissions**: What user roles and permissions affect this page's content and functionality?
-8. **Error & Loading States**: What error scenarios, edge cases, and loading states need to be handled?
-9. **Design Consistency**: What existing pages and components should this page be consistent with for reuse?
+4. **Responsive Design**: How should the page adapt fluidly across all screen sizes and performance requirements?
+5. **User Permissions**: What user roles and permissions affect this page's content and functionality?
 
 ## Agents to Invoke
 
@@ -38,7 +34,7 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T08 - UI Page Design.md structure
-- [ ] Populate all 5 sections with core page design details
+- [ ] Populate all 3 sections with core page design details
 - [ ] Create high-fidelity SVG wireframes for major interactions (menus, modals, alerts, complex components)
 - [ ] Create Mermaid user journey diagrams and flow diagrams showing mobile-first and desktop enhancement patterns
 

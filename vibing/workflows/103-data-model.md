@@ -12,14 +12,9 @@
 2. **Entity Relationships**: How do these entities relate to each other (one-to-many, many-to-many, etc.)?
 3. **Data Attributes**: What specific attributes does each entity need (name, email, status, dates, etc.)?
 4. **Business Rules**: What are the business rules and constraints for each entity (required fields, value ranges, uniqueness)?
-5. **Data Volume**: What are the expected data volumes and growth patterns?
-6. **Sensitive Data**: What data is considered sensitive and requires special protection?
-7. **Data Retention**: How long should different types of data be retained?
-8. **Data Validation**: What validation rules need to be enforced at the data level?
-9. **Audit Requirements**: Do you need to track who changed what data and when?
-10. **Compliance Requirements**: Are there specific compliance requirements (GDPR, HIPAA, etc.)?
-11. **Data Migration**: Do you have existing data that needs to be migrated?
-12. **Data Archival**: How should old or inactive data be handled?
+5. **Sensitive Data**: What data is considered sensitive and requires special protection?
+6. **Audit Requirements**: Do you need to track who changed what data and when?
+7. **Compliance Requirements**: Are there specific compliance requirements (GDPR, HIPAA, etc.)?
 
 ## Agents to Invoke
 
@@ -45,7 +40,6 @@
 - [ ] Verify all entities have clear business purpose
 - [ ] Validate relationships support business workflows
 - [ ] Confirm security and privacy requirements are addressed
-- [ ] Entity relationships clearly defined with proper constraints
 - [ ] Data constraints and business rules documented
 - [ ] Security and privacy measures defined for sensitive data
 - [ ] Data model aligns with system architecture and business requirements

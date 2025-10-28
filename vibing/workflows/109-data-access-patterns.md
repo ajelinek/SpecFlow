@@ -36,8 +36,8 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T09 - Data Access Patterns and Objects.md template structure
-- [ ] Populate all 5 sections with specific technical details based on UI flow analysis
-- [ ] Define core data access patterns identified from UI requirements
+- [ ] Populate all 4 sections with specific technical details based on UI flow analysis
+- [ ] Define core data access patterns identified from UI requirements (including pagination/filter conventions)
 - [ ] Create data object tables with field definitions, sources, and derivation logic
 - [ ] Establish real-time data requirements based on UI interaction needs
 

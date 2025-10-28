@@ -4,7 +4,7 @@
 
 ## 1. Design Strategy & Brand Foundation
 
-Define the core design philosophy and brand positioning that drives all visual decisions.
+Summarize the core design philosophy and brand positioning that drives all visual decisions. Keep responses tight and outcome-oriented.
 
 **Format**:
 
@@ -22,7 +22,7 @@ Define the core design philosophy and brand positioning that drives all visual d
 
 ## 2. Color Strategy
 
-Define the color approach and semantic meaning system.
+Outline the color approach and semantic meaning system. Avoid long narrative paragraphs.
 
 **Format**:
 
@@ -41,7 +41,7 @@ Define the color approach and semantic meaning system.
 
 ## 3. Typography Strategy
 
-Define the typography approach and hierarchy philosophy.
+Outline the typography approach and hierarchy philosophy with concise bullets.
 
 **Format**:
 
@@ -59,7 +59,7 @@ Define the typography approach and hierarchy philosophy.
 
 ## 4. Layout & Component Strategy
 
-Define the spatial design approach, component design philosophy, and visual assets strategy.
+Summarize the spatial design approach, component design philosophy, and visual assets strategy.
 
 **Format**:
 

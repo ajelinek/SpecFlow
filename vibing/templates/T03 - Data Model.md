@@ -81,20 +81,8 @@ erDiagram
 
 ## 4. Data Constraints & Business Rules
 
-[Define the business rules and constraints that govern data integrity, validation, security, and lifecycle at the database level.]
+[Capture the critical guardrails that keep the data model healthy and compliant. Focus on concise bullets instead of long prose.]
 
-**Format**:
-
-- **Entity Constraints**: [Required fields, data type constraints, value ranges]
-- **Relationship Constraints**: [Referential integrity rules, cascade behaviors]
-- **Business Rules**: [Domain-specific validation rules enforced at data level]
-- **Security & Privacy**: [Sensitive data protection, encryption, access controls, data retention]
-- **Schema Management**: [Schema evolution, data migration, archival policies]
-
-**Example**:
-
-- **Entity Constraints**: User email must be valid format, task status must be one of defined enum values
-- **Relationship Constraints**: Tasks cannot exist without a project, users must belong to an organization
-- **Business Rules**: Project names must be unique within an organization, task due dates cannot be in the past
-- **Security & Privacy**: User passwords hashed with bcrypt, AES-256 encryption at rest, RBAC with project-level permissions, 7-year data retention
-- **Schema Management**: Versioned migrations with backward compatibility, automated rollback procedures, archive completed projects after 5 years
+- **Entity Constraints**: [Required fields, type limits, cardinality rules]
+- **Business Rules**: [Domain-specific validations enforced at the data level]
+- **Security & Privacy**: [Sensitive data handling, encryption, retention, access control]

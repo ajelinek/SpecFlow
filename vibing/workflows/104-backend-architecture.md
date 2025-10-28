@@ -11,25 +11,7 @@
 1. **API Style**: What API style will be used (REST, GraphQL, gRPC, tRPC)?
 2. **Authentication Method**: How will users authenticate (JWT, OAuth, session-based, API keys)?
 3. **Authorization Model**: What authorization approach (RBAC, ABAC, custom permissions)?
-4. **Data Access Pattern**: What data access pattern (Repository, Active Record, Data Mapper)?
-5. **ORM/Query Builder**: What technology for database interactions (Prisma, TypeORM, Knex, raw SQL)?
-6. **Background Processing**: Do you need background job processing (queues, workers, scheduled tasks)?
-7. **Caching Strategy**: What caching approach (Redis, in-memory, database-level)?
-8. **Logging Framework**: What logging solution (Winston, Pino, Bunyan, custom)?
-9. **Error Tracking**: How will errors be tracked (Sentry, Bugsnag, custom)?
-10. **Monitoring**: What monitoring approach (Prometheus, DataDog, New Relic, custom)?
-11. **Rate Limiting**: Do you need API rate limiting and what approach?
-12. **Input Validation**: What validation approach (Joi, Yup, Zod, custom)?
-13. **File Uploads**: Do you need file upload handling and where will files be stored?
-14. **Email Service**: Do you need email functionality and what service (SendGrid, SES, SMTP)?
-15. **External APIs**: What third-party APIs need integration and how will failures be handled?
-16. **Database Transactions**: How will multi-step operations be handled (transactions, saga pattern)?
-17. **API Versioning**: What API versioning strategy (URL path, headers, query params)?
-18. **CORS Configuration**: What CORS policy is needed for frontend integration?
-19. **Environment Management**: How will environment variables and secrets be managed?
-20. **Health Checks**: What health check endpoints are needed for monitoring?
-21. **Performance Requirements**: What are the performance requirements (response times, throughput)?
-22. **Security Compliance**: Are there specific security compliance requirements (GDPR, HIPAA, SOC 2)?
+4. **Security Compliance**: Are there specific security compliance requirements (GDPR, HIPAA, SOC 2)?
 
 ## Agents to Invoke
 
@@ -48,8 +30,9 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T04 - Backend Architecture.md structure
-- [ ] Populate all 4 sections with specific technical details
+- [ ] Populate all 3 sections with specific technical details
 - [ ] API design patterns clearly defined with examples
+- [ ] Incorporate documented defaults: API versioning via URL path, input validation with Zod, logging with Winston, raw SQL for relational databases
 
 **Quality Assurance**
 
@@ -62,6 +45,7 @@
 - [ ] Background processing strategy defined if needed
 - [ ] Logging and monitoring strategy comprehensive
 - [ ] Performance and scalability considerations addressed
+- [ ] Documented defaults clearly referenced for versioning, validation, logging, and query approach
 
 **Completion**
 

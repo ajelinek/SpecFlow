@@ -11,12 +11,10 @@
 ## Validation Questions
 
 1. **Feature Scope**: What is the complete business scope and user value of the feature being tested?
-2. **User Personas**: Who are the primary and secondary users, and what are their specific goals?
-3. **Business Rules**: What are the key business rules, validation requirements, and decision points?
-4. **User Journeys**: What are the complete user workflows from start to finish?
-5. **Business Outcomes**: What business results should be achieved at each step of the user journey?
-6. **Error Scenarios**: What business error conditions and user-facing failure modes exist?
-7. **User Decision Points**: Where do users make choices and what are the business implications?
+2. **Business Rules**: What are the key business rules, validation requirements, and decision points?
+3. **User Journeys**: What are the complete user workflows from start to finish?
+4. **Business Outcomes**: What business results should be achieved at each step of the user journey?
+5. **Error Scenarios**: What business error conditions and user-facing failure modes exist?
 
 ## Agents to Invoke
 

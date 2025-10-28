@@ -4,48 +4,18 @@
 
 ## 1. Feature Build Order
 
-This section lists all features in priority order, starting with foundational features and progressing to advanced functionality.
+List vertical slices in WSJF priority order (highest value/effort ratio first). Keep the table concise.
 
-| Feature ID | Feature Name   |
-| ---------- | -------------- |
-| [F1]       | [Feature Name] |
-| [F2]       | [Feature Name] |
-| [F3]       | [Feature Name] |
-
-**Status Legend:**
-
-- ⏳ = Todo (not started)
-- 🔄 = In Progress (actively being worked on)
-- ✅ = Done (completed)
+| Priority | Feature ID | Feature Name   | WSJF Notes                         |
+| -------- | ---------- | -------------- | ---------------------------------- |
+| 1        | [F1]       | [Feature Name] | [Business value vs effort summary] |
 
 ## 2. Feature Details and User Stories
 
-This section provides detailed information for each feature, including business purpose and user stories.
+For each feature, provide 3-5 crisp user stories focused on business outcomes.
 
-### ⏳ F1: [Feature Name]
+### [Status Emoji] [F#]: [Feature Name]
 
-**Business Purpose**: [One-sentence description of the business value and user benefit]
-
-**User Stories**:
-
-- [ ] **S1:** [Description of the first user story]
-- [ ] **S2:** [Description of the second user story]
-- [ ] **S3:** [Description of the third user story]
-
-### ⏳ F2: [Feature Name]
-
-**Business Purpose**: [One-sentence description of the business value and user benefit]
-
-**User Stories**:
-
-- [ ] **S1:** [Description of the first user story]
-- [ ] **S2:** [Description of the second user story]
-
-### ⏳ F3: [Feature Name]
-
-**Business Purpose**: [One-sentence description of the business value and user benefit]
-
-**User Stories**:
-
-- [ ] **S1:** [Description of the first user story]
-- [ ] **S2:** [Description of the second user story]
+- [ ] **S1:** As a [user], I can [do X] so that [business value].
+- [ ] **S2:** As a [user], I can [do Y] so that [business value].
+- [ ] **S3:** As a [user], I can [do Z] so that [business value].

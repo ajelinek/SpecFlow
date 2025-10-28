@@ -4,19 +4,13 @@
 
 ## 1. Architectural Style & Patterns
 
-[Define the high-level architectural approach and key patterns that will guide system design.]
-
-**Format**:
+[Define the high-level architectural approach, infrastructure considerations, and non-functional drivers that shape the system. Keep responses concise bullet lists.]
 
 - **Primary Architecture**: [e.g., Monolithic, Microservices, Serverless, Hybrid]
-- **Architectural Patterns**: [e.g., MVC, Event-Driven, CQRS, Layered Architecture]
-- **Communication Patterns**: [e.g., REST APIs, GraphQL, Message Queues, Event Streaming]
-
-**Example**:
-
-- **Primary Architecture**: Monolithic with clear separation of concerns
-- **Architectural Patterns**: Layered architecture with Domain-Driven Design principles
-- **Communication Patterns**: RESTful APIs for client-server communication, event-driven for internal processes
+- **Core Patterns**: [e.g., MVC, Event-Driven, CQRS, Layered Architecture]
+- **Communication**: [REST APIs, GraphQL, Message Queues, Event Streaming]
+- **Infrastructure Highlights**: [Deployment model, scaling approach, core services, security posture]
+- **Key Drivers**: [Performance, scalability, reliability, maintainability priorities]
 
 ## 2. Major System Components
 
@@ -30,10 +24,8 @@
 **Example**:
 
 1. **Web Application (Frontend)**: User interface, client-side logic, and user experience
-2. **API Gateway**: Request routing, authentication, rate limiting, and API management
-3. **Application Services**: Business logic, data processing, and workflow orchestration
-4. **Data Layer**: Data persistence, caching, and data access patterns
-5. **External Integrations**: Third-party service connections and data synchronization
+2. **Application API**: Request handling, authentication, authorization, and orchestration
+3. **Data Platform**: Primary database, caching, and analytical data pipelines
 
 ## 3. Technology Stack
 
@@ -55,45 +47,9 @@
 - **Infrastructure**: Docker containers on AWS ECS with CloudFront CDN
 - **Development Tools**: Vite for bundling, Jest for testing, DataDog for monitoring
 
-## 4. Component Interactions & Data Flow
-
-[Describe how major components communicate and how data flows through the system.]
-
-**Format**:
-
-1. **[Interaction Pattern]**: [Description of how components communicate]
-2. **[Data Flow]**: [Description of how data moves through the system]
-
-**Example**:
-
-1. **Client-Server Communication**: Frontend communicates with backend via RESTful APIs over HTTPS
-2. **Authentication Flow**: JWT tokens issued by auth service, validated by API gateway
-3. **Data Processing Pipeline**: User actions trigger events → business logic processing → database updates → UI refresh
-
-## 5. Infrastructure & Non-Functional Requirements
-
-[Define deployment environment, scaling strategy, and how the architecture addresses key non-functional requirements.]
-
-**Format**:
-
-- **Infrastructure & Deployment**: [Deployment model, scaling strategy, infrastructure services, security & networking]
-- **Non-Functional Requirements**: [Performance, scalability, security, reliability, maintainability implementation]
-
-**Example**:
-
-- **Infrastructure & Deployment**: Containerized applications on Kubernetes, horizontal scaling with load balancers, managed database service, VPC with private subnets and WAF
-- **Non-Functional Requirements**: CDN for static assets, database indexing, stateless services for scalability, OAuth 2.0 and encryption, health checks and circuit breakers, modular architecture for maintainability
-
-## 6. Testing Strategy
+## 4. Testing Strategy
 
 [Define the high-level testing approach and tools for the system.]
 
-**Format**:
-
 - **Testing Philosophy**: [E2E > Integration > Unit testing approach with rationale]
 - **Testing Tools**: [Primary testing frameworks and tools for each test type]
-
-**Example**:
-
-- **Testing Philosophy**: Prefer E2E tests using Playwright for user workflows, integration tests for component interactions, unit tests for business logic
-- **Testing Tools**: Playwright for E2E, Vitest for unit/integration, TestContext for data management (see testing rules for detailed implementation)

@@ -9,15 +9,11 @@
 ## Validation Questions
 
 1. **Frontend Framework**: What frontend framework/library do you prefer (React, Astro, SolidJS, Mix)?
-2. **Performance Requirements**: What are the performance requirements (Core Web Vitals targets, bundle size limits)?
-3. **Mobile Support**: What mobile support is needed (responsive design, PWA, native mobile apps)?
-4. **Browser Support**: What browsers need to be supported (modern browsers, IE11, specific versions)?
-5. **Deployment Target**: Where will the frontend be deployed (static hosting, CDN, server-side rendering)?
-6. **Real-Time Features**: Do you need real-time features (WebSockets, Server-Sent Events, polling)?
-7. **Internationalization**: Do you need multi-language support (i18n libraries, translation management)?
-8. **Analytics**: What analytics and monitoring are needed (Google Analytics, custom tracking, performance monitoring)?
-9. **SEO Requirements**: What SEO features are needed (meta tags, structured data, server-side rendering)?
-10. **Design System**: Do you have an existing design system or need to create one?
+2. **Deployment Target**: Where will the frontend be deployed (static hosting, CDN, server-side rendering)?
+3. **Real-Time Features**: Do you need real-time features (WebSockets, Server-Sent Events, polling)?
+4. **Internationalization**: Do you need multi-language support (i18n libraries, translation management)?
+5. **SEO Requirements**: What SEO features are needed (meta tags, structured data, server-side rendering)?
+6. **Design System**: Do you have an existing design system or need to create one?
 
 ## Agents to Invoke
 
@@ -37,9 +33,9 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T05 - Frontend Architecture.md structure
-- [ ] Populate all 5 sections with specific technical details
+- [ ] Populate all 4 sections with specific technical details
 - [ ] Define component hierarchy and state management patterns
-- [ ] Establish styling approach and design system integration
+- [ ] Establish styling approach and design system integration (merged into Section 1)
 
 **Quality Assurance**
 

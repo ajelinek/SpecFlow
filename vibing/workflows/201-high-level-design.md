@@ -13,10 +13,8 @@
 1. **Business Purpose**: What business problem does this specific feature solve and what value does it provide?
 2. **User Value**: How will this specific feature improve the user experience or solve user pain points?
 3. **User Scenarios**: What are the primary user scenarios and workflows for this specific feature?
-4. **User Stories**: What are the key user stories that define this specific feature's scope?
-5. **Business Impact**: What is the expected business impact and ROI of this specific feature?
-6. **User Journey**: How does this specific feature fit into the overall user journey?
-7. **Acceptance Criteria**: What are the high-level acceptance criteria for this specific feature?
+4. **User Journey**: How does this specific feature fit into the overall user journey?
+5. **Acceptance Criteria**: What are the high-level acceptance criteria for this specific feature?
 
 ## Agents to Invoke
 

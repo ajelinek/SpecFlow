@@ -4,11 +4,17 @@
 
 ## 1. Core Data Access Patterns
 
-This section outlines the primary methods for querying and mutating data. These patterns define the contract between the client and the server, specifying what data is needed and what will be returned. Each pattern is associated with specific Input and Output objects, which are detailed in the next section.
+This section outlines the primary methods for querying and mutating data. These patterns define the contract between the client and the server, specifying what data is needed and what will be returned. Each pattern is associated with specific Input and Output objects, which are detailed in the next section. Capture pagination and filtering conventions directly in this section so implementation teams follow consistent patterns.
 
 | Pattern Name   | Input Object        | Output Object        |
 | -------------- | ------------------- | -------------------- |
 | [Pattern Name] | [Input Object Name] | [Output Object Name] |
+
+### Common Access Conventions
+
+- **Pagination Strategy**: [Default method, metadata structure, cursor vs offset expectations]
+- **Filtering**: [Query parameter patterns, supported operators, multi-filter behavior]
+- **Sorting**: [Parameter format, default ordering, multi-field rules]
 
 ## 2. Data Transfer Object (DTO) Definitions
 
@@ -30,51 +36,14 @@ Output objects represent the data returned from the server. These objects are sh
 | -------------------- | ------------ | ----------- | --------------------- | ------------------ | ------------- |
 | [Output Object Name] | [field name] | [data type] | [source entity.field] | [derivation logic] | [description] |
 
-## 3. Common Access Conventions
-
-This section defines cross-cutting conventions for data access that apply to multiple patterns and objects, ensuring a consistent API experience.
-
-### Pagination Strategy
-
-**Method**: [Define the default pagination method, e.g., Offset-based]
-
-**Response Object**: Paginated list queries will return a standardized object containing both the data and pagination metadata.
-
-- **Example**:
-  ```json
-  {
-    "data": [...],
-    "pagination": {
-      "totalItems": 100,
-      "currentPage": 1,
-      "pageSize": 10,
-      "totalPages": 10
-    }
-  }
-  ```
-
-### Filtering and Sorting Conventions
-
-**Filtering**: [Describe the convention for applying filters, e.g., via query string parameters like `?status=active&priority=high`.]
-
-**Sorting**: [Describe the convention for applying sorting, e.g., via a `sort` query parameter with comma-separated fields and direction, like `?sort=createdAt:desc,priority:asc`.]
-
-## 4. Data Model Gaps
-
-This section identifies UI data requirements that are not directly supported by the current persisted data model and proposes solutions to bridge these gaps. Instead of a rigid table, this can be a list of identified issues and their proposed resolutions.
-
-- **Requirement**: [Describe the specific data needed by the UI]
-- **Gap**: [Explain why the current data model doesn't directly support this]
-- **Proposed Solution**: [Outline the recommended approach]
-
-## 5. Performance Optimizations
+## 3. Performance Optimizations
 
 This section details strategies for optimizing frequently used or complex query patterns to ensure a responsive user experience. This can be a descriptive list of patterns and the strategies to address them.
 
 - **Query Pattern**: [Describe the query that requires optimization]
 - **Optimization Strategy**: [Detail the planned optimization]
 
-## 6. Real-time Data Requirements
+## 4. Real-time Data Requirements
 
 This section outlines any requirements for real-time data updates, specifying what data needs to be pushed to the client and under what conditions.
 

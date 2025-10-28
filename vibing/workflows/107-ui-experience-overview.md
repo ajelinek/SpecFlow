@@ -8,11 +8,9 @@
 
 ## Validation Questions
 
-1. **Application Structure**: What are the primary purpose, user roles, and main functional areas?
-2. **Navigation Philosophy**: What navigation approach, cross-platform patterns, and contextual navigation are needed?
-3. **Information Architecture**: How should content hierarchy, discovery, and progressive disclosure work?
-4. **Interaction Patterns**: What core interactions, accessibility, and error handling patterns are required?
-5. **Page Structure**: What pages exist and what are their routes and purposes?
+1. **Navigation Philosophy**: What navigation approach, cross-platform patterns, and contextual navigation are needed?
+2. **Interaction Patterns**: What core interactions, accessibility, and error handling patterns are required?
+3. **Page Structure**: What pages exist and what are their routes and purposes?
 
 ## Agents to Invoke
 
@@ -33,7 +31,7 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T07 - UI Experience Overview.md structure
-- [ ] Populate all template sections with strategic UX decisions
+- [ ] Populate all 2 sections with strategic UX decisions
 
 **Research & Analysis**
 

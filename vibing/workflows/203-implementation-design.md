@@ -11,13 +11,11 @@
 ## Validation Questions
 
 1. **Feature Context**: What specific feature is being designed for implementation?
-2. **Test Scenarios**: Are Gherkin test scenarios already defined for this feature?
-3. **Architecture Alignment**: How does this feature align with existing system architecture?
-4. **Integration Points**: What are the key integration points with existing components?
-5. **Data Requirements**: What data model changes or new data access patterns are needed?
-6. **API Requirements**: What new API endpoints or modifications are required?
-7. **UI Components**: What new UI components or modifications are needed?
-8. **Security Considerations**: What security measures need to be implemented?
+2. **Architecture Alignment**: How does this feature align with existing system architecture?
+3. **Integration Points**: What are the key integration points with existing components?
+4. **Data Requirements**: What data model changes or new data access patterns are needed?
+5. **API Requirements**: What new API endpoints or modifications are required?
+6. **UI Components**: What new UI components or modifications are needed?
 
 ## Agents to Invoke
 

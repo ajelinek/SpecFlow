@@ -12,8 +12,7 @@
 2. **Target Audience**: What are the primary user demographics and accessibility requirements?
 3. **Device Support**: What devices and screen sizes need to be supported (mobile-first, desktop-first, responsive)?
 4. **Theme Support**: Do you need light/dark theme support or single theme?
-5. **Design System**: Do you have an existing design system or need to create one from scratch?
-6. **Competitive Landscape**: Who are the main competitors and how should the design differentiate?
+5. **Competitive Landscape**: Who are the main competitors and how should the design differentiate?
 
 ## Agents to Invoke
 
@@ -46,9 +45,6 @@
 - [ ] Verify accessibility compliance and design rationale
 - [ ] Validate design strategy supports success metrics and user goals
 - [ ] Ensure responsive design works across target devices
-- [ ] Design philosophy traces back to business requirements and user goals
-- [ ] Accessibility compliance verified and design rationale clear
-- [ ] Design strategy integrates with frontend framework architecture
 
 **Completion**
 
