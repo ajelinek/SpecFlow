@@ -35,6 +35,8 @@
 - No technical implementation details
 - Business-focused documentation only
 
-## Industry Details
+## Domain Knowledge Reference
 
-<!-- Placeholder for Industry research, Output from Gemini deep research is a good starter. -->
+- **Primary Source**: @vibing/context/domain-knowledge.md
+- **Secondary Sources**: Web research, industry reports, domain-specific documentation
+- **Research Method**: Deep research using tools like Gemini's deep research for comprehensive domain understanding

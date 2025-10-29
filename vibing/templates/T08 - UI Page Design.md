@@ -10,15 +10,11 @@ Define the page's role and provide wireframe reference.
 - **User Journey Position**: [Where this page fits in the overall user flow]
 - **Key User Actions**: [Main actions users need to accomplish on this page]
 
-### Wireframe Reference
+### Primary Wireframe
 
-![Main Page Wireframe](./wireframe-main.svg)
+![Page Wireframe](./wireframe-main.svg)
 
-### Major Interactions (if applicable)
-
-![Navigation Menu](./wireframe-navigation.svg)
-![Modal Dialog](./wireframe-modal.svg)
-![Alert/Notification](./wireframe-alert.svg)
+_Note: This wireframe shows the complete page layout including all major interactions (navigation, modals, alerts) in their default and active states._
 
 ## 2. Data Attributes & Requirements
 
@@ -60,3 +56,21 @@ Define the user journey and how the page adapts across different screen sizes.
 
 - **User Journey Flow**: [Primary user journey with entry points, actions, and exit points]
 - **Responsive Behavior**: [Mobile-first flow, desktop enhancements, cross-device consistency]
+
+## 4. Interaction States & Components
+
+Define how interactive elements behave and their visual states.
+
+- **Navigation States**: [Default, active, hover, disabled states for navigation elements]
+- **Form Interactions**: [Input validation, error states, success feedback]
+- **Modal/Overlay Behavior**: [Trigger conditions, dismissal methods, accessibility]
+- **Loading States**: [Data loading indicators, skeleton screens, progressive disclosure]
+
+## 5. Accessibility & Implementation Notes
+
+Define accessibility requirements and implementation considerations.
+
+- **Keyboard Navigation**: [Tab order, focus management, keyboard shortcuts]
+- **Screen Reader Support**: [ARIA labels, semantic markup, content structure]
+- **Color Contrast**: [Text contrast ratios, color accessibility compliance]
+- **Implementation Priorities**: [Critical path features, progressive enhancement approach]

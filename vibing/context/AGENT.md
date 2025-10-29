@@ -44,9 +44,9 @@ Follow the response formatting guidelines below when asking questions.
 - Keep responses short, following the smart brevity framework.
 - Keep responses DRY.
 - Number responses/questions so they can easily be referenced.
-- List the rule and agents used for every analysis.
+- List the `vibing/rules` and `vibing/agents` used for every analysis, DO NOT MAKE UP RULES OR AGENTS.
 - Uniquely number all questions within a response.
-- ALWAYS provide a complete list of all @vibing files referenced in your solution.
+- ALWAYS provide a complete list of all `vibing/` files referenced in your solution.
 
 ## Tone
 

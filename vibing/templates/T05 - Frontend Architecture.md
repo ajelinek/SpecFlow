@@ -4,92 +4,141 @@
 
 ## 1. Core Frameworks & Libraries
 
-[Define the primary technologies that form the foundation of the frontend application.]
+**Default Technology Stack** (based on @vibing/rules):
 
-**Format**:
+- **Framework**: [To be determined based on project requirements]
+- **Language**: TypeScript 5.0+ (enforced by @vibing/rules/common/foundation/typescript-guidelines.md)
+- **UI Component Library**: Foundation components (per @vibing/rules/common/ui/ui-foundational-component-principles.md)
+- **State Management**: Service-Repository pattern (per @vibing/rules/common/ui/ui-data-store-architecture.md)
+- **Server State & Caching**: [Framework-specific: Apollo Client for GraphQL, SWR for REST APIs, SolidJS resources]
+- **Styling**: CSS Modules with design token system (per @vibing/rules/common/ui/ui-styling-guidelines.md)
+- **Form Handling**: Service-layer validation (per @vibing/rules/common/ui/ui-form-management.md)
+- **Testing**: E2E > Integration > Unit (per @vibing/rules/common/testing/test-general.md)
 
-- **Framework**: [e.g., React.js with Next.js, Vue.js with Nuxt.js, SolidJS, Astro]
-- **Language**: [e.g., TypeScript, JavaScript]
-- **UI Component Library**: [e.g., Shadcn/ui, Material-UI, Headless UI, None]
-- **State Management**: [e.g., Zustand, Redux Toolkit, Jotai, SolidJS stores]
-- **Server State & Caching**: [e.g., React Query, SWR, Apollo Client, SolidJS resources]
-- **Styling**: [e.g., Tailwind CSS, CSS Modules, Styled-components, UnoCSS]
-- **Form Handling**: [e.g., React Hook Form, Formik, SolidJS form libraries]
-- **Testing**: [e.g., Jest, Vitest, React Testing Library, SolidJS Testing Library, Playwright for E2E]
+**Project-Specific Customizations**:
 
-**Example**:
-
-- **Framework**: React.js with Next.js 14 (App Router)
-- **Language**: TypeScript 5.0+
-- **UI Component Library**: Shadcn/ui with Radix UI primitives
-- **State Management**: Zustand for global state, React Query for server state
-- **Server State & Caching**: React Query (TanStack Query) with optimistic updates
-- **Styling**: Tailwind CSS with CSS Modules for complex components
-- **Form Handling**: React Hook Form with Zod validation
-- **Testing**: Vitest for unit tests, React Testing Library for component tests, Playwright for E2E
+[Specify any deviations from the default stack based on project requirements]
 
 ## 2. Directory Structure
 
-[Provide a high-level overview of the frontend's directory structure to ensure consistency.]
-
-**Example**:
+**Standard Structure** (per @vibing/rules/common/ui/ui-project-structure.md):
 
 ```
 /src
 ├── /components/         # Reusable UI Components
-│   ├── /common/         # Composition of foundation components
-│   ├── /foundation/     # Base UI building blocks (Button, Input, etc.)
+│   ├── /foundation/     # Base UI building blocks (per @vibing/rules/common/ui/ui-foundational-component-principles.md)
 │   │   └── /Button/
 │   │       ├── index.tsx
-│   │       ├── Button.test.tsx
 │   │       └── styles.module.css
 │   ├── /layout/         # Layout components (Header, Sidebar, etc.)
 │   └── /features/       # Feature-specific components
 ├── /pages/              # Page components, organized by route
-│   └── /Dashboard/
-│       └── index.tsx
-├── /routes/             # Application routing configuration
-├── /store/              # State management (Service-Repository pattern)
-│   ├── /repository/     # Handles direct external interactions (API calls)
-│   └── /service/        # Manages business logic and exposes state via hooks
-├── /hooks/              # Generic, reusable hooks
-├── /styles/             # Global styles, tokens, and themes
-└── /types/              # Shared TypeScript types and interfaces
+├── /store/              # State management (Service-Repository pattern per @vibing/rules/common/ui/ui-data-store-architecture.md)
+│   ├── /repository/     # External system interactions (API calls)
+│   ├── /service/        # Business logic & state management
+│   └── /config.ts       # System configuration
+├── /styles/             # Global styles, tokens, and themes (per @vibing/rules/common/ui/ui-styling-guidelines.md)
+│   ├── /tokens/         # Design token system
+│   ├── /animations/     # Reusable animations
+│   └── /themes/         # Theme definitions
+└── /types/              # Shared TypeScript types (per @vibing/rules/common/foundation/typescript-guidelines.md)
 ```
+
+**Framework-Specific Additions**:
+
+[Add framework-specific directories as needed (e.g., /hooks for React, /routes for routing)]
 
 ## 3. Component Architecture
 
-[Define the methodology for structuring and building components.]
+**Standard Component Hierarchy** (per @vibing/rules):
 
-**Format**:
+- **Foundation Components**: Smallest, indivisible UI elements with no business logic (per @vibing/rules/common/ui/ui-foundational-component-principles.md)
 
-- **Foundation Components**: [Smallest, indivisible UI elements with no business logic]
-- **Common Components**: [Compositions of foundation components for reusability]
-- **Feature Components**: [Feature-specific components that handle business logic]
-- **Page Components**: [Top-level components that compose features into pages]
+  - Located in `/components/foundation/`
+  - Examples: `Button`, `Input`, `Alert`, `Icon`
+  - Structure: `PascalCase/index.tsx` + `styles.module.css`
 
-**Example**:
+- **Layout Components**: Structural components for page layout
 
-- **Foundation Components**: The smallest, indivisible UI elements (e.g., `Button`, `Input`, `Label`). They have no application logic and are found in `/components/foundation`.
-- **Common Components**: Compositions of foundation components that form more complex, reusable components (e.g., `SearchForm`, `Header`). They may have internal state but are generally unaware of business logic. Found in `/components/common`.
-- **Feature Components**: Components specific to a particular feature or business domain. They handle data fetching, feature-specific state, and compose common components. Found in `/components/features`.
-- **Page Components**: Top-level components that compose features into complete pages. They handle routing, layout, and high-level state coordination. Found in `/pages`.
+  - Located in `/components/layout/`
+  - Examples: `Header`, `Sidebar`, `Footer`, `Navigation`
+  - May have internal state but no business logic
+
+- **Feature Components**: Business domain-specific components
+
+  - Located in `/components/features/`
+  - Handle data fetching via service layer
+  - Compose foundation and layout components
+  - Access state through service hooks only
+
+- **Page Components**: Top-level route components
+  - Located in `/pages/`
+  - Compose features into complete pages
+  - Handle routing and high-level state coordination
+
+**Component Rules** (enforced by @vibing/rules):
+
+- Single responsibility principle
+- Service-layer data access only
+- CSS Modules for styling
+- TypeScript for all props and events
+- Accessibility compliance (WCAG 2.1 AA)
 
 ## 4. State Management Strategy
 
-[Explain how different types of state are managed across the application.]
+**Service-Repository Pattern** (per @vibing/rules/common/ui/ui-data-store-architecture.md):
 
-**Format**:
+- **Local/Component State**: Framework-specific hooks for component-level state
 
-- **Local/Component State**: [How component-level state is managed]
-- **Shared/Global State**: [When and how to use global state stores]
-- **Server/Remote State**: [How server cache and data fetching is handled]
+  - React: `useState` for ephemeral state (per @vibing/rules/react/react-state-management.md)
+  - SolidJS: `createSignal` for reactive state (per @vibing/rules/solid.js/solid-state-management.md)
+  - URL state for shareable user interactions
+  - localStorage for persistent user preferences
 
-**Example**:
+- **Global State**: Service-Repository architecture
 
-- **Local/Component State**: Use React's `useState` for state confined to a single component (e.g., form inputs, modal visibility, UI toggles).
-- **Shared/Global State**: Use `Zustand` for minimal, cross-component UI state that doesn't come from the server (e.g., UI theme, mobile nav visibility, user preferences). Stores are defined in `/store` but accessed via service hooks.
-- **Server/Remote State**: Managed via a layered architecture in the `/store`:
-  - The **Repository Layer** (`/store/repository`) makes actual API calls and handles HTTP concerns
-  - The **Service Layer** (`/store/service`) uses the repository and manages server state using `React Query`
-  - Components consume this state exclusively through **custom hooks** exposed by the Service Layer (e.g., `useProjects()`), ensuring clean separation of concerns
+  - **Repository Layer** (`/store/repository/`): Direct external system interactions (API calls, database)
+  - **Service Layer** (`/store/service/`): Business logic and state management via custom hooks
+  - Components access state through service hooks only (never direct repository access)
+
+- **Server/Remote State**: Framework-specific data fetching
+  - **GraphQL**: Apollo Client with service hooks (per @vibing/rules/apollo/apollo-react-state-integration.md)
+  - **REST APIs**: SWR with service pattern (per @vibing/rules/react/react-state-with-swr.md)
+  - **SolidJS**: `createResource` for async data (per @vibing/rules/solid.js/solid-state-management.md)
+
+**State Rules** (enforced by @vibing/rules):
+
+- No direct repository access from components
+- Service hooks return consistent patterns: `{ data, error, isLoading, refetch }`
+- Error handling via standardized categories
+- Immutable state updates only
+
+## 5. Optional Project-Specific Sections
+
+**Include only if applicable to your project:**
+
+### 5.1 Real-Time Features (if needed)
+
+[Define WebSocket, Server-Sent Events, or polling implementation]
+
+### 5.2 Internationalization (if needed)
+
+[Define i18n library, translation management, and locale handling]
+
+### 5.3 SEO Requirements (if applicable)
+
+[Define meta tags, structured data, server-side rendering needs]
+
+### 5.4 Mobile/PWA Considerations (if applicable)
+
+[Define mobile-specific patterns, PWA features, offline capabilities]
+
+### 5.5 Security Considerations (if specific needs)
+
+[Define authentication patterns, data protection, security headers]
+
+### 5.6 Integration Patterns (if specific needs)
+
+[Define payment systems, analytics, third-party services]
+
+**Remove any sections above that don't apply to the project.**

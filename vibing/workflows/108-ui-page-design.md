@@ -35,8 +35,10 @@
 
 - [ ] Use @vibing/templates/T08 - UI Page Design.md structure
 - [ ] Populate all 3 sections with core page design details
-- [ ] Create high-fidelity SVG wireframes for major interactions (menus, modals, alerts, complex components)
+- [ ] Create ONE primary high-fidelity SVG wireframe showing complete page layout
+- [ ] Include major interactions (menus, modals, alerts) within the primary wireframe
 - [ ] Create Mermaid user journey diagrams and flow diagrams showing mobile-first and desktop enhancement patterns
+- [ ] Generate ONE comprehensive overview.md document with all design details
 
 **Design Consistency**
 
@@ -61,6 +63,7 @@
 
 **Completion**
 
-- [ ] Store completed document and assets in `_docs/ui-flows/[PageName]/` directory
+- [ ] Store ONE overview.md document and ONE primary wireframe.svg in `_docs/ui-flows/[PageName]/` directory
+- [ ] Only create additional files if specifically requested for complex interactions
 
 **Note**: All responses should follow the response formatting guidelines in AGENT.md

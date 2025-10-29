@@ -24,7 +24,8 @@ This gives you the base agent behavior and file reference management that everyt
 
 ### Step 2: Follow the Workflow
 
-1. **Run Planning Workflows** (100 series) - Create your design documents
+1. **Generate Domain Knowledge** - Run the domain knowledge generator FIRST or Copy in from Gemini Deep Research
+   . **Run Planning Workflows** (100 series) - Create your design documents
 2. **Generate Context Files** - Run the agent context manager to generate AGENT.md files
 3. **Generate Commands** - Run the common commands generator
 4. **Analyze Technology Stack** - Run the technology stack analyzer
@@ -33,6 +34,12 @@ This gives you the base agent behavior and file reference management that everyt
 ## The Right Way to Do Things (Workflow Execution Order)
 
 Look, we didn't just throw this together randomly. The framework is designed to be used in a specific sequence because, surprise surprise, order matters. Follow this sequence to avoid the classic "why is everything broken?" moment:
+
+### Step 0: Domain Knowledge Foundation - "Know What You're Building"
+
+**FIRST THING YOU DO** - Before anything else, establish domain expertise. You can't build what you don't understand.
+**Prompt**: `Follow the domain-knowledge-generator instructions to create comprehensive domain knowledge. Use tools like Gemini's deep research for best results.`
+**Why First**: Domain knowledge informs every decision from architecture to UI design. Skip this and you'll be rebuilding everything when you realize you misunderstood the business.
 
 ### Planning Phase (100 Series) - "Lay the Groundwork"
 
@@ -56,6 +63,8 @@ Run all 100-series workflows to establish your project foundation. Skip this and
 **Prompt**: `Follow the instructions in the agent-context-manager modifier. Avoid all duplication between the rule files and the created AGENT.md files.`
 
 **Important**: Run this prompt multiple times to ensure comprehensive context capture. Yes, multiple times. We're not kidding.
+
+**Note**: Domain knowledge should already be established from Step 0 above.
 
 ### Design Phase (200 Series) - "Make It Work, Then Make It Pretty"
 
@@ -84,10 +93,19 @@ After context management (you did do that, right?), proceed with design workflow
 
 Run these in order for maximum effectiveness:
 
+### 0. Domain Knowledge Generator
+
+**File**: `modifiers/domain-knowledge-generator.md`  
+**When**: **FIRST THING YOU DO** - Before any planning or development  
+**Prompt**: Follow the domain-knowledge-generator instructions to create comprehensive domain knowledge.  
+**Output**: Creates `context/domain-knowledge.md` with industry research, user workflows, and business requirements  
+**Purpose**: Establishes domain expertise for informed decision-making (because building without domain knowledge is like driving blindfolded)  
+**Best Practice**: Use tools like Gemini's deep research for comprehensive domain understanding and industry insights
+
 ### 1. Agent Context Manager
 
 **File**: `modifiers/agent-context-manager.md`  
-**When**: New projects (after 100-series) or existing projects (first thing)  
+**When**: After domain knowledge is established (Step 0) and 100-series planning  
 **Prompt**: Follow the instructions in the agent-context-manager modifier. Avoid all duplication between the rule files and the created AGENT.md files.  
 **Output**: Generates AGENT.md files in key directories with real implementation patterns and technology-specific guidance  
 **Note**: Run multiple times to ensure comprehensive coverage (seriously, multiple times)
