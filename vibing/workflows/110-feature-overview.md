@@ -62,8 +62,9 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T10 - Feature Overview.md template structure
-- [ ] Populate all 2 sections with specific vertical slice features and user stories
-- [ ] Apply WSJF scoring to rank vertical slices by business value and implementation effort
+- [ ] Include a single, concise Feature Overview table at the top (no detailed stories/descriptions in any table)
+- [ ] Populate exactly two sections: (1) Feature Build Order (overview table only), (2) Feature Details (H3 subheaders per feature with narrative details and bullet user stories)
+- [ ] Apply WSJF scoring to rank vertical slices by business value and implementation effort; show only the WSJF Score in the overview table
 - [ ] Ensure features are listed in WSJF priority order (highest value/effort ratio first)
 
 **Quality Assurance**
@@ -73,6 +74,9 @@
 - [ ] Ensure feature ordering follows WSJF priority ranking
 - [ ] Verify all features trace back to business requirements and user needs
 - [ ] Document aligns with all design documents and business requirements
+- [ ] Confirm no feature details (stories, descriptions, acceptance criteria) appear in tables; details belong only under per-feature H3 sections
+- [ ] Ensure user stories are business-focused and avoid implementation details
+- [ ] Ensure per-feature details include only: Scope (what it is and the scope of capability) and Dependencies (feature IDs only)
 
 **Completion**
 

@@ -4,18 +4,23 @@
 
 ## 1. Feature Build Order
 
-List vertical slices in WSJF priority order (highest value/effort ratio first). Keep the table concise.
+List vertical slices in WSJF priority order (highest value/effort ratio first). Keep the table concise. Do not include user stories or long descriptions here.
 
-| Priority | Feature ID | Feature Name   | WSJF Notes                         |
-| -------- | ---------- | -------------- | ---------------------------------- |
-| 1        | [F1]       | [Feature Name] | [Business value vs effort summary] |
+| Priority | Feature ID | Feature Name   | WSJF Score |
+| -------- | ---------- | -------------- | ---------- |
+| 1        | [F1]       | [Feature Name] | [X.XX]     |
 
 ## 2. Feature Details and User Stories
 
-For each feature, provide 3-5 crisp user stories focused on business outcomes.
+Provide narrative details per feature using subheaders and bullets. Avoid tables in this section.
 
-### [Status Emoji] [F#]: [Feature Name]
+### [Status Emoji] [F#] [Feature Name]
 
-- [ ] **S1:** As a [user], I can [do X] so that [business value].
-- [ ] **S2:** As a [user], I can [do Y] so that [business value].
-- [ ] **S3:** As a [user], I can [do Z] so that [business value].
+- **Scope**: One or two sentences describing what the feature is and the scope of capability (exclude implementation details).
+- **Dependencies**: List only feature IDs (e.g., F-001, V-003). Use `None` if no dependencies.
+
+**User Stories** (business-focused; avoid implementation details):
+
+- [ ] As a [user], I can [do X] so that [business value].
+- [ ] As a [user], I can [do Y] so that [business value].
+- [ ] As a [user], I can [do Z] so that [business value].
