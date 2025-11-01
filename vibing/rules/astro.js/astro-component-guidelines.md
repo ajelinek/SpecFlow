@@ -2,9 +2,9 @@
 description: 'Use when authoring Astro components and islands: pages/layouts, hydration directives, SEO, scoped styles, and Astro APIs.'
 ruleType: astro-component
 applyTo:
-  - 'src/**/pages/**/*.astro'
-  - 'src/**/layouts/**/*.astro'
-  - 'src/**/components/**/*.astro'
+  - 'src/**/pages/**/index.astro'
+  - 'src/**/layouts/**/index.astro'
+  - 'src/**/components/**/index.astro'
 alwaysApply: false
 ---
 
@@ -14,7 +14,16 @@ alwaysApply: false
 - Minimize client JS via partial hydration
 - Use `client:*` for interactive islands
 - Leverage built-in SEO components
-- Scope styles in the component
+- Use CSS Modules (`*.module.css`) for component-scoped styles
+- Organize components and pages in folders with `index.astro`
+
+## File Structure
+
+```
+ComponentName/
+├── index.astro      # Main component file
+└── styles.module.css # CSS Modules for component-scoped styles
+```
 
 ## Hydration Directives
 
@@ -30,3 +39,9 @@ alwaysApply: false
 - `Astro.params`: dynamic routing
 - `Astro.request`: server-side operations
 - `getStaticPaths()`: static site generation
+
+## Styling
+
+- Import CSS Modules: `import styles from './styles.module.css'`
+- Use `class:list` or `className` directive with CSS Module classes
+- Example: `<div class:list={[styles.container, styles.active]}>`

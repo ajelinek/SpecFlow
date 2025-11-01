@@ -8,16 +8,22 @@ List vertical slices in WSJF priority order (highest value/effort ratio first). 
 
 | Priority | Feature ID | Feature Name   | WSJF Score |
 | -------- | ---------- | -------------- | ---------- |
-| 1        | [F1]       | [Feature Name] | [X.XX]     |
+| 1        | [F001]     | [Feature Name] | [X.XX]     |
 
 ## 2. Feature Details and User Stories
 
 Provide narrative details per feature using subheaders and bullets. Avoid tables in this section.
 
-### [Status Emoji] [F#] [Feature Name]
+Use the following status emojis at the start of each feature header:
+
+- 🟦 To Do
+- 🟨 In Progress
+- 🟩 Done
+
+### [Status Emoji] [F###] [Feature Name]
 
 - **Scope**: One or two sentences describing what the feature is and the scope of capability (exclude implementation details).
-- **Dependencies**: List only feature IDs (e.g., F-001, V-003). Use `None` if no dependencies.
+- **Dependencies**: List only feature IDs (e.g., F001, V003). Use `None` if no dependencies.
 
 **User Stories** (business-focused; avoid implementation details):
 

@@ -28,35 +28,78 @@ src/
 ```
 src/
 ├── layouts/
-│   ├── BaseLayout.astro
-│   └── BlogLayout.astro
+│   ├── BaseLayout/
+│   │   ├── index.astro
+│   │   └── styles.module.css
+│   └── BlogLayout/
+│       ├── index.astro
+│       └── styles.module.css
 ├── pages/
-│   ├── index.astro
+│   ├── index/
+│   │   ├── index.astro
+│   │   └── styles.module.css
 │   ├── blog/
-│   └── [dynamic].astro
+│   │   ├── index.astro
+│   │   └── styles.module.css
+│   └── [dynamic]/
+│       ├── index.astro
+│       └── styles.module.css
 └── content/
     ├── blog/
     └── config.ts
 ```
 
-## Solid.js Islands Structure
+## Components Structure
 
 ```
 src/
 └── components/
+    ├── foundation/
+    │   ├── Button/
+    │   │   ├── index.astro
+    │   │   └── styles.module.css
+    │   └── Input/
+    │       ├── index.astro
+    │       └── styles.module.css
+    ├── layout/
+    │   ├── Header/
+    │   │   ├── index.astro
+    │   │   └── styles.module.css
+    │   └── Footer/
+    │       ├── index.astro
+    │       └── styles.module.css
+    └── features/
         ├── Counter/
-        │   ├── index.tsx
+        │   ├── index.astro (or index.tsx for islands)
         │   └── styles.module.css
         └── Form/
+            ├── index.astro
+            └── styles.module.css
+```
+
+## Solid.js Islands Structure
+
+When using Solid.js islands within Astro components:
+
+```
+src/
+└── components/
+    ├── Counter/
+    │   ├── index.tsx      # Solid.js component
+    │   └── styles.module.css
+    └── Form/
+        ├── index.tsx      # Solid.js component
+        └── styles.module.css
 ```
 
 # File Naming Conventions
 
-- Astro components: `PascalCase.astro`
-- Layouts: `PascalCase.astro`
-- Pages: `kebab-case.astro` or `[dynamic].astro`
+- Astro components: `PascalCase/` folder with `index.astro`
+- Layouts: `PascalCase/` folder with `index.astro`
+- Pages: `kebab-case/` folder with `index.astro` or `[dynamic]/` folder with `index.astro`
 - Utilities: `kebab-case.ts`
-- Styles: `kebab-case.css` or `PascalCase.module.css`
+- CSS Modules: `styles.module.css` (always use `.module.css` extension)
+- Component styles: Use CSS Modules (`*.module.css`) for all component-scoped styles
 
 # Project Configuration
 
