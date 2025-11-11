@@ -58,6 +58,23 @@ Follow the response formatting guidelines below when asking questions.
 
 # Agent Selection Logic
 
+## Agent Invocation
+
+**Invocation Keywords**: Any of these phrases trigger sub-agent invocation:
+
+- "Activate @agent-name"
+- "Consult with @agent-name"
+- "Invoke @agent-name"
+- Direct reference to `@agent-name` when context indicates agent invocation
+
+**Invocation Process**:
+
+- Use the Task tool to invoke agents when "Activate", "Consult", or "Invoke" keywords are present
+- Treat the reference as a sub-agent invocation
+- Use the Task tool with the appropriate `subagent_type` parameter
+- Pass relevant context and instructions to the sub-agent
+- Use agent name without path (e.g., `subagent_type="product-manager"`)
+
 ## Workflow vs. Ad-hoc Execution
 
 **If any file in `vibing/workflows/` is referenced:**

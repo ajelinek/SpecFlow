@@ -1,6 +1,6 @@
 # Common Commands Generator
 
-**Purpose**: Generates a standardized `context/common-commands.md` file containing project-specific commands, test patterns, and operational procedures.
+**Purpose**: Generates a standardized `vibing/context/common-commands.md` file containing project-specific commands, test patterns, and operational procedures.
 
 ## Overview
 
@@ -81,7 +81,7 @@ The generator creates a concise commands file with:
 
 ## Output Files
 
-### Primary Output: `context/common-commands.md`
+### Primary Output: `vibing/context/common-commands.md`
 
 **Structure**:
 
@@ -122,9 +122,9 @@ This modifier should be run when:
 
 ## Example Output
 
-The generator will create a `context/common-commands.md` file:
+The generator will create a `vibing/context/common-commands.md` file:
 
-**Generated `context/common-commands.md`:**
+**Generated `vibing/context/common-commands.md`:**
 
 ````markdown
 # Common Commands
