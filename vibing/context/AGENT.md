@@ -90,11 +90,20 @@ Follow the response formatting guidelines below when asking questions.
 - Match task requirements to agent responsibilities
 - Read selected agent file and follow their context
 
+## Test Execution Requirements
+
+**MANDATORY**: ALL test execution (unit, e2e, integration, or any test suite) MUST be performed through the test-executioner sub-agent:
+
+- Invoke @vibing/agents/test-executioner.md for ALL test runs
+- Never execute tests directly - always delegate to test-executioner
+- Test-executioner handles test execution, failure analysis, and root cause identification
+- Use test-executioner for: all tests, unit tests, e2e tests, specific test files, or filtered test execution
+
 # Rule Loading Behavior
 
 ## Auto-Loading Rules
 
-- Auto-read rules from `vibing/rules/` based on detected technologies/patterns
+- Auto-read rules from `vibing/rules/rule-list` based on detected technologies/patterns
 - Reference @vibing/rules/rule-list.md for descriptions to determine relevance
 - Load rules only when needed for specific implementation tasks
 - Apply technology-specific rules based on project stack detection
