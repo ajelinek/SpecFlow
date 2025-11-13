@@ -52,11 +52,11 @@
 - [ ] **Read existing sections 1-2 and 7** from the file (Feature Overview, User Journey, and Test Scenarios)
 - [ ] **Leave sections 1-2 and 7 unchanged** - do not modify Feature Overview, User Journey, or Test Scenarios
 - [ ] Create Frontend Component Dependencies diagram (section 2.5.1) showing relationships between components, hooks, and modules with status annotations
-- [ ] Create Frontend State Flow diagram (section 2.5.2) showing state management structure, actions, and state transitions
+- [ ] Create Frontend State Flow diagram (section 2.5.2) showing state management structure, actions, and state transitions - stop at backend boundary, show API calls and returns but not backend internals
 - [ ] Create Backend Module Dependencies diagram (section 2.5.3) showing relationships between API handlers, services, and data access layers
 - [ ] Populate Frontend Change Summary Table (section 3) with all required frontend modifications
 - [ ] Populate Backend Change Summary Table (section 4) with all required backend modifications
-- [ ] Populate Frontend Implementation Details (section 5) for all items in Frontend Change Summary Table
+- [ ] Populate Frontend Implementation Details (section 5) for all items in Frontend Change Summary Table **EXCEPT** style modules (CSS, SCSS, style files) which should be listed in the summary table but not detailed here
 - [ ] Populate Backend Implementation Details (section 6) for all items in Backend Change Summary Table
 - [ ] For each module/file, provide a Module Description explaining its purpose
 - [ ] For each function/component, use interface signature as heading: `functionName(params: Type) => ReturnType`
@@ -81,9 +81,10 @@
 
 **Quality Assurance**
 
-- [ ] Verify Component Architecture diagrams (section 2.5) accurately reflect all components/modules from Change Summary Tables
+- [ ] Verify Component Architecture diagrams (section 2.5) accurately reflect all components/modules from Change Summary Tables (exclude style modules from diagrams)
+- [ ] Verify diagrams are compact and focused
 - [ ] Verify Frontend Component Dependencies diagram shows all relationships and status annotations (🟢 NEW, 🟡 UPDATED, ⚪ EXISTING)
-- [ ] Verify Frontend State Flow diagram shows state structure, actions, and transitions
+- [ ] Verify Frontend State Flow diagram shows state structure, actions, and transitions - stops at backend boundary showing API calls and returns but not backend internals
 - [ ] Verify Backend Module Dependencies diagram shows service dependencies and data flow
 - [ ] Verify Frontend Change Summary Table (section 3) completeness and accuracy
 - [ ] Verify Backend Change Summary Table (section 4) completeness and accuracy

@@ -13,24 +13,41 @@ Provide a 1-2 paragraph summary of the feature's business purpose and user value
 
 ## 2. User Journey
 
-**Purpose**: Show the user's experience and business workflow from a user perspective. Use user journey diagram to illustrate user emotions, touchpoints, and business outcomes.
+**Purpose**: Show the technical flow of user interactions with the system, including how the frontend communicates with the backend. Use a Mermaid sequence diagram to illustrate the step-by-step interactions between user, frontend, and backend.
 
 **How to Populate**:
 
-- Focus on user experience stages and emotions
-- Show key touchpoints and decision points
-- Indicate business outcomes at each stage
+- Show clear interactions between User → Frontend → Backend → Frontend → User
+- Include all key user actions and system responses
+- Show API calls, data flow, and UI updates
+- Keep diagrams compact and focused on the feature's core flow
+- Add additional participants (e.g., Database, External Service) only if critical to understanding the flow
+
+**Mermaid Sequence Diagram Syntax**:
 
 ```mermaid
-journey
-    title User Journey: [Feature Name]
-    section Discovery
-      User discovers feature: 3: User
-      User understands value: 4: User
-    section Action
-      User takes action: 5: User
-      System processes request: 4: System
-    section Outcome
-      Business outcome achieved: 5: Business
-      User receives value: 5: User
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant B as Backend
+
+    U->>F: Action/Input
+    F->>B: API Request
+    B-->>F: Response
+    F-->>U: Update UI
+```
+
+**Example**:
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant B as Backend
+
+    U->>F: Submit form
+    F->>B: POST /api/endpoint
+    B-->>F: Success response
+    F->>F: Update state
+    F-->>U: Show confirmation
 ```

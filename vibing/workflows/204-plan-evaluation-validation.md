@@ -60,9 +60,9 @@
 
 - [ ] **Component Architecture Diagrams**: Validate diagrams accurately represent all components/modules from Change Summary Tables
 - [ ] **Frontend Component Dependencies**: Validate diagram shows all relationships and matches Frontend Change Summary Table
-- [ ] **Frontend State Flow**: Validate diagram shows state structure and matches state-related items in Frontend Change Summary Table
+- [ ] **Frontend State Flow**: Validate diagram shows state structure and matches state-related items in Frontend Change Summary Table - stops at backend boundary showing API calls and returns but not backend internals
 - [ ] **Backend Module Dependencies**: Validate diagram shows all dependencies and matches Backend Change Summary Table
-- [ ] **Frontend Change Summary Table**: Validate all frontend items have corresponding Frontend Implementation Details
+- [ ] **Frontend Change Summary Table**: Validate all frontend items have corresponding Frontend Implementation Details **EXCEPT** style modules (CSS, SCSS, style files) which should be listed in summary but not detailed
 - [ ] **Backend Change Summary Table**: Validate all backend items have corresponding Backend Implementation Details
 - [ ] **Frontend**: Validate component patterns and state management
 - [ ] **Backend**: Validate API design and business logic

@@ -41,14 +41,14 @@
 - [ ] **ONLY populate sections 1-2**: Feature Overview and User Journey
 - [ ] **Leave sections 3-5 as TODO placeholders** - do not populate Change Summary Table, Implementation Details, or Test Scenarios
 - [ ] Populate Feature Overview section with business purpose and user value for the specific feature
-- [ ] Create User Journey diagram (section 2) showing user experience stages, emotions, and business outcomes
+- [ ] Create User Journey sequence diagram (section 2) showing technical flow of user interactions with frontend and backend
 
 **Quality Assurance**
 
 - [ ] Focus on business outcomes and user experience for the specific feature rather than technical implementation
 - [ ] Specific feature name and ID clearly identified and used throughout document
 - [ ] Feature overview clearly describes business purpose and user value for the specific feature
-- [ ] User Journey diagram (section 2) accurately represents user experience stages, emotions, and business outcomes
+- [ ] User Journey sequence diagram (section 2) accurately represents technical flow of user interactions with frontend and backend, showing API calls and data flow
 - [ ] **VERIFY**: Only sections 1-2 are populated, sections 3-5 remain as TODO placeholders
 
 **Completion**

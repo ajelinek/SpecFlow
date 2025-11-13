@@ -20,37 +20,42 @@
 
 **How to Populate**:
 
-- Include all frontend components, hooks, and modules from Frontend Change Summary Table
+- Include all frontend components, hooks, and modules from Frontend Change Summary Table (exclude style modules from diagram)
 - Use arrows to show dependencies (imports, uses, calls)
 - Annotate with status: 🟢 NEW, 🟡 UPDATED, ⚪ EXISTING
 - Group related components when helpful
+- Keep diagrams compact and focused
 
 ```mermaid
 graph LR
-    A[ComponentName<br/>🟢 NEW] -->|imports| B[HookName<br/>🟢 NEW]
-    B -->|calls| C[APIFunction<br/>🟢 NEW]
-    D[ExistingComponent<br/>⚪ EXISTING] --> A
-    E[UpdatedComponent<br/>🟡 UPDATED] --> B
+    A[Component<br/>🟢] -->|imports| B[Hook<br/>🟢]
+    B -->|calls| C[API<br/>🟢]
+    D[Existing<br/>⚪] --> A
+    E[Updated<br/>🟡] --> B
 ```
 
 ### 2.5.2. Frontend State Flow
 
-**Purpose**: Shows state management flow including state structure, actions, reducers/selectors, and state transitions. Use state flow diagram to illustrate how state changes propagate through the system.
+**Purpose**: Shows state management flow including state structure, actions, reducers/selectors, and state transitions. Use state flow diagram to illustrate how state changes propagate through the system. **Stop at the backend boundary** - show API calls and data returns, but do not show backend internals.
 
 **How to Populate**:
 
 - Include all state-related changes from Frontend Change Summary Table
 - Show state structure, actions, and state transitions
 - Indicate data flow direction
+- Show API calls to backend and data returns, but stop at backend boundary (do not show backend internals)
 - Annotate with status: 🟢 NEW, 🟡 UPDATED, ⚪ EXISTING
+- Keep diagrams compact and focused
 
 ```mermaid
-graph TD
-    A[User Action] -->|triggers| B[Action Creator<br/>🟢 NEW]
-    B -->|dispatches| C[Reducer/Store<br/>🟡 UPDATED]
-    C -->|updates| D[State<br/>🟢 NEW]
-    D -->|notifies| E[Components<br/>⚪ EXISTING]
-    E -->|reads| D
+graph LR
+    A[User Action] -->|triggers| B[Action<br/>🟢 NEW]
+    B -->|updates| C[State<br/>🟢 NEW]
+    C -->|calls| D[API Call<br/>🟢 NEW]
+    D -->|request| E[Backend API]
+    E -->|response| D
+    D -->|updates| C
+    C -->|notifies| F[Components<br/>⚪ EXISTING]
 ```
 
 ### 2.5.3. Backend Module Dependencies
@@ -63,13 +68,14 @@ graph TD
 - Use arrows to show dependencies (imports, calls, queries)
 - Annotate with status: 🟢 NEW, 🟡 UPDATED, ⚪ EXISTING
 - Show data flow from API → Service → Data layer
+- Keep diagrams compact and focused
 
 ```mermaid
 graph LR
-    A[API Handler<br/>🟢 NEW] -->|calls| B[Service<br/>🟢 NEW]
-    B -->|queries| C[Data Access<br/>🟢 NEW]
-    C -->|updates| D[Database Schema<br/>🟡 UPDATED]
-    E[Existing Service<br/>⚪ EXISTING] --> B
+    A[API<br/>🟢] -->|calls| B[Service<br/>🟢]
+    B -->|queries| C[Data<br/>🟢]
+    C -->|updates| D[Schema<br/>🟡]
+    E[Existing<br/>⚪] --> B
 ```
 
 ## 3. Frontend Change Summary Table
@@ -85,7 +91,7 @@ graph LR
 
 **Validation Requirements**:
 
-- Every item must have a corresponding detailed specification in Frontend Implementation Details
+- Every item must have a corresponding detailed specification in Frontend Implementation Details **EXCEPT** style modules (CSS, SCSS, style files) which should be listed here but not detailed in Implementation Details
 - No duplicate entries for the same file/function
 - All changes must trace back to test scenarios and business requirements
 - Status must accurately reflect the actual change being made
@@ -120,39 +126,41 @@ graph LR
 
 **Purpose**: Provide interface specifications, purpose, and constraints for each item listed in the Frontend Change Summary Table. Focus on WHAT needs to be built and WHY it's needed, not HOW to implement it.
 
-#### `[path/to/module.ts]`
+**Note**: Style modules (CSS, SCSS, style files) listed in the Frontend Change Summary Table should NOT be detailed here - they are tracked in the summary table only.
 
-**Module Description**: [What this module is responsible for and why it exists]
+### `[path/to/module.ts]`
 
-##### `[functionName](params: Type) => ReturnType`
+[What this module is responsible for and why it exists]
 
-- **Purpose**: [What this component/function does and why it's needed]
-- **Constraints**: [Any architectural, performance, or security constraints]
-- **Implementation Details**: [Optional - only include for complex scenarios and business rules]
+#### `[functionName](params: Type) => ReturnType`
 
-##### `[anotherFunctionName](params: Type) => ReturnType`
+- _Purpose_: [What this component/function does and why it's needed]
+- _Constraints_: [Any architectural, performance, or security constraints]
+- _Implementation Details_: [Optional - only include for complex scenarios and business rules]
 
-- **Purpose**: [What this component/function does and why it's needed]
-- **Constraints**: [Any architectural, performance, or security constraints]
+#### `[anotherFunctionName](params: Type) => ReturnType`
+
+- _Purpose_: [What this component/function does and why it's needed]
+- _Constraints_: [Any architectural, performance, or security constraints]
 
 ## 6. Backend Implementation Details
 
 **Purpose**: Provide interface specifications and constraints for each item listed in the Backend Change Summary Table. Focus on WHAT needs to be built and WHY it's needed, not HOW to implement it.
 
-#### `[path/to/module.ts]`
+### `[path/to/module.ts]`
 
-**Module Description**: [What this module is responsible for and why it exists]
+[What this module is responsible for and why it exists]
 
-##### `[functionName](params: Type) => ReturnType`
+#### `[functionName](params: Type) => ReturnType`
 
-- **Purpose**: [What this component/function does and why it's needed]
-- **Constraints**: [Any architectural, performance, or security constraints]
-- **Implementation Details**: [Optional - only include for complex scenarios and business rules]
+- _Purpose_: [What this component/function does and why it's needed]
+- _Constraints_: [Any architectural, performance, or security constraints]
+- _Implementation Details_: [Optional - only include for complex scenarios and business rules]
 
-##### `[anotherFunctionName](params: Type) => ReturnType`
+#### `[anotherFunctionName](params: Type) => ReturnType`
 
-- **Purpose**: [What this component/function does and why it's needed]
-- **Constraints**: [Any architectural, performance, or security constraints]
+- _Purpose_: [What this component/function does and why it's needed]
+- _Constraints_: [Any architectural, performance, or security constraints]
 
 ## 7. Test Scenarios (Gherkin)
 
