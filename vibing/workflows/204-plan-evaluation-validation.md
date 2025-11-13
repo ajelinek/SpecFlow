@@ -43,17 +43,25 @@
 **Document Structure Validation**
 
 - [ ] Clear purpose, scope, and problem statement
+- [ ] Complete `Component Architecture` diagrams (section 2.5, workflow 203)
+- [ ] Complete `Frontend Component Dependencies` diagram (section 2.5.1, workflow 203)
+- [ ] Complete `Frontend State Flow` diagram (section 2.5.2, workflow 203)
+- [ ] Complete `Backend Module Dependencies` diagram (section 2.5.3, workflow 203)
 - [ ] Complete `Frontend Change Summary Table` (section 3, workflow 203)
 - [ ] Complete `Backend Change Summary Table` (section 4, workflow 203)
 - [ ] Sufficient `Frontend Implementation Details` (section 5, no production code, workflow 203)
 - [ ] Sufficient `Backend Implementation Details` (section 6, no production code, workflow 203)
 - [ ] Feature Overview section present and complete (section 1, workflow 201)
-- [ ] System/User Flow section with Mermaid diagram (section 2, workflow 201)
+- [ ] User Journey diagram present (section 2, workflow 201)
 - [ ] Test Scenarios section with Gherkin syntax (section 7, workflow 202)
 - [ ] Document follows @vibing/templates/T11c - Implementation Design.md structure
 
 **Technical Validation**
 
+- [ ] **Component Architecture Diagrams**: Validate diagrams accurately represent all components/modules from Change Summary Tables
+- [ ] **Frontend Component Dependencies**: Validate diagram shows all relationships and matches Frontend Change Summary Table
+- [ ] **Frontend State Flow**: Validate diagram shows state structure and matches state-related items in Frontend Change Summary Table
+- [ ] **Backend Module Dependencies**: Validate diagram shows all dependencies and matches Backend Change Summary Table
 - [ ] **Frontend Change Summary Table**: Validate all frontend items have corresponding Frontend Implementation Details
 - [ ] **Backend Change Summary Table**: Validate all backend items have corresponding Backend Implementation Details
 - [ ] **Frontend**: Validate component patterns and state management

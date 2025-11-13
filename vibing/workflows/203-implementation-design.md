@@ -48,9 +48,12 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T11c - Implementation Design.md structure
-- [ ] **ONLY populate sections 3-6**: Frontend Change Summary Table, Backend Change Summary Table, Frontend Implementation Details, and Backend Implementation Details
-- [ ] **Read existing sections 1-2 and 7** from the file (Feature Overview, System/User Flow, and Test Scenarios)
-- [ ] **Leave sections 1-2 and 7 unchanged** - do not modify Feature Overview, System/User Flow, or Test Scenarios
+- [ ] **ONLY populate sections 2.5 and 3-6**: Component Architecture diagrams, Frontend Change Summary Table, Backend Change Summary Table, Frontend Implementation Details, and Backend Implementation Details
+- [ ] **Read existing sections 1-2 and 7** from the file (Feature Overview, User Journey, and Test Scenarios)
+- [ ] **Leave sections 1-2 and 7 unchanged** - do not modify Feature Overview, User Journey, or Test Scenarios
+- [ ] Create Frontend Component Dependencies diagram (section 2.5.1) showing relationships between components, hooks, and modules with status annotations
+- [ ] Create Frontend State Flow diagram (section 2.5.2) showing state management structure, actions, and state transitions
+- [ ] Create Backend Module Dependencies diagram (section 2.5.3) showing relationships between API handlers, services, and data access layers
 - [ ] Populate Frontend Change Summary Table (section 3) with all required frontend modifications
 - [ ] Populate Backend Change Summary Table (section 4) with all required backend modifications
 - [ ] Populate Frontend Implementation Details (section 5) for all items in Frontend Change Summary Table
@@ -78,6 +81,10 @@
 
 **Quality Assurance**
 
+- [ ] Verify Component Architecture diagrams (section 2.5) accurately reflect all components/modules from Change Summary Tables
+- [ ] Verify Frontend Component Dependencies diagram shows all relationships and status annotations (🟢 NEW, 🟡 UPDATED, ⚪ EXISTING)
+- [ ] Verify Frontend State Flow diagram shows state structure, actions, and transitions
+- [ ] Verify Backend Module Dependencies diagram shows service dependencies and data flow
 - [ ] Verify Frontend Change Summary Table (section 3) completeness and accuracy
 - [ ] Verify Backend Change Summary Table (section 4) completeness and accuracy
 - [ ] Ensure implementation details focus on WHAT and WHY, not HOW
@@ -89,7 +96,7 @@
 - [ ] Implementation follows established architectural patterns
 - [ ] Comprehensive error handling and testing strategies defined
 - [ ] Change Summary Tables and Implementation Details validation completed
-- [ ] **VERIFY**: Only sections 3-6 are populated, sections 1-2 and 7 remain unchanged
+- [ ] **VERIFY**: Only sections 2.5 and 3-6 are populated, sections 1-2 and 7 remain unchanged
 
 **Completion**
 

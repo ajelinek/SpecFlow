@@ -38,17 +38,17 @@
 
 - [ ] Use @vibing/templates/T11a - High-Level Design.md structure
 - [ ] Replace `[F#] - [Feature Name]` with the specific feature name and ID
-- [ ] **ONLY populate sections 1-2**: Feature Overview and System/User Flow
+- [ ] **ONLY populate sections 1-2**: Feature Overview and User Journey
 - [ ] **Leave sections 3-5 as TODO placeholders** - do not populate Change Summary Table, Implementation Details, or Test Scenarios
 - [ ] Populate Feature Overview section with business purpose and user value for the specific feature
-- [ ] Create System/User Flow section with Mermaid diagram showing user journey for the specific feature
+- [ ] Create User Journey diagram (section 2) showing user experience stages, emotions, and business outcomes
 
 **Quality Assurance**
 
 - [ ] Focus on business outcomes and user experience for the specific feature rather than technical implementation
 - [ ] Specific feature name and ID clearly identified and used throughout document
 - [ ] Feature overview clearly describes business purpose and user value for the specific feature
-- [ ] System/User flow diagram accurately represents user journey and business workflow for the specific feature
+- [ ] User Journey diagram (section 2) accurately represents user experience stages, emotions, and business outcomes
 - [ ] **VERIFY**: Only sections 1-2 are populated, sections 3-5 remain as TODO placeholders
 
 **Completion**

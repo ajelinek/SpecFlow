@@ -6,9 +6,71 @@
 
 <!-- ALREADY POPULATED by 201-High-Level-Design workflow -->
 
-## 2. System / User Flow
+## 2. User Journey
 
 <!-- ALREADY POPULATED by 201-High-Level-Design workflow -->
+
+## 2.5. Component Architecture
+
+**Purpose**: Visual overview of component relationships, state flow, and module dependencies to help reviewers understand how components connect and what is changing.
+
+### 2.5.1. Frontend Component Dependencies
+
+**Purpose**: Shows relationships between frontend UI components, hooks, and utility modules. Use component dependency graph to illustrate imports, composition, and data flow.
+
+**How to Populate**:
+
+- Include all frontend components, hooks, and modules from Frontend Change Summary Table
+- Use arrows to show dependencies (imports, uses, calls)
+- Annotate with status: 🟢 NEW, 🟡 UPDATED, ⚪ EXISTING
+- Group related components when helpful
+
+```mermaid
+graph LR
+    A[ComponentName<br/>🟢 NEW] -->|imports| B[HookName<br/>🟢 NEW]
+    B -->|calls| C[APIFunction<br/>🟢 NEW]
+    D[ExistingComponent<br/>⚪ EXISTING] --> A
+    E[UpdatedComponent<br/>🟡 UPDATED] --> B
+```
+
+### 2.5.2. Frontend State Flow
+
+**Purpose**: Shows state management flow including state structure, actions, reducers/selectors, and state transitions. Use state flow diagram to illustrate how state changes propagate through the system.
+
+**How to Populate**:
+
+- Include all state-related changes from Frontend Change Summary Table
+- Show state structure, actions, and state transitions
+- Indicate data flow direction
+- Annotate with status: 🟢 NEW, 🟡 UPDATED, ⚪ EXISTING
+
+```mermaid
+graph TD
+    A[User Action] -->|triggers| B[Action Creator<br/>🟢 NEW]
+    B -->|dispatches| C[Reducer/Store<br/>🟡 UPDATED]
+    C -->|updates| D[State<br/>🟢 NEW]
+    D -->|notifies| E[Components<br/>⚪ EXISTING]
+    E -->|reads| D
+```
+
+### 2.5.3. Backend Module Dependencies
+
+**Purpose**: Shows relationships between backend modules, services, API handlers, and data access layers. Use module dependency graph to illustrate service dependencies, API routes, and data flow.
+
+**How to Populate**:
+
+- Include all backend modules, services, and handlers from Backend Change Summary Table
+- Use arrows to show dependencies (imports, calls, queries)
+- Annotate with status: 🟢 NEW, 🟡 UPDATED, ⚪ EXISTING
+- Show data flow from API → Service → Data layer
+
+```mermaid
+graph LR
+    A[API Handler<br/>🟢 NEW] -->|calls| B[Service<br/>🟢 NEW]
+    B -->|queries| C[Data Access<br/>🟢 NEW]
+    C -->|updates| D[Database Schema<br/>🟡 UPDATED]
+    E[Existing Service<br/>⚪ EXISTING] --> B
+```
 
 ## 3. Frontend Change Summary Table
 
