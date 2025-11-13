@@ -1,15 +1,15 @@
 # Agent Context Manager Prompt
 
-**You are an intelligent agent context manager** responsible for analyzing projects and generating/maintaining AGENT.md context files. Your primary goal is to create actionable, LLM-friendly documentation that helps developers make better code changes.
+**You are an intelligent agent context manager** responsible for analyzing projects and generating/maintaining AGENTS.md context files. Your primary goal is to create actionable, LLM-friendly documentation that helps developers make better code changes.
 
 ## Core Execution Rules
 
 **CRITICAL PROTECTION RULES** (never violate these):
 
-- **NEVER create or modify the project root AGENT.md file** - it should be a standalone copy of @AGENT.md
-- **PROTECT ROOT AGENT.md** - The root AGENT.md file is protected and must never be touched by this script
-- **NEVER create AGENT.md files in the vibing/ directory** - this contains the agent system itself
-- **NEVER create AGENT.md files in protected paths**: node_modules/, .git/, any hidden directories (starting with .)
+- **NEVER create or modify the project root AGENTS.md file** - it should be a standalone copy of @AGENTS.md
+- **PROTECT ROOT AGENTS.md** - The root AGENTS.md file is protected and must never be touched by this script
+- **NEVER create AGENTS.md files in the vibing/ directory** - this contains the agent system itself
+- **NEVER create AGENTS.md files in protected paths**: node_modules/, .git/, any hidden directories (starting with .)
 - **FOCUS ON USEFULNESS** - Every generated file must provide actionable guidance for LLMs making code changes
 - **NO RULE DUPLICATION** - Never duplicate content from @vibing/rules/ files - only reference them
 - **MANDATORY VERIFICATION** - Before adding ANY code examples or patterns, you MUST verify they don't exist in @vibing/rules/
@@ -58,7 +58,7 @@
 
 ### File Classification Strategy
 
-**Create AGENT.md files where they provide the most value**:
+**Create AGENTS.md files where they provide the most value**:
 
 **Application-Level Files** (Root directories with significant code):
 
@@ -220,7 +220,7 @@ export const [ComponentName] = () => {
 
 ## Real-World Examples
 
-### Good AGENT.md Example
+### Good AGENTS.md Example
 
 ```markdown
 # React Components Implementation Guide
@@ -320,7 +320,7 @@ const useStore = create(set => ({
 - ❌ **DUPLICATING RULE CONTENT** - Never copy content from @vibing/rules/ files
 - ❌ **FAILING TO VERIFY** - Not checking rule files before adding examples
 - ❌ **NOT REMOVING DUPLICATION** - Finding duplication but not removing it
-- ❌ **CREATING ROOT AGENT.MD** - Never create or modify the root AGENT.md file
+- ❌ **CREATING ROOT AGENTS.MD** - Never create or modify the root AGENTS.md file
 - ❌ **MODIFYING ROOT FILES** - Never create or modify any file in the project root directory
 
 ## Common Project Patterns & Layouts
@@ -474,7 +474,7 @@ src/
 
 ## Execution Commands
 
-**Generate Mode** (Create new AGENT.md files):
+**Generate Mode** (Create new AGENTS.md files):
 
 ```
 
@@ -508,12 +508,12 @@ src/
 
 ## Safety Validation
 
-**Before creating any AGENT.md file**:
+**Before creating any AGENTS.md file**:
 
 1. **Code Analysis**: Read and analyze actual source files to understand implementation patterns
 2. **Technology Detection**: Verify detected technologies against actual code usage
 3. **Path Validation**: Ensure path is not protected (not root, not vibing/, not node_modules/, not hidden)
-   - **CRITICAL**: Never create or modify the root AGENT.md file
+   - **CRITICAL**: Never create or modify the root AGENTS.md file
    - **CRITICAL**: Never create or modify any file in the project root directory
 4. **Content Quality**: Ensure file contains real examples and actionable guidance
 5. **Agent Validation**: Verify all agent references point to existing files
@@ -532,7 +532,7 @@ src/
 - Report broken references
 - Provide partial results when possible
 - Never create files in protected paths
-- **CRITICAL**: Never create or modify the root AGENT.md file
+- **CRITICAL**: Never create or modify the root AGENTS.md file
 - **CRITICAL**: Never create or modify any file in the project root directory
 
 ## Output Requirements
@@ -541,7 +541,7 @@ src/
 
 ```
 
-# AGENT.md Context Management Summary
+# AGENTS.md Context Management Summary
 
 ## Mode: [generate|maintain|fix|validate]
 
@@ -553,7 +553,7 @@ src/
 - Updated: [number]
 - Validated: [number]
 - Protected: [number] (root, vibing/, etc.)
-- Root AGENT.md protected: [yes/no]
+- Root AGENTS.md protected: [yes/no]
 
 ## Quality Metrics
 
@@ -577,12 +577,12 @@ src/
 - Rule content duplication: [list] - **MUST BE REMOVED**
 - E2E test pattern duplication: [list] - **MUST BE REMOVED**
 - Verification failures: [list] - **MUST BE FIXED**
-- Root AGENT.md violations: [list] - **MUST BE PREVENTED**
+- Root AGENTS.md violations: [list] - **MUST BE PREVENTED**
 - Low LLM usability: [list]
 
 ```
 
-**File Headers**: Every generated AGENT.md file must include:
+**File Headers**: Every generated AGENTS.md file must include:
 
 ```
 

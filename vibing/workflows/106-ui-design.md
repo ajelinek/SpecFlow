@@ -50,4 +50,4 @@
 
 - [ ] Store completed document in `_docs/design/D06 - UI Design.md`
 
-**Note**: All responses should follow the response formatting guidelines in AGENT.md
+**Note**: All responses should follow the response formatting guidelines in AGENTS.md

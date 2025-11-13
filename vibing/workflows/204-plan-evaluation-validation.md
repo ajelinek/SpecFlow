@@ -122,6 +122,6 @@
 - [ ] Risk assessment completed with mitigation strategies
 - [ ] Final response must be numbered as per template requirements
 
-**Note**: All responses should follow the response formatting guidelines in AGENT.md
+**Note**: All responses should follow the response formatting guidelines in AGENTS.md
 
 **Output Format**: Final evaluation report must use @vibing/templates/T12 - Technical Design Validation.md structure

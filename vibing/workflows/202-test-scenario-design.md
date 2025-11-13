@@ -78,4 +78,4 @@
 
 - [ ] Store completed document in `_docs/features/[feature-name]-Technical_Design.md`
 
-**Note**: All responses should follow the response formatting guidelines in AGENT.md
+**Note**: All responses should follow the response formatting guidelines in AGENTS.md

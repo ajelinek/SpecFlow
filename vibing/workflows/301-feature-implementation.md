@@ -99,4 +99,4 @@
 - [ ] Build completes successfully
 - [ ] Code follows established patterns
 
-**Note**: All responses should follow the response formatting guidelines in AGENT.md
+**Note**: All responses should follow the response formatting guidelines in AGENTS.md

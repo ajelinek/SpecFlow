@@ -20,11 +20,11 @@
 
 ## Consults With
 
-**User**: See user clarification requirements in AGENT.md
+**User**: See user clarification requirements in AGENTS.md
 
 ## Rule References
 
-- **Response Formatting**: See response formatting requirements in AGENT.md
+- **Response Formatting**: See response formatting requirements in AGENTS.md
 
 ## Guardrails
 

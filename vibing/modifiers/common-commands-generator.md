@@ -4,7 +4,7 @@
 
 ## Overview
 
-This modifier creates a comprehensive commands reference file that contains all project-specific commands, test patterns, prerequisites, and operational procedures. This file is referenced by `AGENT.md` to provide LLMs with project-specific command knowledge.
+This modifier creates a comprehensive commands reference file that contains all project-specific commands, test patterns, prerequisites, and operational procedures. This file is referenced by `AGENTS.md` to provide LLMs with project-specific command knowledge.
 
 ## Inputs
 

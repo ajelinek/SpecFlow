@@ -46,7 +46,7 @@
 - [ ] Consolidate similar functions and patterns
 - [ ] Optimize component structure and organization
 - [ ] Clean up unused imports, variables, and functions
-- [ ] Create or update module-level AGENT.md files
+- [ ] Create or update module-level AGENTS.md files
 - [ ] Document public APIs and component interfaces
 
 **Validation**
@@ -63,4 +63,4 @@
 - [ ] **CRITICAL**: Do NOT modify any test files
 - [ ] **CRITICAL**: Do NOT plan any test code modifications
 
-**Note**: All responses should follow the response formatting guidelines in AGENT.md
+**Note**: All responses should follow the response formatting guidelines in AGENTS.md

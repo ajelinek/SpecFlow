@@ -1,6 +1,6 @@
 # Agent Path Updater Modifier
 
-**Purpose**: Automatically finds and updates all AGENT.md file references in workflows and agents to use the correct paths within the vibing framework.
+**Purpose**: Automatically finds and updates all AGENTS.md file references in workflows and agents to use the correct paths within the vibing framework.
 
 ## Overview
 
@@ -32,7 +32,7 @@ This modifier scans the entire vibing directory structure to:
   - `ux-designer.md`
 
 - **Global Context**: `vibing/context/`
-  - `global.AGENT.md`
+  - `global.AGENTS.md`
 
 ## Reference Patterns to Update
 
@@ -53,8 +53,8 @@ This modifier scans the entire vibing directory structure to:
 
 ### 3. Global Agent Context References
 
-**Pattern**: `@vibing/context/global.AGENT.md`
-**Correct Path**: `@vibing/context/global.AGENT.md`
+**Pattern**: `@vibing/context/global.AGENTS.md`
+**Correct Path**: `@vibing/context/global.AGENTS.md`
 
 ## Execution Instructions
 
@@ -62,15 +62,15 @@ This modifier scans the entire vibing directory structure to:
 
 **CRITICAL**: Never modify these protected files:
 
-- `vibing/context/AGENT.md` - Contains global execution rules
+- `vibing/context/AGENTS.md` - Contains global execution rules
 - Any files in `vibing/rules/` - Authoritative technical standards
 - Any files in `vibing/agents/` not explicitly listed in the update list
 
 ### Step 1: Dynamic Discovery & Analysis
 
 1. **Build directory tree** - Analyze the complete project structure
-2. **Identify AGENT.md files** - Find all `**/AGENT.md` files in the project
-3. **Dynamic categorization** - Classify each AGENT.md file as higher-level or lower-level:
+2. **Identify AGENTS.md files** - Find all `**/AGENTS.md` files in the project
+3. **Dynamic categorization** - Classify each AGENTS.md file as higher-level or lower-level:
 
 **Dynamic Detection Logic**:
 
@@ -91,7 +91,7 @@ This modifier scans the entire vibing directory structure to:
 
 ### Step 2: Update Lower-Level Files (Agent/Rule References)
 
-For each dynamically identified lower-level AGENT.md file:
+For each dynamically identified lower-level AGENTS.md file:
 
 1. **Agent Section References**:
 
@@ -107,11 +107,11 @@ For each dynamically identified lower-level AGENT.md file:
    - Update any other rule reference patterns to use `@vibing/rules/`
 
 4. **Context References**:
-   - Update `@vibing/context/global.AGENT.md` → `@vibing/context/global.AGENT.md`
+   - Update `@vibing/context/global.AGENTS.md` → `@vibing/context/global.AGENTS.md`
 
 ### Step 3: Hierarchy Compliance Enforcement
 
-For each dynamically identified AGENT.md file:
+For each dynamically identified AGENTS.md file:
 
 **For Higher-Level Files** (organizational directories):
 
@@ -150,14 +150,14 @@ For each dynamically identified AGENT.md file:
 1. **Verify all agent references** point to existing files in `vibing/agents/`
 2. **Verify all rule references** point to existing files in `vibing/rules/`
 3. **Verify all context references** point to existing files in `vibing/context/`
-4. **Check for broken internal references** between AGENT.md files
+4. **Check for broken internal references** between AGENTS.md files
 
 ### Step 5: Hierarchy Enforcement
 
 **CRITICAL**: Ensure proper hierarchy is maintained:
 
 1. **Scan for violations**: Check if any higher-level directories (src/, api/, ui/, etc.) have agent or rule references
-2. **Remove inappropriate references**: If found, remove agent and rule references from higher-level AGENT.md files
+2. **Remove inappropriate references**: If found, remove agent and rule references from higher-level AGENTS.md files
 3. **Verify lower-level files**: Ensure lower-level files (components/, services/) have appropriate agent and rule references
 4. **Maintain structure**: Higher-level files should only describe folder structure, not contain agent assignments
 
@@ -174,7 +174,7 @@ After updating all references, verify:
 - [ ] All `@vibing/context/` references now use `@vibing/context/` (in appropriate files)
 - [ ] No broken or missing agent references in updated files
 - [ ] All lower-level files can properly reference their required agents and rules
-- [ ] **CRITICAL**: Root AGENT.md file (`vibing/context/AGENT.md`) was NOT modified
+- [ ] **CRITICAL**: Root AGENTS.md file (`vibing/context/AGENTS.md`) was NOT modified
 - [ ] **CRITICAL**: Rule files in `vibing/rules/` were NOT modified
 - [ ] **CRITICAL**: Only dynamically identified lower-level files were updated for agent/rule references
 - [ ] **STRUCTURE**: Higher-level files contain only structural content (Purpose & Scope, Structure, Key Interfaces, Conventions)
@@ -182,7 +182,7 @@ After updating all references, verify:
 
 ## Files Updated (Dynamic Discovery)
 
-**Workflow Files** - All files in `vibing/workflows/` that contain AGENT.md references:
+**Workflow Files** - All files in `vibing/workflows/` that contain AGENTS.md references:
 
 - Dynamically discovered based on content analysis
 - Updated for agent and context references
@@ -197,7 +197,7 @@ After updating all references, verify:
 - Dynamically discovered based on content analysis
 - Updated for agent and context references
 
-**Lower-Level AGENT.md Files** - All dynamically identified lower-level AGENT.md files:
+**Lower-Level AGENTS.md Files** - All dynamically identified lower-level AGENTS.md files:
 
 - Updated for agent and rule references based on their level classification
 - References added/updated based on file content and context
@@ -206,8 +206,8 @@ After updating all references, verify:
 
 **Root/Global Context Files** - These contain critical system instructions:
 
-- `vibing/context/AGENT.md` - **DO NOT MODIFY** - Contains global execution rules
-- Any other files in `vibing/context/` that are not project-specific AGENT.md files
+- `vibing/context/AGENTS.md` - **DO NOT MODIFY** - Contains global execution rules
+- Any other files in `vibing/context/` that are not project-specific AGENTS.md files
 
 **Rule Files** - These contain authoritative technical standards:
 
@@ -220,7 +220,7 @@ After execution, the following dynamic hierarchy should be maintained:
 
 **Higher-level directories** (dynamically identified organizational directories):
 
-- AGENT.md files contain ONLY: Purpose & Scope, Structure, Key Interfaces, Conventions
+- AGENTS.md files contain ONLY: Purpose & Scope, Structure, Key Interfaces, Conventions
 - **NO agent references** (`@vibing/agents/...`)
 - **NO rule references** (`@vibing/rules/...`)
 - **NO implementation details** (sections 5-9: Component Responsibilities, Testing, Security, Configuration, Common Tasks)
@@ -228,14 +228,14 @@ After execution, the following dynamic hierarchy should be maintained:
 
 **Lower-level directories** (dynamically identified implementation directories):
 
-- AGENT.md files contain detailed agent and rule assignments
+- AGENTS.md files contain detailed agent and rule assignments
 - Agent references point to `@vibing/agents/{agent-name}.md`
 - Rule references point to `@vibing/rules/{category}/{rule-file}.md`
 - Include implementation details (sections 5-9) appropriate for the specific component/service
 
 **Protected Files**: The following files are NEVER modified:
 
-- `vibing/context/AGENT.md` - Contains critical global execution rules
+- `vibing/context/AGENTS.md` - Contains critical global execution rules
 - All files in `vibing/rules/` - Authoritative technical standards
 
 This ensures that:
@@ -258,7 +258,7 @@ Execute this modifier whenever:
 
 **Dynamic Discovery & Enforcement**: The modifier uses intelligent analysis to:
 
-- Discover all AGENT.md files in the project
+- Discover all AGENTS.md files in the project
 - Dynamically classify them as higher-level (organizational) or lower-level (implementation)
 - Apply appropriate updates based on file level and content
 - **Enforce content compliance** - remove inappropriate content from misclassified files
@@ -267,7 +267,7 @@ Execute this modifier whenever:
 
 **Safety Note**: This modifier uses dynamic discovery and never modifies:
 
-- `vibing/context/AGENT.md` (global execution rules)
+- `vibing/context/AGENTS.md` (global execution rules)
 - `vibing/rules/` files (authoritative technical standards)
 - Files not dynamically identified for updates
 

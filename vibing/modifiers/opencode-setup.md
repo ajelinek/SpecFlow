@@ -1,13 +1,13 @@
 # OpenCode Configuration Setup Guide
 
-**You are an intelligent configuration assistant** responsible for generating comprehensive `opencode.json` files that properly configure OpenCode for any project. Your goal is to create a complete configuration that includes all custom agents and sets up the root AGENT.md file as part of the global context.
+**You are an intelligent configuration assistant** responsible for generating comprehensive `opencode.json` files that properly configure OpenCode for any project. Your goal is to create a complete configuration that includes all custom agents and sets up the root AGENTS.md file as part of the global context.
 
 ## Purpose
 
 This guide provides a detailed prompt for creating `opencode.json` files that:
 
 1. Define all custom sub-agents with their configurations
-2. Load the root `AGENT.md` file into the global context
+2. Load the root `AGENTS.md` file into the global context
 3. Set appropriate temperature values for different agent types
 4. Follow OpenCode best practices for agent configuration
 
@@ -16,7 +16,7 @@ This guide provides a detailed prompt for creating `opencode.json` files that:
 The `opencode.json` file must include:
 
 - **`$schema`**: Reference to OpenCode's JSON schema for validation
-- **`prompt`**: File reference to load the root AGENT.md into global context
+- **`prompt`**: File reference to load the root AGENTS.md into global context
 - **`agent`**: Object defining all custom sub-agents with their configurations
 
 ## Agent Temperature Guidelines
@@ -151,7 +151,7 @@ Based on the OpenCode agent system, these are the standard agents to include:
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "prompt": "{file:./AGENT.md}",
+  "prompt": "{file:./AGENTS.md}",
   "agent": {
     "backend-engineer": {
       "description": "Backend service implementation, API development, and server-side coding",
@@ -267,7 +267,7 @@ When generating an `opencode.json` file for a new project, follow these steps:
 
 Before generating the configuration, ensure the project has:
 
-1. **Root `AGENT.md` file**: The base instructions file that should exist at the project root
+1. **Root `AGENTS.md` file**: The base instructions file that should exist at the project root
 2. **`vibing/agents/` directory**: Contains all custom agent definition files
 3. **Agent definition files**: All referenced agent files (e.g., `backend-engineer.md`) must exist
 
@@ -300,7 +300,7 @@ Not all projects need all agents. Analyze the project to determine which agents 
 Ensure all file references are correct in `opencode.json`:
 
 ```json
-"prompt": "{file:./AGENT.md}"  // Must point to root AGENT.md
+"prompt": "{file:./AGENTS.md}"  // Must point to root AGENTS.md
 "prompt": "{file:./vibing/agents/[agent-name].md}"  // Must point to actual agent files
 ```
 
@@ -322,7 +322,7 @@ If the project has special requirements, you can add additional configuration:
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "prompt": "{file:./AGENT.md}",
+  "prompt": "{file:./AGENTS.md}",
   "agent": {
     // Standard agents...
 
@@ -381,7 +381,7 @@ Search and update agent references in ALL of these locations:
    - Pattern to find: `@vibing/agents/[agent-name].md`
    - Replace with: `@[agent-name]`
 
-7. **Root AGENT.md** (project root)
+7. **Root AGENTS.md** (project root)
    - May contain agent references
    - Pattern to find: `@vibing/agents/[agent-name].md`
    - Replace with: `@[agent-name]`
@@ -472,13 +472,13 @@ Before finalizing the `opencode.json` file and completing setup, verify:
 ### Configuration Validation
 
 - [ ] `$schema` field points to OpenCode's JSON schema
-- [ ] `prompt` field correctly references root `AGENT.md` file
+- [ ] `prompt` field correctly references root `AGENTS.md` file
 - [ ] All agent `description` fields are clear and specific
 - [ ] All agent `mode` fields are set to "subagent"
 - [ ] All agent `temperature` values are appropriate for their role
 - [ ] All agent `prompt` file references point to existing files
 - [ ] All referenced agent files exist in `vibing/agents/` directory
-- [ ] Root `AGENT.md` file exists and contains base instructions
+- [ ] Root `AGENTS.md` file exists and contains base instructions
 - [ ] JSON syntax is valid (no trailing commas, proper quotes)
 - [ ] Agent selection matches project type and requirements
 
@@ -490,7 +490,7 @@ Before finalizing the `opencode.json` file and completing setup, verify:
 - [ ] **All template files** (`vibing/templates/*.md`) use `@agent-name` format (if they reference agents)
 - [ ] **All modifier files** (`vibing/modifiers/*.md`) use `@agent-name` format (if they reference agents)
 - [ ] **All context files** (`vibing/context/*.md`) use `@agent-name` format (if they reference agents)
-- [ ] **Root AGENT.md** uses `@agent-name` format (if it references agents)
+- [ ] **Root AGENTS.md** uses `@agent-name` format (if it references agents)
 - [ ] **No legacy references** remain: `grep -r "@vibing/agents/" vibing/` returns no results (except examples in this guide)
 - [ ] **All agent names** in references match key names in `opencode.json`
 - [ ] **Invocation keywords** are present: "Activate", "Consult", "Invoke", or "Delegate" before agent references
@@ -500,7 +500,7 @@ Before finalizing the `opencode.json` file and completing setup, verify:
 To set up a new project with OpenCode:
 
 1. **Copy the `vibing/` directory structure** to the new project
-2. **Create a root `AGENT.md` file** with project-specific base instructions
+2. **Create a root `AGENTS.md` file** with project-specific base instructions
 3. **Generate `opencode.json`** using this guide as reference
 4. **Verify all file paths** are correct for the new project structure
 5. **Update all agent references** across all files (Step 6 above) - **MANDATORY**
@@ -516,7 +516,7 @@ To set up a new project with OpenCode:
 
 ```
 my-cli-tool/
-├── AGENT.md                          # Root agent instructions
+├── AGENTS.md                          # Root agent instructions
 ├── opencode.json                     # OpenCode configuration
 ├── vibing/
 │   └── agents/
@@ -531,7 +531,7 @@ my-cli-tool/
 
 ```
 my-web-app/
-├── AGENT.md                          # Root agent instructions
+├── AGENTS.md                          # Root agent instructions
 ├── opencode.json                     # OpenCode configuration
 ├── vibing/
 │   ├── agents/                       # All 17 standard agents
@@ -561,14 +561,14 @@ my-web-app/
 "prompt": "{file:./vibing/agents/backend-engineer.md}"
 ```
 
-### Issue: "Root AGENT.md not loaded"
+### Issue: "Root AGENTS.md not loaded"
 
 **Solution**: Ensure the top-level `prompt` field is set correctly:
 
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "prompt": "{file:./AGENT.md}", // This line is required
+  "prompt": "{file:./AGENTS.md}", // This line is required
   "agent": {
     // ...
   }
@@ -614,7 +614,7 @@ Activate @backend-engineer
 
 ## Best Practices
 
-1. **Always include the root AGENT.md** in the global context via the `prompt` field
+1. **Always include the root AGENTS.md** in the global context via the `prompt` field
 2. **Use consistent naming** between agent file names and configuration keys (the key name becomes `@agent-name` in documentation)
 3. **Keep temperatures conservative** for implementation agents (0.1-0.3)
 4. **Document custom agents** with clear descriptions
@@ -630,11 +630,11 @@ Activate @backend-engineer
 
 This guide provides everything needed to create a complete `opencode.json` configuration file for any project and ensure all agent references are properly standardized. The key requirements are:
 
-1. Set the top-level `prompt` field to load root `AGENT.md`
+1. Set the top-level `prompt` field to load root `AGENTS.md`
 2. Define all relevant agents with proper descriptions, modes, temperatures, and file references
 3. Verify all file paths are correct in `opencode.json`
 4. Choose appropriate agents based on project type
-5. **MANDATORY**: Update all agent references across ALL files (workflows, agents, rules, templates, modifiers, context, root AGENT.md) to use `@agent-name` format
+5. **MANDATORY**: Update all agent references across ALL files (workflows, agents, rules, templates, modifiers, context, root AGENTS.md) to use `@agent-name` format
 6. Validate the configuration and all references using the Quality Validation Checklist
 7. Use `@agent-name` format (matching the key name) in all documentation references
 
@@ -695,7 +695,7 @@ When setting up or maintaining a project, ensure all agent references follow the
    - All `vibing/rules/**/*.md` files (if they reference agents)
    - All `vibing/templates/*.md` files (if they reference agents)
    - All `vibing/context/*.md` files (if they reference agents)
-   - Any project-specific `AGENT.md` files
+   - Any project-specific `AGENTS.md` files
 
 5. **Example transformations**:
 
@@ -751,10 +751,10 @@ When standardizing agent references, verify ALL of the following:
 - [ ] **All rule files** (`vibing/rules/**/*.md`) use `@agent-name` syntax (if applicable)
 - [ ] **All template files** (`vibing/templates/*.md`) use `@agent-name` syntax (if applicable)
 - [ ] **All context files** (`vibing/context/*.md`) use `@agent-name` syntax (if applicable)
-- [ ] **Root AGENT.md** uses `@agent-name` syntax (if applicable)
+- [ ] **Root AGENTS.md** uses `@agent-name` syntax (if applicable)
 - [ ] **All invocation keywords** (Activate, Consult, Invoke, Delegate) are present where needed
 - [ ] **No legacy references** remain: `grep -r "@vibing/agents/" vibing/` returns no results (except examples in this guide)
 - [ ] **`opencode.json`** uses full file paths in `prompt` fields (configuration only)
 - [ ] **Agent key names** in `opencode.json` exactly match the `@agent-name` format used in documentation
 - [ ] **All referenced agents** exist as keys in `opencode.json`
-- [ ] **Root `AGENT.md`** includes invocation rules for agent references
+- [ ] **Root `AGENTS.md`** includes invocation rules for agent references

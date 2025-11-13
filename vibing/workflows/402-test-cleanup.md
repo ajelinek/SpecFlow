@@ -72,4 +72,4 @@
 - [ ] Test utility modules created or updated
 - [ ] Test documentation comprehensive and up-to-date
 
-**Note**: All responses should follow the response formatting guidelines in AGENT.md
+**Note**: All responses should follow the response formatting guidelines in AGENTS.md

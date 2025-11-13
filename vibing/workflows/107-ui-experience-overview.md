@@ -48,4 +48,4 @@
 
 - [ ] Store completed document in `_docs/design/D07 - UI Experience Overview.md`
 
-**Note**: All responses should follow the response formatting guidelines in AGENT.md
+**Note**: All responses should follow the response formatting guidelines in AGENTS.md

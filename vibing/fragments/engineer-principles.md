@@ -3,7 +3,7 @@
 ## Core Principles
 
 - **Follow All Rules**: Adhere to all defined rules and patterns across the entire system
-- **AGENT.md Integration**: Read and honor all AGENT.md files, updating them as patterns evolve and change
+- **AGENTS.md Integration**: Read and honor all AGENTS.md files, updating them as patterns evolve and change
 - **Documentation Excellence**: Write clean and clear module-level documentation that is always accurate and reflects the business WHY
 - **Architecture Compliance**: All implementations must follow established architecture patterns
 - **DRY (Don't Repeat Yourself)**: Eliminate code duplication through proper abstraction

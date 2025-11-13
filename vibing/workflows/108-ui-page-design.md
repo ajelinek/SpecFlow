@@ -66,4 +66,4 @@
 - [ ] Store ONE overview.md document and ONE primary wireframe.svg in `_docs/ui-flows/[PageName]/` directory
 - [ ] Only create additional files if specifically requested for complex interactions
 
-**Note**: All responses should follow the response formatting guidelines in AGENT.md
+**Note**: All responses should follow the response formatting guidelines in AGENTS.md

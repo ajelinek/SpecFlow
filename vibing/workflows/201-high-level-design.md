@@ -55,4 +55,4 @@
 
 - [ ] Store completed document in `_docs/features/in-progress/[specific-feature-name]-technical-design.md`
 
-**Note**: All responses should follow the response formatting guidelines in AGENT.md
+**Note**: All responses should follow the response formatting guidelines in AGENTS.md

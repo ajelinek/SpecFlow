@@ -17,7 +17,7 @@ Take the chaos of vibing and turns it into something that makes sense. We've sep
 **FIRST THING YOU DO** - Copy the foundational agent context file to your project root:
 
 ```bash
-cp vibing/context/AGENT.md ./AGENT.md
+cp vibing/context/AGENTS.md ./AGENTS.md
 ```
 
 This gives you the base agent behavior and file reference management that everything else depends on.
@@ -26,7 +26,7 @@ This gives you the base agent behavior and file reference management that everyt
 
 1. **Generate Domain Knowledge** - Run the domain knowledge generator FIRST or Copy in from Gemini Deep Research
    . **Run Planning Workflows** (100 series) - Create your design documents
-2. **Generate Context Files** - Run the agent context manager to generate AGENT.md files
+2. **Generate Context Files** - Run the agent context manager to generate AGENTS.md files
 3. **Generate Commands** - Run the common commands generator
 4. **Analyze Technology Stack** - Run the technology stack analyzer
 5. **Customize Test Rules** - Run test rules customization (after data model is done)
@@ -60,7 +60,7 @@ Run all 100-series workflows to establish your project foundation. Skip this and
 
 **CRITICAL**: Before running any 200-series workflows, execute the context manager. This isn't optional - it's the difference between organized chaos and just chaos.
 
-**Prompt**: `Follow the instructions in the agent-context-manager modifier. Avoid all duplication between the rule files and the created AGENT.md files.`
+**Prompt**: `Follow the instructions in the agent-context-manager modifier. Avoid all duplication between the rule files and the created AGENTS.md files.`
 
 **Important**: Run this prompt multiple times to ensure comprehensive context capture. Yes, multiple times. We're not kidding.
 
@@ -106,8 +106,8 @@ Run these in order for maximum effectiveness:
 
 **File**: `modifiers/agent-context-manager.md`  
 **When**: After domain knowledge is established (Step 0) and 100-series planning  
-**Prompt**: Follow the instructions in the agent-context-manager modifier. Avoid all duplication between the rule files and the created AGENT.md files.  
-**Output**: Generates AGENT.md files in key directories with real implementation patterns and technology-specific guidance  
+**Prompt**: Follow the instructions in the agent-context-manager modifier. Avoid all duplication between the rule files and the created AGENTS.md files.  
+**Output**: Generates AGENTS.md files in key directories with real implementation patterns and technology-specific guidance  
 **Note**: Run multiple times to ensure comprehensive coverage (seriously, multiple times)
 
 ### 2. Common Commands Generator
@@ -180,9 +180,9 @@ Run these in order for maximum effectiveness:
 - **Format**: Markdown files describing existing systems
 - **Usage**: Referenced by agents to understand current state before making changes
 - **Examples**:
-  - `AGENT.md` - `src/api` Backend API patterns and architecture
-  - `AGENT.md` - `src/ui/store` GraphQL store implementation details
-  - `AGENT.md` - `src/ui/components` - Frontend component architecture
+  - `AGENTS.md` - `src/api` Backend API patterns and architecture
+  - `AGENTS.md` - `src/ui/store` GraphQL store implementation details
+  - `AGENTS.md` - `src/ui/components` - Frontend component architecture
 
 ### 🛠️ `modifiers/` - The Customization Wizards
 
@@ -192,7 +192,7 @@ Run these in order for maximum effectiveness:
 - **Format**: Markdown files with prompt templates
 - **Usage**: Applied to generate project-specific content from templates
 - **Examples**:
-  - `common-commands-generator.md` - Generates `context/common-commands.md` with project-specific commands and updates `AGENT.md` to reference it
+  - `common-commands-generator.md` - Generates `context/common-commands.md` with project-specific commands and updates `AGENTS.md` to reference it
   - `agent-context-manager.md` - Context file generation from design docs
   - `technology-stack-analyzer.md` - Technology-specific customization
 

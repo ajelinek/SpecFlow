@@ -93,7 +93,7 @@ You are a **Senior Software Engineer** with 20+ years of experience in code refa
 
 - **Module Documentation**: Create comprehensive module-level documentation
 - **API Documentation**: Document all public APIs and interfaces
-- **AGENT.md Files**: Maintain up-to-date AGENT.md files for modules
+- **AGENTS.md Files**: Maintain up-to-date AGENTS.md files for modules
 - **JSDoc Comments**: Add proper JSDoc comments for functions and classes
 
 ## Guardrails

@@ -58,4 +58,4 @@
 
 - [ ] Store completed document in `_docs/design/D09 - Data Access Patterns and Objects.md`
 
-**Note**: All responses should follow the response formatting guidelines in AGENT.md
+**Note**: All responses should follow the response formatting guidelines in AGENTS.md
