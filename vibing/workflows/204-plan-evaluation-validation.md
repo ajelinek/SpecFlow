@@ -28,7 +28,7 @@
 ## Design Context
 
 - [ ] Use @vibing/templates/T12 - Technical Design Validation.md for evaluation report format
-- [ ] Analyze document against @vibing/templates/T11 - Technical Design.md structure
+- [ ] Analyze document against @vibing/templates/T11c - Implementation Design.md structure
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business context, user goals, and success metrics
 - [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
 - [ ] Review `_docs/design/D03 - Data Model.md` for data access patterns
@@ -43,15 +43,19 @@
 **Document Structure Validation**
 
 - [ ] Clear purpose, scope, and problem statement
-- [ ] Complete `Change Summary Table` (workflow 203)
-- [ ] Sufficient `Implementation Details` (no production code, workflow 203)
-- [ ] Feature Overview section present and complete (workflow 201)
-- [ ] System/User Flow section with Mermaid diagram (workflow 201)
-- [ ] Test Scenarios section with Gherkin syntax (workflow 202)
-- [ ] Document follows @vibing/templates/T11 - Technical Design.md structure
+- [ ] Complete `Frontend Change Summary Table` (section 3, workflow 203)
+- [ ] Complete `Backend Change Summary Table` (section 4, workflow 203)
+- [ ] Sufficient `Frontend Implementation Details` (section 5, no production code, workflow 203)
+- [ ] Sufficient `Backend Implementation Details` (section 6, no production code, workflow 203)
+- [ ] Feature Overview section present and complete (section 1, workflow 201)
+- [ ] System/User Flow section with Mermaid diagram (section 2, workflow 201)
+- [ ] Test Scenarios section with Gherkin syntax (section 7, workflow 202)
+- [ ] Document follows @vibing/templates/T11c - Implementation Design.md structure
 
 **Technical Validation**
 
+- [ ] **Frontend Change Summary Table**: Validate all frontend items have corresponding Frontend Implementation Details
+- [ ] **Backend Change Summary Table**: Validate all backend items have corresponding Backend Implementation Details
 - [ ] **Frontend**: Validate component patterns and state management
 - [ ] **Backend**: Validate API design and business logic
 - [ ] **Data**: Validate schema changes and data access patterns
@@ -68,7 +72,7 @@
 - [ ] All affected existing files listed
 - [ ] All new files to be created are identified
 - [ ] Change descriptions are accurate for existing files
-- [ ] Implementation details sufficient for new files (function signatures, patterns, integration)
+- [ ] Implementation details sufficient for new files (interface signatures as headings, purpose, constraints, optional implementation details for complex scenarios)
 - [ ] Hidden dependencies and shared utilities identified
 - [ ] Code deduplication opportunities identified
 - [ ] Existing code that can be removed or simplified

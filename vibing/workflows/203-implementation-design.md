@@ -48,11 +48,17 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T11c - Implementation Design.md structure
-- [ ] **ONLY populate sections 3-4**: Change Summary Table and Implementation Details
-- [ ] **Read existing sections 1-2 and 5** from the file (Feature Overview, System/User Flow, and Test Scenarios)
-- [ ] **Leave sections 1-2 and 5 unchanged** - do not modify Feature Overview, System/User Flow, or Test Scenarios
-- [ ] Populate Change Summary Table with all required modifications
-- [ ] Define detailed implementation specifications for each component using module/function format
+- [ ] **ONLY populate sections 3-6**: Frontend Change Summary Table, Backend Change Summary Table, Frontend Implementation Details, and Backend Implementation Details
+- [ ] **Read existing sections 1-2 and 7** from the file (Feature Overview, System/User Flow, and Test Scenarios)
+- [ ] **Leave sections 1-2 and 7 unchanged** - do not modify Feature Overview, System/User Flow, or Test Scenarios
+- [ ] Populate Frontend Change Summary Table (section 3) with all required frontend modifications
+- [ ] Populate Backend Change Summary Table (section 4) with all required backend modifications
+- [ ] Populate Frontend Implementation Details (section 5) for all items in Frontend Change Summary Table
+- [ ] Populate Backend Implementation Details (section 6) for all items in Backend Change Summary Table
+- [ ] For each module/file, provide a Module Description explaining its purpose
+- [ ] For each function/component, use interface signature as heading: `functionName(params: Type) => ReturnType`
+- [ ] Include Purpose and Constraints for each function/component
+- [ ] Include Implementation Details only for complex scenarios and business rules
 - [ ] Ensure all test scenarios are addressed in implementation details
 
 **Architecture Validation**
@@ -72,15 +78,18 @@
 
 **Quality Assurance**
 
-- [ ] Verify Change Summary Table completeness and accuracy
+- [ ] Verify Frontend Change Summary Table (section 3) completeness and accuracy
+- [ ] Verify Backend Change Summary Table (section 4) completeness and accuracy
 - [ ] Ensure implementation details focus on WHAT and WHY, not HOW
-- [ ] Verify implementation details follow WHAT/WHY documentation standards
+- [ ] Verify all functions/components use interface signature as heading format
+- [ ] Verify Module Descriptions are provided for each module/file
+- [ ] Verify Implementation Details section only populated for complex scenarios and business rules
 - [ ] **No Code Duplication**: Verify no existing functionality is being duplicated
 - [ ] Implementation details address all test scenarios and requirements
 - [ ] Implementation follows established architectural patterns
 - [ ] Comprehensive error handling and testing strategies defined
-- [ ] Change Summary Table and Implementation Details validation completed
-- [ ] **VERIFY**: Only sections 3-4 are populated, sections 1-2 and 5 remain unchanged
+- [ ] Change Summary Tables and Implementation Details validation completed
+- [ ] **VERIFY**: Only sections 3-6 are populated, sections 1-2 and 7 remain unchanged
 
 **Completion**
 
