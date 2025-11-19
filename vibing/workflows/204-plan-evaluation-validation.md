@@ -19,11 +19,6 @@
 ## Agents to Invoke
 
 - [ ] Activate @vibing/agents/technical-architect.md as workflow driver
-- [ ] Consults with @vibing/agents/backend-architect.md for API design and business logic validation
-- [ ] Consults with @vibing/agents/data-architect.md for schema changes and data access patterns validation
-- [ ] Consults with @vibing/agents/frontend-engineer.md for component architecture and integration points validation
-- [ ] Consults with @vibing/agents/backend-engineer.md for API design and business logic implementation validation
-- [ ] Consults with @vibing/agents/data-engineer.md for schema design and data access implementation validation
 
 ## Design Context
 
@@ -40,100 +35,49 @@
 - [ ] Review `_docs/features/[feature-name]-Overview.md` for feature-specific business requirements
 - [ ] Review completed `_docs/features/[feature-name]-Technical_Design.md` for feature overview and system flow
 
+## Execute Checklist
+
 **Document Structure Validation**
 
-- [ ] Clear purpose, scope, and problem statement
-- [ ] Complete `Component Architecture` diagrams (section 2.5, workflow 203)
-- [ ] Complete `Frontend Component Dependencies` diagram (section 2.5.1, workflow 203)
-- [ ] Complete `Frontend State Flow` diagram (section 2.5.2, workflow 203)
-- [ ] Complete `Backend Module Dependencies` diagram (section 2.5.3, workflow 203)
-- [ ] Complete `Frontend Change Summary Table` (section 3, workflow 203)
-- [ ] Complete `Backend Change Summary Table` (section 4, workflow 203)
-- [ ] Sufficient `Frontend Implementation Details` (section 5, no production code, workflow 203)
-- [ ] Sufficient `Backend Implementation Details` (section 6, no production code, workflow 203)
 - [ ] Feature Overview section present and complete (section 1, workflow 201)
-- [ ] User Journey diagram present (section 2, workflow 201)
-- [ ] Test Scenarios section with Gherkin syntax (section 7, workflow 202)
+- [ ] User Journey sequence diagram present (section 2, workflow 201)
+- [ ] Component Architecture diagrams complete (section 2.5, workflow 203)
+- [ ] Frontend Change Summary Table complete (section 3, workflow 203)
+- [ ] Backend Change Summary Table complete (section 4, workflow 203)
+- [ ] Frontend Implementation Details sufficient (section 5, workflow 203)
+- [ ] Backend Implementation Details sufficient (section 6, workflow 203)
+- [ ] Test Scenarios section with Gherkin syntax present (section 7, workflow 202)
 - [ ] Document follows @vibing/templates/T11c - Implementation Design.md structure
 
 **Technical Validation**
 
-- [ ] **Component Architecture Diagrams**: Validate diagrams accurately represent all components/modules from Change Summary Tables
-- [ ] **Frontend Component Dependencies**: Validate diagram shows all relationships and matches Frontend Change Summary Table
-- [ ] **Frontend State Flow**: Validate diagram shows state structure and matches state-related items in Frontend Change Summary Table - stops at backend boundary showing API calls and returns but not backend internals
-- [ ] **Backend Module Dependencies**: Validate diagram shows all dependencies and matches Backend Change Summary Table
-- [ ] **Frontend Change Summary Table**: Validate all frontend items have corresponding Frontend Implementation Details **EXCEPT** style modules (CSS, SCSS, style files) which should be listed in summary but not detailed
-- [ ] **Backend Change Summary Table**: Validate all backend items have corresponding Backend Implementation Details
-- [ ] **Frontend**: Validate component patterns and state management
-- [ ] **Backend**: Validate API design and business logic
-- [ ] **Data**: Validate schema changes and data access patterns
-- [ ] **Frontend**: Validate component architecture and integration points
-- [ ] **Backend**: Validate API design and business logic implementation
-- [ ] **Data**: Validate schema design and data access implementation
-- [ ] All existing file paths referenced exist in repository
-- [ ] Function/module names are correct and discoverable
-- [ ] Data model changes align with `Data_Model.md`
-- [ ] Firestore schema/index implications identified
-- [ ] Path aliases comply with conventions
-- [ ] New files clearly marked with sufficient implementation details
-- [ ] Existing files that should be modified but aren't mentioned are identified
-- [ ] All affected existing files listed
-- [ ] All new files to be created are identified
-- [ ] Change descriptions are accurate for existing files
-- [ ] Implementation details sufficient for new files (interface signatures as headings, purpose, constraints, optional implementation details for complex scenarios)
-- [ ] Hidden dependencies and shared utilities identified
-- [ ] Code deduplication opportunities identified
-- [ ] Existing code that can be removed or simplified
-- [ ] DRY implementation strategy documented
-- [ ] Code smells and technical debt addressed
-- [ ] Dependencies between changes mapped
-- [ ] Circular dependencies identified
-- [ ] Optimal implementation order determined
-- [ ] External dependencies checked
-- [ ] Implementation follows workflow 010 patterns (types, functions, modules structure)
+- [ ] Component Architecture diagrams accurately represent all components/modules from Change Summary Tables
+- [ ] Frontend State Flow diagram stops at backend boundary showing API calls and returns but not backend internals
+- [ ] All frontend items in Change Summary Table have corresponding Implementation Details **EXCEPT** style modules
+- [ ] All backend items in Change Summary Table have corresponding Implementation Details
+- [ ] Implementation details use interface signatures as headings with Purpose and Constraints
+- [ ] No duplication of existing functionality identified
+- [ ] Implementation aligns with established architecture patterns
+- [ ] Test scenarios address all user journeys and business rules
 
-**Testing & Quality Validation**
+**Quality Assurance**
 
-- [ ] Gherkin scenarios comprehensive and map to flow (workflow 009)
-- [ ] Edge/boundary cases covered
-- [ ] Integration points have test coverage
-- [ ] E2E tests align with existing patterns
-- [ ] All scenarios tagged with @status_pending and @status_complete (workflow 009 requirement)
-- [ ] Scenarios use Example tables for DRY patterns (workflow 009 requirement)
-- [ ] Scenarios follow the @vibing/rules/common/test-gherkin-definition.md
-
-**Risk Assessment**
-
-- [ ] Potential failure points identified
-- [ ] Security implications addressed
-- [ ] Data loss risks assessed
-- [ ] User experience impact evaluated
-- [ ] All prerequisites identified
-- [ ] Implementation order logical and dependency-aware
-- [ ] Dependencies between changes clear
-- [ ] External dependencies verified
-- [ ] Internal API contracts validated
-- [ ] Implementation timeline realistic
+- [ ] Diagrams are compact and focused
+- [ ] Change Summary Tables are complete and accurate
+- [ ] Implementation details focus on WHAT and WHY, not HOW
+- [ ] All test scenarios follow Gherkin standards and are properly tagged
+- [ ] Critical risks and dependencies identified
 
 **Evaluation & Reporting**
 
-- [ ] Evaluate completeness of implementation specifications
-- [ ] Assess technical feasibility and architectural alignment
-- [ ] Validate testing strategy comprehensiveness
-- [ ] Identify potential risks and mitigation strategies
-- [ ] Determine implementation order and dependencies
 - [ ] Generate evaluation report using @vibing/templates/T12 - Technical Design Validation.md format
 - [ ] Provide Executive Summary with high-level assessment
-- [ ] List all issues with severity classifications (🔴 High, 🟡 Medium, 🔵 Low)
+- [ ] List issues with severity classifications (🔴 High, 🟡 Medium, 🔵 Low)
 - [ ] Provide specific, actionable recommendations for each issue
 - [ ] Deliver clear overall assessment (Ready/Needs Work/Not Ready)
-- [ ] Include Severity Classifications reference in report
-- [ ] All document sections analyzed for completeness and accuracy
-- [ ] Technical accuracy verified against codebase and architecture
-- [ ] Implementation readiness assessed with clear recommendations
-- [ ] Risk assessment completed with mitigation strategies
-- [ ] Final response must be numbered as per template requirements
+
+**Completion**
+
+- [ ] Store evaluation report in appropriate location (e.g., `_docs/features/in-progress/[feature-name]-validation.md` or append to technical design document)
 
 **Note**: All responses should follow the response formatting guidelines in AGENTS.md
-
-**Output Format**: Final evaluation report must use @vibing/templates/T12 - Technical Design Validation.md structure

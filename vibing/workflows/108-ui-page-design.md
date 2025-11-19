@@ -18,14 +18,11 @@
 
 - [ ] Activate @vibing/agents/ui-designer.md persona
 - [ ] Consult with @vibing/agents/ux-designer.md for user experience flow
-- [ ] Consult with @vibing/agents/frontend-architect.md for implementation feasibility
 - [ ] Consult with @vibing/agents/product-manager.md for business requirements
 
 ## Design Context
 
 - [ ] Review `_docs/design/D01 - Project Overview.md` for business context
-- [ ] Review `_docs/design/D02 - System Architecture.md` for technical constraints
-- [ ] Review `_docs/design/D05 - Frontend Architecture.md` for component architecture
 - [ ] Review `_docs/design/D06 - UI Design.md` for design system guidelines
 - [ ] Review `_docs/design/D07 - UI Experience Overview.md` for navigation context
 
@@ -34,11 +31,10 @@
 **Content Creation**
 
 - [ ] Use @vibing/templates/T08 - UI Page Design.md structure
-- [ ] Populate all 3 sections with core page design details
+- [ ] Keep document concise - focus on data attributes and essential context not visible in wireframe
 - [ ] Create ONE primary high-fidelity SVG wireframe showing complete page layout
-- [ ] Include major interactions (menus, modals, alerts) within the primary wireframe
-- [ ] Create Mermaid user journey diagrams and flow diagrams showing mobile-first and desktop enhancement patterns
-- [ ] Generate ONE comprehensive overview.md document with all design details
+- [ ] Include major interactions (menus, modals, alerts) and responsive states within the primary wireframe
+- [ ] Wireframe is the primary design reference - document should be minimal supporting text
 
 **Design Consistency**
 
@@ -51,14 +47,13 @@
 **Quality Assurance**
 
 - [ ] Ensure navigation patterns match established user flows
-- [ ] Verify component usage aligns with existing page implementations
-- [ ] Verify accessibility compliance and component usage
+- [ ] Verify accessibility compliance and user experience standards
 - [ ] Validate page design supports user goals and business objectives
 - [ ] Confirm integration with established design system and consistency with existing patterns
 - [ ] Page design traces back to user goals and business requirements
-- [ ] Component usage follows established design system and accessibility standards
+- [ ] Design patterns follow established design system and accessibility standards
 - [ ] Fluid responsive behavior and interaction patterns support all screen sizes
-- [ ] Design consistency with existing page patterns and component reuse opportunities
+- [ ] Design consistency with existing page patterns and visual language
 - [ ] Navigation integration aligns with established user flows
 
 **Completion**

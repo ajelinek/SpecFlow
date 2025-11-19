@@ -1,12 +1,3 @@
----
-description: 'Use when implementing forms: input handling, validation, accessibility, submission UX, and state patterns.'
-ruleType: forms
-applyTo:
-  - 'src/**/components/**/*.{tsx,astro}'
-  - 'src/**/pages/**/*.{tsx,astro}'
-alwaysApply: false
----
-
 # Form Management Principles
 
 - All form validations will be managed within the store service, not in the component
