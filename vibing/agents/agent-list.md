@@ -34,9 +34,17 @@ This document provides a comprehensive list of all available agents organized by
 
 - @vibing/agents/test-automation-engineer.md - Test automation implementation, Playwright E2E testing, and test framework development. Use for implementing automated tests, E2E test automation, test data management, and test framework setup
 
-- @vibing/agents/test-executor.md - Test execution, failure analysis, and root cause identification. Use for running tests, test suites, analyzing test failures, identifying specific test case errors, and providing diagnostic information for problem resolution
-
 - @vibing/agents/test-cleanup-specialist.md - Test cleanup, maintenance, and test optimization. Use for test cleanup, test maintenance, test optimization, and test suite management
+
+## Execution Agents
+
+**Code execution, analysis, and failure diagnosis**
+
+- @vibing/agents/test-executor.md - Test execution, failure analysis, and root cause identification. Use for running tests, test suites, analyzing test failures, identifying specific test case errors, correlating failures with git history, and providing diagnostic information for problem resolution
+
+- @vibing/agents/lint-executor.md - Linting execution, failure analysis, and root cause identification. Use for running linting commands, analyzing linting failures, identifying specific linting errors, correlating errors with git history, and providing diagnostic information for problem resolution
+
+- @vibing/agents/build-executor.md - Build execution, failure analysis, and root cause identification. Use for running build commands, analyzing build failures, identifying specific build errors, correlating errors with git history, and providing diagnostic information for problem resolution
 
 ## Design Agents
 

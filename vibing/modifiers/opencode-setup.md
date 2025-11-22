@@ -4,12 +4,14 @@
 
 ## Purpose
 
-This guide provides a detailed prompt for creating `opencode.json` files that:
+This guide provides a detailed prompt for creating `opencode.json` files that implement a **Dual Reference System** supporting both OpenCode subagents and Cursor full path references simultaneously:
 
-1. Define all custom sub-agents with their configurations
+1. Define all custom sub-agents with their configurations for OpenCode
 2. Load the root `AGENTS.md` file into the global context
 3. Set appropriate temperature values for different agent types
 4. Follow OpenCode best practices for agent configuration
+5. **Maintain backward compatibility** with Cursor by keeping full path references alongside OpenCode short format
+6. **Enable simultaneous usage** of both reference formats in all documentation
 
 ## Configuration Structure
 
@@ -277,23 +279,23 @@ Not all projects need all agents. Analyze the project to determine which agents 
 
 **For Backend-Only Projects**:
 
-- Include: `@backend-engineer`, `@data-engineer`, `@backend-architect`, `@data-architect`, `@test-automation-engineer`, `@technical-architect`, `@test-analyst`
-- Optional: `@code-cleanup-specialist`, `@test-cleanup-specialist`
+- Include: `@backend-engineer @vibing/agents/backend-engineer.md`, `@data-engineer @vibing/agents/data-engineer.md`, `@backend-architect @vibing/agents/backend-architect.md`, `@data-architect @vibing/agents/data-architect.md`, `@test-automation-engineer @vibing/agents/test-automation-engineer.md`, `@technical-architect @vibing/agents/technical-architect.md`, `@test-analyst @vibing/agents/test-analyst.md`
+- Optional: `@code-cleanup-specialist @vibing/agents/code-cleanup-specialist.md`, `@test-cleanup-specialist @vibing/agents/test-cleanup-specialist.md`
 
 **For Frontend-Only Projects**:
 
-- Include: `@frontend-engineer`, `@frontend-architect`, `@ui-designer`, `@ux-designer`, `@test-automation-engineer`, `@technical-architect`, `@test-analyst`
-- Optional: `@seo-specialist`, `@code-cleanup-specialist`, `@test-cleanup-specialist`
+- Include: `@frontend-engineer @vibing/agents/frontend-engineer.md`, `@frontend-architect @vibing/agents/frontend-architect.md`, `@ui-designer @vibing/agents/ui-designer.md`, `@ux-designer @vibing/agents/ux-designer.md`, `@test-automation-engineer @vibing/agents/test-automation-engineer.md`, `@technical-architect @vibing/agents/technical-architect.md`, `@test-analyst @vibing/agents/test-analyst.md`
+- Optional: `@seo-specialist @vibing/agents/seo-specialist.md`, `@code-cleanup-specialist @vibing/agents/code-cleanup-specialist.md`, `@test-cleanup-specialist @vibing/agents/test-cleanup-specialist.md`
 
 **For Full-Stack Projects**:
 
-- Include: All agents (use `@agent-name` format in documentation)
+- Include: All agents (use **dual format**: `@agent-name @vibing/agents/agent-name.md` in documentation)
 - Adjust based on specific project needs
 
 **For CLI/Tool Projects**:
 
-- Include: `@backend-engineer`, `@data-engineer`, `@test-automation-engineer`, `@technical-architect`, `@test-analyst`
-- Optional: `@code-cleanup-specialist`, `@test-cleanup-specialist`
+- Include: `@backend-engineer @vibing/agents/backend-engineer.md`, `@data-engineer @vibing/agents/data-engineer.md`, `@test-automation-engineer @vibing/agents/test-automation-engineer.md`, `@technical-architect @vibing/agents/technical-architect.md`, `@test-analyst @vibing/agents/test-analyst.md`
+- Optional: `@code-cleanup-specialist @vibing/agents/code-cleanup-specialist.md`, `@test-cleanup-specialist @vibing/agents/test-cleanup-specialist.md`
 
 ### Step 3: Verify File References
 
@@ -304,7 +306,7 @@ Ensure all file references are correct in `opencode.json`:
 "prompt": "{file:./vibing/agents/[agent-name].md}"  // Must point to actual agent files
 ```
 
-**Important**: The agent key name in `opencode.json` (e.g., `"backend-engineer"`) becomes the agent reference name used in documentation (e.g., `@backend-engineer`). The `prompt` field uses the full file path, but all documentation references should use the short `@agent-name` format.
+**Important**: The agent key name in `opencode.json` (e.g., `"backend-engineer"`) becomes the agent reference name used in documentation (e.g., `@backend-engineer`). The `prompt` field uses the full file path, but all documentation references should use the **dual format**: `@agent-name @vibing/agents/agent-name.md` to support both OpenCode and Cursor simultaneously.
 
 ### Step 4: Validate Temperature Settings
 
@@ -337,9 +339,9 @@ If the project has special requirements, you can add additional configuration:
 }
 ```
 
-### Step 6: Update All Agent References Across All Files
+### Step 6: Update All Agent References Across All Files (Dual Reference System)
 
-**CRITICAL**: After creating `opencode.json`, you MUST update all agent references throughout the entire `vibing/` directory structure to use the `@agent-name` format matching the key names defined in `opencode.json`.
+**CRITICAL**: After creating `opencode.json`, you MUST update all agent references throughout the entire `vibing/` directory structure to use the **dual reference format**: `@agent-name @vibing/agents/agent-name.md`. This ensures compatibility with both OpenCode (short format) and Cursor (full path) simultaneously.
 
 #### Files to Check and Update
 
@@ -349,42 +351,42 @@ Search and update agent references in ALL of these locations:
 
    - All workflow files contain agent activation and consultation references
    - Pattern to find: `@vibing/agents/[agent-name].md`
-   - Replace with: `@[agent-name]` (matching the key name from `opencode.json`)
+   - Replace with: `@[agent-name] @vibing/agents/[agent-name].md` (dual format)
 
 2. **Agent Files** (`vibing/agents/*.md`)
 
    - Agent files reference other agents for collaboration
    - Pattern to find: `@vibing/agents/[agent-name].md`
-   - Replace with: `@[agent-name]`
+   - Replace with: `@[agent-name] @vibing/agents/[agent-name].md` (dual format)
 
 3. **Rule Files** (`vibing/rules/**/*.md`)
 
    - Some rule files may reference agents
    - Pattern to find: `@vibing/agents/[agent-name].md`
-   - Replace with: `@[agent-name]`
+   - Replace with: `@[agent-name] @vibing/agents/[agent-name].md` (dual format)
 
 4. **Template Files** (`vibing/templates/*.md`)
 
    - Template files may contain agent references
    - Pattern to find: `@vibing/agents/[agent-name].md`
-   - Replace with: `@[agent-name]`
+   - Replace with: `@[agent-name] @vibing/agents/[agent-name].md` (dual format)
 
 5. **Modifier Files** (`vibing/modifiers/*.md`)
 
    - Modifier files may reference agents (except this file)
    - Pattern to find: `@vibing/agents/[agent-name].md`
-   - Replace with: `@[agent-name]`
+   - Replace with: `@[agent-name] @vibing/agents/[agent-name].md` (dual format)
 
 6. **Context Files** (`vibing/context/*.md`)
 
    - Context files may reference agents
    - Pattern to find: `@vibing/agents/[agent-name].md`
-   - Replace with: `@[agent-name]`
+   - Replace with: `@[agent-name] @vibing/agents/[agent-name].md` (dual format)
 
 7. **Root AGENTS.md** (project root)
    - May contain agent references
    - Pattern to find: `@vibing/agents/[agent-name].md`
-   - Replace with: `@[agent-name]`
+   - Replace with: `@[agent-name] @vibing/agents/[agent-name].md` (dual format)
 
 #### Systematic Update Process
 
@@ -399,23 +401,23 @@ Search and update agent references in ALL of these locations:
    For each agent in `opencode.json`, create a mapping:
 
    - **Old Format**: `@vibing/agents/backend-engineer.md`
-   - **New Format**: `@backend-engineer` (matches the key name in `opencode.json`)
+   - **New Format**: `@backend-engineer @vibing/agents/backend-engineer.md` (dual format)
 
 3. **Search and Replace Pattern**:
 
    ```
    Find: @vibing/agents/([a-z-]+)\.md
-   Replace: @$1
+   Replace: @$1 @vibing/agents/$1.md
    ```
 
-   This regex captures the agent name and replaces the full path with just `@agent-name`.
+   This regex captures the agent name and creates the dual reference format.
 
 4. **Update All Files**:
 
    - Search for pattern: `@vibing/agents/` in all markdown files
    - For each match, extract the agent name (e.g., `backend-engineer`)
    - Verify the agent name exists as a key in `opencode.json`
-   - Replace `@vibing/agents/backend-engineer.md` with `@backend-engineer`
+   - Replace `@vibing/agents/backend-engineer.md` with `@backend-engineer @vibing/agents/backend-engineer.md`
 
 5. **Update Invocation Keywords**:
    Ensure all agent references use proper invocation keywords:
@@ -434,12 +436,12 @@ Search and update agent references in ALL of these locations:
 - [ ] Review @vibing/agents/technical-architect.md for validation
 ```
 
-**After** (standardized format):
+**After** (dual reference format):
 
 ```markdown
-- [ ] Activate @backend-engineer for implementation
-- [ ] Consult with @domain-expert for business logic
-- [ ] Review @technical-architect for validation
+- [ ] Activate @backend-engineer @vibing/agents/backend-engineer.md for implementation
+- [ ] Consult with @domain-expert @vibing/agents/domain-expert.md for business logic
+- [ ] Review @technical-architect @vibing/agents/technical-architect.md for validation
 ```
 
 #### Validation Commands
@@ -447,16 +449,20 @@ Search and update agent references in ALL of these locations:
 After updating, verify all references are correct:
 
 ```bash
-# Find any remaining legacy references
-grep -r "@vibing/agents/" vibing/ --include="*.md"
+# Find any remaining legacy references (should be none)
+grep -r "@vibing/agents/" vibing/ --include="*.md" | grep -v "@[a-z-] @vibing/agents/"
 
 # Should return NO results (except in this setup guide's examples)
 
-# Verify all agent references use @agent-name format
-grep -r "@[a-z-]\+" vibing/ --include="*.md" | grep -v "@vibing"
+# Verify all agent references use dual format
+grep -r "@[a-z-] @vibing/agents/" vibing/ --include="*.md"
 
 # Verify all referenced agents exist in opencode.json
 # Extract all @agent-name references and cross-check with opencode.json keys
+
+# Check for proper dual format consistency
+grep -r "@[a-z-] @vibing/agents/" vibing/ --include="*.md" | wc -l
+# Should match the count of agent references in the project
 ```
 
 #### Files That Should NOT Be Updated
@@ -482,18 +488,19 @@ Before finalizing the `opencode.json` file and completing setup, verify:
 - [ ] JSON syntax is valid (no trailing commas, proper quotes)
 - [ ] Agent selection matches project type and requirements
 
-### Agent Reference Standardization
+### Agent Reference Standardization (Dual Format)
 
-- [ ] **All workflow files** (`vibing/workflows/*.md`) use `@agent-name` format
-- [ ] **All agent files** (`vibing/agents/*.md`) use `@agent-name` format for cross-references
-- [ ] **All rule files** (`vibing/rules/**/*.md`) use `@agent-name` format (if they reference agents)
-- [ ] **All template files** (`vibing/templates/*.md`) use `@agent-name` format (if they reference agents)
-- [ ] **All modifier files** (`vibing/modifiers/*.md`) use `@agent-name` format (if they reference agents)
-- [ ] **All context files** (`vibing/context/*.md`) use `@agent-name` format (if they reference agents)
-- [ ] **Root AGENTS.md** uses `@agent-name` format (if it references agents)
-- [ ] **No legacy references** remain: `grep -r "@vibing/agents/" vibing/` returns no results (except examples in this guide)
+- [ ] **All workflow files** (`vibing/workflows/*.md`) use dual format: `@agent-name @vibing/agents/agent-name.md`
+- [ ] **All agent files** (`vibing/agents/*.md`) use dual format for cross-references: `@agent-name @vibing/agents/agent-name.md`
+- [ ] **All rule files** (`vibing/rules/**/*.md`) use dual format (if they reference agents): `@agent-name @vibing/agents/agent-name.md`
+- [ ] **All template files** (`vibing/templates/*.md`) use dual format (if they reference agents): `@agent-name @vibing/agents/agent-name.md`
+- [ ] **All modifier files** (`vibing/modifiers/*.md`) use dual format (if they reference agents): `@agent-name @vibing/agents/agent-name.md`
+- [ ] **All context files** (`vibing/context/*.md`) use dual format (if they reference agents): `@agent-name @vibing/agents/agent-name.md`
+- [ ] **Root AGENTS.md** uses dual format (if it references agents): `@agent-name @vibing/agents/agent-name.md`
+- [ ] **No legacy references** remain: `grep -r "@vibing/agents/" vibing/` returns only dual format results (except examples in this guide)
 - [ ] **All agent names** in references match key names in `opencode.json`
 - [ ] **Invocation keywords** are present: "Activate", "Consult", "Invoke", or "Delegate" before agent references
+- [ ] **Dual format consistency**: Every agent reference appears as BOTH formats side by side
 
 ## Usage in New Projects
 
@@ -503,12 +510,12 @@ To set up a new project with OpenCode:
 2. **Create a root `AGENTS.md` file** with project-specific base instructions
 3. **Generate `opencode.json`** using this guide as reference
 4. **Verify all file paths** are correct for the new project structure
-5. **Update all agent references** across all files (Step 6 above) - **MANDATORY**
+5. **Update all agent references** across all files to dual format (Step 6 above) - **MANDATORY**
 6. **Validate all references** using the Quality Validation Checklist
 7. **Test the configuration** by starting a new OpenCode session
-8. **Validate agent invocation** by using `@agent-name` format in documentation (e.g., "Activate @backend-engineer")
+8. **Validate agent invocation** by using dual format in documentation (e.g., "Activate @backend-engineer @vibing/agents/backend-engineer.md")
 
-**Critical**: Step 5 (updating agent references) is NOT optional. All files must use the `@agent-name` format matching the key names in `opencode.json` for OpenCode to work correctly.
+**Critical**: Step 5 (updating agent references) is NOT optional. All files must use the **dual format** `@agent-name @vibing/agents/agent-name.md` matching the key names in `opencode.json` for both OpenCode and Cursor to work correctly simultaneously.
 
 ## Example Project Setup
 
@@ -600,17 +607,20 @@ my-web-app/
 }
 ```
 
-**In documentation** (use short format matching the key name):
+**In documentation** (use dual format matching the key name):
 
 ```markdown
-// Correct - matches the key name in opencode.json
-Activate @backend-engineer
+// Correct - dual format supports both OpenCode and Cursor
+Activate @backend-engineer @vibing/agents/backend-engineer.md
 
 // Incorrect - legacy format (should be updated)
 @vibing/agents/backend-engineer.md
+
+// Incomplete - missing Cursor support
+@backend-engineer
 ```
 
-**Key Point**: The agent key name in `opencode.json` (e.g., `"backend-engineer"`) is what you reference in documentation as `@backend-engineer`. The `prompt` field contains the file path, but the reference uses only the key name.
+**Key Point**: The agent key name in `opencode.json` (e.g., `"backend-engineer"`) is what you reference in documentation as `@backend-engineer @vibing/agents/backend-engineer.md`. The `prompt` field contains the file path, but the reference uses both the key name (for OpenCode) and the full path (for Cursor).
 
 ## Best Practices
 
@@ -624,7 +634,7 @@ Activate @backend-engineer
 8. **Review temperature settings** based on agent performance
 9. **Add comments** (as JSON doesn't support comments, use a separate README)
 10. **Validate JSON** before committing using a JSON linter
-11. **Use `@agent-name` format** in all documentation; only use full paths in `opencode.json` configuration
+11. **Use dual format** `@agent-name @vibing/agents/agent-name.md` in all documentation; only use full paths in `opencode.json` configuration
 
 ## Summary
 
@@ -634,16 +644,17 @@ This guide provides everything needed to create a complete `opencode.json` confi
 2. Define all relevant agents with proper descriptions, modes, temperatures, and file references
 3. Verify all file paths are correct in `opencode.json`
 4. Choose appropriate agents based on project type
-5. **MANDATORY**: Update all agent references across ALL files (workflows, agents, rules, templates, modifiers, context, root AGENTS.md) to use `@agent-name` format
+5. **MANDATORY**: Update all agent references across ALL files (workflows, agents, rules, templates, modifiers, context, root AGENTS.md) to use **dual format**: `@agent-name @vibing/agents/agent-name.md`
 6. Validate the configuration and all references using the Quality Validation Checklist
-7. Use `@agent-name` format (matching the key name) in all documentation references
+7. Use **dual format** `@agent-name @vibing/agents/agent-name.md` (matching the key name) in all documentation references
 
 **Critical Points**:
 
-- The agent key name in `opencode.json` (e.g., `"backend-engineer"`) is what you reference in documentation as `@backend-engineer`
-- The `prompt` field in `opencode.json` uses the full file path, but ALL documentation references must use the short `@agent-name` format
-- **Step 6 (updating agent references) is NOT optional** - OpenCode requires standardized references to work correctly
+- The agent key name in `opencode.json` (e.g., `"backend-engineer"`) is what you reference in documentation as `@backend-engineer @vibing/agents/backend-engineer.md`
+- The `prompt` field in `opencode.json` uses the full file path, but ALL documentation references must use the **dual format**: `@agent-name @vibing/agents/agent-name.md`
+- **Step 6 (updating agent references) is NOT optional** - Both OpenCode and Cursor require standardized references to work correctly simultaneously
 - All files in `vibing/` must be checked and updated, not just workflows
+- **Dual format ensures backward compatibility** with Cursor while enabling OpenCode functionality
 
 Use this guide as a reference when setting up OpenCode in new projects to ensure consistent, proper configuration across all your work.
 
@@ -651,41 +662,44 @@ Use this guide as a reference when setting up OpenCode in new projects to ensure
 
 ## Agent Reference Standardization
 
-### Standard Agent Reference Format
+### Standard Agent Reference Format (Dual Reference System)
 
-All agent references in `vibing/` files should use the short format:
+All agent references in `vibing/` files should use the **dual format** to support both OpenCode and Cursor simultaneously:
 
-**Correct**: `@agent-name` (e.g., `@product-manager`, `@backend-engineer`, `@technical-architect`)
+**Correct**: `@agent-name @vibing/agents/agent-name.md` (e.g., `@product-manager @vibing/agents/product-manager.md`, `@backend-engineer @vibing/agents/backend-engineer.md`, `@technical-architect @vibing/agents/technical-architect.md`)
 
-**Incorrect**: `@vibing/agents/agent-name.md`
+**Incorrect**: `@vibing/agents/agent-name.md` (Cursor only)
+
+**Incomplete**: `@agent-name` (OpenCode only)
 
 ### Agent Invocation Keywords
 
 When any of these keywords are used with an agent reference, it signals that the agent should be invoked using the Task tool:
 
-- **Activate**: "Activate @product-manager"
-- **Consult**: "Consult with @domain-expert"
-- **Invoke**: "Invoke @technical-architect"
+- **Activate**: "Activate @product-manager @vibing/agents/product-manager.md"
+- **Consult**: "Consult with @domain-expert @vibing/agents/domain-expert.md"
+- **Invoke**: "Invoke @technical-architect @vibing/agents/technical-architect.md"
 
-### Standardization Process
+### Standardization Process (Dual Reference System)
 
-When setting up or maintaining a project, ensure all agent references follow the standard format. This process is **MANDATORY** and must be completed after creating `opencode.json`.
+When setting up or maintaining a project, ensure all agent references follow the dual reference format. This process is **MANDATORY** and must be completed after creating `opencode.json`.
 
 1. **Extract agent key names from `opencode.json`**:
 
    - Read the `agent` object in `opencode.json`
    - List all key names (e.g., `"backend-engineer"`, `"product-manager"`)
-   - These key names become the `@agent-name` references
+   - These key names become the `@agent-name` part of the dual reference
 
 2. **Search for legacy references**:
 
    - Find: `@vibing/agents/[agent-name].md`
-   - Replace with: `@[agent-name]` (where `agent-name` matches the key from `opencode.json`)
+   - Replace with: `@[agent-name] @vibing/agents/[agent-name].md` (where `agent-name` matches the key from `opencode.json`)
 
 3. **Update invocation patterns**:
 
    - Ensure "Activate", "Consult", "Invoke", or "Delegate" keywords are used before agent references
    - This signals to OpenCode that the agent should be invoked via the Task tool
+   - Dual format ensures both OpenCode and Cursor can process the references
 
 4. **Files to update** (check ALL of these):
 
@@ -705,15 +719,15 @@ When setting up or maintaining a project, ensure all agent references follow the
 - [ ] Review @vibing/agents/backend-engineer.md for implementation
 - Consult with @vibing/agents/domain-expert.md for business logic
 
-<!-- After -->
+<!-- After (Dual Format) -->
 
-- [ ] Activate @backend-engineer for implementation
-- [ ] Consult with @domain-expert for business logic
+- [ ] Activate @backend-engineer @vibing/agents/backend-engineer.md for implementation
+- [ ] Consult with @domain-expert @vibing/agents/domain-expert.md for business logic
 ```
 
-### Configuration Consistency
+### Configuration Consistency (Dual Reference System)
 
-The `opencode.json` file defines agents with their full file paths in the `prompt` field, but the agent key name (e.g., `"backend-engineer"`) is what you reference in documentation using the `@agent-name` format.
+The `opencode.json` file defines agents with their full file paths in the `prompt` field, but the agent key name (e.g., `"backend-engineer"`) is what you reference in documentation using the **dual format**: `@agent-name @vibing/agents/agent-name.md`.
 
 **In opencode.json** (full file path in `prompt` field, key name becomes reference):
 
@@ -721,40 +735,45 @@ The `opencode.json` file defines agents with their full file paths in the `promp
 {
   "agent": {
     "backend-engineer": {
-      // This key name becomes @backend-engineer
+      // This key name becomes @backend-engineer part of dual reference
       "prompt": "{file:./vibing/agents/backend-engineer.md}" // Full path only in config
     }
   }
 }
 ```
 
-**In documentation** (use key name with @ prefix):
+**In documentation** (use dual format with both key name and full path):
 
 ```markdown
-- [ ] Activate @backend-engineer for implementation
+- [ ] Activate @backend-engineer @vibing/agents/backend-engineer.md for implementation
 ```
 
 This separation ensures:
 
 - Configuration files have explicit, complete file paths
-- Documentation uses concise `@agent-name` references matching the key name
-- Agent invocations are clear and consistent
-- The agent key name in `opencode.json` directly maps to the `@agent-name` reference
+- Documentation uses **dual format** supporting both OpenCode (`@agent-name`) and Cursor (`@vibing/agents/agent-name.md`)
+- Agent invocations work in both environments simultaneously
+- The agent key name in `opencode.json` directly maps to the `@agent-name` part of the dual reference
+- **Backward compatibility** is maintained with existing Cursor workflows
+- **Forward compatibility** is enabled for OpenCode functionality
 
-### Validation Checklist
+### Validation Checklist (Dual Reference System)
 
 When standardizing agent references, verify ALL of the following:
 
-- [ ] **All workflow files** (`vibing/workflows/*.md`) use `@agent-name` syntax (matching key names from `opencode.json`)
-- [ ] **All agent files** (`vibing/agents/*.md`) use `@agent-name` syntax for cross-references
-- [ ] **All modifier files** (`vibing/modifiers/*.md`) use `@agent-name` syntax
-- [ ] **All rule files** (`vibing/rules/**/*.md`) use `@agent-name` syntax (if applicable)
-- [ ] **All template files** (`vibing/templates/*.md`) use `@agent-name` syntax (if applicable)
-- [ ] **All context files** (`vibing/context/*.md`) use `@agent-name` syntax (if applicable)
-- [ ] **Root AGENTS.md** uses `@agent-name` syntax (if applicable)
+- [ ] **All workflow files** (`vibing/workflows/*.md`) use dual format: `@agent-name @vibing/agents/agent-name.md` (matching key names from `opencode.json`)
+- [ ] **All agent files** (`vibing/agents/*.md`) use dual format for cross-references: `@agent-name @vibing/agents/agent-name.md`
+- [ ] **All modifier files** (`vibing/modifiers/*.md`) use dual format: `@agent-name @vibing/agents/agent-name.md`
+- [ ] **All rule files** (`vibing/rules/**/*.md`) use dual format (if applicable): `@agent-name @vibing/agents/agent-name.md`
+- [ ] **All template files** (`vibing/templates/*.md`) use dual format (if applicable): `@agent-name @vibing/agents/agent-name.md`
+- [ ] **All context files** (`vibing/context/*.md`) use dual format (if applicable): `@agent-name @vibing/agents/agent-name.md`
+- [ ] **Root AGENTS.md** uses dual format (if applicable): `@agent-name @vibing/agents/agent-name.md`
 - [ ] **All invocation keywords** (Activate, Consult, Invoke, Delegate) are present where needed
-- [ ] **No legacy references** remain: `grep -r "@vibing/agents/" vibing/` returns no results (except examples in this guide)
+- [ ] **No legacy references** remain: `grep -r "@vibing/agents/" vibing/` returns only dual format results (except examples in this guide)
 - [ ] **`opencode.json`** uses full file paths in `prompt` fields (configuration only)
-- [ ] **Agent key names** in `opencode.json` exactly match the `@agent-name` format used in documentation
+- [ ] **Agent key names** in `opencode.json` exactly match the `@agent-name` part used in dual format documentation
 - [ ] **All referenced agents** exist as keys in `opencode.json`
 - [ ] **Root `AGENTS.md`** includes invocation rules for agent references
+- [ ] **Dual format consistency**: Every agent reference appears as BOTH formats side by side
+- [ ] **OpenCode compatibility**: `@agent-name` format works for OpenCode subagent invocation
+- [ ] **Cursor compatibility**: `@vibing/agents/agent-name.md` format works for Cursor file references
