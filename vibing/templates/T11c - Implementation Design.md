@@ -128,13 +128,32 @@ graph LR
 
 **Note**: Style modules (CSS, SCSS, style files) listed in the Frontend Change Summary Table should NOT be detailed here - they are tracked in the summary table only.
 
-### `[path/to/module.ts]`
+**How to Populate**:
+
+- Include status indicator in module/file title: `🟢 NEW`, `🟡 UPDATED`, or `⚪ EXISTING` (e.g., `### 🟡 UPDATED: [path/to/module.ts]`)
+- For NEW modules: Describe what this module is responsible for and why it exists
+- For UPDATED modules: Focus on what is changing and why, not on core functionality
+- For each function/component, use interface signature as heading
+- For NEW functions/components: Describe what it does and why it's needed
+- For UPDATED functions/components: Focus Purpose on what is changing and why, not on core functionality
+
+### 🟢 NEW: `[path/to/module.ts]`
 
 [What this module is responsible for and why it exists]
 
 #### `[functionName](params: Type) => ReturnType`
 
 - _Purpose_: [What this component/function does and why it's needed]
+- _Constraints_: [Any architectural, performance, or security constraints]
+- _Implementation Details_: [Optional - only include for complex scenarios and business rules]
+
+### 🟡 UPDATED: `[path/to/module.ts]`
+
+[What is changing in this module and why - focus on the changes, not core functionality]
+
+#### `[functionName](params: Type) => ReturnType`
+
+- _Purpose_: [What is changing in this function/component and why - focus on the changes, not core functionality]
 - _Constraints_: [Any architectural, performance, or security constraints]
 - _Implementation Details_: [Optional - only include for complex scenarios and business rules]
 
@@ -147,13 +166,32 @@ graph LR
 
 **Purpose**: Provide interface specifications and constraints for each item listed in the Backend Change Summary Table. Focus on WHAT needs to be built and WHY it's needed, not HOW to implement it.
 
-### `[path/to/module.ts]`
+**How to Populate**:
+
+- Include status indicator in module/file title: `🟢 NEW`, `🟡 UPDATED`, or `⚪ EXISTING` (e.g., `### 🟡 UPDATED: [path/to/module.ts]`)
+- For NEW modules: Describe what this module is responsible for and why it exists
+- For UPDATED modules: Focus on what is changing and why, not on core functionality
+- For each function/component, use interface signature as heading
+- For NEW functions/components: Describe what it does and why it's needed
+- For UPDATED functions/components: Focus Purpose on what is changing and why, not on core functionality
+
+### 🟢 NEW: `[path/to/module.ts]`
 
 [What this module is responsible for and why it exists]
 
 #### `[functionName](params: Type) => ReturnType`
 
 - _Purpose_: [What this component/function does and why it's needed]
+- _Constraints_: [Any architectural, performance, or security constraints]
+- _Implementation Details_: [Optional - only include for complex scenarios and business rules]
+
+### 🟡 UPDATED: `[path/to/module.ts]`
+
+[What is changing in this module and why - focus on the changes, not core functionality]
+
+#### `[functionName](params: Type) => ReturnType`
+
+- _Purpose_: [What is changing in this function/component and why - focus on the changes, not core functionality]
 - _Constraints_: [Any architectural, performance, or security constraints]
 - _Implementation Details_: [Optional - only include for complex scenarios and business rules]
 

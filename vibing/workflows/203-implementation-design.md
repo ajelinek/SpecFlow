@@ -58,9 +58,12 @@
 - [ ] Populate Backend Change Summary Table (section 4) with all required backend modifications
 - [ ] Populate Frontend Implementation Details (section 5) for all items in Frontend Change Summary Table **EXCEPT** style modules (CSS, SCSS, style files) which should be listed in the summary table but not detailed here
 - [ ] Populate Backend Implementation Details (section 6) for all items in Backend Change Summary Table
+- [ ] For each module/file title, include status indicator: `🟢 NEW`, `🟡 UPDATED`, or `⚪ EXISTING` (e.g., `### 🟡 UPDATED: [path/to/module.ts]`)
 - [ ] For each module/file, provide a Module Description explaining its purpose
+- [ ] For UPDATED modules, focus Module Description on what is changing and why, not on core functionality
 - [ ] For each function/component, use interface signature as heading: `functionName(params: Type) => ReturnType`
 - [ ] Include Purpose and Constraints for each function/component
+- [ ] For UPDATED functions/components, focus Purpose on what is changing and why, not on core functionality
 - [ ] Include Implementation Details only for complex scenarios and business rules
 - [ ] Ensure all test scenarios are addressed in implementation details
 
@@ -89,6 +92,8 @@
 - [ ] Verify Frontend Change Summary Table (section 3) completeness and accuracy
 - [ ] Verify Backend Change Summary Table (section 4) completeness and accuracy
 - [ ] Ensure implementation details focus on WHAT and WHY, not HOW
+- [ ] Verify all module/file titles include status indicators (🟢 NEW, 🟡 UPDATED, ⚪ EXISTING)
+- [ ] Verify UPDATED modules focus on what is changing, not core functionality
 - [ ] Verify all functions/components use interface signature as heading format
 - [ ] Verify Module Descriptions are provided for each module/file
 - [ ] Verify Implementation Details section only populated for complex scenarios and business rules
