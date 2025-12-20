@@ -56,6 +56,12 @@ This document provides a comprehensive list of all available agents organized by
 
 - @vibing/agents/product-manager.md - Product strategy, feature planning, and business requirements. Use for product planning, feature prioritization, business requirements, and product strategy decisions
 
+## Research Agents
+
+**Comprehensive research and technology evaluation**
+
+- @vibing/agents/research-agent.md - Comprehensive research, technology evaluation, and solution analysis. Use for researching technology options, evaluating solutions, analyzing pros/cons in application context, gathering information from codebase, internet, Context7, and documentation. This is a primary agent with read-only access; it does not modify files or code.
+
 ## Specialized Agents
 
 **Domain-specific expertise and specialized tasks**

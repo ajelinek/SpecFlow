@@ -19,22 +19,25 @@ The `opencode.json` file must include:
 
 - **`$schema`**: Reference to OpenCode's JSON schema for validation
 - **`prompt`**: File reference to load the root AGENTS.md into global context
-- **`agent`**: Object defining all custom sub-agents with their configurations
+- **`agent`**: Object defining all custom agents with their configurations
+  - **Subagents**: Most agents are configured with `"mode": "subagent"` for delegation and task execution
+  - **Primary Agents**: Some agents (like `research-agent`) are configured with `"mode": "primary"` and may have additional restrictions (e.g., `"readOnly": true` for read-only access)
 
 ## Agent Temperature Guidelines
 
 Different agent types require different temperature settings for optimal performance:
 
-| Agent Type                   | Temperature | Reasoning                                                     |
-| ---------------------------- | ----------- | ------------------------------------------------------------- |
-| **Implementation Engineers** | 0.2         | Low creativity needed; focus on precise code generation       |
-| **Test Engineers**           | 0.15        | Very precise; test code must be exact and predictable         |
-| **Analysts**                 | 0.1         | Minimal creativity; analytical work requires consistency      |
-| **Architects**               | 0.3         | Moderate creativity; design decisions need some flexibility   |
-| **Product/Business**         | 0.5         | Higher creativity; feature planning benefits from exploration |
-| **Domain Experts**           | 0.8         | High creativity; domain knowledge application is exploratory  |
-| **Designers**                | 0.7         | High creativity; design work benefits from creative thinking  |
-| **Specialists**              | 0.15-0.2    | Low creativity; specialized tasks require precision           |
+| Agent Type                   | Temperature | Reasoning                                                                    |
+| ---------------------------- | ----------- | ---------------------------------------------------------------------------- |
+| **Implementation Engineers** | 0.2         | Low creativity needed; focus on precise code generation                      |
+| **Test Engineers**           | 0.15        | Very precise; test code must be exact and predictable                        |
+| **Analysts**                 | 0.1         | Minimal creativity; analytical work requires consistency                     |
+| **Architects**               | 0.3         | Moderate creativity; design decisions need some flexibility                  |
+| **Product/Business**         | 0.5         | Higher creativity; feature planning benefits from exploration                |
+| **Domain Experts**           | 0.8         | High creativity; domain knowledge application is exploratory                 |
+| **Designers**                | 0.7         | High creativity; design work benefits from creative thinking                 |
+| **Research Agents**          | 0.4         | Moderate creativity; research requires exploration with analytical precision |
+| **Specialists**              | 0.15-0.2    | Low creativity; specialized tasks require precision                          |
 
 ## Standard Agent Definitions
 
@@ -129,21 +132,29 @@ Based on the OpenCode agent system, these are the standard agents to include:
     - **Temperature**: 0.7
     - **Mode**: subagent
 
+### Research Agents
+
+15. **research-agent**
+    - **Description**: Comprehensive research, technology evaluation, and solution analysis using codebase, internet, Context7, and documentation
+    - **Temperature**: 0.4
+    - **Mode**: primary (not a subagent; read-only access; no file modification permissions)
+    - **Note**: This is a primary agent configured at the root level, not a subagent. It has read-only access and focuses exclusively on research and analysis.
+
 ### Specialist Agents
 
-15. **seo-specialist**
+16. **seo-specialist**
 
     - **Description**: SEO optimization, search engine strategies, and content optimization
     - **Temperature**: 0.2
     - **Mode**: subagent
 
-16. **code-cleanup-specialist**
+17. **code-cleanup-specialist**
 
     - **Description**: Code cleanup, refactoring, and code quality improvement
     - **Temperature**: 0.15
     - **Mode**: subagent
 
-17. **test-cleanup-specialist**
+18. **test-cleanup-specialist**
     - **Description**: Test cleanup, maintenance, and test optimization
     - **Temperature**: 0.15
     - **Mode**: subagent
@@ -239,6 +250,13 @@ Based on the OpenCode agent system, these are the standard agents to include:
       "temperature": 0.7,
       "prompt": "{file:./vibing/agents/ux-designer.md}"
     },
+    "research-agent": {
+      "description": "Comprehensive research, technology evaluation, and solution analysis using codebase, internet, Context7, and documentation",
+      "mode": "primary",
+      "temperature": 0.4,
+      "prompt": "{file:./vibing/agents/research-agent.md}",
+      "readOnly": true
+    },
     "seo-specialist": {
       "description": "SEO optimization, search engine strategies, and content optimization",
       "mode": "subagent",
@@ -280,22 +298,23 @@ Not all projects need all agents. Analyze the project to determine which agents 
 **For Backend-Only Projects**:
 
 - Include: `@backend-engineer @vibing/agents/backend-engineer.md`, `@data-engineer @vibing/agents/data-engineer.md`, `@backend-architect @vibing/agents/backend-architect.md`, `@data-architect @vibing/agents/data-architect.md`, `@test-automation-engineer @vibing/agents/test-automation-engineer.md`, `@technical-architect @vibing/agents/technical-architect.md`, `@test-analyst @vibing/agents/test-analyst.md`
-- Optional: `@code-cleanup-specialist @vibing/agents/code-cleanup-specialist.md`, `@test-cleanup-specialist @vibing/agents/test-cleanup-specialist.md`
+- Optional: `@code-cleanup-specialist @vibing/agents/code-cleanup-specialist.md`, `@test-cleanup-specialist @vibing/agents/test-cleanup-specialist.md`, `@research-agent @vibing/agents/research-agent.md`
 
 **For Frontend-Only Projects**:
 
 - Include: `@frontend-engineer @vibing/agents/frontend-engineer.md`, `@frontend-architect @vibing/agents/frontend-architect.md`, `@ui-designer @vibing/agents/ui-designer.md`, `@ux-designer @vibing/agents/ux-designer.md`, `@test-automation-engineer @vibing/agents/test-automation-engineer.md`, `@technical-architect @vibing/agents/technical-architect.md`, `@test-analyst @vibing/agents/test-analyst.md`
-- Optional: `@seo-specialist @vibing/agents/seo-specialist.md`, `@code-cleanup-specialist @vibing/agents/code-cleanup-specialist.md`, `@test-cleanup-specialist @vibing/agents/test-cleanup-specialist.md`
+- Optional: `@seo-specialist @vibing/agents/seo-specialist.md`, `@code-cleanup-specialist @vibing/agents/code-cleanup-specialist.md`, `@test-cleanup-specialist @vibing/agents/test-cleanup-specialist.md`, `@research-agent @vibing/agents/research-agent.md`
 
 **For Full-Stack Projects**:
 
 - Include: All agents (use **dual format**: `@agent-name @vibing/agents/agent-name.md` in documentation)
 - Adjust based on specific project needs
+- Recommended: `@research-agent @vibing/agents/research-agent.md` for technology evaluation and research
 
 **For CLI/Tool Projects**:
 
 - Include: `@backend-engineer @vibing/agents/backend-engineer.md`, `@data-engineer @vibing/agents/data-engineer.md`, `@test-automation-engineer @vibing/agents/test-automation-engineer.md`, `@technical-architect @vibing/agents/technical-architect.md`, `@test-analyst @vibing/agents/test-analyst.md`
-- Optional: `@code-cleanup-specialist @vibing/agents/code-cleanup-specialist.md`, `@test-cleanup-specialist @vibing/agents/test-cleanup-specialist.md`
+- Optional: `@code-cleanup-specialist @vibing/agents/code-cleanup-specialist.md`, `@test-cleanup-specialist @vibing/agents/test-cleanup-specialist.md`, `@research-agent @vibing/agents/research-agent.md`
 
 ### Step 3: Verify File References
 
