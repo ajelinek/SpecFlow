@@ -1,6 +1,6 @@
 # Vibing - Agent-Based Development Framework
 
-** Vibing software that doesn't suck** 🚀
+**Vibing software that doesn't suck** 🚀
 
 A structured approach to organizing development rules, agents, workflows, and context for consistent, high-quality software development.
 
