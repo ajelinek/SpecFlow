@@ -1,0 +1,131 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["{file:./AGENTS.md}"],
+  "agent": {
+    "backend-engineer": {
+      "description": "Backend service implementation, API development, and server-side coding",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "prompt": "{file:./vibing/agents/backend-engineer.md}"
+    },
+    "frontend-engineer": {
+      "description": "Frontend component implementation, UI development, and client-side coding",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "prompt": "{file:./vibing/agents/frontend-engineer.md}"
+    },
+    "data-engineer": {
+      "description": "Data layer implementation, database operations, and data service development",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "prompt": "{file:./vibing/agents/data-engineer.md}"
+    },
+    "test-automation-engineer": {
+      "description": "Test automation implementation, Playwright E2E testing, and test framework development",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "prompt": "{file:./vibing/agents/test-automation-engineer.md}"
+    },
+    "system-architect": {
+      "description": "Overall system architecture, technology stack decisions, and high-level design patterns",
+      "mode": "subagent",
+      "temperature": 0.3,
+      "prompt": "{file:./vibing/agents/system-architect.md}"
+    },
+    "backend-architect": {
+      "description": "Backend service architecture, API design patterns, and server-side implementation strategies",
+      "mode": "subagent",
+      "temperature": 0.3,
+      "prompt": "{file:./vibing/agents/backend-architect.md}"
+    },
+    "frontend-architect": {
+      "description": "Frontend architecture, component patterns, and user interface design strategies",
+      "mode": "subagent",
+      "temperature": 0.3,
+      "prompt": "{file:./vibing/agents/frontend-architect.md}"
+    },
+    "data-architect": {
+      "description": "Data modeling, database design, and data flow architecture",
+      "mode": "subagent",
+      "temperature": 0.3,
+      "prompt": "{file:./vibing/agents/data-architect.md}"
+    },
+    "technical-architect": {
+      "description": "Technical implementation validation, code quality assurance, and architectural compliance",
+      "mode": "subagent",
+      "temperature": 0.1,
+      "prompt": "{file:./vibing/agents/technical-architect.md}"
+    },
+    "test-analyst": {
+      "description": "Test strategy, scenario analysis, and test coverage planning",
+      "mode": "subagent",
+      "temperature": 0.1,
+      "prompt": "{file:./vibing/agents/test-analyst.md}"
+    },
+    "product-manager": {
+      "description": "Product strategy, feature planning, and business requirements",
+      "mode": "subagent",
+      "temperature": 0.5,
+      "prompt": "{file:./vibing/agents/product-manager.md}"
+    },
+    "domain-expert": {
+      "description": "Domain knowledge, business logic, and specialized expertise",
+      "mode": "subagent",
+      "temperature": 0.8,
+      "prompt": "{file:./vibing/agents/domain-expert.md}"
+    },
+    "ui-designer": {
+      "description": "User interface design, component design, and visual design patterns",
+      "mode": "subagent",
+      "temperature": 0.7,
+      "model": "github-copilot/gemini-3.1-flash",
+      "prompt": "{file:./vibing/agents/ui-designer.md}"
+    },
+    "ux-designer": {
+      "description": "User experience design, interaction patterns, and usability strategies",
+      "mode": "subagent",
+      "temperature": 0.7,
+      "model": "github-copilot/gemini-3.1-pro",
+      "prompt": "{file:./vibing/agents/ux-designer.md}"
+    },
+    "seo-specialist": {
+      "description": "SEO optimization, search engine strategies, and content optimization",
+      "mode": "subagent",
+      "temperature": 0.2,
+      "prompt": "{file:./vibing/agents/seo-specialist.md}"
+    },
+    "code-cleanup-specialist": {
+      "description": "Code cleanup, refactoring, and code quality improvement",
+      "mode": "subagent",
+      "temperature": 0.15,
+      "prompt": "{file:./vibing/agents/code-cleanup-specialist.md}"
+    },
+    "test-cleanup-specialist": {
+      "description": "Test cleanup, maintenance, and test optimization",
+      "mode": "subagent",
+      "temperature": 0.15,
+      "prompt": "{file:./vibing/agents/test-cleanup-specialist.md}"
+    },
+    "build-executor": {
+      "description": "Build execution, failure analysis, and CI diagnostics",
+      "mode": "subagent",
+      "temperature": 0.1,
+      "model": "github-copilot/gpt-4.1",
+      "prompt": "{file:./vibing/agents/build-executor.md}"
+    },
+    "lint-executor": {
+      "description": "Lint execution, rule analysis, and remediation guidance",
+      "mode": "subagent",
+      "temperature": 0.1,
+      "model": "github-copilot/gpt-4.1",
+      "prompt": "{file:./vibing/agents/lint-executor.md}"
+    },
+    "test-executor": {
+      "description": "Test execution, failure analysis, and root cause identification",
+      "mode": "subagent",
+      "temperature": 0.15,
+      "model": "github-copilot/gpt-4.1",
+      "prompt": "{file:./vibing/agents/test-executor.md}"
+    }
+  }
+}
