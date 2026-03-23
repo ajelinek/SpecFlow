@@ -78,14 +78,14 @@
       "description": "User interface design, component design, and visual design patterns",
       "mode": "subagent",
       "temperature": 0.7,
-      "model": "github-copilot/gemini-3.1-flash",
+      "model": "github-copilot/gemini-3-flash-preview",
       "prompt": "{file:./vibing/agents/ui-designer.md}"
     },
     "ux-designer": {
       "description": "User experience design, interaction patterns, and usability strategies",
       "mode": "subagent",
       "temperature": 0.7,
-      "model": "github-copilot/gemini-3.1-pro",
+      "model": "github-copilot/gemini-3.1-pro-preview",
       "prompt": "{file:./vibing/agents/ux-designer.md}"
     },
     "seo-specialist": {
