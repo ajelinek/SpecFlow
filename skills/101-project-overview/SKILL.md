@@ -16,7 +16,7 @@ purpose, target users, differentiation, key scenarios, and success criteria. It 
 source of truth for *why* the product exists and provides context for every downstream SpecFlow
 workflow.
 
-Output path: `.specflow/docs/project-overview.md`
+Output path: `.specflow/docs/D01-project-overview.md`
 
 ---
 
@@ -48,7 +48,7 @@ Optional but valuable: technology constraints, compliance/regulatory requirement
 
 - [ ] **Step 1: Validate inputs.** Confirm all five required inputs are present. If any are missing, ask clarifying questions before proceeding. Do not proceed with incomplete information — a vague project overview creates unclear foundations for everything that follows.
 
-- [ ] **Step 2: Load existing context.** Check whether `.specflow/docs/project-overview.md` already exists. If it does, treat it as a prior draft and update rather than replace. Check whether `.specflow/context/domain-knowledge.md` exists — if so, read it to ensure the document reflects established domain terminology and user patterns.
+- [ ] **Step 2: Load existing context.** Check whether `.specflow/docs/D01-project-overview.md` already exists. If it does, treat it as a prior draft and update rather than replace. Check whether `.specflow/context/domain-knowledge.md` exists — if so, read it to ensure the document reflects established domain terminology and user patterns.
 
 - [ ] **Step 3: Explore if needed.** If the project has an existing codebase or documentation (README, package.json, etc.) and you need to understand its current shape, delegate that discovery to the `@explore` agent and ask for a concise summary. Do not scan the codebase yourself — keep this context focused on product thinking.
 
@@ -68,6 +68,6 @@ Optional but valuable: technology constraints, compliance/regulatory requirement
   - Is the language business-level throughout — no implementation details?
   - Are any unknowns named explicitly as open questions rather than glossed over?
 
-- [ ] **Step 6: Write the output.** Write the completed document to `.specflow/docs/project-overview.md`. Create the `.specflow/docs/` directory if it does not exist.
+- [ ] **Step 6: Write the output.** Write the completed document to `.specflow/docs/D01-project-overview.md`. Create the `.specflow/docs/` directory if it does not exist.
 
 - [ ] **Step 7: Summarize.** Report what was written, call out any sections left as open questions due to missing input, and suggest running `102-system-architecture` as the next step.

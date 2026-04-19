@@ -15,7 +15,7 @@ Produce the system architecture document for a project. This document defines th
 structure of the system: architectural style, major components, technology stack, and testing
 strategy. It is the foundational technical reference for every downstream SpecFlow workflow.
 
-Output path: `.specflow/docs/system-architecture.md`
+Output path: `.specflow/docs/D02-system-architecture.md`
 
 ---
 
@@ -79,7 +79,7 @@ installed standards skills. Do not ask about these upfront — discover them fir
   - **No relevant skill is installed for a concern** → Before asking the user, check for
     guidance in this order:
 
-    1. **Project overview document** — Read `.specflow/docs/project-overview.md` (if it exists)
+    1. **Project overview document** — Read `.specflow/docs/D01-project-overview.md` (if it exists)
        and look for any stated technology preferences, constraints, or decisions. If the document
        names a technology for this concern, use it and note the source: "The project overview
        specifies React — I'll use that for the frontend."
@@ -95,7 +95,7 @@ installed standards skills. Do not ask about these upfront — discover them fir
   Collect all technology decisions before moving to the next step. Do not write the document
   until every technology concern is resolved.
 
-- [ ] **Step 3: Load project context.** Check whether `.specflow/docs/project-overview.md`
+- [ ] **Step 3: Load project context.** Check whether `.specflow/docs/D01-project-overview.md`
   exists and read it. Ensure the architecture aligns with stated business requirements, success
   metrics, and technology constraints from that document. If no project overview exists, note
   this as an open question and proceed with what is known.
@@ -130,7 +130,7 @@ installed standards skills. Do not ask about these upfront — discover them fir
   - Are any unresolved decisions named explicitly as open questions?
 
 - [ ] **Step 7: Write the output.** Write the completed document to
-  `.specflow/docs/system-architecture.md`. Create the `.specflow/docs/` directory if it does
+  `.specflow/docs/D02-system-architecture.md`. Create the `.specflow/docs/` directory if it does
   not exist.
 
 - [ ] **Step 8: Summarize.** Report what was written, list every technology choice and which
