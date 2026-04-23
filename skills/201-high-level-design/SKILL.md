@@ -131,7 +131,7 @@ question to establish the primary user action and outcome before proceeding.
 - [ ] **Step 7: Summarize.** Report:
   - The output file path written
   - Any context documents that were missing and may affect accuracy
-  - Suggest running `202-test-spec-design` next to define the Gherkin scenarios for
+  - Suggest running `202-spec-design` next to define the Gherkin scenarios for
     this feature
 
 ---
