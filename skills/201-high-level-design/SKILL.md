@@ -128,6 +128,19 @@ question to establish the primary user action and outcome before proceeding.
       using `./templates/overview.md` as the structure. Create the directory if it does not
       exist. Use the feature's slug name (lowercase, hyphenated) as the folder name.
 
+  Set the front matter fields before writing:
+  - `feature`: the slug name of the feature (e.g., `expense-submission`)
+  - `fid`: the F-ID if one was assigned; otherwise omit or leave as `F000`
+  - `status`: always `todo` when first created; the team advances this manually
+
+  The `status` field tracks the feature's implementation lifecycle:
+  - `todo` — overview written; implementation not yet started (default)
+  - `implementing` — the feature is actively being built
+  - `done` — all scenarios are passing and the feature is live
+
+  Do not move the feature file between directories as status changes. Status lives in the
+  front matter; the path stays stable for the lifetime of the feature.
+
 - [ ] **Step 7: Summarize.** Report:
   - The output file path written
   - Any context documents that were missing and may affect accuracy
@@ -155,6 +168,13 @@ initial planning and for generating F-IDs, but features discovered mid-delivery 
 spawned from scope changes are common and valid. When a feature isn't in D10, the
 F-ID is optional — only assign one if the team will reference this feature across
 tickets, PRs, or other design docs and needs a stable identifier.
+
+**On feature status**: The front matter `status` field is the single source of truth for where a
+feature stands in the delivery lifecycle. It has three states: `todo` (designed, not started),
+`implementing` (actively being built), and `done` (all scenarios passing, feature live). Status is
+updated in place — the feature file never moves to a different directory. This keeps paths stable
+across git history, CI configuration, D10 cross-references, and PR links. To find all features in a
+given state, use: `grep -r "^status: todo" .specflow/features/`.
 
 **On the user journey**: The bullet list is the most valuable part of this document for
 engineers and reviewers. Lead every step from the user's perspective when possible. A

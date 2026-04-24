@@ -3,6 +3,11 @@ INSTRUCTION BLOCK (remove before committing)
 ============================================
 This template is filled in by the 201-high-level-design skill.
 
+Status lifecycle — set the `status` field in the front matter block below:
+  todo         → overview written; implementation not yet started
+  implementing → feature is actively being built
+  done         → all scenarios passing; feature is live
+
 In Scope = boundary ("what we're building") — capability statements
 Acceptance Criteria = outcomes ("how we know it works") — verifiable behavior that could
   fail even if the feature exists. Do not restate In Scope bullets here.
@@ -17,6 +22,12 @@ User Journey depth rule:
 Remove this instruction block before writing the file to the project.
 ============================================
 -->
+
+---
+feature: [feature-name]
+fid: F000
+status: todo
+---
 
 # [Feature Name] (F000) — High-Level Design
 

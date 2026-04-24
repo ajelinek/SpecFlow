@@ -1,15 +1,27 @@
 # INSTRUCTION BLOCK (remove before committing)
 # This template is the starting structure for specs.feature.
-# Fill in the Feature name and Description from the feature's overview.md.
+# If overview.md exists, fill in the Feature name only.
+# Add a short description only when it is truly needed for readability.
+# If overview.md does not exist, use a short 1-2 line summary from the user's provided
+# feature context so the file can stand on its own.
+# The header is only a lightweight identifier for the file, not a duplicate of the full
+# feature definition.
 # Replace all placeholder scenario text with real Gherkin steps.
-# Preserve the TSM# comment headers, TS# tags, and @status_pending on every new scenario.
-# Do not invent TS# numbers — check overview.md and any existing scenarios for the current
-# highest number and continue from there.
+#
+# Status tag lifecycle — apply exactly one status tag per scenario:
+#   @status_pending      → scenario written; implementation has not started
+#   @status_implementing → functionality is actively being built
+#   @status_done         → scenario has a passing automated test run
+#
+# All new scenarios must start with @status_pending.
+# Never remove a status tag; replace it with the next state as work progresses.
+#
+# Preserve the TSM# comment headers, TS# tags, and path tags (@happyPath etc.)
+# Do not invent TS# numbers — check any existing scenarios for the highest number
+# and continue from there.
 # Delete this instruction block before writing the file.
 
 Feature: Expense Submission
-  Users can submit expense reports for manager review and finance processing.
-  This feature covers the full submission lifecycle from form entry through approval routing.
 
   #---------------------------------------------------------------------------
   # TSM001: Expense Submission — Happy Paths

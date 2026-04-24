@@ -19,7 +19,8 @@ filtering and status tracking.
 
 The output is a `.feature` file (not `.md`) so that IDEs with a Cucumber extension render
 full Gherkin syntax highlighting, and so that test tooling can parse and execute the scenarios
-directly without any reformatting.
+directly without any reformatting. `overview.md` remains the canonical feature definition;
+when it exists, this file should avoid duplicating it.
 
 **Output path**: `.specflow/features/<feature-name>/specs.feature`
 
@@ -48,11 +49,13 @@ If the user says "just happy paths for now" or "start with the core flow", treat
 
 - [ ] **Step 1: Load feature context.** Read the following files if they exist:
   - `.specflow/features/<feature-name>/overview.md` — the feature scope and user journey
-    produced by `201-high-level-design`. This is the primary input. If it does not exist,
-    ask the user whether to run `201-high-level-design` first or provide a description now.
+    produced by `201-high-level-design`. This is the primary input when available.
   - `.specflow/docs/D01-project-overview.md` — business goals and user types
   - `.specflow/docs/D07-ui-experience.md` — navigation patterns and affected pages
   - `.specflow/context/domain-knowledge.md` — domain rules that constrain valid behavior
+
+  If `overview.md` does not exist, do not block the workflow. Ask the user for a short feature
+  summary and the primary user outcome, then use that as fallback context for this run.
 
   Skip files that do not exist and note which are missing.
 
@@ -75,6 +78,14 @@ If the user says "just happy paths for now" or "start with the core flow", treat
 - [ ] **Step 4: Write the Gherkin scenarios.** Use `./templates/specs.feature` as the
       structure. Apply these rules throughout:
 
+  **Feature header**
+  - If `overview.md` exists: use only the `Feature:` title unless a one-line description is strictly
+    needed for readability. Do not restate the feature summary, scope, acceptance criteria, or journey.
+  - If `overview.md` does not exist: include a short 1–2 line feature summary based on the user's
+    provided fallback context so the file remains understandable on its own.
+  - Do not restate full scope, acceptance criteria, or the full user journey here.
+  - Pull only the minimum context needed for a test reader to understand the behavior under test.
+
   **Scenario design**
   - Write scenarios that test complete user workflows, not isolated steps. A scenario should
     prove a business outcome, not verify a click happened.
@@ -90,7 +101,12 @@ Registration — Happy Paths`). TSM numbers reflect logical groupings, not file 
   - New scenarios in a second pass continue the existing TS# and TSM# sequences.
 
   **Tagging**
-  - Every scenario must include `@status_pending` until the scenario has a passing test run.
+  - Every new scenario must include `@status_pending` at the time it is written.
+  - Status tags follow a three-state lifecycle and are updated in place as the feature progresses:
+    - `@status_pending` — scenario written; implementation has not started
+    - `@status_implementing` — the scenario's functionality is actively being built
+    - `@status_done` — the scenario has a passing automated test run
+  - Never remove a status tag; always replace it with the next state.
   - Add at least one path tag per scenario: `@happyPath`, `@errorPath`, or `@edgePath`.
   - Add domain or feature tags as needed for filtering (e.g., `@authentication`, `@payments`).
 
@@ -133,6 +149,13 @@ Registration — Happy Paths`). TSM numbers reflect logical groupings, not file 
 ---
 
 ## Additional Guidance
+
+**On scenario status tags**: Status tags are the single source of truth for scenario readiness. The
+three states — `@status_pending`, `@status_implementing`, `@status_done` — track progress in place
+without moving files. This matches the approach used by Serenity BDD, Cucumber, and SpecFlow
+reporting tools, all of which filter and aggregate by tag. To find all pending scenarios across
+features: `grep -r "@status_pending" .specflow/features/`. When a feature's `overview.md` advances
+to `status: done`, all its scenarios should be `@status_done`.
 
 **On the two-pass approach**: Starting with Happy Path Only and returning for a second pass
 is a valid and encouraged workflow. The first pass establishes confidence in the core user
