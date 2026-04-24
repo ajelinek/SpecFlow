@@ -269,7 +269,7 @@ proceed with Balanced and note the default in the summary.
   - Installed skills consulted
   - Any context documents missing that may affect accuracy
   - Any assumptions requiring validation before implementation begins
-  - Suggest running `204-plan-validation` next
+  - Suggest running `204-feature-validation` next
 
 ---
 
