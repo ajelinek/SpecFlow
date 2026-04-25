@@ -38,6 +38,39 @@ the full review and note the default in the summary.
 
 ---
 
+## Standards Resolution
+
+Use standards already loaded into the current session as the authoritative source of project
+conventions. These may come from managed instructions, project instructions, or explicitly loaded
+skills.
+
+At the start of standards resolution, load any relevant skills available through the environment's
+supported skill-loading tools if they are not already active. Prefer supported tooling and managed
+instruction sources over manual filesystem discovery.
+
+Resolve validation criteria in this order:
+
+1. Loaded standards guidance relevant to the current concern
+2. Existing SpecFlow or project documentation
+3. Existing codebase patterns confirmed via `@explore`
+4. Explicit user decisions made in this session
+
+Determine relevance by concern, not by named technology. Typical concerns include general
+engineering, architecture, language/runtime, application layer, UI/client, service/API,
+data/storage, testing/quality, security/privacy, deployment/operations, and accessibility.
+
+Stay concern-based while the technical context is unresolved. Once the feature's concrete stack is
+known from D02-D08, loaded guidance, the existing codebase, or the user's input, switch to that
+stack's real terms for the rest of the validation. Review findings against the actual framework,
+runtime, testing approach, and architectural patterns already established rather than against only
+generic cross-stack language.
+
+Use supported tooling to load relevant skills; do not manually inspect out-of-scope locations as a
+discovery mechanism. If a needed concern is not represented in loaded guidance, loadable skills,
+or project evidence, state that explicitly and continue with a limited review rather than guessing.
+
+---
+
 ## Steps
 
 - [ ] **Step 1: Load the feature artifacts.** Read these files if they exist:
@@ -73,15 +106,22 @@ the full review and note the default in the summary.
   - Find 2–3 concrete existing implementations of similar frontend and backend patterns in full
   - Identify reusable modules, helpers, routes, hooks, services, or components the plan could
     extend instead of duplicating
-  - Find installed skills under `.claude/skills/` and `~/.claude/skills/` that govern the
-    technologies this feature touches
+  - Identify repository-level conventions, architecture docs, linting rules, or configuration that
+    show how standards are expressed in practice
   - Flag inconsistent existing patterns that could affect the review
 
   Return: a concise factual summary with exact paths, reusable candidates, and the specific
   patterns the current design should follow.
 
-  After `@explore` returns, load any installed skills relevant to the technology stack and apply
-  them as validation criteria for the rest of this workflow.
+  Before moving on, load any relevant skills available through supported tooling for the concerns
+  touched by this feature if they are not already active.
+
+  After `@explore` returns, identify which loaded standards guidance concerns apply to the feature
+  and use them as validation criteria for the rest of this workflow.
+
+  If the feature already sits within a known stack, use that concrete stack vocabulary in the rest
+  of the review. Ask any follow-up questions and frame findings in terms of the actual technologies
+  and patterns the project has already committed to.
 
 - [ ] **Step 4: Validate cross-artifact consistency.** Review the feature artifacts as one
       connected system, not three separate documents. Confirm:
@@ -99,14 +139,14 @@ the full review and note the default in the summary.
     across all artifacts
 
 - [ ] **Step 5: Validate implementation quality and missed opportunities.** Pressure-test the
-      implementation plan against the codebase research and loaded skills. Look for:
+  implementation plan against the codebase research and loaded standards guidance. Look for:
   - Existing modules that could be extended instead of new files being introduced
   - Duplicate logic or parallel abstractions the plan would create unnecessarily
   - Missing integration points, error states, data transitions, state transitions, or boundary
     validation
   - Implementation details that do not address a scenario or acceptance criterion
   - New files or abstractions with weak justification
-  - Violations of installed skills, architecture docs, or established codebase patterns
+  - Violations of loaded standards guidance, architecture docs, or established codebase patterns
   - Premature optimization, over-engineering, or complexity not justified by the feature's
     requirements
 
@@ -115,7 +155,8 @@ the full review and note the default in the summary.
   - Assign severity: `🔴 High`, `🟡 Medium`, or `🔵 Low`
   - Assign a category: `Cross-artifact inconsistency`, `Coverage gap`,
     `Missed reuse opportunity`, `Rule violation`, or `Open question`
-  - Cite exact evidence: section numbers, `@TS###` tags, module paths, or installed skill names
+  - Cite exact evidence: section numbers, `@TS###` tags, module paths, architecture doc sections,
+    or the loaded standards guidance that applies
   - Explain why the issue matters to implementation readiness
   - Recommend the smallest correction that resolves the issue
 

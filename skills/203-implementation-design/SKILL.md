@@ -24,10 +24,10 @@ for the smallest additive change that satisfies the feature requirements. A new 
 resort, not a first instinct. Where a small rearchitecture of an existing module produces a
 simpler result than adding new code alongside it, prefer the rearchitecture.
 
-This skill is **rule-agnostic**: it does not prescribe technology rules or coding standards.
-Instead, it reads and honors all installed skills relevant to the codebase's technology stack,
-design patterns, and testing approach. If a skill exists for your framework, state management
-library, API layer, or test tooling, this workflow consults it.
+This skill is **language-agnostic and standards-aware**: it does not prescribe a technology stack
+or coding style of its own. Instead, it honors standards already loaded into the current session
+for the codebase's relevant concerns — architecture, language/runtime, UI/client, service/API,
+data/storage, testing/quality, security/privacy, and deployment/operations.
 
 **Output path**: `.specflow/features/<feature-name>/implementation.md`
 
@@ -57,6 +57,39 @@ Before proceeding, confirm:
 
 If the feature name is missing, ask before proceeding. If the detail level is not specified,
 proceed with Balanced and note the default in the summary.
+
+---
+
+## Standards Resolution
+
+Use standards already loaded into the current session as the authoritative source of project
+conventions. These may come from managed instructions, project instructions, or explicitly loaded
+skills.
+
+At the start of standards resolution, load any relevant skills available through the environment's
+supported skill-loading tools if they are not already active. Prefer supported tooling and managed
+instruction sources over manual filesystem discovery.
+
+Resolve implementation decisions in this order:
+
+1. Loaded standards guidance relevant to the current concern
+2. Existing SpecFlow or project documentation
+3. Existing codebase patterns confirmed via `@explore`
+4. Explicit user decisions made in this session
+
+Determine relevance by concern, not by named technology. Typical concerns include general
+engineering, architecture, language/runtime, application layer, UI/client, service/API,
+data/storage, testing/quality, security/privacy, deployment/operations, and accessibility.
+
+Stay concern-based while the implementation context is still unresolved. Once the relevant stack is
+known from D02-D08, loaded guidance, the existing codebase, or the user's input, switch to the
+real technology terms for the remainder of this workflow. Ask clarifying questions, describe
+changes, and evaluate reuse opportunities in the concrete language of the codebase rather than in
+generic cross-stack phrasing.
+
+Use supported tooling to load relevant skills; do not manually inspect out-of-scope locations as a
+discovery mechanism. If a needed concern is not represented in loaded guidance, loadable skills,
+or project evidence, state that explicitly and continue using repository evidence or user input.
 
 ---
 
@@ -96,18 +129,26 @@ proceed with Balanced and note the default in the summary.
   - Find every file that implements a pattern similar to what this feature needs — existing forms,
     API routes, state slices, hooks, services, repositories, utility functions
   - Read 2–3 concrete examples of each relevant pattern in full — not summaries
-  - Identify all installed skills (`.claude/skills/` and `~/.claude/skills/`) related to the
-    codebase's technologies — note their names and what they govern
   - Find any utility functions, helpers, or shared modules that could be reused or extended rather
     than duplicated
+  - Identify repository-level conventions, architecture docs, linting rules, or configuration that
+    show how standards are expressed in practice
   - Flag areas where the same pattern exists in multiple inconsistent forms — these are candidates
     for consolidation, not additional variation
 
   Return: a concise factual summary — which files implement which patterns, exact paths, and any
   inconsistencies observed.
 
-  **After `@explore` returns**, load any installed skills relevant to the technology stack being
-  implemented. Read them now and apply their guidance for the remainder of this workflow.
+  Before moving on, load any relevant skills available through supported tooling for the concerns
+  touched by this feature if they are not already active.
+
+  **After `@explore` returns**, identify which loaded standards guidance concerns apply to the
+  parts of the system this feature touches, then apply that guidance for the remainder of this
+  workflow.
+
+  If the codebase and prior design docs already establish a concrete stack, use that stack's
+  vocabulary in the rest of the workflow. Ask any remaining clarifying questions in terms of the
+  actual framework, runtime, testing approach, and architectural patterns already in play.
 
 - [ ] **Step 4: Challenge the scope — find what already exists.** Before designing anything,
       review the codebase research from Step 3 and answer:
@@ -242,8 +283,8 @@ proceed with Balanced and note the default in the summary.
   - [ ] No section duplicates `overview.md` when it exists
   - [ ] If `overview.md` is missing, the fallback summary is short and sufficient to orient the reader
 
-  **Installed skills compliance**
-  - [ ] The design honors all installed skills relevant to this codebase's technology stack
+  **Loaded standards compliance**
+  - [ ] The design honors all loaded standards guidance relevant to this feature's concerns
 
   **Detail level correctness**
   - [ ] High Level: no CSS files, no function signatures
@@ -266,7 +307,7 @@ proceed with Balanced and note the default in the summary.
   - Detail level applied
   - File count: new files created vs. existing files extended
   - Implementation approach selected and alternatives rejected
-  - Installed skills consulted
+  - Loaded standards guidance consulted
   - Any context documents missing that may affect accuracy
   - Any assumptions requiring validation before implementation begins
   - Suggest running `204-feature-validation` next
@@ -294,11 +335,12 @@ patterns unless the feature's acceptance criteria specify a performance requirem
 complexity without a measured benefit. Optimization is introduced after profiling reveals a
 real problem.
 
-**Honor installed skills.** Every codebase has conventions encoded in installed skills — for the
-framework, state management, API layer, testing, and styling. This design follows those conventions.
-When an installed skill conflicts with anything generated during this workflow, the installed skill
-wins.
+**Honor loaded standards guidance.** Every codebase has conventions encoded in managed
+instructions, project instructions, and explicitly loaded skills. This design follows the guidance
+already active in the session. When loaded standards guidance conflicts with anything generated
+during this workflow, the loaded guidance wins unless the user explicitly overrides it.
 
-**Rule-agnostic.** This skill does not impose technology-specific rules. It reads the codebase
-and installed skills to discover the rules that apply to this project. Two projects using different
-frameworks produce structurally similar designs built to their own conventions.
+**Language-agnostic.** This skill does not impose technology-specific rules. It reads the codebase
+and applies the loaded standards guidance relevant to the concerns in play. Two projects using
+different frameworks should produce structurally different designs that still follow the same
+decision process.
