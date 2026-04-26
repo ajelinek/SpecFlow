@@ -35,6 +35,11 @@ run; do not write them to `.specflow/` unless the user explicitly asks.
 
 ## Operating Model
 
+This workflow uses an orchestrator-worker model specialized for software delivery. The lead
+agent plans and controls phase progression, coding subagents execute tightly scoped changes,
+and `@execution-agent` serves as the primary evaluator by reporting environment-grounded test,
+lint, and build results.
+
 1. **You are the orchestrator.** Own the change model for the run: scope, architecture,
    touched modules, phase state, and validation status.
 
@@ -253,10 +258,19 @@ Do not pass the full conversation, every feature artifact, or every standards fi
   - rerun all three modes
   - repeat until clean
 
-- [ ] **Step 15: Update feature status.** If `.specflow/features/<feature-name>/overview.md`
+  If the workflow stops making progress across repeated repair cycles:
+  - stop the loop instead of continuing indefinitely
+  - summarize the current blocker, failed validation output, and files in play
+  - surface the issue to the user before proceeding further
+
+- [ ] **Step 15: Request human review when risk is high.** If the change alters architecture,
+      cross-cutting behavior, public interfaces, data boundaries, or other high-impact behavior,
+      recommend human review after validation passes and before declaring the change fully complete.
+
+- [ ] **Step 16: Update feature status.** If `.specflow/features/<feature-name>/overview.md`
       exists and `status` is `implementing`, change it to `done` after full validation passes.
 
-- [ ] **Step 16: Summarize.** Report:
+- [ ] **Step 17: Summarize.** Report:
   - implemented scope: single `@TS###`, single `TSM###`, full `.feature` file, or internal scenario set
   - scenarios implemented
   - production files created or modified
@@ -281,19 +295,28 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 4. **Clean validation is required.** The change is not done until `@execution-agent` reports clean
    results for the full test suite, lint, and build.
 
-5. **Extend before creating.** Prefer existing modules. A new file needs a real responsibility with
+5. **The environment is the primary evaluator.** For implementation work, tests, lint, build,
+   and other execution feedback outrank model opinion when deciding whether behavior is correct.
+
+6. **Extend before creating.** Prefer existing modules. A new file needs a real responsibility with
    no natural home in the current codebase.
 
-6. **Do not duplicate spec-design responsibilities.** If scenarios need to be created or materially
+7. **Do not duplicate spec-design responsibilities.** If scenarios need to be created or materially
    revised, route that work through `202-spec-design` instead of inventing a second Gherkin review
    process inside 301.
 
-7. **Context minimization is mandatory.** The lead agent owns the full change model; coding
+8. **Context minimization is mandatory.** The lead agent owns the full change model; coding
    subagents receive only focused task packets.
 
-8. **Orchestration only.** You do not write implementation code directly. Code changes go through a
+9. **Orchestration only.** You do not write implementation code directly. Code changes go through a
    coding subagent; execution goes through `@execution-agent`.
 
-9. **Missing design artifacts stay in memory.** When 301 synthesizes `overview.md`, `specs.feature`,
-   or `implementation.md`, treat them as working context for the run unless the user explicitly asks
-   to persist them.
+10. **Missing design artifacts stay in memory.** When 301 synthesizes `overview.md`, `specs.feature`,
+    or `implementation.md`, treat them as working context for the run unless the user explicitly asks
+    to persist them.
+
+11. **Escalate stalled loops.** If repeated repair passes are not converging, stop and surface the
+    blocker rather than looping indefinitely.
+
+12. **Human review remains valuable for high-risk changes.** Clean validation is necessary, but it
+    does not replace human judgment for broad architectural fit or sensitive behavior changes.
