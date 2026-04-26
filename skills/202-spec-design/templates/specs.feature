@@ -19,6 +19,17 @@
 # Preserve the TSM# comment headers, TS# tags, and path tags (@happyPath etc.)
 # Do not invent TS# numbers — check any existing scenarios for the highest number
 # and continue from there.
+# Before adding new scenarios, review existing ones to see whether the missing coverage is
+# better handled by adding assertions to the current workflow or adding rows to an existing
+# Scenario Outline.
+#
+# Existing spec update plan (keep while editing an existing file; remove when complete):
+#   - @TS___: add assertion(s) for _________________________________
+#   - @TS___: add assertion(s) for _________________________________
+#   - @TS___: add example row(s) for _______________________________
+#
+# Only add a new scenario when the behavior is a materially different workflow, path, or
+# setup that should fail independently.
 # Delete this instruction block before writing the file.
 
 Feature: Expense Submission
