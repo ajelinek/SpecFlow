@@ -5,7 +5,6 @@ description: >
   that is already implemented. Trigger it for requests like "302", "test-only implementation",
   "write the tests", "add E2E coverage", or "automate these scenarios" when the goal is to
   add or repair tests without broad production-code changes.
-disable-model-invocation: true
 ---
 
 # 302 - Test-Only Implementation

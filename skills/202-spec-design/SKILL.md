@@ -165,8 +165,8 @@ Registration — Happy Paths`). TSM numbers reflect logical groupings, not file 
   - Total new scenarios written and their TS# range
   - Coverage level applied
   - Any context documents that were missing and may have affected coverage
-  - If **Happy Path Only** was used: explicitly suggest returning with
-    `202-test-scenario-design --balanced` or `--comprehensive` to add additional coverage
+  - If **Happy Path Only** was used: explicitly suggest returning to `202-spec-design` with
+    Balanced or Comprehensive coverage to add additional scenarios
   - Suggest running `203-implementation-design` next
 
 ---

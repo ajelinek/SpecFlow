@@ -59,7 +59,7 @@ If any of the above are missing, ask before proceeding.
   - `.specflow/docs/D01-project-overview.md` — business goals, user types, success metrics
   - `.specflow/docs/D02-system-architecture.md` — system boundaries, major components,
     integration points that constrain or enable features
-  - `.specflow/docs/D03-data-model.md` — if it exists; key entities that features will
+  - `.specflow/docs/D03-common-data-model.md` — if it exists; key entities that features will
     create, read, update, or delete
   - `.specflow/docs/D07-ui-experience.md` — if it exists; user journeys and page inventory
     that suggest natural feature boundaries

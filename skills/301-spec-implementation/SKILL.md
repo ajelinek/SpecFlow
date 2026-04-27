@@ -8,7 +8,6 @@ description: >
   first, implementation second, cleanup in separate passes, and final validation. Do not use
   this skill for small isolated edits or one-pass cleanup tasks that belong in the 400-series
   workflows.
-disable-model-invocation: true
 ---
 
 # 301 — Spec-Driven System Implementation

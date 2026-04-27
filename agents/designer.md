@@ -9,10 +9,18 @@ description: >
   Asks clarifying questions when brand intent, audience, or constraints are ambiguous; the
   invoking skill answers from its loaded context or escalates to the user.
 model: gemini-2.5-pro
-tools:
-  - Read
-  - WebFetch
-color: purple
+permission:
+  question: deny
+  read: allow
+  grep: deny
+  glob: deny
+  edit: deny
+  bash: deny
+  webfetch: allow
+  task: deny
+  todowrite: deny
+  skill: allow
+color: "#A855F7"
 ---
 
 # designer

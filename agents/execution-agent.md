@@ -9,12 +9,18 @@ description: >
   commands only when necessary, and surfaces likely root-cause clusters when
   multiple failures appear together.
 model: haiku
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-color: yellow
+permission:
+  question: deny
+  read: allow
+  grep: allow
+  glob: allow
+  edit: deny
+  bash: allow
+  webfetch: deny
+  task: deny
+  todowrite: deny
+  skill: deny
+color: "#EAB308"
 ---
 
 # execution-agent

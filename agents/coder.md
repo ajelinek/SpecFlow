@@ -10,14 +10,18 @@ description: >
   ambiguous or conflicts with project constraints, returns blocking questions
   or conflict notes instead of guessing.
 model: claude-sonnet-4-6
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Edit
-  - Write
-  - Bash
-color: blue
+permission:
+  question: deny
+  read: allow
+  grep: allow
+  glob: allow
+  edit: allow
+  bash: allow
+  webfetch: deny
+  task: deny
+  todowrite: deny
+  skill: allow
+color: "#3B82F6"
 ---
 
 # coder

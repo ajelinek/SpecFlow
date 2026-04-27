@@ -5,7 +5,6 @@ description: >
   agents can navigate the repo, follow verified commands, and honor local architectural
   boundaries. Use it for a first-time project setup, when agent guidance has gone stale, or when
   a monorepo needs root guidance plus a small number of directory-specific overrides.
-disable-model-invocation: true
 ---
 
 # Agent Context

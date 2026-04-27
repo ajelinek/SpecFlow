@@ -9,7 +9,6 @@ description: >
   both in the same pass. Start from the user-defined changed set, run an exhaustive in-scope
   cleanup and risk review for the selected target type, and surface any worthwhile out-of-scope
   cleanup opportunities for approval before expanding beyond the initial boundary.
-disable-model-invocation: true
 ---
 
 # 401 - Cleanup

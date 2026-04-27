@@ -190,7 +190,7 @@ or project evidence, state that explicitly and continue with a limited review ra
   - Overall assessment: `Ready`, `Needs Work`, or `Not Ready`
   - Findings count by severity
   - Any missing artifacts or context documents that limited the review
-  - The most important next action before `301-feature-implementation`
+  - The most important next action before `301-spec-implementation`
 
 ---
 
