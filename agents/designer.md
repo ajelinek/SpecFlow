@@ -8,7 +8,7 @@ description: >
   with them, flags the conflict as a proposed doc change rather than silently overriding.
   Asks clarifying questions when brand intent, audience, or constraints are ambiguous; the
   invoking skill answers from its loaded context or escalates to the user.
-model: gemini-2.5-pro
+model: github-copilot/gemini-3.1-pro-preview
 permission:
   question: deny
   read: allow

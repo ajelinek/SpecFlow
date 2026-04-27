@@ -8,19 +8,7 @@ description: >
   scripts and tooling where possible, falls back to direct package-tool
   commands only when necessary, and surfaces likely root-cause clusters when
   multiple failures appear together.
-model: haiku
-permission:
-  question: deny
-  read: allow
-  grep: allow
-  glob: allow
-  edit: deny
-  bash: allow
-  webfetch: deny
-  task: deny
-  todowrite: deny
-  skill: deny
-color: "#EAB308"
+model: github-copilot/claude-haiku-4.5
 ---
 
 # execution-agent

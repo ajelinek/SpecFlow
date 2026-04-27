@@ -9,19 +9,7 @@ description: >
   validation to the invoking workflow and @execution-agent. If the brief is
   ambiguous or conflicts with project constraints, returns blocking questions
   or conflict notes instead of guessing.
-model: claude-sonnet-4-6
-permission:
-  question: deny
-  read: allow
-  grep: allow
-  glob: allow
-  edit: allow
-  bash: allow
-  webfetch: deny
-  task: deny
-  todowrite: deny
-  skill: allow
-color: "#3B82F6"
+model: github-copilot/claude-sonnet-4.6
 ---
 
 # coder
