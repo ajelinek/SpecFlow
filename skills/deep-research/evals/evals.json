@@ -1,0 +1,23 @@
+{
+  "skill_name": "deep-research",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Do a deep dive on browser automation options for agentic coding workflows. Compare Playwright-based approaches, browser-use style approaches, and built-in browser tooling patterns, then recommend the best fit for a team that cares about reliability, observability, and minimal external dependencies.",
+      "expected_output": "A research memo that compares multiple current options using web evidence, cites sources, explains trade-offs, and gives a recommendation tailored to reliability, observability, and dependency constraints.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Research recent EU AI Act obligations that would most likely matter for a U.S. SaaS company selling AI features to enterprise customers in Europe. Focus on what a product and engineering leadership team would need to know first, and separate established obligations from areas that still look ambiguous.",
+      "expected_output": "A current, evidence-backed summary using official or other strong sources, with clear citations, practical implications for leadership, and explicit treatment of uncertainty or ambiguity.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Research E2B, Modal, and Daytona as execution backends for AI agents that need remote code execution. Compare security model, developer ergonomics, startup latency, persistence model, and operational maturity, then recommend one for a startup building an agent platform this quarter.",
+      "expected_output": "A comparative analysis grounded in primary and secondary sources, with decision criteria, strengths and weaknesses for each option, and a recommendation tied to a startup's near-term execution needs.",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "query": "Do a deep dive on open-source observability stacks for LLM agents and recommend one for a team that needs traces, prompt/version tracking, and self-hosting.",
+    "should_trigger": true
+  },
+  {
+    "query": "I need a vendor comparison of SOC 2 automation platforms for a 40-person startup. Use current sources, compare pricing model, auditor ecosystem, and evidence collection limits, then recommend one.",
+    "should_trigger": true
+  },
+  {
+    "query": "Can you research the latest state of browser automation tools for coding agents and tell me which approach is most reliable right now?",
+    "should_trigger": true
+  },
+  {
+    "query": "Look into current EU requirements that would affect an AI note-taking SaaS selling to enterprise customers in Germany, and separate clear obligations from open questions.",
+    "should_trigger": true
+  },
+  {
+    "query": "Summarize this one article for me: https://example.com/post",
+    "should_trigger": false
+  },
+  {
+    "query": "Open https://platform.openai.com/docs and tell me how the Responses API works.",
+    "should_trigger": false
+  },
+  {
+    "query": "Write a Python script that fetches DuckDuckGo HTML results for a query and extracts the links.",
+    "should_trigger": false
+  },
+  {
+    "query": "Compare these two paragraphs and tell me which one is clearer.",
+    "should_trigger": false
+  }
+]

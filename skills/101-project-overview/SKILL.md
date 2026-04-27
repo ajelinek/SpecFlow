@@ -5,8 +5,9 @@ description: >
   product document: what problem it solves, who it's for, how it differentiates, and what success
   looks like. Triggers on phrases like "create project overview", "write the project overview doc",
   "let's start the project documentation", "101", "project overview", or when a user describes a
-  new app idea and wants structured documentation. This is always the first SpecFlow workflow
-  to run on a new project — before system architecture, data model, or any feature work.
+  new app idea and wants structured documentation. This is the first project-definition workflow
+  to run on a new project after any needed domain-knowledge work, and before system architecture,
+  data model, or any feature work.
 ---
 
 # 101 — Project Overview
