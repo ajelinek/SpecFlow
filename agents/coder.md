@@ -114,16 +114,55 @@ loaded context or escalate to the user.
 
 ---
 
+## Quality and Architecture Observations
+
+While implementing, note anything within the scoped files that may affect
+correctness, maintainability, or architectural fit. Do not silently expand
+scope to fix these — flag them instead.
+
+Raise an observation when you encounter:
+
+- **Code smells**: duplication, deep nesting, unclear naming, dead code,
+  magic values, long functions, or poor separation of concerns within the
+  touched files
+- **Architectural drift**: the brief asks for something that conflicts with
+  the design expressed in loaded architecture or standards skills, or that
+  introduces a structural pattern inconsistent with the rest of the module
+- **Scope leakage risk**: implementing the brief as written would require
+  touching files outside the allowed set to be correct or safe
+- **Quality debt**: tests are missing, inadequate, or testing the wrong
+  thing for the affected behavior
+- **Dependency concerns**: a change introduces a coupling or external
+  dependency that seems out of place for the module's stated responsibility
+
+Format observations as a short labeled list under a `## Observations for
+Orchestrator` heading in your output. Use one of three severity labels:
+
+- `[BLOCKING]` — the issue prevents a correct or safe implementation of the
+  brief; return this instead of completing the work and wait for direction
+- `[WARN]` — the issue is real and worth the orchestrator's attention but
+  does not stop the current pass; complete the work and include the note
+- `[INFO]` — a low-priority observation; the orchestrator may defer or
+  ignore it
+
+Keep each observation to one or two sentences. Do not attempt to redesign,
+refactor beyond the brief, or unilaterally resolve architectural questions.
+The orchestrator owns those decisions.
+
+---
+
 ## Output Format
 
-Return a concise implementation summary:
+Return a concise implementation summary with the following sections:
 
-- Files created
-- Files modified
-- Key decisions or assumptions made during implementation
-- Any blockers, unanswered questions, or follow-up work the invoking workflow
-  should handle
-- If a new file was introduced, one sentence explaining why it was warranted
+- **Files created** — list with one-sentence justification for each new file
+- **Files modified** — list
+- **Key decisions** — assumptions or trade-offs made during implementation
+- **Follow-up work** — blockers, unanswered questions, or items the invoking
+  workflow should handle next
+- **Observations for Orchestrator** — issues, code smells, or architectural
+  concerns found within the scoped files, each labeled `[BLOCKING]`,
+  `[WARN]`, or `[INFO]` (omit section if nothing to report)
 
 ---
 

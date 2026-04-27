@@ -36,8 +36,9 @@ run; do not write them to `.specflow/` unless the user explicitly asks.
 
 This workflow uses an orchestrator-worker model specialized for software delivery. The lead
 agent plans and controls phase progression, coding subagents execute tightly scoped changes,
-and `@execution-agent` serves as the primary evaluator by reporting environment-grounded test,
-lint, and build results.
+`@designer` serves as the UI direction worker when the change affects user-facing surfaces, and
+`@execution-agent` serves as the primary evaluator by reporting environment-grounded test, lint,
+and build results.
 
 1. **You are the orchestrator.** Own the change model for the run: scope, architecture,
    touched modules, phase state, and validation status.
@@ -45,13 +46,19 @@ lint, and build results.
 2. **All code changes go through a coding subagent.** Use `@coder` when available; otherwise use
    the general agent as the fallback.
 
-3. **All execution goes through `@execution-agent`.** Test, lint, and build results are the
+3. **UI changes go through `@designer` first when available.** If the change materially affects
+   UI structure, interaction flow, visual hierarchy, navigation behavior, component usage, or page
+   layout, invoke `@designer` before coding. Treat `@designer` as a docs-first worker: ground the
+   brief in D06, D07, and relevant D08 page docs; ask it to keep those documents consistent and to
+   return implementation-facing UI direction rather than broad creative exploration.
+
+4. **All execution goes through `@execution-agent`.** Test, lint, and build results are the
    ground truth for whether the workflow may advance.
 
-4. **Keep context tight.** Maintain a compact lead-agent working model. Give coding subagents only
+5. **Keep context tight.** Maintain a compact lead-agent working model. Give coding subagents only
    the relevant excerpt for the current task, not the full conversation or full artifact set.
 
-5. **Use phase-isolated task packets.** Every coding pass must clearly name the phase, allowed
+6. **Use phase-isolated task packets.** Every coding pass must clearly name the phase, allowed
    files, forbidden files, relevant scenarios, relevant design excerpts, and success criteria.
 
 ---
@@ -94,6 +101,10 @@ Before any coding pass, create and maintain these compact artifacts for the run:
 Keep these concise and current. The lead agent owns the full bundle; subagents receive only the
 current slice.
 
+When the change touches UI, also maintain a **UI direction brief**: the applicable D06/D07/D08
+constraints, any proposed design-doc updates, unresolved design conflicts, and the concrete UI
+implementation guidance returned by `@designer`.
+
 ---
 
 ## Task Packet Template
@@ -105,6 +116,7 @@ Every coding subagent invocation should include only:
 - exact files or modules in scope
 - relevant scenario text
 - relevant design or architecture excerpt
+- relevant UI direction excerpt when the change touches UI
 - applicable standards excerpt
 - allowed reference files for just-in-time reading
 - explicit out-of-scope boundaries
@@ -150,11 +162,37 @@ Do not pass the full conversation, every feature artifact, or every standards fi
       architecture ledger, context map, standards index, and task packet template before any
       coding subagent is invoked.
 
-- [ ] **Step 4: Update feature status.** If `.specflow/features/<feature-name>/overview.md` exists
+- [ ] **Step 4: Route UI changes through `@designer` when available.** Determine whether the scope
+      materially changes any user-facing surface. Trigger this step when the implementation affects
+      page layout, component composition, navigation, interaction flow, empty/loading/error state
+      presentation, or other visible UX behavior.
+
+  If the change is not UI-affecting, skip this step.
+
+  If the change is UI-affecting and `@designer` is available:
+  - Load the current UI context first: `.specflow/docs/D06-ui-design.md`,
+    `.specflow/docs/D07-ui-experience.md`, and any relevant `.specflow/docs/D08-ui-pages/...`
+    documents that describe the touched screens or patterns.
+  - Pass the context directly to `@designer`; do not ask it to do open-ended repository discovery.
+  - Ask `@designer` to return:
+    1. the established UI rules that govern this change
+    2. any gaps or conflicts between the requested UI change and the existing docs
+    3. the minimal doc updates needed to keep D06/D07/D08 consistent
+    4. a concise UI direction brief for implementers: layout, hierarchy, interaction, state, and
+       consistency guidance tied to the touched surfaces
+  - Prefer extending or updating existing UI docs over inventing parallel ad hoc guidance.
+  - If `@designer` identifies a conflict with D06, D07, or D08, stop and surface the conflict to
+    the user before coding unless the correct resolution is already explicit in the loaded docs.
+
+  If the change is UI-affecting and `@designer` is not available:
+  - Derive the UI direction brief directly from D06, D07, and D08.
+  - Note in the summary that UI implementation proceeded without `@designer` assistance.
+
+- [ ] **Step 5: Update feature status.** If `.specflow/features/<feature-name>/overview.md` exists
       and `status` is `todo`, change it to `implementing`. If no overview exists on disk, do not
       create one just for status tracking.
 
-- [ ] **Step 5: Establish the baseline.** Run `@execution-agent` for:
+- [ ] **Step 6: Establish the baseline.** Run `@execution-agent` for:
   1. `mode: test`
   2. `mode: lint`
   3. `mode: build`
@@ -166,20 +204,21 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 
 ### Phase 1 — Write Failing Tests
 
-- [ ] **Step 6: Run the test-only coding pass.** Invoke `@coder` (or general fallback) with a
+- [ ] **Step 7: Run the test-only coding pass.** Invoke `@coder` (or general fallback) with a
       task packet that includes:
   - the selected scope
   - only the relevant scenario text
   - phase: `test-only`
   - exact test files to create or modify
   - production files the subagent may inspect as references
+  - the UI direction brief if UI behavior is part of the scenarios
   - relevant feature/design excerpts and standards excerpts
   - explicit no-touch production scope
 
   Instruction: write only the tests for this scope. Follow existing test patterns and helpers. Do
   not write production code. The tests must fail cleanly because the behavior is not implemented yet.
 
-- [ ] **Step 7: Verify the new tests fail for the right reason.** Run `@execution-agent` with
+- [ ] **Step 8: Verify the new tests fail for the right reason.** Run `@execution-agent` with
       `mode: test` scoped to the new tests. Confirm:
   - the new tests are discovered
   - they fail, not error
@@ -192,19 +231,22 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 
 ### Phase 2 — Implement Minimum Production Code
 
-- [ ] **Step 8: Run the production-only coding pass.** Invoke `@coder` (or general fallback) with
+- [ ] **Step 9: Run the production-only coding pass.** Invoke `@coder` (or general fallback) with
       a task packet that includes:
   - the failing test output from Step 7
   - phase: `production-only`
   - exact production files or modules in scope
   - relevant implementation-plan and architecture excerpts
+  - the UI direction brief and any approved doc-update notes when the scope touches UI
   - applicable standards excerpts
   - explicit no-touch test scope
 
   Instruction: implement only what is needed to make the failing tests pass. Prefer extending
-  existing modules. No cleanup, refactoring, or extra scope in this pass.
+  existing modules. For UI work, follow the `@designer` direction and resolved D06/D07/D08
+  guidance exactly; do not improvise new patterns in code. No cleanup, refactoring, or extra
+  scope in this pass.
 
-- [ ] **Step 9: Verify the tests pass.** Run `@execution-agent` with `mode: test`. Confirm:
+- [ ] **Step 10: Verify the tests pass.** Run `@execution-agent` with `mode: test`. Confirm:
   - all targeted scenarios now pass
   - previously passing tests still pass
   - no new failures were introduced
@@ -216,7 +258,7 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 
 ### Phase 3 — Clean Up Tests
 
-- [ ] **Step 10: Run the test-cleanup pass.** Invoke `@coder` (or general fallback) with phase
+- [ ] **Step 11: Run the test-cleanup pass.** Invoke `@coder` (or general fallback) with phase
       `test-cleanup-only`.
   - Scope: exact test files, plus shared test helpers only if explicitly allowed.
   - Production files are out of scope.
@@ -224,29 +266,30 @@ Do not pass the full conversation, every feature artifact, or every standards fi
   Instruction: improve clarity, naming, and test deduplication without changing what is asserted or
   what scenarios are covered.
 
-- [ ] **Step 11: Verify tests still pass.** Run `@execution-agent` with `mode: test`. If cleanup
+- [ ] **Step 12: Verify tests still pass.** Run `@execution-agent` with `mode: test`. If cleanup
       introduced failures, repeat the test-cleanup pass until the suite is green again.
 
 ---
 
 ### Phase 4 — Clean Up Production Code
 
-- [ ] **Step 12: Run the production-cleanup pass.** Invoke `@coder` (or general fallback) with
+- [ ] **Step 13: Run the production-cleanup pass.** Invoke `@coder` (or general fallback) with
       phase `production-cleanup-only`.
   - Scope: only the production files changed in Phase 2.
   - Test files are out of scope.
 
   Instruction: improve clarity, naming, deduplication, and structure without changing observable
-  behavior.
+  behavior. For UI-affecting changes, preserve the approved UI direction and any resolved design
+  doc alignment from Step 4.
 
-- [ ] **Step 13: Verify tests still pass.** Run `@execution-agent` with `mode: test`. If cleanup
+- [ ] **Step 14: Verify tests still pass.** Run `@execution-agent` with `mode: test`. If cleanup
       introduced failures, repeat the production-cleanup pass until the suite is green again.
 
 ---
 
 ### Phase 5 — Final Validation
 
-- [ ] **Step 14: Run full validation.** Execute all three modes in sequence:
+- [ ] **Step 15: Run full validation.** Execute all three modes in sequence:
   1. `mode: test` — full suite
   2. `mode: lint`
   3. `mode: build`
@@ -262,19 +305,20 @@ Do not pass the full conversation, every feature artifact, or every standards fi
   - summarize the current blocker, failed validation output, and files in play
   - surface the issue to the user before proceeding further
 
-- [ ] **Step 15: Request human review when risk is high.** If the change alters architecture,
+- [ ] **Step 16: Request human review when risk is high.** If the change alters architecture,
       cross-cutting behavior, public interfaces, data boundaries, or other high-impact behavior,
       recommend human review after validation passes and before declaring the change fully complete.
 
-- [ ] **Step 16: Update feature status.** If `.specflow/features/<feature-name>/overview.md`
+- [ ] **Step 17: Update feature status.** If `.specflow/features/<feature-name>/overview.md`
       exists and `status` is `implementing`, change it to `done` after full validation passes.
 
-- [ ] **Step 17: Summarize.** Report:
+- [ ] **Step 18: Summarize.** Report:
   - implemented scope: single `@TS###`, single `TSM###`, full `.feature` file, or internal scenario set
   - scenarios implemented
   - production files created or modified
   - test files created or modified
   - which artifacts were generated internally, if any
+  - whether `@designer` was invoked and which D06/D07/D08 docs shaped the UI work, if applicable
   - baseline issues discovered before implementation, if any
   - final validation result
   - key scope or architecture decisions that shaped the implementation
@@ -307,15 +351,20 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 8. **Context minimization is mandatory.** The lead agent owns the full change model; coding
    subagents receive only focused task packets.
 
-9. **Orchestration only.** You do not write implementation code directly. Code changes go through a
-   coding subagent; execution goes through `@execution-agent`.
+9. **UI doc consistency is mandatory for UI changes.** When the implementation touches visible UI
+   behavior and `@designer` is available, route the change through `@designer` before coding and
+   ground the implementation in D06, D07, and relevant D08 guidance rather than in code-only
+   interpretation.
 
-10. **Missing design artifacts stay in memory.** When 301 synthesizes `overview.md`, `specs.feature`,
+10. **Orchestration only.** You do not write implementation code directly. Code changes go through a
+    coding subagent; execution goes through `@execution-agent`.
+
+11. **Missing design artifacts stay in memory.** When 301 synthesizes `overview.md`, `specs.feature`,
     or `implementation.md`, treat them as working context for the run unless the user explicitly asks
     to persist them.
 
-11. **Escalate stalled loops.** If repeated repair passes are not converging, stop and surface the
+12. **Escalate stalled loops.** If repeated repair passes are not converging, stop and surface the
     blocker rather than looping indefinitely.
 
-12. **Human review remains valuable for high-risk changes.** Clean validation is necessary, but it
+13. **Human review remains valuable for high-risk changes.** Clean validation is necessary, but it
     does not replace human judgment for broad architectural fit or sensitive behavior changes.
