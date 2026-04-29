@@ -1,13 +1,9 @@
 ---
 name: 110-feature-overview
 description: >
-  Use this skill when you need to define, organize, and prioritize the features that will be
-  built for this product. Triggers on phrases like "feature overview", "110", "feature list",
-  "feature backlog", "what features should we build", "capabilities", "feature planning",
-  or when the team needs a structured, reviewable breakdown of what to build and in what order.
-  Run this after the architecture documents (101–108) are complete or sufficiently drafted.
-  Produces a concise document grouping features under capabilities — each feature is a thin
-  vertical slice through the architecture, not necessarily a complete end-user capability.
+  Use `110` to define and prioritize the product's feature set as concise, reviewable slices.
+  Trigger it for prompts like "110", "feature overview", "feature list", "feature backlog", or
+  "what features should we build" after the main project framing is in place.
 ---
 
 # 110 — Feature Overview

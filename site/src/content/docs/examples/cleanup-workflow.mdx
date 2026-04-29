@@ -1,0 +1,33 @@
+---
+title: Cleanup Workflow
+description: Use 401 to clean up an already-changed source scope or test scope without widening the work casually.
+section: examples
+order: 5
+sidebar:
+  order: 5
+---
+
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## When this applies
+
+Use `401-cleanup` when the code already changed and now needs a focused cleanup pass. Each run must target exactly one target type: source cleanup or test cleanup. Never mix both in the same pass.
+
+## Two target paths
+
+- **Source-only cleanup**: clean up changed source files — remove duplication, clarify naming, reduce complexity. Does not touch test files.
+- **Test-only cleanup**: tidy changed test files — reduce redundancy, improve readability, fix broken assertions. Cannot add new coverage, new scenarios, or new test files.
+
+## Example prompt sequence
+
+<PromptBlock title="Prompt sequence" text={`Run 401-cleanup on the staged source changes.
+Use source code cleanup only.
+Do not broaden the scope unless an out-of-scope opportunity is worth explicit approval.`} />
+
+## What to watch for
+
+- Choose one target type only.
+- If the changed set mixes source and tests, pick one side before `401` can begin.
+- Keep the cleanup boundary explicit.
+- Test cleanup cannot add new coverage, new scenarios, or new test files.
+- Treat broader refactors as a separate decision.

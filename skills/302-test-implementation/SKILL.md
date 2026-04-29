@@ -1,10 +1,9 @@
 ---
 name: 302-test-implementation
 description: >
-  Use this skill when you need to implement missing or incomplete automated tests for behavior
-  that is already implemented. Trigger it for requests like "302", "test-only implementation",
-  "write the tests", "add E2E coverage", or "automate these scenarios" when the goal is to
-  add or repair tests without broad production-code changes.
+  Use `302` to add or repair automated tests for behavior that already exists. Choose it when the
+  missing work is test coverage, not broad production-code changes. Trigger it for prompts like
+  "302", "test-only implementation", "write the tests", or "add E2E coverage".
 ---
 
 # 302 - Test-Only Implementation

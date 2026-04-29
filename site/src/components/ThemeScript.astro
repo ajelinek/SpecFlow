@@ -1,0 +1,53 @@
+<script is:inline>
+  (() => {
+    // Use the same key and value semantics as Starlight's ThemeProvider so that
+    // the homepage and docs pages share a single, consistent theme preference.
+    const storageKey = 'starlight-theme';
+    const root = document.documentElement;
+
+    // Mirror Starlight's bootstrap logic: resolve 'auto' via prefers-color-scheme.
+    const stored = localStorage.getItem(storageKey) || 'auto';
+    const resolved =
+      stored === 'auto'
+        ? window.matchMedia('(prefers-color-scheme: light)').matches
+          ? 'light'
+          : 'dark'
+        : stored;
+    root.dataset.theme = resolved;
+
+    const updateButtons = () => {
+      const logical = localStorage.getItem(storageKey) || 'auto';
+      document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        button.setAttribute('aria-label', `Toggle theme. Current theme: ${logical}`);
+        button.setAttribute('data-current-theme', logical);
+      });
+    };
+
+    // Cycle: auto → light → dark → auto (matches Starlight's three-way select)
+    const nextTheme = () => {
+      const current = localStorage.getItem(storageKey) || 'auto';
+      if (current === 'auto') return 'light';
+      if (current === 'light') return 'dark';
+      return 'auto';
+    };
+
+    const applyTheme = (theme) => {
+      localStorage.setItem(storageKey, theme);
+      const resolved =
+        theme === 'auto'
+          ? window.matchMedia('(prefers-color-scheme: light)').matches
+            ? 'light'
+            : 'dark'
+          : theme;
+      root.dataset.theme = resolved;
+      updateButtons();
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateButtons();
+      document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        button.addEventListener('click', () => applyTheme(nextTheme()));
+      });
+    });
+  })();
+</script>

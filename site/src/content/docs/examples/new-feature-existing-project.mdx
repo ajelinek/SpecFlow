@@ -1,0 +1,36 @@
+---
+title: New Feature in an Existing Project
+description: The most common SpecFlow sequence for shipping a new feature in a repo that already exists.
+section: examples
+order: 2
+sidebar:
+  order: 2
+---
+
+import PromptBlock from '../../../components/PromptBlock.astro';
+import Callout from '../../../components/Callout.astro';
+
+## Sequence
+
+1. `201-high-level-design`
+2. `202-spec-design`
+3. `301-spec-implementation`
+4. Optional `401-cleanup` for source or tests
+
+## Example prompt sequence
+
+<PromptBlock title="Prompt sequence" text={`Run 201-high-level-design for invoice approval.
+Use 202-spec-design for invoice approval with balanced coverage.
+Run 301-spec-implementation for the invoice approval feature.`} />
+
+If you want a separate cleanup-only pass afterward, run `401-cleanup` once for changed source files or once for changed test files as separate runs.
+
+## Why this is the default
+
+- The project already exists, so you often can skip straight to `201`, but the 100-series is still useful if domain, architecture, or UX direction is unclear.
+- The feature still deserves a short design and behavior spec before implementation.
+- `301` already includes test cleanup and production cleanup; use `401` only when you want an extra cleanup-only pass on the resulting changed set.
+
+<Callout tone="core" title="Good fit">
+  Use this pattern when the domain and product shape are already clear enough that you do not need broad project-definition work.
+</Callout>

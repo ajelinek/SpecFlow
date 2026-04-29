@@ -15,6 +15,8 @@ If you only use one part of SpecFlow, use this path:
 
 `201-high-level-design` -> `202-spec-design` -> `301-spec-implementation` -> `401-cleanup`
 
+Docs site development and deployment notes live in `site/README.md`.
+
 ## Who This Is For
 
 SpecFlow is for teams or individuals who want a little more structure than pure prompt-and-pray coding, but do not want a heavyweight process.
@@ -47,6 +49,79 @@ That means SpecFlow gives you process structure without forcing a single enginee
 ## Start Here
 
 Most users should start with the minimal feature path.
+
+## Install
+
+Install SpecFlow:
+
+```bash
+npx skills add ajelinek/SpecFlow --skill specflow
+```
+
+That is the main install. It adds the `specflow` umbrella skill, which acts as the single
+entrypoint for the broader SpecFlow catalog.
+
+If you want every bundled skill available individually too:
+
+```bash
+npx skills add ajelinek/SpecFlow --skill '*'
+```
+
+List what the CLI sees before installing:
+
+```bash
+npx skills add ajelinek/SpecFlow --list
+```
+
+## Custom Agents
+
+SpecFlow includes supporting worker agents in `agents/`:
+
+- `coder`
+- `designer`
+- `execution-agent`
+
+The main install covers skills only. The worker agents are optional.
+
+Copy the bundled agents into any directory you choose:
+
+```bash
+./install/install-agents.sh --path=/path/to/agents-dir
+```
+
+OpenCode global:
+
+```bash
+./install/install-agents.sh --path="$HOME/.config/opencode/agents"
+```
+
+OpenCode project-local:
+
+```bash
+./install/install-agents.sh --path=/path/to/project/.opencode/agents
+```
+
+Claude Code global:
+
+```bash
+./install/install-agents.sh --path="$HOME/.claude/agents"
+```
+
+Claude Code project-local:
+
+```bash
+./install/install-agents.sh --path=/path/to/project/.claude/agents
+```
+
+You can also copy them manually if you prefer:
+
+- OpenCode: copy the files into `~/.config/opencode/agents/` or `.opencode/agents/`
+- Claude Code: copy the files into `~/.claude/agents/` or `.claude/agents/`
+
+If your runtime does not support the bundled `model` value in one of these files, edit the copied
+agent file and replace or remove that field.
+
+Site-specific install notes live on the docs site.
 
 ### Minimal Feature Path
 

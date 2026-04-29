@@ -1,13 +1,9 @@
 ---
 name: 104-backend-architecture
 description: >
-  Use this skill when you need to document the backend architecture for an application: how the
-  API is structured, how the service layer is organized, how data is accessed, and how
-  authentication, authorization, and security are implemented. Triggers on phrases like "backend
-  architecture", "104", "API design", "service layer", "backend structure", "how the server
-  works", or when the project needs a concrete specification of backend patterns before
-  implementation begins. Run this after 102-system-architecture and 103-common-data-model, and
-  before 105-frontend-architecture or 109-data-access-patterns.
+  Use `104` to define the backend architecture, including API structure, service layering, data
+  access, and security patterns. Trigger it for prompts like "104", "backend architecture", "API
+  design", or "service layer" when backend patterns need to be specified before coding.
 ---
 
 # 104 — Backend Architecture

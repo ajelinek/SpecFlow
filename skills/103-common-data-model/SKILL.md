@@ -1,14 +1,9 @@
 ---
 name: 103-common-data-model
 description: >
-  Use this skill when you need to document the application's conceptual data model: what entities
-  exist, what attributes they carry, how they relate to each other, and what business rules govern
-  them. Triggers on phrases like "data model", "103", "document the data", "what data do we have",
-  "entity relationships", "CDM", "conceptual data model", or when a user needs a shared
-  understanding of the domain data before implementation begins. This document is
-  implementation-independent — it defines the domain, not the database schema or state management
-  approach. Run this after 102-system-architecture and before 104-backend-architecture or
-  109-data-access-patterns.
+  Use `103` to define the conceptual data model: entities, relationships, and business rules.
+  Trigger it for prompts like "103", "data model", "conceptual data model", "entity
+  relationships", or when the team needs a shared domain model before implementation choices.
 ---
 
 # 103 — Common Data Model

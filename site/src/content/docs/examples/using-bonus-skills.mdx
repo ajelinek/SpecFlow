@@ -1,0 +1,25 @@
+---
+title: Using Bonus Skills
+description: When agent-context and deep-research help without becoming the main SpecFlow story.
+section: examples
+order: 6
+sidebar:
+  order: 6
+---
+
+import PromptBlock from '../../../components/PromptBlock.astro';
+import Callout from '../../../components/Callout.astro';
+
+Bonus skills support the workflow. They are useful because they reduce uncertainty, not because they belong in every feature sequence.
+
+## Typical uses
+
+- `agent-context` when a repo needs fresh root `AGENTS.md` guidance, plus nested overlays only where a subtree genuinely differs
+- `deep-research` any time web search or web research is needed, especially when freshness matters
+
+`100-domain-knowledge` usually relies on `deep-research` for non-trivial domain work, so `deep-research` is sometimes a dependency of planning rather than just a side skill.
+
+## Example prompt sequence
+
+<PromptBlock title="Prompt sequence" text={`Refresh AGENTS.md for this repo using agent-context.
+Do deep research on the latest remote browser automation options for coding agents.`} />

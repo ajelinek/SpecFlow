@@ -1,10 +1,9 @@
 ---
 name: agent-context
 description: >
-  Use this skill when you need to create or refresh `AGENTS.md` files for a project so coding
-  agents can navigate the repo, follow verified commands, and honor local architectural
-  boundaries. Use it for a first-time project setup, when agent guidance has gone stale, or when
-  a monorepo needs root guidance plus a small number of directory-specific overrides.
+  Create or refresh `AGENTS.md` guidance so coding agents can navigate a repository safely.
+  Trigger it when repo guidance is missing, stale, or needs local subtree overrides, especially
+  for first-time setup or monorepos with different conventions by directory.
 ---
 
 # Agent Context

@@ -1,12 +1,10 @@
 ---
 name: 107-ui-experience
 description: >
-  Use this skill when you need to define the UX architecture for a project: navigation
-  patterns, cross-platform interaction strategies, accessibility standards, error handling
-  flows, and the full page inventory with routes. Triggers on phrases like "ux experience",
-  "user experience", "navigation design", "107", "interaction patterns", "page structure",
-  "information architecture", or when the project needs a UX foundation before per-page
-  design work begins. Run this after 106-ui-design and before 108-ui-page-design.
+  Use `107` to define the UX architecture: navigation, interaction patterns, accessibility,
+  error handling, and the page inventory. Trigger it for prompts like "107", "user experience",
+  "navigation design", "interaction patterns", or "information architecture" before per-page
+  design work begins.
 ---
 
 # 107 — UI Experience Overview

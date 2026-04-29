@@ -1,13 +1,10 @@
 ---
 name: 202-spec-design
 description: >
-  Use this skill when you need to write Gherkin test scenarios for a specific feature.
-  Triggers on phrases like "test scenarios", "test spec", "202", "write tests", "gherkin",
-  "BDD scenarios", "add test coverage", "write specs", or when a feature's overview.md
-  exists and the next step is defining what to test. Produces a .feature file containing
-  organized, numbered Gherkin scenarios grouped into test modules. Supports three coverage
-  levels — Happy Path, Balanced, and Comprehensive — and a two-pass flow where happy path
-  scenarios are written first, then additional coverage is added in a second pass.
+  Use `202` to write Gherkin behavior scenarios for a feature. It produces a structured
+  `specs.feature` file with coverage sized to the task. Trigger it for prompts like "202", "test
+  spec", "gherkin", "BDD scenarios", or "write specs" when the next step is defining behavior to
+  test.
 ---
 
 # 202 — Test Scenario Design

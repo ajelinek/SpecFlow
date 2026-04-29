@@ -1,12 +1,10 @@
 ---
 name: 204-feature-validation
 description: >
-  Use this skill when you need to validate a feature's design artifacts before implementation
-  begins. Triggers on phrases like "validate the feature", "review the plan", "204",
-  "feature validation", "implementation readiness review", or when a feature's
-  `overview.md`, `specs.feature`, and `implementation.md` exist and need a final cross-check.
-  Returns a structured validation report in chat identifying inconsistencies, coverage gaps,
-  missed reuse opportunities, and rule violations without writing production code.
+  Use `204` to validate a feature's design artifacts before implementation begins. It reviews
+  `overview.md`, `specs.feature`, and `implementation.md` for gaps, inconsistencies, and missed
+  reuse. Trigger it for prompts like "204", "validate the feature", or "implementation readiness
+  review" before coding starts.
 ---
 
 # 204 — Feature Validation

@@ -24,7 +24,7 @@
     "should_trigger": false
   },
   {
-    "query": "Write a Python script that fetches DuckDuckGo HTML results for a query and extracts the links.",
+    "query": "Write a Python script that fetches DuckDuckGo Lite results for a query and extracts the links.",
     "should_trigger": false
   },
   {

@@ -1,14 +1,9 @@
 ---
 name: 401-cleanup
 description: >
-  Use this skill when you need to clean up an already-changed source scope or an already-changed
-  test scope without turning the work into a broad rewrite. Trigger it for requests like "401",
-  "cleanup this change", "refactor the touched files", "reduce duplication", or "tidy the
-  tests" when the user can identify the changed set or review scope. This workflow must choose
-  exactly one cleanup target type per run: source code or test code. Never use it to clean up
-  both in the same pass. Start from the user-defined changed set, run an exhaustive in-scope
-  cleanup and risk review for the selected target type, and surface any worthwhile out-of-scope
-  cleanup opportunities for approval before expanding beyond the initial boundary.
+  Use `401` to clean up an already-changed source scope or test scope without turning it into a
+  broad rewrite. Trigger it for prompts like "401", "cleanup this change", "refactor the touched
+  files", or "tidy the tests", and run it separately for source and test cleanup.
 ---
 
 # 401 - Cleanup

@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PathIcon from '../components/PathIcon.astro';
+import { coreWorkflow, docSections, siteMeta, workflowPaths } from '../lib/specflow';
+import { withBase } from '../lib/docs';
+
+const base = import.meta.env.BASE_URL;
+
+// Path selection: minimal is the default and featured selection
+const defaultPathId = 'lean';
+const defaultPath = workflowPaths.find((path) => path.id === defaultPathId) ?? workflowPaths[0];
+
+function pathIncludes(sequence: string, key: string) {
+  if (key === '302') {
+    return sequence.split('->').some((s) => s.trim().startsWith('301'));
+  }
+
+  return sequence.split('->').some((s) => s.trim().startsWith(key));
+}
+
+const optionalKeys = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '110', '203', '204', '302'];
+
+const flowRows = [
+  [
+    { key: '100', title: 'Domain Knowledge', description: 'Research the domain, users, constraints, and differentiators.' },
+    { key: '101', title: 'Project Overview', description: 'Define what the product is, who it serves, and why it matters.' },
+    { key: '102', title: 'System Architecture', description: 'Set the stack, major components, and testing baseline.' },
+    { key: '103', title: 'Common Data Model', description: 'Define shared entities, relationships, and business rules.' },
+    { key: '104', title: 'Backend Architecture', description: 'Specify API structure, services, data access, and security.' },
+  ],
+  [
+    { key: '110', title: 'Feature Overview', description: 'Map the product into capabilities and thin vertical slices.' },
+    { key: '108', title: 'Page Design', description: 'Loop on individual routes when a specific page needs detailed design.' },
+    { key: '107', title: 'UI Experience', description: 'Define navigation, page inventory, and interaction commitments.' },
+    { key: '106', title: 'UI Design', description: 'Set the visual system, typography, and component look and feel.' },
+    { key: '105', title: 'Frontend Architecture', description: 'Define component boundaries, state rules, and integration patterns.' },
+  ],
+  [
+    { key: '201', title: 'High-Level Design', description: 'Define one feature with scope and user journey.' },
+    { key: '202', title: 'Spec Design', description: 'Write the Gherkin scenarios that describe expected behavior.' },
+    { key: '203', title: 'Implementation Design', description: 'Persist the technical implementation plan when needed.' },
+    { key: '204', title: 'Feature Validation', description: 'Review the artifacts before coding starts.' },
+  ],
+  [
+    { key: '401', title: 'Cleanup', description: 'Refine the changed source or test scope in a focused pass.' },
+    { key: '302', title: 'Test Implementation', description: 'Add or repair automated tests for behavior that already exists.' },
+    { key: '301', title: 'Spec Implementation', description: 'Build through the tests-first, phase-isolated workflow.' },
+  ],
+] as const;
+---
+
+<BaseLayout currentPath={Astro.url.pathname} homeOnly={true}>
+  <section class="home-hero container">
+    <div class="home-hero__copy">
+      <p class="eyebrow">SpecFlow</p>
+      <h1>Software, defined.</h1>
+      <p class="home-hero__lede">A lightweight, spec-driven workflow for building with AI.</p>
+      <div class="home-hero__actions">
+        <a class="button button--primary button--hero" href={withBase('/getting-started/', base)}>Get Started</a>
+        <a class="home-hero__link" href={withBase('/skills/', base)}>Browse the skills</a>
+        <a class="home-hero__link" href={siteMeta.github}>GitHub</a>
+      </div>
+    </div>
+
+    <div class="home-hero__art" aria-hidden="true">
+      <div class="home-hero__orb home-hero__orb--large"></div>
+      <div class="home-hero__orb home-hero__orb--small"></div>
+      <div class="home-hero__grid"></div>
+      <div class="home-hero__ring home-hero__ring--one"></div>
+      <div class="home-hero__ring home-hero__ring--two"></div>
+    </div>
+  </section>
+
+  <section class="home-path container" aria-labelledby="home-path-title">
+    <div class="home-path__header">
+      <p class="eyebrow">Minimal path</p>
+      <h2 id="home-path-title">201 -> 202 -> 301 -> 401</h2>
+      <p>Define. Specify. Build. Clean up.</p>
+    </div>
+
+    <ol class="home-path__list">
+      {coreWorkflow.map((step, index) => (
+        <li class:list={{ 'home-path__step': true, 'is-offset': index % 2 === 1 }}>
+          <span class="home-path__dot" aria-hidden="true"></span>
+          <span class="home-path__line" aria-hidden="true"></span>
+          <code>{step.label}</code>
+          <h3>{step.title}</h3>
+          <p>{step.description}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="home-path-selection container" aria-labelledby="home-path-selection-title" data-path-selection data-flow-visualization data-default-path={defaultPathId}>
+    <div class="home-path-selection__header">
+      <h2 id="home-path-selection-title">Choose your path</h2>
+      <p>Select the workflow that best fits your project's current needs and constraints.</p>
+    </div>
+
+    <div class="home-path-selection__controls" role="radiogroup" aria-label="Workflow paths">
+      {workflowPaths.map((path) => (
+        <label class:list={['home-path-selection__radio-label', { 'is-featured': path.id === defaultPathId, 'is-selected': path.id === defaultPathId }]}>
+          <input
+            type="radio"
+            name="workflow-path"
+            value={path.id}
+            checked={path.id === defaultPathId}
+            class="home-path-selection__radio"
+            data-path-control={path.id}
+            data-path-label={path.label}
+            data-path-icon={path.icon}
+            data-path-description={path.description}
+            data-path-note={path.note}
+            data-path-sequence={path.sequence}
+          />
+          <span class="home-path-selection__path-option">
+            <PathIcon class="home-path-selection__path-icon" name={path.icon} />
+            <span class="home-path-selection__path-label">{path.label}</span>
+          </span>
+        </label>
+      ))}
+    </div>
+
+    <div class="home-path-selection__board is-selected" data-path-panel={defaultPath.id} data-path-board>
+      <svg class="home-path-selection__flow-map" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true">
+        <path class="home-path-selection__flow-line home-path-selection__flow-line--row-1" d="M 113 199 H 887" />
+        <path class="home-path-selection__flow-line home-path-selection__flow-line--drop-1" d="M 887 199 C 960 199 960 335 887 335 H 113" />
+        <path class="home-path-selection__flow-line home-path-selection__flow-line--drop-2" d="M 113 335 C 40 335 40 475 209 475 H 791" />
+        <path class="home-path-selection__flow-line home-path-selection__flow-line--drop-3" d="M 791 475 C 860 475 860 618 695 618 H 305" />
+        <path class="home-path-selection__flow-line home-path-selection__flow-line--pulse" d="M 113 199 H 887 C 960 199 960 335 887 335 H 113 C 40 335 40 475 209 475 H 791 C 860 475 860 618 695 618 H 305" />
+      </svg>
+
+      <div class="home-path-selection__path-meta">
+        <p class="home-path-selection__kicker">Selected path</p>
+        <h3 data-path-name>{defaultPath.label}</h3>
+        <p data-path-description>{defaultPath.description}</p>
+        <p class="home-path-selection__note" data-path-note>{defaultPath.note}</p>
+      </div>
+
+      <div class="home-path-selection__rows">
+        {flowRows.map((row, rowIndex) => (
+          <div class="home-path-selection__row" data-row={rowIndex + 1}>
+            {row.map((card) => {
+              const included = pathIncludes(defaultPath.sequence, card.key);
+              const isOptional = optionalKeys.includes(card.key);
+              const isLoopCard = card.key === '108';
+              const isFeatureLoopCard = ['201', '202', '203', '204', '301', '302', '401'].includes(card.key);
+
+              return (
+                <article
+                  class:list={[
+                    'home-path-selection__card',
+                    {
+                      'is-active': included,
+                      'is-faded': !included,
+                      'is-skipped': !included,
+                      'is-optional': isOptional,
+                      'is-loop-card': isLoopCard,
+                      'is-feature-cycle-card': isFeatureLoopCard,
+                    },
+                  ]}
+                  data-step-key={card.key}
+                  data-optional={isOptional ? 'true' : undefined}
+                >
+                  <div class="home-path-selection__card-topline">
+                    <span class="home-path-selection__card-code">{card.key}</span>
+                    {card.key === '108' && <span class="home-path-selection__card-badge">Loop</span>}
+                    {card.key === '201' && <span class="home-path-selection__card-badge">Spec Loop Start</span>}
+                    {card.key === '401' && <span class="home-path-selection__card-badge">Spec Loop End</span>}
+                  </div>
+                  <h3 class="home-path-selection__card-title">{card.title}</h3>
+                  <p class="home-path-selection__card-description">{card.description}</p>
+                </article>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="home-links container" aria-label="Reference links">
+    <div class="home-links__rule" aria-hidden="true"></div>
+    <div class="home-links__list">
+      {docSections.map((section) => (
+        <a class="home-links__item" href={withBase(`/${section.slug}/`, base)}>
+          <span>{section.label}</span>
+        </a>
+      ))}
+      <a class="home-links__item" href={siteMeta.github}>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </section>
+
+  <script>
+    const pathSelection = document.querySelector('[data-path-selection]');
+
+    if (pathSelection) {
+      const controls = Array.from(pathSelection.querySelectorAll<HTMLInputElement>('[data-path-control]'));
+      const defaultPath = pathSelection.getAttribute('data-default-path') ?? 'lean';
+      const board = pathSelection.querySelector<HTMLElement>('[data-path-board]');
+      const cards = Array.from(pathSelection.querySelectorAll<HTMLElement>('[data-step-key]'));
+      const name = pathSelection.querySelector<HTMLElement>('[data-path-name]');
+      const description = pathSelection.querySelector<HTMLElement>('[data-path-description]');
+      const note = pathSelection.querySelector<HTMLElement>('[data-path-note]');
+
+      const sequenceIncludes = (pathSequence: string, key: string) => {
+        return pathSequence.split('->').some((step) => step.trim().startsWith(key));
+      };
+
+      const setActivePath = (nextId: string) => {
+        const activeControl = controls.find((control) => control.getAttribute('data-path-control') === nextId);
+        if (!activeControl) return;
+
+        const activeSequence = activeControl.getAttribute('data-path-sequence') ?? '';
+
+        controls.forEach((control) => {
+          const isActive = control.getAttribute('data-path-control') === nextId;
+          control.checked = isActive;
+          control.closest('.home-path-selection__radio-label')?.classList.toggle('is-selected', isActive);
+        });
+
+        if (board) {
+          board.setAttribute('data-path-panel', nextId);
+        }
+
+        if (name) name.textContent = activeControl.getAttribute('data-path-label') ?? '';
+        if (description) description.textContent = activeControl.getAttribute('data-path-description') ?? '';
+        if (note) note.textContent = activeControl.getAttribute('data-path-note') ?? '';
+
+        cards.forEach((card) => {
+          const key = card.getAttribute('data-step-key') ?? '';
+          const isIncluded = sequenceIncludes(activeSequence, key);
+          card.classList.toggle('is-active', isIncluded);
+          card.classList.toggle('is-faded', !isIncluded);
+          card.classList.toggle('is-skipped', !isIncluded);
+        });
+      };
+
+      controls.forEach((control) => {
+        control.addEventListener('change', () => {
+          const nextId = control.getAttribute('data-path-control');
+          if (nextId) setActivePath(nextId);
+        });
+      });
+
+      setActivePath(defaultPath);
+    }
+  </script>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+interface LifecycleStage {
+  label: string;
+  title: string;
+  description: string;
+  steps: string[];
+}
+
+interface Props {
+  stages: LifecycleStage[];
+}
+
+const { stages } = Astro.props;
+---
+
+<div class="lifecycle-map" aria-label="SpecFlow lifecycle">
+  {stages.map((stage, index) => (
+    <section class="lifecycle-map__stage">
+      <p class="lifecycle-map__label">{stage.label}</p>
+      <h3>{stage.title}</h3>
+      <p>{stage.description}</p>
+      <p class="lifecycle-map__steps">{stage.steps.join(' -> ')}</p>
+      {index < stages.length - 1 && <div class="lifecycle-map__arrow" aria-hidden="true">↓</div>}
+    </section>
+  ))}
+</div>

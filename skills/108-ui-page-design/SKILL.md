@@ -1,13 +1,9 @@
 ---
 name: 108-ui-page-design
 description: >
-  Use this skill when you need to design a specific page or view in the product: layout
-  structure, HTML mockup, data attributes, user interaction flows, and responsive behavior for
-  a single named page. Triggers on phrases like "page design", "108", "mockup", "wireframe",
-  "design the [page name] page", "page layout", "ui page", or when a specific route or view
-  needs a detailed design spec. Run this after 107-ui-experience. Invoke once per page — each
-  run produces one page's design files. The page name must be provided or confirmed before
-  the skill runs.
+  Use `108` to design a specific page or view in detail, including layout, mockup, interactions,
+  and responsive behavior. Trigger it for prompts like "108", "page design", "wireframe", or
+  "design the [page] page" when a single route or view needs a detailed design spec.
 ---
 
 # 108 — UI Page Design

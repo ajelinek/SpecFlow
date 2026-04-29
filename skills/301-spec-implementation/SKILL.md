@@ -1,13 +1,10 @@
 ---
 name: 301-spec-implementation
 description: >
-  Use this skill to implement a substantial planned system change through a strict spec-driven
-  BDD/TDD workflow. This is the primary implementation workflow for large features, backend
-  changes, architecture work, major refactors, and broad cleanups that span multiple files or
-  modules. It prepares any missing feature design context before coding, then drives tests
-  first, implementation second, cleanup in separate passes, and final validation. Do not use
-  this skill for small isolated edits or one-pass cleanup tasks that belong in the 400-series
-  workflows.
+  Use `301` to implement a substantial change through the main SpecFlow spec-driven workflow. It
+  handles preparation, tests-first implementation, separate cleanup passes, and final validation.
+  Trigger it for prompts like "301", "spec implementation", or "implement this feature" when the
+  work is large enough to benefit from a disciplined multi-phase delivery flow.
 ---
 
 # 301 — Spec-Driven System Implementation

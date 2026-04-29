@@ -1,12 +1,10 @@
 ---
 name: 201-high-level-design
 description: >
-  Use this skill when you need to produce the high-level design document for a specific
-  feature. Triggers on phrases like "high-level design", "201", "feature design", "HLD",
-  "design the feature", "start the feature", or when a feature is ready to be fleshed out.
-  The feature does not need to exist in D10 — this skill handles both cases. Produces a
-  concise overview.md covering business purpose and the end-to-end user journey — nothing
-  more. Detailed test scenarios and implementation design follow in 202 and 203.
+  Use `201` to create a concise high-level design for a specific feature. It produces the feature
+  overview and end-to-end user journey without going into test or implementation detail. Trigger
+  it for prompts like "201", "high-level design", "feature design", or "HLD" when a feature needs
+  a short overview before specs or implementation.
 ---
 
 # 201 — High-Level Design

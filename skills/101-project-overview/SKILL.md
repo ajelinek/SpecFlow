@@ -1,13 +1,10 @@
 ---
 name: 101-project-overview
 description: >
-  Use this skill when starting a new software project and you need to establish the foundational
-  product document: what problem it solves, who it's for, how it differentiates, and what success
-  looks like. Triggers on phrases like "create project overview", "write the project overview doc",
-  "let's start the project documentation", "101", "project overview", or when a user describes a
-  new app idea and wants structured documentation. This is the first project-definition workflow
-  to run on a new project after any needed domain-knowledge work, and before system architecture,
-  data model, or any feature work.
+  Use `101` to define the project's core product framing: problem, users, differentiation, and
+  success criteria. Trigger it for prompts like "101", "project overview", "create project
+  overview", or when a new product idea needs a structured foundation before architecture or
+  feature work.
 ---
 
 # 101 — Project Overview

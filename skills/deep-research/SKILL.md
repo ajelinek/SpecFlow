@@ -1,7 +1,11 @@
 ---
 name: deep-research
-description: Do deep web research that requires finding, comparing, and synthesizing multiple current sources before answering. Always use this skill whenever the user says `research` or `deep research`, or asks for a deep dive, vendor or tool comparison, landscape analysis, due diligence, literature review, market scan, policy or regulatory research, the latest state of a topic, or a recommendation grounded in current web evidence. Also use it when the user says things like "look into", "compare options", "what's the best choice right now", or "what changed recently" and a strong answer would require real web discovery rather than just opening one URL.
-compatibility: Requires internet access plus a discovery mechanism. In OpenCode, assume `websearch_cited` is unavailable unless the environment clearly provides it. Use DuckDuckGo HTML search result pages such as `https://duckduckgo.com/html/?q=<query>` for discovery, then use `webfetch` or equivalent page retrieval for source extraction. For latest, current-state, recent, or what-changed questions, do not rely on model memory alone; verify with live web sources.
+description: >
+  Do deep web research that requires finding, comparing, and synthesizing multiple current
+  sources before answering. Use it when the user asks for research, a deep dive, current-state
+  analysis, or an evidence-backed recommendation, including vendor comparisons, market scans,
+  due diligence, or "what changed recently" questions.
+compatibility: Requires internet access plus a discovery mechanism. In OpenCode, assume `websearch_cited` is unavailable unless the environment clearly provides it. Use DuckDuckGo Lite search result pages such as `https://duckduckgo.com/lite/?q=<query>` for discovery, then use `webfetch` or equivalent page retrieval for source extraction. For latest, current-state, recent, or what-changed questions, do not rely on model memory alone; verify with live web sources.
 ---
 
 # Deep Research
@@ -33,12 +37,12 @@ Before starting, confirm what web capabilities are actually available.
 - Prefer `websearch_cited` when you need open-ended discovery: searching, comparing candidate sources, and finding additional leads.
 - Use `webfetch` or equivalent URL fetching tools to extract page content once relevant sources are found.
 - If `websearch_cited` fails with a configuration error, treat it as unavailable for this run and fall back instead of retrying blindly.
-- Fallback discovery: use DuckDuckGo HTML result pages such as `https://duckduckgo.com/html/?q=<query>` to locate result pages, then inspect and extract URLs from those results.
+- Fallback discovery: use DuckDuckGo Lite result pages such as `https://duckduckgo.com/lite/?q=<query>` to locate result pages, then inspect and extract URLs from those results.
 - If neither `websearch_cited`, DuckDuckGo-style query fallback, nor sufficient seed URLs are available, say that you cannot do full deep research in this environment instead of pretending a few fetches are comprehensive.
 
 Practical rule:
 
-- In OpenCode, DuckDuckGo HTML result pages plus `webfetch` are the default discovery path unless a stronger native search tool is clearly available.
+- In OpenCode, DuckDuckGo Lite result pages plus `webfetch` are the default discovery path unless a stronger native search tool is clearly available.
 - `webfetch` is for extraction and synthesis from known URLs.
 - Do not treat model memory as sufficient evidence for latest or current-state claims.
 
@@ -91,7 +95,7 @@ Use `websearch_cited` for discovery and use normal, targeted research behavior r
 
 If `websearch_cited` is unavailable or misconfigured:
 
-- Use a DuckDuckGo query URL for each planned search lane.
+- Use a DuckDuckGo Lite query URL for each planned search lane.
 - Inspect the returned result page and extract the most relevant candidate URLs.
 - DuckDuckGo result links may be wrapped in redirect URLs; if so, recover the destination from the `uddg` query parameter before fetching the source page.
 - Prioritize official docs, specs, maintainer pages, government sources, and high-quality analysis over aggregator pages.
@@ -99,7 +103,7 @@ If `websearch_cited` is unavailable or misconfigured:
 
 In OpenCode, you should usually assume this fallback path is the intended path:
 
-- Start with DuckDuckGo HTML result pages.
+- Start with DuckDuckGo Lite result pages.
 - Extract direct destination URLs from `uddg` when DuckDuckGo wraps the links.
 - Fetch the underlying source pages, not the DuckDuckGo redirect wrapper.
 - Use multiple live sources before making freshness-sensitive claims.

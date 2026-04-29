@@ -1,0 +1,59 @@
+---
+title: Full Skill Catalog
+description: The complete SpecFlow catalog, organized by the larger lifecycle groupings and when each skill matters.
+section: skills
+order: 1
+sidebar:
+  order: 1
+---
+
+import Callout from '../../components/Callout.astro';
+import SkillCatalog from '../../components/SkillCatalog.astro';
+
+## How the groupings work
+
+The number ranges tell you where a skill belongs:
+
+| Grouping | Meaning |
+|---|---|
+| `100` series | Build shared project context: domain, product, architecture, UX, and feature map |
+| `200` series | Define one feature before coding |
+| `300` series | Implement or repair behavior |
+| `400` series | Run cleanup-only refinement on an already-changed scope |
+
+<Callout tone="optional" title="Reference, not a sequence">
+  Start with the `100` series when project context is still missing — this applies to new projects and existing projects alike when understanding is weak. Once the project frame is clear, the main delivery path is `201 -> 202 -> 301`. Use `108-ui-page-design` as the optional page-mockup step when a specific route needs a detailed layout reference. Add `203` and `204` when you want a persisted implementation plan and a readiness review before coding, or `401` when you want a separate cleanup-only pass afterward.
+</Callout>
+
+<Callout tone="core" title="The 100-series is not just for greenfield work">
+  Use the `100` series on new projects and on existing projects whenever understanding is weak. Better project context usually produces better feature plans and better implementation runs.
+</Callout>
+
+<Callout tone="bonus" title="Bonus does not always mean side quest">
+  `deep-research` is listed as a bonus skill, but `100-domain-knowledge` normally relies on it for non-trivial live research. `agent-context` is similar: it sits outside the feature loop, but it can become important early when a repo needs trustworthy `AGENTS.md` guidance.
+</Callout>
+
+## Install options
+
+Install only the umbrella entrypoint:
+
+```bash
+npx skills add ajelinek/SpecFlow --skill specflow
+```
+
+Install the full catalog:
+
+```bash
+npx skills add ajelinek/SpecFlow --skill '*'
+```
+
+The bundled worker agents in `agents/` are optional and installed separately. See
+**[Custom Agents](../getting-started/custom-agents/)** for those install directions.
+
+## Skill inventory
+
+This page is the inventory and the reference. Use it to understand what each skill does and where it fits in the lifecycle.
+
+## Catalog
+
+<SkillCatalog />

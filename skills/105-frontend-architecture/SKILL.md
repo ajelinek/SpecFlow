@@ -1,13 +1,9 @@
 ---
 name: 105-frontend-architecture
 description: >
-  Use this skill when you need to document the frontend architecture for an application: how the
-  UI is structured, how components are organized, how state is managed, and what framework
-  conventions and development patterns are in play. Triggers on phrases like "frontend
-  architecture", "105", "component structure", "state management", "UI architecture", "how the
-  frontend works", or when the project needs a concrete specification of frontend patterns before
-  implementation begins. Run this after 104-backend-architecture, and before 106-ui-design or
-  108-ui-page-design.
+  Use `105` to define the frontend architecture: UI structure, component boundaries, state, and
+  development patterns. Trigger it for prompts like "105", "frontend architecture", "component
+  structure", or "state management" when frontend patterns need to be specified before UI design.
 ---
 
 # 105 — Frontend Architecture

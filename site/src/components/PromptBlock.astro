@@ -1,0 +1,13 @@
+---
+interface Props {
+  title?: string;
+  text: string;
+}
+
+const { title = 'Prompt', text } = Astro.props;
+---
+
+<div class="prompt-block">
+  <div class="prompt-block__label">{title}</div>
+  <pre><code>{text}</code></pre>
+</div>

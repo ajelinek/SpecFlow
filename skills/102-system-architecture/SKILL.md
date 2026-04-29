@@ -1,12 +1,9 @@
 ---
 name: 102-system-architecture
 description: >
-  Use this skill when a project needs a system architecture document that defines the technology
-  stack, major components, architectural style, and testing strategy. Triggers on phrases like
-  "create system architecture", "write the architecture doc", "define the tech stack", "102",
-  "system architecture", or when a user is ready to make foundational technology decisions after
-  establishing a project overview. Run this after 101-project-overview and before any backend,
-  frontend, or data model work begins.
+  Use `102` to define the system architecture, stack, major components, and testing approach.
+  Trigger it for prompts like "102", "system architecture", "architecture doc", or "define the
+  tech stack" when the project is ready for foundational technical decisions.
 ---
 
 # 102 — System Architecture

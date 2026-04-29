@@ -1,0 +1,69 @@
+---
+title: 301 Spec Implementation
+navTitle: 301 Spec Implementation
+description: Implement substantial changes through a tests-first workflow with synthesized prep, internal cleanup phases, and final validation.
+section: core-workflow
+order: 4
+sidebar:
+  order: 4
+---
+
+import PromptBlock from '../../../components/PromptBlock.astro';
+import Callout from '../../../components/Callout.astro';
+
+## What this workflow is for
+
+`301-spec-implementation` is the main implementation workflow for substantial changes. It prepares missing design context if needed, writes failing tests, implements the minimum production code, runs a test-cleanup pass, runs a production-cleanup pass, and ends with full validation.
+
+## When to use it
+
+- When the change is bigger than a tiny isolated edit
+- When the work should be driven by a spec rather than by ad hoc prompting
+- When you want tests, lint, and build results to be the ground truth for completion
+
+## What it produces
+
+- Updated source and test files in the codebase
+- Status updates in `overview.md` when that file already exists
+- In-memory `201`, `202`, `203`, and `204` outputs when feature artifacts are missing
+- Final validation through test, lint, and build passes
+
+## If feature artifacts are missing
+
+If `.specflow/features/<feature-name>/overview.md`, `specs.feature`, or `implementation.md` is missing, `301` synthesizes the missing `201`, `202`, and `203` outputs in memory and then runs `204-feature-validation` before coding. Those synthesized artifacts are working context for the run; they are not written to `.specflow/` unless you explicitly ask.
+
+<Callout tone="tip" title="301 is an orchestration workflow">
+  `301` is not just a longer coding prompt. When the bundled workers are installed, coding runs go through `coder`, validation runs go through `execution-agent`, and UI-affecting work should consult `designer` first.
+</Callout>
+
+## Required inputs
+
+- A change request or spec reference
+- A clear scope: one `@TS###`, one `TSM###`, a full `.feature`, or a tightly derived plain-language scope
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 301-spec-implementation for the invoice approval feature.`} />
+
+<PromptBlock title="Prompt" text={`Run 301-spec-implementation for .specflow/features/account-recovery/specs.feature scoped to TSM001.`} />
+
+## What usually comes next
+
+Often nothing: `301` already includes internal test cleanup and production cleanup before final validation. Use `401-cleanup` afterward only when you want an additional cleanup-only pass on an already-changed source or test scope.
+
+## Practical guidance
+
+- Use `301` for substantial work, not tiny naming edits.
+- Let tests, lint, and build results decide whether the workflow is done.
+- If you want a persisted implementation plan, run `203-implementation-design` before `301`.
+- Keep cleanup isolated by target type. Test cleanup is not production cleanup.
+
+## Common mistakes
+
+- Starting `301` without a real scope boundary
+- Using it for test-only work that belongs in `302-test-implementation`
+- Trying to revise Gherkin inside `301` instead of routing that work back through `202-spec-design`
+
+<Callout tone="warning" title="Important">
+  `301` is intentionally strict about phase order. It exists to keep larger changes from collapsing into an undifferentiated coding session.
+</Callout>

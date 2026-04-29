@@ -1,12 +1,10 @@
 ---
 name: 106-ui-design
 description: >
-  Use this skill when you need to establish the visual design system and UI strategy for a
-  project: design philosophy, color system, typography, layout principles, and component design
-  approach. Triggers on phrases like "ui design", "design system", "106", "visual design",
-  "brand and design", "color palette", "typography strategy", or when the project needs a
-  strategic design foundation before page-level or component-level work begins. Run this after
-  105-frontend-architecture and before 107-ui-experience or 108-ui-page-design.
+  Use `106` to establish the visual design system and UI strategy for a project. It covers the
+  design philosophy, color system, typography, layout principles, and component visual language.
+  Trigger it for prompts like "106", "ui design", "design system", "visual design", or "color
+  palette" when the project needs a strategic visual foundation.
 ---
 
 # 106 — UI Design

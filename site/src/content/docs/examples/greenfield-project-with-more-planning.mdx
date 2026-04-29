@@ -1,0 +1,44 @@
+---
+title: Greenfield Project with More Planning
+description: A sequence for teams that need product or architecture context before feature work begins.
+section: examples
+order: 3
+sidebar:
+  order: 3
+---
+
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+Use the 100-series when the project is still missing domain clarity, product framing, or architectural decisions.
+
+## Typical sequence
+
+1. `100-domain-knowledge`
+2. `101-project-overview`
+3. `102-system-architecture`
+4. `103-common-data-model`
+5. `104-backend-architecture`
+6. `105-frontend-architecture`
+7. `106-ui-design`
+8. `107-ui-experience`
+9. Optional page-mockup step: `108-ui-page-design` (once per route that needs a detailed layout reference)
+10. `110-feature-overview`
+11. Then move into `201 -> 202 -> 301 -> 401` for the first real feature
+
+`110` creates the capability map and stable `F-ID`s that later feature docs can reuse.
+
+For higher-risk work, add `203-implementation-design` and `204-feature-validation` between `202` and `301` so the implementation plan is written and reviewed before coding starts.
+
+## Example prompt sequence
+
+<PromptBlock title="Prompt sequence" text={`Run 100-domain-knowledge for a lightweight AI-assisted software delivery workflow product.
+Create the 101-project-overview for the product.
+Write the 102-system-architecture document.
+Create the 110-feature-overview.
+Run 201-high-level-design for the first feature the team wants to build.`} />
+
+## Why this is different
+
+The goal is not to invoke every planning skill by default. The goal is to use them only when the project would otherwise be built on unclear assumptions.
+
+For domain-heavy or unfamiliar products, `100-domain-knowledge` is usually a live-research step, not just a brainstorming pass.

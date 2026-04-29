@@ -1,0 +1,41 @@
+---
+import { docSections, siteMeta } from '../lib/specflow';
+import { withBase } from '../lib/docs';
+
+interface Props {
+  homeOnly?: boolean;
+}
+
+const { homeOnly = false } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+{
+  homeOnly ? (
+    <footer class="site-footer site-footer--home">
+      <nav aria-label="Homepage footer">
+        <ul>
+          <li><a href={withBase('/skills/', base)}>Skills</a></li>
+          <li><a href={withBase('/examples/', base)}>Examples</a></li>
+          <li><a href={withBase('/faq/', base)}>FAQ</a></li>
+        </ul>
+      </nav>
+    </footer>
+  ) : (
+    <footer class="site-footer">
+      <div>
+        <p class="site-footer__title">SpecFlow</p>
+        <p>{siteMeta.description}</p>
+      </div>
+
+      <nav aria-label="Footer">
+        <ul>
+          {docSections.map((section) => (
+            <li><a href={withBase(`/${section.slug}/`, base)}>{section.label}</a></li>
+          ))}
+          <li><a href={siteMeta.github}>GitHub</a></li>
+        </ul>
+      </nav>
+    </footer>
+  )
+}

@@ -1,0 +1,9 @@
+---
+interface Props {
+  tier: 'core' | 'optional' | 'bonus';
+}
+
+const { tier } = Astro.props;
+---
+
+<span class={`tier-badge tier-badge--${tier}`}>{tier}</span>

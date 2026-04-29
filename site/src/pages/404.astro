@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/docs';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout title="Page not found" currentPath={Astro.url.pathname}>
+  <section class="container not-found">
+    <p class="eyebrow">404</p>
+    <h1>Page not found.</h1>
+    <p>The page you tried to open does not exist in this docs build.</p>
+    <a class="button button--primary" href={withBase('/getting-started/', base)}>Go to Getting Started</a>
+  </section>
+</BaseLayout>

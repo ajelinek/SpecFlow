@@ -1,15 +1,10 @@
 ---
 name: 203-implementation-design
 description: >
-  Use this skill when you need to produce the implementation design for a specific feature.
-  Triggers on phrases like "implementation design", "203", "technical design", "implementation
-  plan", "how do I build this", "design the implementation", or when a feature's overview.md
-  and specs.feature exist and the next step is planning the code changes. Produces a precise,
-  codebase-grounded implementation.md covering what files change, what each piece does, and why —
-  at one of three
-  detail levels: High Level, Balanced, or Detailed. No Mermaid diagrams. Deeply researches
-  the existing codebase before designing and strongly favors extending existing code over
-  creating new files.
+  Use `203` to produce a codebase-grounded implementation plan for a feature. It maps the needed
+  file changes and explains how the implementation should fit the existing code. Trigger it for
+  prompts like "203", "implementation design", "technical design", or "how do I build this" when
+  overview and spec artifacts already exist.
 ---
 
 # 203 — Implementation Design

@@ -1,0 +1,26 @@
+---
+import TierBadge from './TierBadge.astro';
+import { getSkillsByCategory } from '../lib/specflow';
+
+const groups = getSkillsByCategory();
+---
+
+<div class="skill-groups">
+  {groups.map((group) => (
+    <section class="skill-group" id={group.category.toLowerCase().replace(/\s+/g, '-')}>
+      <h2>{group.category}</h2>
+      <div class="skill-table">
+        {group.skills.map((skill) => (
+          <article class="skill-row">
+            <div class="skill-row__heading">
+              <code>{skill.label}</code>
+              <TierBadge tier={skill.tier} />
+            </div>
+            <p>{skill.purpose}</p>
+            <p class="skill-row__note"><strong>When to use it:</strong> {skill.whenToUse}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  ))}
+</div>

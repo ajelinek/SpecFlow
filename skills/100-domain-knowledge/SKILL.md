@@ -1,12 +1,10 @@
 ---
 name: 100-domain-knowledge
 description: >
-  Use this skill when you need to establish or refresh the project's domain knowledge before
-  planning, architecture, or feature design. Triggers on phrases like "domain knowledge",
-  "domain research", "market analysis", "industry context", "what makes this product unique",
-  "100", or when a project needs research-backed understanding of its users, workflows,
-  terminology, regulations, and differentiators. Run this before 101-project-overview when the
-  domain is unfamiliar, regulated, competitive, or terminology-heavy.
+  Use `100` to establish or refresh domain knowledge before project planning or feature design.
+  Trigger it for prompts like "100", "domain knowledge", "domain research", "industry context",
+  or when the project needs research-backed understanding of users, workflows, terminology,
+  regulations, or differentiators.
 ---
 
 # 100 — Domain Knowledge

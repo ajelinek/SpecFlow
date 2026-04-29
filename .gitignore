@@ -21,13 +21,18 @@ yarn-error.log*
 
 # Dependencies
 node_modules/
-.pnp
-.pnp.js
+.playwright-mcp/
+.starlight-reference/
 
 # Build outputs
 dist/
 build/
 out/
+site/dist/
+
+# Astro generated types
+.astro/
+site/.astro/
 
 # Environment variables
 .env

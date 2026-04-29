@@ -1,0 +1,31 @@
+---
+title: Test-Only Workflow
+description: Use 302 when the behavior already exists but the automated coverage does not.
+section: examples
+order: 4
+sidebar:
+  order: 4
+---
+
+import PromptBlock from '../../../components/PromptBlock.astro';
+import Callout from '../../../components/Callout.astro';
+
+## When this applies
+
+Use `302-test-implementation` when production behavior is already implemented and the real problem is missing or weak automated coverage.
+
+## Example prompt sequence
+
+<PromptBlock title="Prompt sequence" text={`Run 302-test-implementation for the billing retry scenarios.
+Limit the scope to the existing implemented behavior.
+Only add the minimum UI accessibility hooks if reliable automation requires them.`} />
+
+## Why not 301?
+
+`301` is for substantial implementation work. `302` exists to keep test-only work from silently turning into broader production changes.
+
+If the current implementation disagrees with the requested scenarios, fix the mismatch first instead of normalizing it inside `302`.
+
+<Callout tone="tip" title="Boundary rule">
+  If the tests reveal missing behavior rather than missing coverage, stop and switch back to `301-spec-implementation`.
+</Callout>

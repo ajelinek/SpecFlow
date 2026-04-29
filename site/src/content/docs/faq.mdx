@@ -1,0 +1,85 @@
+---
+title: FAQ
+description: Short answers to the recurring questions and objections around adopting SpecFlow.
+section: faq
+order: 1
+sidebar:
+  order: 1
+---
+
+import Callout from '../../components/Callout.astro';
+
+<details>
+<summary>Is this heavyweight?</summary>
+
+No. The main delivery path is `201 → 202 → 301`. Use `401` only when you want a separate cleanup-only pass on an already-changed scope.
+
+</details>
+
+<details>
+<summary>Do I need all the workflows?</summary>
+
+No. Start with `201 → 202 → 301` for feature delivery and add the rest only when they solve a real problem.
+
+</details>
+
+<details>
+<summary>Do I need the 100-series first?</summary>
+
+Not always, but it helps more often than teams expect. Use the 100-series when the project still needs domain, product, architecture, UX, or feature-set definition before feature delivery starts. That applies to new projects and to existing projects where understanding is still weak. If that context already exists, many teams can begin with `201`.
+
+</details>
+
+<details>
+<summary>What is with the numbers?</summary>
+
+The numbers make the catalog easy to scan, search, and reference in prompts.
+
+- Start with the `100` series for project and planning context.
+- Follow the `200` series for feature design.
+- Use the `300` series to implement the change.
+- Use the `400` series for cleanup-only refinement.
+
+That means you can write short prompts like "follow `201` to build the feature set" or "follow `301` to implement this change" without needing to remember the full skill names.
+
+</details>
+
+<details>
+<summary>How is this different from plain prompting?</summary>
+
+It breaks the work into feature intent, expected behavior, implementation, and cleanup.
+
+</details>
+
+<details>
+<summary>Does skills.sh install the worker agents too?</summary>
+
+No. `skills.sh` installs the SpecFlow skills only. The bundled worker agents are an optional
+separate install step.
+
+</details>
+
+<details>
+<summary>When should I use 302 instead of 301?</summary>
+
+Use `302` when production behavior already exists and the missing work is test coverage. If the behavior is missing or disagrees with the scenarios, switch back to `301` or correct the spec first.
+
+</details>
+
+<details>
+<summary>Why is 401 separate from 301?</summary>
+
+Because `301` already includes internal test-cleanup and production-cleanup phases. `401` exists for the times you want an extra cleanup-only pass on an existing changed set, with a strict source-versus-test boundary.
+
+</details>
+
+<details>
+<summary>Can I skip 201 and go straight to 202?</summary>
+
+You can, but `201` keeps the feature scope clear.
+
+</details>
+
+<Callout tone="tip" title="Still unsure where to start?">
+  Read [Getting Started](../getting-started/) and start with `201 -> 202 -> 301 -> 401`, or go earlier in the lifecycle if the project still lacks context.
+</Callout>

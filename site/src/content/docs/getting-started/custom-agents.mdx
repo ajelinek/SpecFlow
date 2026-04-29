@@ -1,0 +1,93 @@
+---
+title: Custom Agents
+navTitle: Custom Agents
+description: How to install the bundled SpecFlow worker agents separately from the skills catalog.
+section: getting-started
+order: 2
+sidebar:
+  order: 2
+---
+
+Install the main SpecFlow skills first. Then add the bundled worker agents only if you want them.
+
+SpecFlow ships three supporting worker agents in `agents/`:
+
+- `coder` — implementation worker for `301-spec-implementation`, `302-test-implementation`, and `401-cleanup`
+- `execution-agent` — validation worker for test, lint, and build passes
+- `designer` — UI direction worker for `106-ui-design`, `107-ui-experience`, `108-ui-page-design`, and UI-affecting `301-spec-implementation` runs
+
+## OpenCode
+
+Global install:
+
+```bash
+./install/install-agents.sh --path="$HOME/.config/opencode/agents"
+```
+
+Project-local install:
+
+```bash
+./install/install-agents.sh --path=/path/to/project/.opencode/agents
+```
+
+Direct copy to a chosen directory:
+
+```bash
+./install/install-agents.sh --path=/path/to/agents-dir
+```
+
+Common target directories:
+
+- Project-local: `.opencode/agents/`
+- User-wide: `~/.config/opencode/agents/`
+
+Manual copy example:
+
+```bash
+mkdir -p ~/.config/opencode/agents
+cp agents/*.md ~/.config/opencode/agents/
+```
+
+## Claude Code
+
+Global install:
+
+```bash
+./install/install-agents.sh --path="$HOME/.claude/agents"
+```
+
+Project-local install:
+
+```bash
+./install/install-agents.sh --path=/path/to/project/.claude/agents
+```
+
+Direct copy to a chosen directory:
+
+```bash
+./install/install-agents.sh --path=/path/to/agents-dir
+```
+
+Common target directories:
+
+- Project-local: `.claude/agents/`
+- User-wide: `~/.claude/agents/`
+
+Manual copy example:
+
+```bash
+mkdir -p ~/.claude/agents
+cp agents/*.md ~/.claude/agents/
+```
+
+If your Claude setup does not support the model named in one of these files, replace or remove
+the `model` field after copying.
+
+## Important Split
+
+- Use `npx skills add ...` for the main SpecFlow install
+- Use `install/install-agents.sh --path=...` only if you want the optional worker agents
+- Edit copied agent files if you want different `model` values
+
+These agents are installed separately, but they are the intended support structure for full
+`301`, `302`, and `401` runs.

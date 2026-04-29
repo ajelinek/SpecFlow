@@ -1,0 +1,87 @@
+---
+export interface WorkflowPathOption {
+  id: string;
+  label: string;
+  sequence: string;
+  description: string;
+  note: string;
+}
+
+interface Props {
+  id: string;
+  title?: string;
+  intro?: string;
+  options: WorkflowPathOption[];
+}
+
+const { id, title = 'Pick your path', intro, options } = Astro.props;
+const defaultOption = options[0]?.id;
+---
+
+<section class="path-picker" id={id} data-path-picker data-default-option={defaultOption}>
+  <div class="path-picker__header">
+    <h2>{title}</h2>
+    {intro && <p>{intro}</p>}
+  </div>
+
+  <div class="path-picker__controls" role="tablist" aria-label={title}>
+    {options.map((option, index) => (
+      <button
+        type="button"
+        class="path-picker__tab"
+        role="tab"
+        id={`${id}-tab-${option.id}`}
+        aria-controls={`${id}-panel-${option.id}`}
+        aria-selected={index === 0 ? 'true' : 'false'}
+        data-path-tab={option.id}
+      >
+        {option.label}
+      </button>
+    ))}
+  </div>
+
+  <div class="path-picker__panels">
+    {options.map((option, index) => (
+      <article
+        class="path-picker__panel"
+        role="tabpanel"
+        id={`${id}-panel-${option.id}`}
+        aria-labelledby={`${id}-tab-${option.id}`}
+        hidden={index === 0 ? undefined : true}
+        data-path-panel={option.id}
+      >
+        <p class="path-picker__sequence">{option.sequence}</p>
+        <p>{option.description}</p>
+        <p class="path-picker__note">{option.note}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-path-picker]').forEach((picker) => {
+    const tabs = Array.from(picker.querySelectorAll<HTMLButtonElement>('[data-path-tab]'));
+    const panels = Array.from(picker.querySelectorAll<HTMLElement>('[data-path-panel]'));
+    const defaultOption = picker.getAttribute('data-default-option');
+
+    const setActive = (nextId: string) => {
+      tabs.forEach((tab) => {
+        const isActive = tab.getAttribute('data-path-tab') === nextId;
+        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      panels.forEach((panel) => {
+        panel.hidden = panel.getAttribute('data-path-panel') !== nextId;
+      });
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const nextId = tab.getAttribute('data-path-tab');
+        if (nextId) setActive(nextId);
+      });
+    });
+
+    if (defaultOption) setActive(defaultOption);
+  });
+</script>
