@@ -15,7 +15,7 @@ const base = import.meta.env.BASE_URL;
 <header class="site-header">
   <div class="site-header__inner">
     <a class="site-header__brand" href={withBase('/', base)}>
-      <span class="site-header__mark">SF</span>
+      <img src={`${base.replace(/\/$/, '')}/favicon.svg`} alt="" width="32" height="32" class="site-header__logo" aria-hidden="true" />
       <span>SpecFlow</span>
     </a>
 

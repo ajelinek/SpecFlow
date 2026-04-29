@@ -12,6 +12,10 @@ export default defineConfig({
     starlight({
       title: siteMeta.title,
       description: siteMeta.description,
+      logo: {
+        src: './public/favicon.svg',
+        alt: 'SpecFlow',
+      },
       social: [
         { icon: 'github', label: 'GitHub', href: siteMeta.github },
       ],

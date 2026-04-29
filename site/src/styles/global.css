@@ -188,16 +188,10 @@ main {
   font-weight: 700;
 }
 
-.site-header__mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.site-header__logo {
   width: 2rem;
   height: 2rem;
-  border-radius: 10px;
-  background: var(--accent);
-  color: #fff;
-  font-size: 0.82rem;
+  flex-shrink: 0;
 }
 
 .top-nav {
