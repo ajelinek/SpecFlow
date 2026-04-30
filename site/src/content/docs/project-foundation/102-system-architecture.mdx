@@ -5,8 +5,8 @@ sidebar:
   order: 3
 ---
 
-import Callout from '../../../components/Callout.astro';
-import PromptBlock from '../../../components/PromptBlock.astro';
+import Callout from "../../../components/Callout.astro";
+import PromptBlock from "../../../components/PromptBlock.astro";
 
 ## What this skill is for
 
@@ -27,7 +27,10 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 - For a tiny prototype where a full architecture document would be premature overhead
 
 <Callout tone="optional" title="Optional but important">
-  On projects where the technology choices are still being made, `102` is the right moment to make those decisions explicit and reviewable. Running feature design against an undocumented or misunderstood architecture is one of the more common sources of rework.
+  On projects where the technology choices are still being made, `102` is the
+  right moment to make those decisions explicit and reviewable. Running feature
+  design against an undocumented or misunderstood architecture is one of the
+  more common sources of rework.
 </Callout>
 
 ## What it produces
@@ -49,11 +52,27 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 4. Deployment target and hosting model
 5. Testing approach and key tooling
 
+<Callout tone="tip" title="Tech stack auto-detection">
+  Before asking for any of the above, `102` will attempt to infer your stack
+  automatically — first from installed skills (e.g. `react`, `solid.js`,
+  `astro.js`, `typescript-engineering`), then from existing project
+  documentation, then from the codebase itself. Detected choices are presented
+  for confirmation rather than asked from scratch. If no skills are installed
+  and no code exists yet, the skill will ask targeted questions for each
+  unresolved concern instead of guessing.
+</Callout>
+
 ## Common prompts
 
-<PromptBlock title="Prompt" text={`Run 102-system-architecture. We are building a React SPA with a Node.js REST API, PostgreSQL, and deploying to AWS.`} />
+<PromptBlock
+  title="Prompt"
+  text={`Run 102-system-architecture. We are building a React SPA with a Node.js REST API, PostgreSQL, and deploying to AWS.`}
+/>
 
-<PromptBlock title="Prompt" text={`Run 102 for an Astro + SolidJS frontend with a Firebase backend.`} />
+<PromptBlock
+  title="Prompt"
+  text={`Run 102 for an Astro + SolidJS frontend with a Firebase backend.`}
+/>
 
 ## What usually comes next
 
@@ -61,13 +80,11 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## Practical guidance
 
-- Include the rationale for key technology choices. Downstream work benefits from knowing *why* decisions were made, not just *what* was decided.
-- If the project already has code, use `@explore` to discover what the actual stack is rather than assuming.
-- Keep the testing strategy section concrete: which frameworks, where tests live, what the coverage expectations are.
+- Include the rationale for key technology choices. Downstream work benefits from knowing _why_ decisions were made, not just _what_ was decided.
+- If the project already has code, tell it to run 102 on the exsisting code base and it will create the documenation for you.
 - Reference D01 for user goals and business requirements — D02 should not re-state what D01 already captured.
 
 ## Common mistakes
 
-- Listing technology names without recording the reasoning behind them
 - Leaving the testing strategy section as "we will write tests" without specifying tooling or approach
 - Describing the ideal architecture rather than the actual one on existing projects

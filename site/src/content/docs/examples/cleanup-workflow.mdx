@@ -7,7 +7,7 @@ sidebar:
   order: 5
 ---
 
-import PromptBlock from '../../../components/PromptBlock.astro';
+import PromptBlock from "../../../components/PromptBlock.astro";
 
 ## When this applies
 
@@ -20,9 +20,10 @@ Use `401-cleanup` when the code already changed and now needs a focused cleanup 
 
 ## Example prompt sequence
 
-<PromptBlock title="Prompt sequence" text={`Run 401-cleanup on the staged source changes.
-Use source code cleanup only.
-Do not broaden the scope unless an out-of-scope opportunity is worth explicit approval.`} />
+<PromptBlocok
+  title="Prompt sequence"
+  text={`Run 401 for staged source changes`}
+/>
 
 ## What to watch for
 

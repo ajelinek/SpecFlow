@@ -12,6 +12,8 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 `101-project-overview` produces the foundational product document: what problem the product solves, who it serves, how it differentiates, and what success looks like. It is the shared definition of the product that every downstream SpecFlow document references rather than re-establishing from scratch.
 
+This document should be tightly written and easy to scan. It is a summarized general-context document, not a long essay, market deep dive, or research dump. If you need the deeper research and background context, that is what `100-domain-knowledge` is for.
+
 **Output path**: `.specflow/docs/D01-project-overview.md`
 
 ## When to use it
@@ -49,6 +51,8 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## Common prompts
 
+Need more prompt examples? See [`100-domain-knowledge` common prompts](/project-foundation/100-domain-knowledge/#common-prompts) for broader input patterns you can adapt before or alongside `101`.
+
 If you already ran `100`, use this:
 
 <PromptBlock title="Prompt" text={`Run 101 workflow.`} />
@@ -64,6 +68,7 @@ If you did not already run `100`, use this:
 ## Practical guidance
 
 - Keep the output concise enough that engineers and product stakeholders can both read and agree on it quickly.
+- Treat D01 as a short summary document. If the content starts reading like an essay or research report, move that material into `100-domain-knowledge` and keep only the distilled conclusions here.
 - The differentiators section is worth getting right — it shapes architectural tradeoffs and feature priority.
 - If domain research (`100`) was performed, reference its outputs rather than re-stating the same context.
 - Revisit D01 when the product direction shifts materially. Downstream documents depend on it.
@@ -71,5 +76,6 @@ If you did not already run `100`, use this:
 ## Common mistakes
 
 - Writing a full product requirements document instead of a concise reference
+- Dumping raw research or long-form background into D01 instead of summarizing the general context
 - Leaving the success metrics section generic (e.g., "users are happy")
 - Treating the out-of-scope list as optional — explicit exclusions prevent scope creep downstream

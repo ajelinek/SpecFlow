@@ -1,6 +1,6 @@
 ---
 title: Test-Only Workflow
-description: Use 302 when the behavior already exists but the automated coverage does not.
+description: Use 202 then 302 when the behavior already exists but the automated coverage does not.
 section: examples
 order: 4
 sidebar:
@@ -12,13 +12,19 @@ import Callout from '../../../components/Callout.astro';
 
 ## When this applies
 
-Use `302-test-implementation` when production behavior is already implemented and the real problem is missing or weak automated coverage.
+Use this workflow when production behavior is already implemented and the real problem is missing or weak automated coverage. The workflow consists of running `202` to generate Gherkin scenarios from the existing code, followed by `302` to implement those scenarios.
 
 ## Example prompt sequence
 
-<PromptBlock title="Prompt sequence" text={`Run 302-test-implementation for the billing retry scenarios.
-Limit the scope to the existing implemented behavior.
-Only add the minimum UI accessibility hooks if reliable automation requires them.`} />
+First, generate the test scenarios based on the existing implementation:
+
+<PromptBlock title="Step 1: Generate specs" text={`Run 202 to analyze the existing code to determine what the end-to-end user test scenarios should be for this implemented feature. Identify any potential gaps or inconsistencies in the implementation that we need to make sure we're testing.`} />
+
+Review the generated feature file output. Once you are satisfied with the scenarios, proceed to implement the tests. You can target specific scenarios or run them all at once:
+
+<PromptBlock title="Step 2: Implement a specific test" text={`Run 302 for test number 2 within the billing retry feature.`} />
+
+<PromptBlock title="Step 2 (Alternative): Implement all tests" text={`Run 302 for all tests in @.specflow/features/[feature-name]`} />
 
 ## Why not 301?
 
