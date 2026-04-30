@@ -1,6 +1,5 @@
 export type SectionSlug =
   | 'getting-started'
-  | 'core-workflow'
   | 'skills'
   | 'examples'
   | 'faq';
@@ -54,11 +53,6 @@ export const docSections: Array<{ slug: SectionSlug; label: string; summary: str
     slug: 'getting-started',
     label: 'Getting Started',
     summary: 'The shortest path to a first run.',
-  },
-  {
-    slug: 'core-workflow',
-    label: 'Core Workflow',
-    summary: 'The main delivery path plus optional cleanup.',
   },
   {
     slug: 'skills',
@@ -369,16 +363,6 @@ export const starlightSidebar = [
     ],
   },
   {
-    label: 'Core Workflow',
-    items: [
-      { slug: 'core-workflow', label: 'Overview' },
-      'core-workflow/201-high-level-design',
-      'core-workflow/202-spec-design',
-      'core-workflow/301-spec-implementation',
-      'core-workflow/401-cleanup',
-    ],
-  },
-  {
     label: 'Project Foundation (100s)',
     items: [
       { slug: 'project-foundation', label: 'Overview' },
@@ -428,7 +412,6 @@ export const starlightSidebar = [
       { label: 'Artifact Gallery', link: '/artifact-gallery/' },
     ],
   },
-  { label: 'Full Skill Catalog', link: '/skills/' },
   {
     label: 'Examples',
     items: [

@@ -8,6 +8,8 @@ sidebar:
   order: 2
 ---
 
+import Callout from '../../../components/Callout.astro';
+
 Install the main SpecFlow skills first. Then add the bundled worker agents only if you want them.
 
 SpecFlow ships three supporting worker agents in `agents/`:
@@ -16,24 +18,37 @@ SpecFlow ships three supporting worker agents in `agents/`:
 - `execution-agent` — validation worker for test, lint, and build passes
 - `designer` — UI direction worker for `106-ui-design`, `107-ui-experience`, `108-ui-page-design`, and UI-affecting `301-spec-implementation` runs
 
+<Callout tone="tip" title="No repo clone required">
+  These commands download the installer script directly from GitHub and run it in one step.
+</Callout>
+
+<Callout tone="caution" title="Model Configuration (Important)">
+  The worker agents are currently pre-configured for OpenCode with **GitHub Copilot** models. If you are not using this environment, you will need to edit the installed agent files to remove the `model` field, or change it to match your setup. 
+  
+  **Recommended Models:**
+  - `coder`: `claude-sonnet-4.6` (requires high reasoning and coding capability)
+  - `execution-agent`: `claude-haiku-4.5` (fast and cheap, just runs scripts)
+  - `designer`: `gemini-3.1-pro-preview` (UI and visual reasoning)
+</Callout>
+
 ## OpenCode
 
 Global install:
 
 ```bash
-./install/install-agents.sh --path="$HOME/.config/opencode/agents"
+curl -fsSL https://raw.githubusercontent.com/ajelinek/SpecFlow/main/install/install-agents.sh | sh -s -- --path="$HOME/.config/opencode/agents"
 ```
 
 Project-local install:
 
 ```bash
-./install/install-agents.sh --path=/path/to/project/.opencode/agents
+curl -fsSL https://raw.githubusercontent.com/ajelinek/SpecFlow/main/install/install-agents.sh | sh -s -- --path=/path/to/project/.opencode/agents
 ```
 
 Direct copy to a chosen directory:
 
 ```bash
-./install/install-agents.sh --path=/path/to/agents-dir
+curl -fsSL https://raw.githubusercontent.com/ajelinek/SpecFlow/main/install/install-agents.sh | sh -s -- --path=/path/to/agents-dir
 ```
 
 Common target directories:
@@ -41,31 +56,24 @@ Common target directories:
 - Project-local: `.opencode/agents/`
 - User-wide: `~/.config/opencode/agents/`
 
-Manual copy example:
-
-```bash
-mkdir -p ~/.config/opencode/agents
-cp agents/*.md ~/.config/opencode/agents/
-```
-
 ## Claude Code
 
 Global install:
 
 ```bash
-./install/install-agents.sh --path="$HOME/.claude/agents"
+curl -fsSL https://raw.githubusercontent.com/ajelinek/SpecFlow/main/install/install-agents.sh | sh -s -- --path="$HOME/.claude/agents"
 ```
 
 Project-local install:
 
 ```bash
-./install/install-agents.sh --path=/path/to/project/.claude/agents
+curl -fsSL https://raw.githubusercontent.com/ajelinek/SpecFlow/main/install/install-agents.sh | sh -s -- --path=/path/to/project/.claude/agents
 ```
 
 Direct copy to a chosen directory:
 
 ```bash
-./install/install-agents.sh --path=/path/to/agents-dir
+curl -fsSL https://raw.githubusercontent.com/ajelinek/SpecFlow/main/install/install-agents.sh | sh -s -- --path=/path/to/agents-dir
 ```
 
 Common target directories:
@@ -73,12 +81,20 @@ Common target directories:
 - Project-local: `.claude/agents/`
 - User-wide: `~/.claude/agents/`
 
-Manual copy example:
+## Manual Install
 
-```bash
-mkdir -p ~/.claude/agents
-cp agents/*.md ~/.claude/agents/
-```
+If you prefer not to run the installer, download these files and place them in your target agents directory:
+
+- [`coder.md`](https://github.com/ajelinek/SpecFlow/blob/main/agents/coder.md?raw=1)
+- [`execution-agent.md`](https://github.com/ajelinek/SpecFlow/blob/main/agents/execution-agent.md?raw=1)
+- [`designer.md`](https://github.com/ajelinek/SpecFlow/blob/main/agents/designer.md?raw=1)
+
+Example target directories:
+
+- OpenCode global: `~/.config/opencode/agents/`
+- OpenCode project-local: `.opencode/agents/`
+- Claude Code global: `~/.claude/agents/`
+- Claude Code project-local: `.claude/agents/`
 
 If your Claude setup does not support the model named in one of these files, replace or remove
 the `model` field after copying.
@@ -86,7 +102,7 @@ the `model` field after copying.
 ## Important Split
 
 - Use `npx skills add ...` for the main SpecFlow install
-- Use `install/install-agents.sh --path=...` only if you want the optional worker agents
+- Use the `curl ... | sh -s -- --path=...` installer only if you want the optional worker agents
 - Edit copied agent files if you want different `model` values
 
 These agents are installed separately, but they are the intended support structure for full

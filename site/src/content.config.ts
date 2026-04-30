@@ -10,7 +10,7 @@ const docs = defineCollection({
       // Legacy custom fields used by some content files; optional so Starlight
       // built-in content (index etc.) doesn't require them.
       section: z
-        .enum(['getting-started', 'core-workflow', 'skills', 'examples', 'faq'])
+        .enum(['getting-started', 'skills', 'examples', 'faq'])
         .optional(),
       order: z.number().optional(),
       navTitle: z.string().optional(),

@@ -38,10 +38,10 @@ The skills are deliberately named with a number prefix (e.g., `100`, `201`, `301
 
 ## Install options
 
-Install only the umbrella entrypoint:
+Install interactively and choose only the skills you want:
 
 ```bash
-npx skills add ajelinek/SpecFlow --skill specflow
+npx skills add ajelinek/SpecFlow
 ```
 
 Install the full catalog:
@@ -49,6 +49,8 @@ Install the full catalog:
 ```bash
 npx skills add ajelinek/SpecFlow --skill '*'
 ```
+
+Use `npx skills add ajelinek/SpecFlow --list` if you want to preview the available skills first.
 
 The bundled worker agents in `agents/` are optional and installed separately. See
 **[Custom Agents](../getting-started/custom-agents/)** for those install directions.

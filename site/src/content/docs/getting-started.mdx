@@ -12,17 +12,19 @@ import PromptBlock from '../../components/PromptBlock.astro';
 
 ## 1. Install the skills
 
-Install the main SpecFlow entrypoint:
+Install interactively and choose only the skills you want:
 
 ```bash
-npx skills add ajelinek/SpecFlow --skill specflow
+npx skills add ajelinek/SpecFlow
 ```
 
-Install every bundled skill individually too:
+Install the full catalog:
 
 ```bash
 npx skills add ajelinek/SpecFlow --skill '*'
 ```
+
+Use `npx skills add ajelinek/SpecFlow --list` if you want to preview the available skills first.
 
 <Callout tone="tip" title="Skills install versus agents install">
   `npx skills add ...` installs the SpecFlow skills. The bundled worker agents are a separate optional install.
@@ -52,7 +54,7 @@ Run `401-cleanup` again later for changed test files if you want a separate test
 
 ## 4. Pick the right path when the lean flow is not enough
 
-- Read **[Core Workflow](../core-workflow/)** for the larger lifecycle, groupings, and why the `100` series helps on both new and existing projects.
+- Read **[Project Foundation](../project-foundation/)** for the larger lifecycle, groupings, and why the `100` series helps on both new and existing projects.
 - Use the homepage flow visualization when you want to compare the full, conservative, lean, and implementation-first paths side by side.
 
 <Callout tone="tip" title="What 301 does when artifacts are missing">
@@ -63,20 +65,12 @@ Run `401-cleanup` again later for changed test files if you want a separate test
   Full `301`, `302`, and `401` runs are designed around separate workers: `coder` for scoped code changes, `execution-agent` for test/lint/build validation, and `designer` for UI-affecting design direction.
 </Callout>
 
-## What you will get
-
-| Path | Contents |
-|---|---|
-| `.specflow/features/<name>/overview.md` | Feature description, scope, user journey |
-| `.specflow/features/<name>/specs.feature` | Gherkin scenarios |
-| Optional: `.specflow/features/<name>/implementation.md` | Implementation plan written by `203-implementation-design` |
-
 ## Next
 
 <Callout tone="core" title="You are done with setup">
   If this ran cleanly, you have the install split and the lean default workflow.
 </Callout>
 
-- **[Core Workflow](../core-workflow/)** — the four steps in detail
+- **[Project Foundation](../project-foundation/)** — the larger lifecycle docs
 - **[Skills](../skills/)** — the full catalog
 - **[Custom Agents](./custom-agents/)** — how to install the bundled worker agents

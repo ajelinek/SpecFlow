@@ -11,3 +11,14 @@ const { title = 'Prompt', text } = Astro.props;
   <div class="prompt-block__label">{title}</div>
   <pre><code>{text}</code></pre>
 </div>
+
+<style>
+  .prompt-block pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .prompt-block code {
+    white-space: inherit;
+  }
+</style>

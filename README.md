@@ -54,22 +54,23 @@ Most users should start with the minimal feature path.
 
 ## Install
 
-Install SpecFlow:
+Interactive install:
 
 ```bash
-npx skills add ajelinek/SpecFlow --skill specflow
+npx skills add ajelinek/SpecFlow
 ```
 
-That is the main install. It adds the `specflow` umbrella skill, which acts as the single
-entrypoint for the broader SpecFlow catalog.
+This opens the interactive installer so you can pick only the skills you want.
 
-If you want every bundled skill available individually too:
+Install all bundled skills:
 
 ```bash
 npx skills add ajelinek/SpecFlow --skill '*'
 ```
 
-List what the CLI sees before installing:
+This installs every available skill from the repo.
+
+Preview available skills before installing:
 
 ```bash
 npx skills add ajelinek/SpecFlow --list

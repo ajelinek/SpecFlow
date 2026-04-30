@@ -52,9 +52,37 @@ This is not a product spec and not a business plan. It is the external context d
 
 ## Common prompts
 
-<PromptBlock title="Prompt" text={`Run 100-domain-knowledge for a healthcare appointment scheduling app targeting independent clinics.`} />
+<Callout tone="tip" title="Live internet research">
+  This skill uses `deep-research` to fetch live content from the internet. It makes real web requests to research your domain, competitors, users, and market context — so the output is grounded in current sources rather than model memory alone.
+</Callout>
 
-<PromptBlock title="Prompt" text={`Run 100 for an expense management tool for mid-market construction companies.`} />
+<Callout tone="tip" title="Voice to text works great here">
+  One of the fastest ways to seed this document is to use voice-to-text and just talk through what you are building. Describe the product idea, list features you are thinking about, name what you think makes it unique, and explain who you are building it for. You do not need to be organized — a brain dump is fine. The more raw context you can provide, the better the research will be focused. Spending time iterating on `100-domain-knowledge` sets a strong foundation that makes every downstream workflow — architecture, data model, feature design, implementation — significantly easier to execute well.
+</Callout>
+
+**Starting from scratch with a rough idea**
+
+<PromptBlock title="Prompt" text={`Run 100. I'm building [brief description]. The target users are [who], and the main problem I'm solving is [problem]. I don't have a lot of detail yet — help me research the domain and get a solid foundation.`} />
+
+**Starting with a brain dump (recommended)**
+
+<PromptBlock title="Prompt" text={`Run 100-domain-knowledge. Here's everything I know about what I'm building — use this as your starting point and fill in the gaps with research:\n\n[Paste or dictate your brain dump here. Include: what the product does, who it's for, what features you're thinking about, what makes it different, who the competitors are, any constraints or regulations you're aware of, and anything else that feels relevant. More is better.]`} />
+
+**Researching a specific domain or industry vertical**
+
+<PromptBlock title="Prompt" text={`Run 100 for a product in the [industry/domain] space. The target users are [user roles]. I need to understand the workflows, terminology, regulatory environment, and what differentiates strong solutions in this space from generic ones.`} />
+
+**Refreshing an existing document**
+
+<PromptBlock title="Prompt" text={`Run 100-domain-knowledge to refresh our existing domain research. We've been building for a few months and the market context may have shifted. Focus on updating competitor patterns, user expectations, and any new regulatory or operational constraints that have emerged.`} />
+
+**Focused differentiation research**
+
+<PromptBlock title="Prompt" text={`Run 100. I know the domain reasonably well but I need sharper differentiation analysis. The main competitors we're watching are [list competitors]. Help me understand where we can actually win and what we must match even if we don't lead on it.`} />
+
+**Lightweight draft without deep research**
+
+<PromptBlock title="Prompt" text={`Run 100-domain-knowledge but skip the deep-research step — I just need a draft structured from the context I'm providing now. I'll validate it against live research separately.\n\nContext: [your domain description, user roles, known constraints, and differentiation ideas]`} />
 
 ## What usually comes next
 

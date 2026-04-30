@@ -1429,12 +1429,18 @@ main {
   border-radius: 10px;
 }
 
-.sidebar a.is-active {
+.sidebar a.is-active,
+.sidebar a[aria-current='page'] {
   background: var(--surface-soft);
   color: var(--accent-strong);
   font-weight: 600;
   border-left: 3px solid var(--accent);
   border-radius: 0 10px 10px 0;
+}
+
+.sidebar a[aria-current='page'] span,
+.sidebar a[aria-current='page'] {
+  color: var(--accent-strong) !important;
 }
 
 .sidebar a:hover,
