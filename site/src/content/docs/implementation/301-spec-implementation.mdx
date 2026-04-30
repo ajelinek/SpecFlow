@@ -1,0 +1,78 @@
+---
+title: 301 Spec Implementation
+description: Implement substantial changes through a tests-first, phase-isolated workflow with preparation, internal cleanup, and final validation.
+sidebar:
+  order: 1
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`301-spec-implementation` is the main implementation workflow for substantial changes. It prepares missing design context if needed, writes failing tests, implements the minimum production code, runs a test-cleanup pass, runs a production-cleanup pass, and ends with full validation.
+
+**Output**: Updated source and test files in the codebase. Status updates in `overview.md` when it exists.
+
+## When to use it
+
+- When the change is bigger than a tiny isolated edit
+- When the work should be driven by a spec rather than by ad hoc prompting
+- When you want tests, lint, and build results to be the ground truth for completion
+- As the default implementation path for most feature work
+
+## When NOT to use it
+
+- For test-only work — use `302-test-implementation` instead
+- For tiny, obviously-scoped changes (single field rename, small bug fix) where the overhead of a phased workflow exceeds the benefit
+- When you want to add or repair tests for already-implemented behavior
+
+<Callout tone="core" title="301 is an orchestration workflow">
+  `301` is not just a longer coding prompt. When the bundled workers are installed, coding runs go through `coder`, validation runs go through `execution-agent`, and UI-affecting work should consult `designer` first. The phase structure keeps larger changes from collapsing into an undifferentiated coding session.
+</Callout>
+
+## If feature artifacts are missing
+
+If `overview.md`, `specs.feature`, or `implementation.md` is missing, `301` synthesizes the missing outputs in memory and runs `204-feature-validation` before coding. Those synthesized artifacts are working context for the run — they are not written to `.specflow/` unless you explicitly ask.
+
+Run `203-implementation-design` before `301` when you want a persisted, reviewable `implementation.md`.
+
+## What it produces
+
+- Updated source and test files
+- Status updates in `overview.md` (when it exists)
+- In-memory `201`, `202`, `203`, and `204` outputs when feature artifacts are missing
+- Final validation through test, lint, and build passes
+
+## Required inputs
+
+- A change request or spec reference
+- A clear scope: one `@TS###` scenario, one `TSM###` module, a full `.feature` file, or a tightly scoped plain-language description
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 301-spec-implementation for the invoice approval feature.`} />
+
+<PromptBlock title="Prompt" text={`Run 301-spec-implementation for .specflow/features/account-recovery/specs.feature scoped to TSM001.`} />
+
+## What usually comes next
+
+Often nothing: `301` already includes internal test and production cleanup before final validation. Use `401-cleanup` afterward only when you want an additional explicit cleanup pass on an already-changed source or test scope.
+
+## Practical guidance
+
+- Use `301` for substantial work, not tiny naming edits. The phase structure provides value on changes that would otherwise sprawl.
+- Let tests, lint, and build results decide whether the workflow is done — not conversation sentiment.
+- Keep cleanup isolated by target type. The internal test cleanup phase is not the same as the production cleanup phase.
+- If you want the implementation plan to be persisted and reviewable before coding, run `203` first.
+
+## Common mistakes
+
+- Starting `301` without a real scope boundary — scope creep inside an implementation run is harder to reverse
+- Using `301` for test-only work that belongs in `302`
+- Trying to revise Gherkin inside `301` instead of routing that work back through `202-spec-design`
+- Treating the internal cleanup phases as a substitute for `401` on complex changes that genuinely benefit from a dedicated cleanup pass
+
+<Callout tone="warning" title="Phase isolation is intentional">
+  `301` is strict about phase order: synthesize missing context, validate, write failing tests, implement, cleanup tests, cleanup source, validate. This prevents larger changes from collapsing into undifferentiated coding sessions where tests are an afterthought.
+</Callout>

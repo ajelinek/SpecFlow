@@ -1,0 +1,81 @@
+---
+title: Agent Context
+description: Create or refresh AGENTS.md guidance files so coding agents can navigate the repository safely and follow verified commands.
+sidebar:
+  order: 1
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`agent-context` creates or refreshes the project's `AGENTS.md` guidance from actual repository evidence. The goal is to give coding agents a concise, trustworthy map of the codebase: where to look first, which commands are real, which architectural boundaries matter, and where local overrides apply.
+
+This skill works from repository evidence, not assumptions — it uses `@explore` to discover the actual structure, verified commands, and architectural patterns before writing anything.
+
+**Output paths**:
+- `AGENTS.md` at the project root
+- Optional nested `AGENTS.md` files in subtrees with materially different conventions
+
+## When to use it
+
+- When setting up a repository for the first time with AI coding agents
+- When `AGENTS.md` guidance is stale or no longer reflects the actual codebase
+- When a monorepo has packages or apps with significantly different tooling or conventions that need local overrides
+- When agents are consistently making wrong decisions that accurate guidance would prevent
+
+## When NOT to use it
+
+- When `AGENTS.md` guidance is current and working well
+- For projects where agent guidance has not been needed
+- When only the root guidance needs an update — a scoped refresh is faster than a full run
+
+<Callout tone="bonus" title="High value on first project setup">
+  Getting `AGENTS.md` right early prevents a class of errors that accumulates over time — wrong commands, wrong file locations, wrong architectural assumptions. The investment in a good initial run pays off across every subsequent agent interaction.
+</Callout>
+
+## What it produces
+
+- `AGENTS.md` at the project root with:
+  - Project overview and directory structure
+  - Canonical commands for setup, testing, linting, building, and local development
+  - Key architectural boundaries and invariants
+  - References to deeper architecture or domain docs
+  - Collaboration preferences that improve agent usefulness
+- Optional nested `AGENTS.md` files in subtrees with materially different conventions (local package commands, different test stacks, distinct runtime requirements)
+
+## Required inputs
+
+1. Operation mode — generating for the first time, or refreshing existing files?
+2. Scope policy — root only, or nested overlays allowed where justified?
+3. Excluded paths — any directories that must not be analyzed?
+4. Project-specific constraints — sensitive areas, forbidden commands, or deployment-critical paths
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run agent-context to create AGENTS.md for this repository.`} />
+
+<PromptBlock title="Prompt" text={`Run agent-context to refresh the existing AGENTS.md — use @explore to find what has changed.`} />
+
+## What usually comes next
+
+Returning to whatever workflow was in progress — domain research, architecture work, or the feature design loop. `agent-context` is a setup or maintenance task, not a stage in the feature lifecycle.
+
+## Practical guidance
+
+- Default to root-only unless there is clear evidence that a subtree has materially different tooling, commands, or conventions.
+- Nested `AGENTS.md` files should be override layers, not copies of the root. Only include content that is genuinely different from the root guidance.
+- The root file should be concise — it is not a full architecture document. Point agents to where detailed docs live; do not duplicate them.
+- Collaboration preferences (how to ask clarifying questions, response format expectations) belong in the root file only, not in nested overlays.
+
+## Common mistakes
+
+- Writing `AGENTS.md` without reading the actual codebase first
+- Creating nested overlays that repeat root content instead of only overriding what differs
+- Including inaccurate commands that fail when agents try to use them — verify every command before including it
+- Making the root file so long that agents cannot extract the key guidance quickly
+
+<Callout tone="tip" title="Verify commands before including them">
+  Every command listed in `AGENTS.md` should be verified as working. An agent that runs a wrong command from trusted guidance is harder to diagnose than one that simply does not know which command to run.
+</Callout>

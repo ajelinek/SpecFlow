@@ -1,0 +1,83 @@
+---
+title: 204 Feature Validation
+description: Review feature artifacts for gaps, inconsistencies, and missed reuse opportunities before coding begins — output in chat only.
+sidebar:
+  order: 4
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`204-feature-validation` returns a structured readiness review of a feature's design artifacts — checking whether the scope, scenarios, and implementation plan still agree with each other and with the codebase's actual patterns. It helps the team catch gaps, contradictions, unjustified complexity, and missed simplification opportunities before any code is written.
+
+This skill pressure-tests the plan that exists. It does not redesign the feature, write code, or flag planned files as errors because they are not yet implemented.
+
+**Output**: Chat only. No files are written to `.specflow/`.
+
+## When to use it
+
+- After `201`, `202`, and `203` are all complete for a feature
+- Before a `301` implementation run on a complex or high-risk feature
+- When a reviewer wants an independent cross-artifact consistency check
+- When implementation.md was written some time ago and you want to verify it still matches current scope and codebase patterns
+
+## When NOT to use it
+
+- Before `implementation.md` exists — `204` requires all three artifacts
+- On simple features where the implementation path is obviously consistent
+- As a replacement for human review of design artifacts
+
+<Callout tone="optional" title="Optional — requires 203 first">
+  `204` requires `implementation.md`. If you want this readiness review, run `203-implementation-design` first. On simpler features, `301` itself runs an in-memory version of `204` before coding begins.
+</Callout>
+
+## What the review covers
+
+| Review area | What it checks |
+|---|---|
+| **Cross-artifact consistency** | Do the scope boundaries in `overview.md` match what the scenarios cover and what the implementation plan builds? |
+| **Scenario coverage** | Are there scope items from `overview.md` with no corresponding scenario? Are there scenarios that go beyond the stated scope? |
+| **Implementation simplification** | Are there proposed new files that extend-first thinking would eliminate? Are there codebase patterns being duplicated instead of reused? |
+| **Standards compliance** | Does the implementation plan align with the project's established architectural patterns, conventions, and loaded standards? |
+
+## Required inputs
+
+- Feature name
+- Validation scope (optional — defaults to full review)
+
+Targeted scopes: cross-artifact consistency, scenario coverage, implementation simplification, or standards compliance.
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 204-feature-validation for invoice approval.`} />
+
+<PromptBlock title="Prompt" text={`Run 204 for account recovery — focus on implementation simplification.`} />
+
+## What usually comes next
+
+`301-spec-implementation` — the implementation run, now with higher confidence that the artifacts are consistent and ready.
+
+If the review surfaces significant issues:
+- Scope gaps → back to `201` to update `overview.md`
+- Missing scenario coverage → back to `202` to add scenarios
+- Implementation issues → back to `203` to revise the plan
+
+## Practical guidance
+
+- Treat the review report as actionable feedback, not a pass/fail gate. Small issues can be resolved inline in `301`; significant issues warrant updating the artifact first.
+- `204` reads the actual codebase to validate implementation decisions — it is not just a logic check against the documents.
+- The review is only as good as the artifacts it reviews. Vague `overview.md` or underspecified `implementation.md` produces a less useful review.
+- On lower-risk features, `301` already includes an in-memory `204` run before coding. Running the explicit `204` skill is most valuable when the implementation is complex enough that a prior review reduces meaningful risk.
+
+## Common mistakes
+
+- Running `204` without `implementation.md` existing
+- Treating a clean review as a guarantee that implementation will go smoothly
+- Blocking implementation on minor review findings that can be addressed during `301`
+- Using `204` as a substitute for keeping the design artifacts current
+
+<Callout tone="tip" title="301 includes 204 in memory">
+  When feature artifacts are missing, `301` synthesizes missing `201`, `202`, and `203` outputs in memory and runs `204` before coding. The explicit `204` skill is most valuable when you want a persisted, reviewable validation report before a high-stakes implementation run.
+</Callout>

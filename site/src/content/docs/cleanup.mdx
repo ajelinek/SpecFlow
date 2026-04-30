@@ -1,0 +1,24 @@
+---
+title: Cleanup (400 Series)
+description: Run a deliberate, scoped cleanup pass on already-changed source or test files — one target type per run.
+sidebar:
+  order: 6
+---
+
+import Callout from '../../components/Callout.astro';
+
+The `400` series is a single deliberate cleanup pass over an already-changed scope. It is strictly cleanup-only work — no new behavior, no new test coverage.
+
+## The one rule
+
+**One target type per run: source code or test code, never both.**
+
+This constraint keeps cleanup small, reviewable, and safe to roll back. When you want both source and test cleanup, run `401` twice — once for each.
+
+<Callout tone="core" title="Cleanup is not always necessary">
+  `301-spec-implementation` already includes internal test and production cleanup phases before its final validation. Use `401` when you want an additional explicit cleanup pass, or when the internal cleanup was not sufficient for a particularly complex change.
+</Callout>
+
+## Skills in this series
+
+- **[401 Cleanup](./cleanup/401-cleanup/)** — the only skill in the series

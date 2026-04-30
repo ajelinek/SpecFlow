@@ -1,0 +1,71 @@
+---
+title: 401 Cleanup
+description: Perform a scoped, deliberate cleanup pass on already-changed source or test files — one target type per run, no new behavior.
+sidebar:
+  order: 1
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`401-cleanup` performs a deliberate cleanup pass on an already-changed scope. It reduces duplication, improves naming and structure, and fixes obvious in-scope robustness issues — without turning the work into a broad rewrite. For test cleanup, this is still cleanup-only: no net-new coverage.
+
+**Output**: Cleaner source files or cleaner test files. Validation proving the cleanup stayed safe.
+
+## When to use it
+
+- After `301-spec-implementation`, when the changed code warrants an additional cleanup pass
+- When a change set exists and needs to be cleaned up before review
+- When you want cleanup to be a distinct, reviewable operation rather than mixed into implementation
+
+## When NOT to use it
+
+- Before implementation — cleanup has no meaning before code exists
+- When the changed set has not been identified — `401` requires a scoped anchor (staged changes, a file set, or a diff range)
+- To add new behavior or new test coverage — that work belongs in `301` or `302`
+
+<Callout tone="core" title="One target type per run">
+  This is the critical constraint: source cleanup and test cleanup are separate `401` runs. If the selected changed set includes both source and test files, `401` stops and asks you to choose one side before proceeding. The constraint exists to keep each cleanup pass small, clearly scoped, and easy to review.
+</Callout>
+
+## What it produces
+
+- Cleaner source files (when source is the target type) or cleaner test files (when tests are the target type)
+- Validation output — tests, lint, build — proving the cleanup did not break anything
+- A summary of out-of-scope cleanup opportunities that were identified but not acted on
+
+## Required inputs
+
+- A cleanup scope anchor: staged changes, a file set, or a diff range
+- Exactly one cleanup target type: source code or test code
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 401-cleanup on the changed source files.`} />
+
+<PromptBlock title="Prompt" text={`Run 401-cleanup on the changed test files.`} />
+
+## What usually comes next
+
+If you cleaned source code first and still want test cleanup, run `401-cleanup` again as a separate pass with the test target type.
+
+## Practical guidance
+
+- Treat the user-defined changed set as the default boundary. Ask for explicit approval before expanding scope beyond that boundary.
+- Fix obvious in-scope risks when intent is clear — but do not disguise feature additions or architectural changes as cleanup.
+- Out-of-scope cleanup opportunities should be surfaced and noted, not acted on automatically.
+- Test cleanup is strictly cleanup-only. It must not add new coverage, new scenarios, or new test files.
+
+## Common mistakes
+
+- Trying to clean up both source and test files in one pass
+- Pointing `401` at a mixed changed set without choosing source or test first
+- Using `401` to deliver new feature work instead of post-change cleanup
+- Treating out-of-scope duplication as automatic permission to refactor broadly
+- Skipping validation — a cleanup that breaks something is not a cleanup
+
+<Callout tone="tip" title="Out-of-scope is a list, not a permission">
+  When `401` identifies out-of-scope cleanup opportunities, it surfaces them as a list rather than acting on them. These require explicit user approval to pursue — usually as a separate `401` run with updated scope.
+</Callout>

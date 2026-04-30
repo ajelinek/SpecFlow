@@ -1,0 +1,74 @@
+---
+title: 103 Common Data Model
+description: Define the domain entities, relationships, and business rules before backend or frontend design begins.
+sidebar:
+  order: 4
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`103-common-data-model` produces the conceptual data model: every entity the application works with, what it carries, how it relates to other entities, and what rules constrain it. This document is written at the domain level — it is not a database schema, not an ORM model, not a state management design. It is the shared vocabulary for data that backend, frontend, and feature design all use.
+
+**Output path**: `.specflow/docs/D03-common-data-model.md`
+
+## When to use it
+
+- When the team needs a shared language for data before backend or frontend work begins
+- When entities, relationships, or business rules are implicit or disputed
+- On existing projects where the data model has never been written at the domain level
+- Before `104-backend-architecture`, which needs entities to specify how the API handles them
+
+## When NOT to use it
+
+- When the data model is trivial (one or two obvious entities with no complex relationships)
+- When an accurate, current domain model already exists in the project documentation
+- When the project is purely frontend with no meaningful data model to document
+
+<Callout tone="optional" title="Optional but clarifying">
+  Teams that skip this step often end up resolving entity disagreements inside feature design — which is slower and produces less consistent results. Even a brief D03 gives feature work a common starting point.
+</Callout>
+
+## What it produces
+
+- `.specflow/docs/D03-common-data-model.md` covering:
+  - Every domain entity with its purpose, primary attributes, and type information
+  - Relationships between entities with cardinality and direction
+  - Lifecycle states for entities that move through meaningful states
+  - Business rules that constrain data at the domain level
+  - Sensitive data annotations (PII, financial, compliance-relevant)
+  - Distinction between first-class domain entities and supporting concepts (value objects, lookups)
+
+## Required inputs
+
+1. Core domain entities — the main concepts the application works with
+2. Entity relationships — how they relate, with cardinality
+3. Key attributes — what each entity carries, required vs. optional
+4. Business rules — domain-level constraints regardless of implementation
+5. Sensitive data — which attributes contain PII, financial, or compliance-sensitive information
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 103-common-data-model. The core entities are Project, Expense, Receipt, Approver, and Budget.`} />
+
+<PromptBlock title="Prompt" text={`Run 103 and use @explore to find any existing model or schema definitions first.`} />
+
+## What usually comes next
+
+`104-backend-architecture` — specify how the API serves these entities, or `105-frontend-architecture` if the backend is already established.
+
+## Practical guidance
+
+- Write in terms a product manager and an engineer can both read and agree on. Avoid implementation language.
+- Note storage boundaries as entity properties (e.g., "client-only, never persisted"), not as a way to reorganize the document.
+- If the project has an existing codebase, use `@explore` to find current model or schema definitions before writing — this prevents D03 from contradicting what already exists.
+- Revisit D03 when new entities are introduced or business rules change. Downstream documents depend on it being current.
+
+## Common mistakes
+
+- Writing a database schema instead of a domain model
+- Omitting business rules because they seem obvious
+- Defining entities without specifying their relationships to each other
+- Treating this as a one-time artifact rather than a living reference

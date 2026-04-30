@@ -1,0 +1,81 @@
+---
+title: 202 Spec Design
+description: Write Gherkin scenarios that describe expected feature behavior in user terms, supporting multiple coverage levels and scenario numbering.
+sidebar:
+  order: 2
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`202-spec-design` writes Gherkin scenarios for a feature. It captures what the system should do in user-visible terms, supports multiple coverage levels (Happy Path Only, Balanced, Comprehensive), and continues existing numbering when a spec file already exists.
+
+**Output path**: `.specflow/features/<feature-name>/specs.feature`
+
+## When to use it
+
+- After `201-high-level-design`, when behavior needs to be written before code
+- When you want the feature to be reviewable in user terms before implementation
+- When you need a shared testable description of the expected behavior
+- When adding coverage to an existing spec file
+
+## When NOT to use it
+
+- Before `201` — scenarios without an agreed scope boundary tend to expand in ways that complicate implementation
+- For a change so small that a plain description in the commit message is sufficient
+- When `301` will synthesize the spec in memory and you do not want a persisted file
+
+## What it produces
+
+- `.specflow/features/<feature-name>/specs.feature` with:
+  - Numbered `TS#` scenarios (e.g., `TS001`, `TS002`)
+  - Grouped into `TSM#` test modules by logical area
+  - Lifecycle tags (`@status_pending`)
+  - Path tags (`@happyPath`, `@errorPath`, `@edgePath`)
+
+## Coverage levels
+
+| Level | What it includes |
+|---|---|
+| **Happy Path Only** | Primary success flows only — fastest first pass |
+| **Balanced** | Happy paths plus meaningful error and edge cases |
+| **Comprehensive** | Full scenario coverage including less common paths |
+
+Start with Happy Path Only for a fast first pass. Add more coverage in a second pass when the scope is confirmed.
+
+## Required inputs
+
+- Feature name
+- Coverage level: Happy Path Only, Balanced, or Comprehensive
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Use 202-spec-design for account recovery with happy path coverage only.`} />
+
+<PromptBlock title="Prompt" text={`Use 202-spec-design for invoice approval with balanced coverage.`} />
+
+<PromptBlock title="Prompt" text={`Add comprehensive coverage to the existing invoice approval spec.`} />
+
+## What usually comes next
+
+`203-implementation-design` is the optional next step when you want a persisted implementation plan. `204-feature-validation` can then review all artifacts together before coding. Otherwise, go directly to `301-spec-implementation`.
+
+## Practical guidance
+
+- Keep steps user-observable. Avoid implementation details in scenario text.
+- Extend an existing scenario when the extra coverage belongs to the same business outcome, instead of creating a near-duplicate.
+- The goal is not maximum scenario count — the goal is enough coverage to guide implementation and review without creating noise.
+- When updating an existing spec file, continue the existing `TS#` numbering rather than restarting.
+
+## Common mistakes
+
+- Treating scenarios like unit tests instead of user-observable business outcomes
+- Writing every tiny UI action as a separate scenario
+- Asking `202` to invent a new feature definition that should have been resolved in `201`
+- Treating `202` as append-only when an existing scenario should just be extended
+
+<Callout tone="tip" title="Coverage discipline">
+  The goal is not maximum scenario count. The goal is enough behavior coverage to guide implementation and review without creating noise.
+</Callout>

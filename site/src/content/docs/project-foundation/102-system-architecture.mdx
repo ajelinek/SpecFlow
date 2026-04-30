@@ -1,0 +1,73 @@
+---
+title: 102 System Architecture
+description: Record the system shape, technology stack, major components, and testing strategy before implementation begins.
+sidebar:
+  order: 3
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`102-system-architecture` produces the system architecture document: the technology stack, major components, deployment topology, integration points, and testing strategy. It is the technical baseline that every downstream SpecFlow document — backend architecture, frontend architecture, data model — references rather than re-establishing.
+
+**Output path**: `.specflow/docs/D02-system-architecture.md`
+
+## When to use it
+
+- When the project needs a shared technical baseline before backend or frontend design begins
+- When the team has technology decisions to make explicit and record
+- On existing projects where the architecture has never been fully written down
+- Before `103`, `104`, or `105`, which all depend on understanding the system shape
+
+## When NOT to use it
+
+- When a clear, current architecture document already exists and is trusted by the team
+- For a tiny prototype where a full architecture document would be premature overhead
+
+<Callout tone="optional" title="Optional but important">
+  On projects where the technology choices are still being made, `102` is the right moment to make those decisions explicit and reviewable. Running feature design against an undocumented or misunderstood architecture is one of the more common sources of rework.
+</Callout>
+
+## What it produces
+
+- `.specflow/docs/D02-system-architecture.md` covering:
+  - System overview and architectural style
+  - Technology stack decisions with rationale
+  - Major components and their responsibilities
+  - Deployment topology and environment model
+  - Key integration points and external dependencies
+  - Testing strategy and tooling
+  - Relevant constraints and architectural decisions
+
+## Required inputs
+
+1. Frontend framework and rendering approach
+2. Backend runtime and API style
+3. Database and storage choices
+4. Deployment target and hosting model
+5. Testing approach and key tooling
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 102-system-architecture. We are building a React SPA with a Node.js REST API, PostgreSQL, and deploying to AWS.`} />
+
+<PromptBlock title="Prompt" text={`Run 102 for an Astro + SolidJS frontend with a Firebase backend.`} />
+
+## What usually comes next
+
+`103-common-data-model` — define the entities and relationships the system must manage, using the architecture as context.
+
+## Practical guidance
+
+- Include the rationale for key technology choices. Downstream work benefits from knowing *why* decisions were made, not just *what* was decided.
+- If the project already has code, use `@explore` to discover what the actual stack is rather than assuming.
+- Keep the testing strategy section concrete: which frameworks, where tests live, what the coverage expectations are.
+- Reference D01 for user goals and business requirements — D02 should not re-state what D01 already captured.
+
+## Common mistakes
+
+- Listing technology names without recording the reasoning behind them
+- Leaving the testing strategy section as "we will write tests" without specifying tooling or approach
+- Describing the ideal architecture rather than the actual one on existing projects

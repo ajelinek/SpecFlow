@@ -378,6 +378,56 @@ export const starlightSidebar = [
       'core-workflow/401-cleanup',
     ],
   },
+  {
+    label: 'Project Foundation (100s)',
+    items: [
+      { slug: 'project-foundation', label: 'Overview' },
+      'project-foundation/100-domain-knowledge',
+      'project-foundation/101-project-overview',
+      'project-foundation/102-system-architecture',
+      'project-foundation/103-common-data-model',
+      'project-foundation/104-backend-architecture',
+      'project-foundation/105-frontend-architecture',
+      'project-foundation/106-ui-design',
+      'project-foundation/107-ui-experience',
+      'project-foundation/108-ui-page-design',
+      'project-foundation/110-feature-overview',
+    ],
+  },
+  {
+    label: 'Feature Definition (200s)',
+    items: [
+      { slug: 'feature-design', label: 'Overview' },
+      'feature-design/201-high-level-design',
+      'feature-design/202-spec-design',
+      'feature-design/203-implementation-design',
+      'feature-design/204-feature-validation',
+    ],
+  },
+  {
+    label: 'Implementation (300s)',
+    items: [
+      { slug: 'implementation', label: 'Overview' },
+      'implementation/301-spec-implementation',
+      'implementation/302-test-implementation',
+    ],
+  },
+  {
+    label: 'Cleanup (400s)',
+    items: [
+      { slug: 'cleanup', label: 'Overview' },
+      'cleanup/401-cleanup',
+    ],
+  },
+  {
+    label: 'Support Skills & Reference',
+    items: [
+      { slug: 'support-skills', label: 'Overview' },
+      'support-skills/agent-context',
+      'support-skills/deep-research',
+      { label: 'Artifact Gallery', link: '/artifact-gallery/' },
+    ],
+  },
   { label: 'Full Skill Catalog', link: '/skills/' },
   {
     label: 'Examples',

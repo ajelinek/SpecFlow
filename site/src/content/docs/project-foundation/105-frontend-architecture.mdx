@@ -1,0 +1,77 @@
+---
+title: 105 Frontend Architecture
+description: Specify component structure, state management, routing, styling, and frontend integration patterns before page or feature work begins.
+sidebar:
+  order: 6
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`105-frontend-architecture` produces the frontend architecture document: how components are organized, how state is managed at each level, how routing works, how the frontend integrates with the backend, and what styling and accessibility conventions apply. It translates the system architecture's frontend technology choices into concrete patterns that every developer and design skill can depend on.
+
+**Output path**: `.specflow/docs/D05-frontend-architecture.md`
+
+## When to use it
+
+- When the frontend needs clear architectural rules before page or feature design begins
+- When the team needs to agree on state management, component boundaries, and routing conventions
+- On existing projects where frontend patterns exist but have never been documented
+- Before `106-ui-design` or `107-ui-experience`, which both depend on knowing the component and styling approach
+
+## When NOT to use it
+
+- When clear, current frontend architecture documentation already exists and is trusted by the team
+- For a purely backend service with no frontend
+- When the frontend is a simple static site with no meaningful component or state architecture to document
+
+<Callout tone="optional" title="Optional but foundational for UI work">
+  D06, D07, and D08 all reference D05 for component conventions and styling approach. When D05 is missing, those skills produce less consistent output because they cannot ground design decisions in actual frontend patterns.
+</Callout>
+
+## What it produces
+
+- `.specflow/docs/D05-frontend-architecture.md` covering:
+  - Component organization and naming conventions
+  - State management approach for each state category (component, URL, global, server)
+  - Routing structure and navigation patterns
+  - API integration patterns and data fetching approach
+  - Styling methodology (CSS Modules, utility-first, CSS-in-JS, design tokens)
+  - Accessibility baseline and enforcement approach
+  - Build and bundling setup
+  - Real-time requirements (WebSockets, SSE, polling)
+  - Internationalization and responsive design strategy
+
+## Required inputs
+
+1. Frontend framework — React, Astro, SolidJS, Vue, or other
+2. Deployment model — static, SSR, CDN, or hybrid
+3. API integration approach — REST with SWR/fetch, GraphQL, Firebase, or other
+4. State management decisions — for component, URL, global, and server state
+5. Real-time requirements — WebSockets, SSE, polling, or none
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 105-frontend-architecture. React with Zustand for global state, SWR for server state, React Router for routing, CSS Modules for styling.`} />
+
+<PromptBlock title="Prompt" text={`Run 105 for an Astro + SolidJS site with nano-stores for global state and Tailwind for styling.`} />
+
+## What usually comes next
+
+`106-ui-design` — establish the visual design system, building on the component and styling approach documented in D05.
+
+## Practical guidance
+
+- Be specific about which state management tool is used for each state category. "We use Zustand" is incomplete — specify what belongs in the global store and what stays local.
+- Document what is explicitly off-limits (e.g., "no direct DOM manipulation", "no fetch calls outside service modules") — these constraints help agents make correct decisions without asking.
+- If the project has an existing frontend codebase, use `@explore` to discover actual patterns before writing D05. Avoid documenting a theoretical architecture that does not match the real code.
+- Reference D02 for stack choices and D04 for API contracts. D05 should not re-state technology decisions — it specifies how to use them in the frontend.
+
+## Common mistakes
+
+- Treating all four state categories as one ("we just use Zustand for everything")
+- Omitting the routing structure — this matters significantly for feature design
+- Leaving the styling approach vague ("we use Tailwind") without specifying how components are structured
+- Not documenting the API integration pattern — this leads to inconsistent data fetching across the codebase

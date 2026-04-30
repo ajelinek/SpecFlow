@@ -1,0 +1,80 @@
+---
+title: Deep Research
+description: Perform multi-source live web research with citations when current external information materially affects a decision.
+sidebar:
+  order: 2
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`deep-research` performs live web research that goes beyond a single URL fetch — searching deliberately across multiple sources, identifying the right evidence, testing the first conclusion, and returning a recommendation that separates observed facts from judgment. It is for research work that would be weak if handled as a few quick page fetches.
+
+This skill is normally called internally by `100-domain-knowledge` for non-trivial domain research, but it can be used directly any time a well-sourced, current-evidence answer is needed.
+
+## When to use it
+
+- When the answer to a question would change based on current, real-world evidence
+- For vendor comparisons, tool evaluations, framework comparisons, and technology decisions
+- For market scans, industry analysis, competitive research, and due diligence
+- When the question includes words like "latest", "current", "what changed", or "right now"
+- When `100-domain-knowledge` needs live research as its primary research mechanism
+
+## When NOT to use it
+
+- For summarizing a single URL the user has already provided — that is a `webfetch` task
+- For simple fact lookups that do not require source discovery and synthesis
+- When the question is really a code change, document edit, or data processing task with minimal web research involved
+- When model memory is sufficient and freshness is not a concern
+
+<Callout tone="bonus" title="Required by 100-domain-knowledge">
+  `deep-research` is classified as a bonus skill, but `100-domain-knowledge` depends on it for live research runs. When domain knowledge work is being done seriously, `deep-research` is not optional — it is the mechanism that makes the research credible.
+</Callout>
+
+## What it produces
+
+- A synthesized research report with:
+  - Key findings organized by research lane (official docs, vendor sources, independent analysis, community evidence)
+  - Citations to primary sources with URLs
+  - Explicit distinctions between observed facts, inferred implications, and the recommendation
+  - Trade-offs and uncertainty made explicit
+  - At least one plausible alternative tested before the recommendation is made
+
+## Required capabilities
+
+`deep-research` requires live web access. In OpenCode, the default discovery path is DuckDuckGo Lite result pages (`https://duckduckgo.com/lite/?q=<query>`) for search, combined with `webfetch` for page extraction. If neither search nor page retrieval is available, the skill states this rather than presenting model memory as live research.
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run deep-research on the current state of HIPAA compliance requirements for cloud-hosted SaaS applications.`} />
+
+<PromptBlock title="Prompt" text={`Run deep-research — compare SWR, TanStack Query, and Apollo Client for a React app with a REST API.`} />
+
+<PromptBlock title="Prompt" text={`Use deep-research to find what changed in the EU AI Act since 2024 that affects automated decision systems.`} />
+
+## Research approach
+
+`deep-research` follows a structured workflow — not a single query:
+
+1. **Frame the question** — pin down the actual decision, extract constraints, write a research brief
+2. **Plan search lanes** — 3–6 distinct search angles (official docs, vendor sources, independent analysis, news, community evidence)
+3. **Discover sources** — run searches, evaluate source quality, find additional leads
+4. **Extract evidence** — fetch relevant pages, extract specific claims with citations
+5. **Challenge the first conclusion** — test at least one plausible alternative before finalizing
+6. **Synthesize** — separate facts, inferences, and recommendation; make uncertainty explicit
+
+## Practical guidance
+
+- The research brief is the most important input. A vague question produces a broad survey. A specific question produces actionable evidence.
+- Primary sources come first: official documentation, maintainer statements, standards bodies, government publications. Secondary sources add context.
+- Important claims should be verified across multiple sources where possible — not accepted from a single page.
+- Do not treat model background knowledge as live research for freshness-sensitive questions. If the question involves "current", "latest", or "recent", live discovery is required.
+
+## Common mistakes
+
+- Asking for research on a vague topic and expecting a specific recommendation
+- Treating a single-URL summary as deep research
+- Accepting the first conclusion without testing an alternative
+- Using model memory for questions that require current external evidence

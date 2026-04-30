@@ -1,0 +1,72 @@
+---
+title: 110 Feature Overview
+description: Map the product into capabilities and thin vertical feature slices that the feature design loop can pick up one by one.
+sidebar:
+  order: 10
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`110-feature-overview` produces the feature backlog document: work organized into capabilities (named, marketable areas of product functionality) and thin vertical feature slices beneath each capability. Each feature is small enough to design and implement in a focused iteration. Features are assigned stable IDs that downstream design documents (`201`, `202`, `203`) can reference.
+
+The document captures *what* needs to be built and *why it matters*, not *how* to build it.
+
+**Output path**: `.specflow/docs/D10-feature-overview.md`
+
+## When to use it
+
+- When the team needs a concise, prioritized backlog after the main project architecture is documented
+- When features need stable IDs before the `200` series design loop begins
+- When the product scope is large enough that feature sequencing and grouping decisions matter
+- Before starting the development loop if you want the feature list to be explicit and reviewable
+
+## When NOT to use it
+
+- For a project with only one or two obvious features
+- When feature priorities and scope are already agreed on and documented
+- When moving directly to `201-high-level-design` for a single known feature
+
+<Callout tone="optional" title="Optional but useful for larger products">
+  On projects with more than a handful of features, D10 prevents the team from losing track of the full scope while working through individual features. The stable `F-ID` system also makes it easy to reference features consistently across design documents.
+</Callout>
+
+## What it produces
+
+- `.specflow/docs/D10-feature-overview.md` containing:
+  - 3–7 capability groupings with customer-facing names and descriptions
+  - 3–8 features per capability, each with a stable `F-ID`, one-sentence purpose, and priority indication
+  - Brief rationale for sequencing decisions
+  - Notes on dependencies between features where relevant
+
+## Required inputs
+
+1. Scope — full product or specific area
+2. Existing architecture docs — which of D01–D08 are available (D01 and D02 minimum)
+3. Known features or priorities — any already-named or already-ranked features to anchor the output
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 110-feature-overview using the project overview and system architecture as context.`} />
+
+<PromptBlock title="Prompt" text={`Run 110 — we know the first priority is expense submission and approval. Build the capability map around that.`} />
+
+## What usually comes next
+
+`201-high-level-design` — pick the first feature from D10 and begin the design loop.
+
+## Practical guidance
+
+- Capability names should use customer-facing language, not technical layer names. "Expense Tracking" not "Data Entry Module."
+- Thin vertical slices are the right unit — a feature that traverses the full stack (UI through API through data) even if it delivers only part of a larger user goal. This enables incremental validation.
+- Present the capability groupings for review before decomposing features — a wrong grouping leads to misaligned feature slices.
+- If a capability would have more than 10 features, split it into two capabilities.
+
+## Common mistakes
+
+- Creating capabilities that map to technical layers (Frontend, Backend, Database) rather than product areas
+- Making features too large — a feature that takes more than a focused iteration to design and build is a capability, not a feature
+- Skipping the rationale for feature sequencing — the order decisions carry important context for later planning
+- Treating D10 as append-only — update it when features are completed, split, or reprioritized

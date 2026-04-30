@@ -1,0 +1,75 @@
+---
+title: 107 UI Experience
+description: Define navigation patterns, interaction conventions, accessibility commitments, and the full page inventory before per-page design begins.
+sidebar:
+  order: 8
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`107-ui-experience` produces the UX architecture document: how users move through the product, what navigation patterns serve their goals, what interaction conventions apply across the product, what accessibility standards are committed to, and a complete page inventory with routes and purpose. It is the structural map that `108-ui-page-design` draws from when designing individual pages.
+
+**Output path**: `.specflow/docs/D07-ui-experience.md`
+
+## When to use it
+
+- When the product needs a coherent UX model before designing specific pages
+- When navigation structure, user flows, and page boundaries need to be agreed on
+- Before running `108-ui-page-design` for any page — D07 defines the page inventory that D08 picks from
+- On existing products where navigation and interaction patterns are implicit or inconsistent
+
+## When NOT to use it
+
+- When the product has only one or two pages with obvious navigation
+- When the UX is already explicitly documented and current
+- For a standalone tool with no meaningful navigation structure
+
+<Callout tone="optional" title="Required by 108">
+  `108-ui-page-design` requires that the page being designed exists in D07's page inventory. If a page is not in D07, `108` will flag it rather than proceeding. Run `107` first.
+</Callout>
+
+## What it produces
+
+- `.specflow/docs/D07-ui-experience.md` covering:
+  - Navigation philosophy and structural approach (top nav, sidebar, tab bar, etc.)
+  - User role differentiation and how it affects navigation
+  - Cross-platform interaction conventions and what changes by device
+  - Accessibility commitments beyond WCAG 2.1 AA (if applicable)
+  - Error handling and empty state patterns
+  - Loading and transition conventions
+  - Complete page inventory: each page's route, purpose, user roles with access, and navigation relationships
+
+## Required inputs
+
+1. User roles — distinct user types and whether they need different navigation structures
+2. Device targets — which platforms and form factors must be supported
+3. Page inventory (initial) — the known pages or major sections of the product
+4. Accessibility requirements — beyond WCAG 2.1 AA if applicable
+5. Navigation constraints — existing routing decisions or structural constraints from D02, D04, or D05
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 107-ui-experience. Two roles: admin and project manager. Desktop-first responsive. Pages: dashboard, expense list, expense detail, project list, project detail, settings.`} />
+
+<PromptBlock title="Prompt" text={`Run 107 and use the existing D06 design system and D05 routing approach as constraints.`} />
+
+## What usually comes next
+
+`108-ui-page-design` — design one page in detail, picking from the page inventory established in D07.
+
+## Practical guidance
+
+- The page inventory is the most used output of D07. Make it complete and specific: route, purpose, primary user action, and which roles have access.
+- Navigation philosophy should explain the structural choice (why top nav over sidebar, why tabs over a drawer) in terms of user goals and device support.
+- Error and empty state patterns belong here, not in individual page designs. Consistent handling reduces the number of decisions `108` has to make.
+- Reference D06 for design conventions already established. Navigation and interaction patterns must align with the visual system.
+
+## Common mistakes
+
+- Producing a navigation structure without explaining the reasoning behind it
+- Leaving the page inventory incomplete or imprecise — vague page names produce vague page designs
+- Treating accessibility as a checklist item rather than a set of specific commitments
+- Designing for desktop without specifying what degrades or changes on smaller screens

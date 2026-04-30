@@ -1,0 +1,30 @@
+---
+title: Support Skills & Reference
+description: Skills that support the main lifecycle without sitting inside it — plus reference material for the .specflow/ output structure.
+sidebar:
+  order: 7
+---
+
+import Callout from '../../components/Callout.astro';
+
+Two skills sit outside the main SpecFlow lifecycle but support it directly. They can be used at any point in a project.
+
+## The support skills
+
+| Skill | What it does |
+|---|---|
+| `agent-context` | Creates or refreshes `AGENTS.md` guidance so coding agents can navigate the repo accurately |
+| `deep-research` | Performs multi-source live web research when current external information materially affects a decision |
+
+<Callout tone="bonus" title="Bonus does not mean optional">
+  `deep-research` is listed as a bonus skill, but `100-domain-knowledge` normally relies on it for live research. `agent-context` sits outside the feature loop but can become important early when a repo needs trustworthy agent guidance for the first time.
+</Callout>
+
+## Reference material
+
+- **[Artifact Gallery](./artifact-gallery/)** — examples of what `.specflow/` outputs look like
+
+## Skills in this section
+
+- **[Agent Context](./support-skills/agent-context/)** — create or refresh AGENTS.md guidance
+- **[Deep Research](./support-skills/deep-research/)** — multi-source web research with citations

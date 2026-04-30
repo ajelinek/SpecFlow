@@ -1,0 +1,77 @@
+---
+title: 203 Implementation Design
+description: Produce a codebase-grounded implementation plan that maps file changes and design decisions before a single line of code is written.
+sidebar:
+  order: 3
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`203-implementation-design` produces a standalone implementation plan grounded in the actual codebase. It maps which files change, what each change does, and the reasoning behind every structural decision. The plan gives implementers a clear, reviewable reference before any production code is written.
+
+The guiding principle: **the best code is the code not written.** This skill always looks for the smallest additive change that satisfies the feature requirements. New files are a last resort. Where a small rearchitecture of an existing module produces a simpler result than adding new code alongside it, the rearchitecture is preferred.
+
+**Output path**: `.specflow/features/<feature-name>/implementation.md`
+
+## When to use it
+
+- When the team wants a persisted, reviewable implementation plan before coding
+- On complex features where the approach needs to be agreed on before a `301` run
+- When `204-feature-validation` will be run — it requires `implementation.md`
+- When new team members or reviewers need to understand the planned approach
+
+## When NOT to use it
+
+- For simple features where the implementation path is obvious
+- When `301` can synthesize a working implementation plan in memory and persistence is not needed
+- Before `201` and `202` exist — the plan depends on having a defined scope and scenarios
+
+<Callout tone="optional" title="Optional but required by 204">
+  `204-feature-validation` requires `implementation.md`. If you want the pre-coding readiness review that `204` provides, run `203` first.
+</Callout>
+
+## Detail levels
+
+| Level | Change Summary tables | Implementation Details |
+|:------|:----------------------|:-----------------------|
+| **High Level** | Core files only; no CSS or test files | Module-level — one sentence per file |
+| **Balanced** *(default)* | All production files except CSS and test files | Module-level + 1–2 sentences per module on what is changing and why |
+| **Detailed** | All production files including CSS; no test files | Full detail — every function/component with signature and description |
+
+If no level is specified, **Balanced** is used.
+
+## Required inputs
+
+- Feature name
+- Detail level (optional — defaults to Balanced)
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 203-implementation-design for invoice approval.`} />
+
+<PromptBlock title="Prompt" text={`Run 203 for account recovery with detailed level.`} />
+
+## What usually comes next
+
+`204-feature-validation` — cross-artifact readiness review using `overview.md`, `specs.feature`, and `implementation.md` together. Then `301-spec-implementation` — the implementation run.
+
+## Practical guidance
+
+- The plan should be specific enough that two engineers would produce structurally similar code when following it — not so detailed that it becomes a specification to copy-paste.
+- Use `@explore` to discover the actual codebase before writing the plan. The plan must match the real code, not a theoretical architecture.
+- Every new file in the plan requires justification. Extending existing modules is always the first option considered.
+- The extend-first principle applies across the codebase: if an existing helper, service, or utility can handle the new requirement with a small modification, prefer that over a new file.
+
+## Common mistakes
+
+- Writing an implementation plan without reading the actual codebase first
+- Proposing new files for everything instead of extending existing modules
+- Making the plan so detailed it becomes the implementation rather than guiding it
+- Treating the plan as a commitment rather than a reviewable artifact — `203` can be revised before `301` runs
+
+<Callout tone="tip" title="The extend-first principle">
+  Before adding any new file to the plan, confirm there is no existing module that could absorb the change. The shortest plan that satisfies the feature is almost always the best plan.
+</Callout>

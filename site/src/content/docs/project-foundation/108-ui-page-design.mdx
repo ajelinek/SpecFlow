@@ -1,0 +1,74 @@
+---
+title: 108 UI Page Design
+description: Design one page in detail — layout, data attributes, interaction flows, and responsive behavior — producing a markdown spec and HTML mockup.
+sidebar:
+  order: 9
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`108-ui-page-design` designs a single application page from the D07 page inventory. It produces two files: a markdown spec that documents page context, data requirements, and interaction flows; and a static HTML mockup that is the primary visual reference for implementation. The HTML mockup is the authoritative design artifact — the markdown spec supports it with context that cannot be read from the visual alone.
+
+This skill runs once per page. Each run scopes to exactly one route from D07's page inventory.
+
+**Output paths**:
+- `.specflow/docs/D08-ui-pages/<page-name>/overview.md` — page context, data attributes, interaction flows
+- `.specflow/docs/D08-ui-pages/<page-name>/mockup.html` — primary layout reference
+
+## When to use it
+
+- When a specific route from the D07 page inventory needs a detailed layout and interaction reference
+- Before implementing a page where the layout, responsive behavior, or interaction flows are non-trivial
+- When a design review is needed before development begins on a page
+
+## When NOT to use it
+
+- For pages that are already well-understood or trivially simple
+- Before `107-ui-experience` has established the page inventory — if the page is not in D07, `108` will flag it
+- For every page by default — use it selectively where the design complexity justifies the investment
+
+<Callout tone="optional" title="Run once per page, as needed">
+  `108` is not a required step for every page. Use it when the layout, responsive behavior, or interaction complexity of a specific page would benefit from a detailed visual reference before implementation starts.
+</Callout>
+
+## What it produces
+
+- `overview.md` — page name, route, user roles with access, data requirements, interaction flows, responsive notes
+- `mockup.html` — a static HTML/CSS mockup using inline styles and placeholder data to communicate layout and interaction intent
+
+The mockup is a **pure design tool**. It uses inline styles and placeholder data. It does not reflect production code structure and must not be used as a code starting point.
+
+## Required inputs
+
+1. Page name — must match a route in D07's page inventory
+2. Page purpose and primary user action — what the user is trying to accomplish
+3. User roles with access — which roles can reach this page and how content differs by role
+4. Key data — what data the page displays, accepts as input, or submits
+5. Responsive priority — which form factor is primary and what must degrade on smaller screens
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 108-ui-page-design for the expense detail page.`} />
+
+<PromptBlock title="Prompt" text={`Run 108 for the project dashboard page — generate three layout options and let me choose.`} />
+
+## What usually comes next
+
+After D08 pages are designed for the routes where it is needed, move to `110-feature-overview` to map the feature backlog, or directly to the `200` series if the feature backlog is already clear.
+
+## Practical guidance
+
+- Every design decision in the mockup should trace to D01 (user goals), D06 (design system), or D07 (navigation and page inventory). This skill applies established decisions — it does not establish new design system rules.
+- Generating multiple layout directions before committing to one produces better outcomes. Let the team choose rather than accepting the first generated option.
+- The `overview.md` should capture things the mockup cannot show: which fields are required, what happens on error, what roles see different content.
+- When designing a page, check D08 for other pages already designed — reuse patterns and components rather than inventing new ones.
+
+## Common mistakes
+
+- Designing a page that is not in D07's inventory — add it to D07 first
+- Using the HTML mockup as the starting point for production code — it is a design reference, not implementation
+- Skipping the overview.md and treating the mockup as self-documenting
+- Running `108` for every page instead of the pages where the complexity justifies it

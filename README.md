@@ -1,5 +1,7 @@
 # SpecFlow
 
+> **Under active development.** Content and features may change without notice.
+
 SpecFlow is a lightweight, spec-driven workflow for building software with AI.
 
 It helps you define a feature, describe its expected behavior, implement it, and clean it up without turning the process into a pile of bloated planning docs.

@@ -1,0 +1,56 @@
+---
+title: Project Foundation (100 Series)
+description: Build shared project context before feature work begins — domain, product, architecture, UX, and feature map.
+sidebar:
+  order: 3
+---
+
+import Callout from '../../components/Callout.astro';
+
+The `100` series builds the shared understanding that makes feature design and implementation more predictable. Each skill produces a document that downstream workflows read instead of rediscovering the same context from scratch.
+
+## Why this series exists
+
+When agents, developers, and reviewers all share the same written context — domain language, architecture decisions, data model, UX conventions — feature design runs faster, implementation produces fewer surprises, and reviews are more coherent.
+
+<Callout tone="tip" title="Not just for greenfield projects">
+  Use the `100` series on existing projects too, when the domain, architecture, UX, or feature map is still implicit or unclear. Better shared context improves every downstream run, regardless of project age.
+</Callout>
+
+## The documents it produces
+
+| Skill | Output path | What it captures |
+|---|---|---|
+| `100-domain-knowledge` | `.specflow/context/domain-knowledge.md` | Market, users, terminology, constraints, differentiators |
+| `101-project-overview` | `.specflow/docs/D01-project-overview.md` | Product definition, user goals, success metrics |
+| `102-system-architecture` | `.specflow/docs/D02-system-architecture.md` | Stack, components, deployment, testing strategy |
+| `103-common-data-model` | `.specflow/docs/D03-common-data-model.md` | Entities, relationships, business rules |
+| `104-backend-architecture` | `.specflow/docs/D04-backend-architecture.md` | API design, service layering, auth, security |
+| `105-frontend-architecture` | `.specflow/docs/D05-frontend-architecture.md` | Component structure, state, routing, styling |
+| `106-ui-design` | `.specflow/docs/D06-ui-design.md` | Design system, color, typography, visual philosophy |
+| `107-ui-experience` | `.specflow/docs/D07-ui-experience.md` | Navigation, page inventory, interaction patterns |
+| `108-ui-page-design` | `.specflow/docs/D08-ui-pages/<name>/` | Per-page layout spec and HTML mockup |
+| `110-feature-overview` | `.specflow/docs/D10-feature-overview.md` | Capabilities and thin vertical feature slices |
+
+## Recommended sequence
+
+Run these in order when starting fresh. On existing projects, run only what is missing or stale.
+
+```
+100 → 101 → 102 → 103 → 104 → 105 → 106 → 107 → [108 per page] → 110
+```
+
+Each document references the ones before it. Running out of order is possible but produces weaker results.
+
+## Skills in this series
+
+- **[100 Domain Knowledge](./project-foundation/100-domain-knowledge/)** — research the domain before planning
+- **[101 Project Overview](./project-foundation/101-project-overview/)** — define the product
+- **[102 System Architecture](./project-foundation/102-system-architecture/)** — record the stack and structure
+- **[103 Common Data Model](./project-foundation/103-common-data-model/)** — map the entities and rules
+- **[104 Backend Architecture](./project-foundation/104-backend-architecture/)** — specify the server-side patterns
+- **[105 Frontend Architecture](./project-foundation/105-frontend-architecture/)** — specify the client-side patterns
+- **[106 UI Design](./project-foundation/106-ui-design/)** — establish the visual design system
+- **[107 UI Experience](./project-foundation/107-ui-experience/)** — define the UX model and page inventory
+- **[108 UI Page Design](./project-foundation/108-ui-page-design/)** — design one page in detail
+- **[110 Feature Overview](./project-foundation/110-feature-overview/)** — map the feature backlog

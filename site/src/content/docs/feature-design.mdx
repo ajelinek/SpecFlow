@@ -1,0 +1,43 @@
+---
+title: Feature Definition (200 Series)
+description: Design one feature at a time — overview, Gherkin scenarios, implementation plan, and readiness review.
+sidebar:
+  order: 4
+---
+
+import Callout from '../../components/Callout.astro';
+
+The `200` series turns a feature request into a set of reviewable, implementation-ready artifacts. Each skill in this series produces a document that guides and constrains the implementation run that follows.
+
+## The four steps
+
+| Skill | Output | Required |
+|---|---|---|
+| `201-high-level-design` | `overview.md` — scope, user journey, acceptance criteria | Core |
+| `202-spec-design` | `specs.feature` — numbered Gherkin scenarios | Core |
+| `203-implementation-design` | `implementation.md` — repo-grounded implementation plan | Optional |
+| `204-feature-validation` | Chat-only readiness review across all artifacts | Optional |
+
+<Callout tone="core" title="The minimum viable design loop">
+  `201` followed by `202` is the practical minimum before a `301` implementation run. The optional steps (`203` and `204`) add a persisted implementation plan and a pre-coding readiness review — valuable on complex features, overhead on simple ones.
+</Callout>
+
+## All outputs go to the same path
+
+Every skill in the `200` series writes to `.specflow/features/<feature-name>/`. The files accumulate across the loop and `301` reads all of them before coding.
+
+```
+.specflow/
+  features/
+    invoice-approval/
+      overview.md          ← written by 201
+      specs.feature        ← written by 202
+      implementation.md    ← written by 203 (optional)
+```
+
+## Skills in this series
+
+- **[201 High-Level Design](./feature-design/201-high-level-design/)** — define the feature in plain language
+- **[202 Spec Design](./feature-design/202-spec-design/)** — write the Gherkin behavior scenarios
+- **[203 Implementation Design](./feature-design/203-implementation-design/)** — produce a codebase-grounded implementation plan
+- **[204 Feature Validation](./feature-design/204-feature-validation/)** — cross-artifact readiness review before coding

@@ -1,0 +1,71 @@
+---
+title: 101 Project Overview
+description: Define what the product is, who it serves, and why it matters before any architecture or feature work begins.
+sidebar:
+  order: 2
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`101-project-overview` produces the foundational product document: what problem the product solves, who it serves, how it differentiates, and what success looks like. It is the shared definition of the product that every downstream SpecFlow document references rather than re-establishing from scratch.
+
+**Output path**: `.specflow/docs/D01-project-overview.md`
+
+## When to use it
+
+- At the start of a new project, after any domain research is complete
+- When the product definition is implicit or only exists in someone's head
+- When the team has competing understandings of what the product should do
+- Before writing architecture documents that need to reference user goals and success metrics
+
+## When NOT to use it
+
+- When a clear, written product overview already exists and is shared across the team
+- For a tool so well understood that the product definition is genuinely obvious to everyone involved
+
+<Callout tone="optional" title="Optional but foundational">
+  `101` is optional in the sense that skilled teams can hold product framing in their heads. But writing it down makes every downstream artifact more consistent and every architectural decision easier to justify.
+</Callout>
+
+## What it produces
+
+- `.specflow/docs/D01-project-overview.md` covering:
+  - Problem statement and market context
+  - Target users and their core needs
+  - Product scope and out-of-scope boundaries
+  - Key differentiators
+  - Success metrics and definition of done at the product level
+  - Constraints that shape all downstream decisions
+
+## Required inputs
+
+1. What the product does — one or two sentences
+2. Who the primary users are
+3. What problem it solves for them
+4. How it differs from alternatives
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 101-project-overview for a construction expense management tool targeting project managers at mid-market firms.`} />
+
+<PromptBlock title="Prompt" text={`Run 101 — here is the pitch: [paste concept].`} />
+
+## What usually comes next
+
+`102-system-architecture` — record the technology stack and structural decisions with the product framing now written down.
+
+## Practical guidance
+
+- Keep the output concise enough that engineers and product stakeholders can both read and agree on it quickly.
+- The differentiators section is worth getting right — it shapes architectural tradeoffs and feature priority.
+- If domain research (`100`) was performed, reference its outputs rather than re-stating the same context.
+- Revisit D01 when the product direction shifts materially. Downstream documents depend on it.
+
+## Common mistakes
+
+- Writing a full product requirements document instead of a concise reference
+- Leaving the success metrics section generic (e.g., "users are happy")
+- Treating the out-of-scope list as optional — explicit exclusions prevent scope creep downstream

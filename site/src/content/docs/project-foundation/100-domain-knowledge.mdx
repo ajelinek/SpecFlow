@@ -1,0 +1,74 @@
+---
+title: 100 Domain Knowledge
+description: Research the domain, users, workflows, terminology, and constraints before planning begins.
+sidebar:
+  order: 1
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`100-domain-knowledge` produces a research-backed domain reference before any planning or architecture work begins. It captures the market the product operates in, the users it must serve, the workflows those users actually follow, the language the domain uses, and the constraints that shape what a good solution looks like.
+
+This is not a product spec and not a business plan. It is the external context document that helps every downstream SpecFlow workflow use the right terminology, prioritize the right problems, and avoid designing against a false understanding of the domain.
+
+**Output path**: `.specflow/context/domain-knowledge.md`
+
+## When to use it
+
+- When the domain is unfamiliar, regulated, or terminology-heavy
+- At the start of a new project before writing the product overview
+- On an existing project where domain assumptions have never been made explicit
+- When `101-project-overview` would benefit from grounded market and user research
+
+## When NOT to use it
+
+- When the team already has deep domain expertise and documented user research
+- For a quick internal tool where domain complexity is not a real concern
+- When you just need to start coding and domain context is already clear
+
+<Callout tone="optional" title="Optional but high-leverage">
+  Skipping `100` is fine when the domain is already well understood. But on unfamiliar or regulated domains, the research it produces often prevents costly architecture and scope decisions made against a wrong model of the world.
+</Callout>
+
+## What it produces
+
+- `.specflow/context/domain-knowledge.md` covering:
+  - Market context and product category
+  - Target user roles and their actual workflows
+  - Competitor and substitute patterns
+  - Regulatory or operational constraints
+  - Differentiation opportunities
+  - Domain terminology and key concepts with citations
+
+## Required inputs
+
+1. Product concept — what is being built
+2. Target domain or industry — what market or vertical
+3. Target users — primary users or buyer roles
+4. Known constraints — regulatory, geographic, compliance, or budget limits
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 100-domain-knowledge for a healthcare appointment scheduling app targeting independent clinics.`} />
+
+<PromptBlock title="Prompt" text={`Run 100 for an expense management tool for mid-market construction companies.`} />
+
+## What usually comes next
+
+`101-project-overview` — define what the product is and who it serves, using the domain research as grounding.
+
+## Practical guidance
+
+- `100` normally delegates live web research to `deep-research`. The output is only as good as the research performed.
+- Direct the research to answer the questions that will actually change design decisions — not generic background reading.
+- If the project has an existing product overview, read it first so the research aligns with current framing rather than contradicting it.
+- Treat the output as a living reference: update it when the domain understanding changes, not just at project start.
+
+## Common mistakes
+
+- Treating the output as a marketing document instead of a decision-useful reference
+- Researching generic industry background instead of specific user workflows and constraints
+- Skipping this step and then discovering domain mismatches during feature design

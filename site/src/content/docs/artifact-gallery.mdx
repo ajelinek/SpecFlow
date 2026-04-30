@@ -1,0 +1,252 @@
+---
+title: Artifact Gallery
+description: Examples of what the .specflow/ output directory looks like — real artifact samples from each skill in the lifecycle.
+sidebar:
+  order: 8
+---
+
+import Callout from '../../components/Callout.astro';
+
+Every SpecFlow skill writes its output to a consistent location under `.specflow/` in the project root. This page shows what those files look like so you know what to expect before running a workflow for the first time.
+
+## Directory structure
+
+After running the full lifecycle, the `.specflow/` directory looks like this:
+
+```
+.specflow/
+  context/
+    domain-knowledge.md          ← 100-domain-knowledge
+  docs/
+    D01-project-overview.md      ← 101-project-overview
+    D02-system-architecture.md   ← 102-system-architecture
+    D03-common-data-model.md     ← 103-common-data-model
+    D04-backend-architecture.md  ← 104-backend-architecture
+    D05-frontend-architecture.md ← 105-frontend-architecture
+    D06-ui-design.md             ← 106-ui-design
+    D07-ui-experience.md         ← 107-ui-experience
+    D08-ui-pages/
+      expense-detail/
+        overview.md              ← 108-ui-page-design
+        mockup.html              ← 108-ui-page-design
+    D10-feature-overview.md      ← 110-feature-overview
+  features/
+    invoice-approval/
+      overview.md                ← 201-high-level-design
+      specs.feature              ← 202-spec-design
+      implementation.md          ← 203-implementation-design (optional)
+    account-recovery/
+      overview.md
+      specs.feature
+      implementation.md
+```
+
+---
+
+## Feature overview (201)
+
+`.specflow/features/invoice-approval/overview.md`
+
+```markdown
+---
+feature: Invoice Approval
+fid: F-003
+status: in_progress
+---
+
+# Invoice Approval
+
+Allow project managers to submit expense reports for approval and allow approvers
+to review, approve, or reject them with comments.
+
+## In scope
+
+- Submitting an expense report for approval
+- Reviewing submitted reports as an approver
+- Approving or rejecting with a required comment on rejection
+- Email notification to submitter on status change
+
+## Out of scope
+
+- Bulk approval of multiple reports
+- Mobile push notifications
+- Approval delegation to a substitute approver
+
+## Primary user journey
+
+1. Project manager marks expense report as "ready for review"
+2. Approver receives email notification
+3. Approver opens the expense report in the review view
+4. Approver reviews line items and attached receipts
+5. Approver approves the report or rejects it with a comment
+6. Project manager receives email notification of the decision
+7. Approved reports are available for accounting export
+
+## Acceptance criteria
+
+- A submitted report cannot be edited by the submitter while awaiting approval
+- A rejection must include a non-empty comment
+- The submitter sees the rejection comment in the report detail view
+```
+
+---
+
+## Gherkin spec (202)
+
+`.specflow/features/invoice-approval/specs.feature`
+
+```gherkin
+Feature: Invoice Approval
+  Allow project managers to submit expense reports for approval
+  and approvers to review and decide on submitted reports.
+
+# TSM001: Submission
+
+  @TSM001 @TS001 @status_pending @happyPath
+  Scenario: TS001 - Project manager submits expense report for approval
+    Given a project manager has a draft expense report with at least one line item
+    When the project manager submits the report for approval
+    Then the report status changes to "awaiting approval"
+    And the report is locked against further edits
+    And an email notification is sent to the assigned approver
+
+  @TSM001 @TS002 @status_pending @errorPath
+  Scenario: TS002 - Project manager cannot submit an empty expense report
+    Given a project manager has a draft expense report with no line items
+    When the project manager attempts to submit the report
+    Then the submission is rejected
+    And an error message explains that at least one line item is required
+
+# TSM002: Review and decision
+
+  @TSM002 @TS003 @status_pending @happyPath
+  Scenario: TS003 - Approver approves an expense report
+    Given an expense report is awaiting approval
+    When the approver reviews and approves the report
+    Then the report status changes to "approved"
+    And an email notification is sent to the submitter
+
+  @TSM002 @TS004 @status_pending @happyPath
+  Scenario: TS004 - Approver rejects an expense report with a comment
+    Given an expense report is awaiting approval
+    When the approver rejects the report with the comment "Missing receipts for hotel charges"
+    Then the report status changes to "rejected"
+    And the rejection comment is visible to the submitter
+    And an email notification is sent to the submitter
+
+  @TSM002 @TS005 @status_pending @errorPath
+  Scenario: TS005 - Approver cannot reject without a comment
+    Given an expense report is awaiting approval
+    When the approver attempts to reject the report without a comment
+    Then the rejection is blocked
+    And an error message requires a non-empty rejection comment
+```
+
+---
+
+## Implementation plan (203)
+
+`.specflow/features/invoice-approval/implementation.md`
+
+```markdown
+---
+feature: Invoice Approval
+fid: F-003
+status: planned
+detail_level: balanced
+---
+
+# Implementation Design — Invoice Approval
+
+## Summary
+
+This feature adds approval workflow state to expense reports and the notification
+plumbing for status changes. The primary changes are in the expense report service
+layer, the approval API route, and the report detail UI. No new files are needed —
+all changes extend existing modules.
+
+## Change summary
+
+| File | Change type | Summary |
+|------|-------------|---------|
+| `src/services/expenseReportService.ts` | Modify | Add `submitForApproval`, `approve`, and `reject` methods; add status transition guards |
+| `src/api/routes/expenseReports.ts` | Modify | Add `POST /expense-reports/:id/submit`, `POST /expense-reports/:id/approve`, `POST /expense-reports/:id/reject` endpoints |
+| `src/notifications/emailService.ts` | Modify | Add `sendApprovalRequestEmail` and `sendApprovalDecisionEmail` methods |
+| `src/components/ExpenseReportDetail/` | Modify | Add approval action panel; add rejection comment display; add locked state UI |
+| `src/hooks/useExpenseReport.ts` | Modify | Extend with approval action dispatchers |
+| `tests/services/expenseReportService.test.ts` | Modify | Add test coverage for approval workflow methods and status transition guards |
+
+## Implementation details
+
+**`src/services/expenseReportService.ts`** — The three new methods (`submitForApproval`,
+`approve`, `reject`) wrap the repository update with status transition guards that enforce
+the valid state machine. A report can only be submitted when in `draft` status, approved or
+rejected only when in `awaiting_approval` status. `reject` validates that `comment` is non-empty
+before writing.
+
+**`src/api/routes/expenseReports.ts`** — Three new endpoints following existing route conventions
+(validation middleware, controller, service call, response envelope). The `reject` endpoint
+validates the comment field before passing to the service.
+
+**`src/notifications/emailService.ts`** — Two new methods that use the existing template engine
+and SMTP transport. Templates follow the existing `src/notifications/templates/` pattern.
+```
+
+---
+
+## Domain knowledge (100)
+
+`.specflow/context/domain-knowledge.md`
+
+```markdown
+---
+updated: 2025-04-01
+domain: Construction Expense Management
+---
+
+# Domain Knowledge — Construction Expense Management
+
+## Market context
+
+Mid-market construction companies (50–500 employees) manage project costs across
+dozens of concurrent projects, each with distinct budgets, cost codes, and approval
+chains. Expense management is tightly coupled to project accounting — a tool that
+does not speak the language of cost codes and lump-sum contracts loses adoption fast.
+
+## Target users
+
+**Project managers** are the primary submitters. They manage 3–15 active projects and
+are often in the field. Mobile experience matters; photo receipt capture is a requirement,
+not a nice-to-have.
+
+**Controllers and accounting staff** are the primary reviewers and export consumers.
+They care about audit trails, export compatibility (QuickBooks, Sage), and compliance
+with lien waiver requirements.
+
+## Key domain concepts
+
+- **Cost code** — a project-level classification code that maps an expense to a budget line item
+- **Lien waiver** — a legal document that a subcontractor signs confirming payment; required in
+  many states before releasing final payment
+- **Retention** — a percentage of each payment held until project completion; affects how
+  expense reports map to actual cash flow
+
+## Regulatory constraints
+
+- Prevailing wage requirements affect labor cost coding in public projects
+- Lien waiver tracking is legally required in most US states for subcontractor payments
+- Expense reports for government contracts must follow FAR (Federal Acquisition Regulation) rules
+```
+
+---
+
+<Callout tone="tip" title="These are representative examples">
+  The actual output of each skill is grounded in your specific project. The examples above show structure and style — the content in your `.specflow/` directory will reflect your product, domain, and codebase.
+</Callout>
+
+## What you can do with these files
+
+- **Review them** — they are plain Markdown and Gherkin, readable in any editor or on GitHub
+- **Reference them in prompts** — tell agents to read `@.specflow/features/invoice-approval/specs.feature` before implementing
+- **Commit them** — the `.specflow/` directory is source-controlled like any other project document
+- **Update them** — skills treat existing files as prior drafts to update, not to replace

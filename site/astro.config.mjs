@@ -21,6 +21,9 @@ export default defineConfig({
       ],
       sidebar: starlightSidebar,
       customCss: ['./src/styles/global.css'],
+      components: {
+        Banner: './src/components/StarlightBanner.astro',
+      },
       // Suppress Starlight's injected /404 route; our custom src/pages/404.astro owns it
       disable404Route: true,
     }),

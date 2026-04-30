@@ -1,0 +1,74 @@
+---
+title: 104 Backend Architecture
+description: Specify API structure, service layering, data access patterns, and backend security before feature implementation begins.
+sidebar:
+  order: 5
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`104-backend-architecture` produces the backend architecture document: the API style and conventions, how business logic is layered, how the service layer organizes code, how data is accessed, and how security and authentication are handled. It translates the stack decisions from the system architecture and the entities from the data model into concrete backend patterns that engineers can implement directly.
+
+**Output path**: `.specflow/docs/D04-backend-architecture.md`
+
+## When to use it
+
+- When the backend needs concrete implementation conventions before feature work begins
+- When the team needs to agree on API conventions, error handling, and auth patterns
+- On existing projects where backend patterns exist but have never been documented
+- Before feature design work that will specify API endpoints and data access requirements
+
+## When NOT to use it
+
+- When clear, current backend documentation already exists and is trusted by the team
+- For a purely frontend project with no custom backend
+- When the backend is a third-party service that the team is not architecting
+
+<Callout tone="optional" title="Optional but specific">
+  Where D02 says "REST API with JWT authentication," D04 specifies the URL naming convention, error envelope format, token lifecycle, and validation approach. That level of specificity is what makes feature implementation consistent across the team.
+</Callout>
+
+## What it produces
+
+- `.specflow/docs/D04-backend-architecture.md` covering:
+  - API style and conventions (URL structure, versioning, payload format, error envelopes)
+  - Authentication method and token lifecycle
+  - Authorization model (RBAC, ABAC, ownership-based)
+  - Service layer organization and responsibility boundaries
+  - Data access patterns and repository conventions
+  - Security and compliance requirements
+  - Background jobs, rate limiting, and cross-cutting concerns
+
+## Required inputs
+
+1. API style — REST, GraphQL, gRPC, or tRPC
+2. Authentication method — JWT, session-based, OAuth, API keys, or combination
+3. Authorization model — RBAC, ABAC, ownership-based, or custom
+4. Security or compliance requirements — GDPR, HIPAA, SOC 2, or similar
+5. Runtime and language — Node.js, Python, Go, Java, etc.
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 104-backend-architecture. REST API, JWT auth, RBAC, Node.js, no special compliance requirements.`} />
+
+<PromptBlock title="Prompt" text={`Run 104 for a Python FastAPI backend with OAuth2 and row-level security.`} />
+
+## What usually comes next
+
+`105-frontend-architecture` — specify how the frontend integrates with the backend, or move to feature design if the frontend architecture is already documented.
+
+## Practical guidance
+
+- Decisions should be specific enough that two engineers implementing the same endpoint would produce consistent code. Generic choices produce inconsistent implementations.
+- If the project has an existing backend, use `@explore` to discover actual patterns before writing D04. Document what exists, then note where it should change.
+- Reference D01 for business requirements and D02 for technology choices. D04 should not re-state those — it builds on them.
+- Cross-cutting concerns (CORS, rate limiting, request ID propagation) belong in D04, not scattered across feature designs.
+
+## Common mistakes
+
+- Describing the API style without specifying the concrete conventions (naming, pagination, error format)
+- Leaving the authorization model at "we use RBAC" without explaining what roles exist and what they can do
+- Ignoring error handling — teams that skip this end up with inconsistent error responses across endpoints

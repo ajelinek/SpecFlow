@@ -38,14 +38,14 @@ If you want the supporting `coder`, `execution-agent`, and `designer` workers, u
 
 ## 3. Run the lean default
 
-If the repo already has enough context, the lean path is the fastest clean start:
+If the repo already has enough context, the lean path is the fastest clean start. You can use the skill numbers as a shorthand in your prompts (e.g., saying "Run 301" instead of the full name):
 
 <PromptBlock
   title="Run this"
-  text={`Run 201-high-level-design for invoice approval.
-Use 202-spec-design for invoice approval with balanced coverage.
-Run 301-spec-implementation for the invoice approval feature.
-Run 401-cleanup on the changed source files.`}
+  text={`Run 201 for invoice approval.
+Use 202 for invoice approval with balanced coverage.
+Run 301 for the invoice approval feature.
+Run 401 on the changed source files.`}
 />
 
 Run `401-cleanup` again later for changed test files if you want a separate test cleanup pass too.

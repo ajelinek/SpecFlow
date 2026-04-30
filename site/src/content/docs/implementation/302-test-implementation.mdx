@@ -1,0 +1,71 @@
+---
+title: 302 Test Implementation
+description: Add or repair automated tests for behavior that is already implemented, without broad production code changes.
+sidebar:
+  order: 2
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`302-test-implementation` adds or repairs automated tests for behavior that already exists in the codebase. It works against the production code as-is and adds only the minimal testability hooks needed (hooks, test IDs, event handlers) when the existing code makes testing unreasonably difficult.
+
+**Output**: New or updated test files. Only minimal production-side testability changes.
+
+## When to use it
+
+- When production behavior is already in place but the automated test coverage is weak or missing
+- When existing tests are broken and need repair without changing production behavior
+- When you want to add coverage before a refactoring pass, to verify behavior is preserved
+- When `301` was used for initial implementation and explicit test coverage was deferred
+
+## When NOT to use it
+
+- When the behavior itself is still missing — route to `301-spec-implementation` first
+- When the change requires meaningful production code modifications beyond testability hooks
+- For new feature work — that belongs in `301`
+
+<Callout tone="optional" title="Test-only path">
+  `302` is strictly a test-only workflow. If you discover during a `302` run that production behavior is missing or broken, stop and route to `301` for that work. The disciplines are deliberately separate.
+</Callout>
+
+## What it produces
+
+- New or updated test files matching the existing test framework and file conventions
+- Minimal production-side testability hooks only (test IDs, thin event handlers) when necessary
+- No net-new feature behavior — existing production code is preserved
+
+## Required inputs
+
+- A description of what needs test coverage
+- The existing test framework and file conventions (or a reference to the codebase)
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 302-test-implementation for the invoice approval feature. The production code exists but has no automated tests.`} />
+
+<PromptBlock title="Prompt" text={`Run 302 to add E2E coverage for the account recovery flow.`} />
+
+## What usually comes next
+
+`401-cleanup` on the new test files if the test coverage pass warrants a cleanup review. Or `301` if `302` surfaces missing production behavior that needs to be built.
+
+## Practical guidance
+
+- Verify that the behavior you are testing actually exists and works before writing tests for it. Tests for missing behavior belong in `301`.
+- Follow the project's existing test structure and naming conventions exactly. Introducing a new test style alongside the existing one creates confusion.
+- The minimal-hook constraint matters: do not add data attributes or event handlers to production components beyond what is strictly necessary for testability.
+- If the existing code architecture makes testing unreasonably difficult (deeply coupled, no seams), flag this as a structural issue rather than working around it with complex test setup.
+
+## Common mistakes
+
+- Using `302` for new feature work that requires production code changes
+- Adding testability infrastructure that bleeds into non-test concerns
+- Writing tests that test implementation details instead of observable behavior
+- Running `302` when the production behavior is actually broken — fix the behavior first with `301`
+
+<Callout tone="tip" title="When to route back to 301">
+  If, during a `302` run, you discover that production behavior is missing, incorrect, or untestable without meaningful refactoring — stop and route that work through `301`. Do not try to fix production behavior inside a test-only workflow.
+</Callout>

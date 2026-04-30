@@ -1,0 +1,40 @@
+---
+title: Implementation (300 Series)
+description: Build the feature through the main tests-first workflow or the test-only path.
+sidebar:
+  order: 5
+---
+
+import Callout from '../../components/Callout.astro';
+
+The `300` series is where design artifacts become running code. Two skills cover different implementation scenarios.
+
+## The two paths
+
+| Skill | When to use it |
+|---|---|
+| `301-spec-implementation` | The main implementation workflow — for substantial changes driven by a spec |
+| `302-test-implementation` | The test-only path — for adding or repairing automated tests for behavior that already exists |
+
+<Callout tone="core" title="301 is the primary implementation skill">
+  Most feature work goes through `301`. Use `302` only when production behavior is already in place and the goal is purely to improve test coverage — not to add missing behavior.
+</Callout>
+
+## What 301 does internally
+
+`301` is not just a longer coding prompt. It is a phased, orchestrated workflow:
+
+1. Synthesizes missing `201`, `202`, and `203` artifacts in memory if they do not exist
+2. Runs `204-feature-validation` before any code is written
+3. Writes failing tests first
+4. Implements the minimum production code to pass those tests
+5. Runs a test-cleanup pass
+6. Runs a production-cleanup pass
+7. Validates via test, lint, and build passes
+
+The internal cleanup phases mean `401-cleanup` is not always necessary afterward — though a separate explicit cleanup pass remains useful on complex changes.
+
+## Skills in this series
+
+- **[301 Spec Implementation](./implementation/301-spec-implementation/)** — the main implementation workflow
+- **[302 Test Implementation](./implementation/302-test-implementation/)** — the test-only path

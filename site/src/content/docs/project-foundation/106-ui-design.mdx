@@ -1,0 +1,77 @@
+---
+title: 106 UI Design
+description: Establish the visual design system — color, typography, layout philosophy, and component visual language — before page design begins.
+sidebar:
+  order: 7
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`106-ui-design` produces the UI design document: the strategic design decisions that govern all visual output — brand personality, color system with semantic meaning, typography hierarchy, and component visual language. It explains the *why* behind design decisions so that any designer or engineer working on the product arrives at consistent visual output without negotiating each choice.
+
+This is a decision record, not an implementation spec. Design tokens and CSS variable definitions belong in D05; D06 explains the reasoning and intent behind them.
+
+**Output path**: `.specflow/docs/D06-ui-design.md`
+
+## When to use it
+
+- When the project needs a visual design foundation before UX or page-level work begins
+- When the team needs to agree on brand direction, color philosophy, and typographic hierarchy
+- Before `107-ui-experience` or `108-ui-page-design`, which apply the design system
+- On existing projects where design decisions have accumulated without an explicit rationale
+
+## When NOT to use it
+
+- When an established design system (Material, Radix, Tailwind preset) is already the unambiguous visual foundation
+- For internal tools where visual consistency is not a meaningful product concern
+- When `108-ui-page-design` would be sufficient without a broader design strategy
+
+<Callout tone="optional" title="Optional but required for D07 and D08">
+  `107-ui-experience` and `108-ui-page-design` both reference D06 for color, typography, and component conventions. Without D06, those skills have to invent design decisions instead of applying established ones.
+</Callout>
+
+## What it produces
+
+- `.specflow/docs/D06-ui-design.md` covering:
+  - Brand personality and design philosophy
+  - Color system — primary, secondary, semantic, and surface colors with usage rules
+  - Typography hierarchy — typefaces, scale, and usage conventions
+  - Layout principles — spatial rhythm, grid approach, responsive strategy
+  - Component visual language — how components communicate state, hierarchy, and interaction
+  - Motion and animation philosophy
+  - Accessibility commitments at the visual level (contrast, focus, color independence)
+
+## Required inputs
+
+1. Brand personality — what emotional tone and visual identity the product should project
+2. Target audience — primary users and any accessibility requirements
+3. Device support — mobile-first, desktop-first, or responsive with critical breakpoints
+4. Theme support — light only, dark only, or both
+5. Competitive differentiation — which products to stand apart from visually
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 106-ui-design. Professional and approachable, responsive with desktop priority, light and dark modes, construction industry context.`} />
+
+<PromptBlock title="Prompt" text={`Run 106 — generate three design direction options for a healthcare tool targeting clinical staff.`} />
+
+## What usually comes next
+
+`107-ui-experience` — define the navigation model and page inventory using the visual system now established.
+
+## Practical guidance
+
+- Generate multiple distinct design directions before committing to one. A single-option design process tends to produce mediocre output.
+- The color system should define semantic roles (primary action, destructive, surface, border) not just color values. Usage rules matter as much as the colors themselves.
+- Reference D01 for brand intent and user goals, and D05 for the component library already chosen. D06 must work within those constraints.
+- Every design decision should be traceable to a business goal, user need, or design principle. Avoid aesthetic choices that cannot be explained in those terms.
+
+## Common mistakes
+
+- Producing a color palette without semantic rules for how each color should be used
+- Treating typography as a font choice rather than a hierarchy and scale
+- Designing for one theme without considering how the design system translates to the other
+- Making design decisions that contradict the component library already committed to in D05
