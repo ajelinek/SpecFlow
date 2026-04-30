@@ -1,3 +1,5 @@
+<img src="site/public/SpecFlow.png" alt="SpecFlow" width="120" />
+
 # SpecFlow
 
 > **Under active development.** Content and features may change without notice.
