@@ -13,11 +13,33 @@ export default defineConfig({
       title: siteMeta.title,
       description: siteMeta.description,
       logo: {
-        src: './public/favicon.svg',
+        src: './public/SpecFlow.png',
         alt: 'SpecFlow',
       },
       social: [
         { icon: 'github', label: 'GitHub', href: siteMeta.github },
+      ],
+      head: [
+        {
+          tag: 'meta',
+          attrs: { property: 'og:image', content: 'https://ajelinek.github.io/SpecFlow/SpecFlow.png' },
+        },
+        {
+          tag: 'meta',
+          attrs: { property: 'og:image:width', content: '741' },
+        },
+        {
+          tag: 'meta',
+          attrs: { property: 'og:image:height', content: '741' },
+        },
+        {
+          tag: 'meta',
+          attrs: { name: 'twitter:card', content: 'summary' },
+        },
+        {
+          tag: 'meta',
+          attrs: { name: 'twitter:image', content: 'https://ajelinek.github.io/SpecFlow/SpecFlow.png' },
+        },
       ],
       sidebar: starlightSidebar,
       customCss: ['./src/styles/global.css'],
