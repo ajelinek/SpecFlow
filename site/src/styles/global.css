@@ -548,7 +548,8 @@ main {
 }
 
 .home-path-selection__card.is-optional {
-  border-color: color-mix(in srgb, var(--border-strong) 72%, var(--border));
+  border-style: dotted;
+  border-color: color-mix(in srgb, var(--border-strong) 82%, var(--border));
   background: color-mix(in srgb, var(--surface-soft) 58%, transparent);
 }
 
@@ -557,7 +558,6 @@ main {
   transform: translateY(-2px);
 }
 
-.home-path-selection__card-index,
 .home-path-selection__card-code {
   display: inline-flex;
   align-items: center;
@@ -578,21 +578,9 @@ main {
 .home-path-selection__card-topline {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 0.5rem;
-  flex-wrap: nowrap;
-}
-
-.home-path-selection__card-index {
-  color: var(--text-muted);
-  background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
-}
-
-.home-path-selection__card-heading {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .home-path-selection__card-badge {
@@ -600,18 +588,24 @@ main {
   align-items: center;
   justify-content: center;
   width: fit-content;
-  min-height: 1.4rem;
-  padding: 0 0.5rem;
+  min-height: 1.2rem;
+  padding: 0 0.45rem;
   border-radius: 999px;
   background: color-mix(in srgb, var(--surface-soft) 82%, transparent);
   color: var(--text-muted);
   border: 1px solid color-mix(in srgb, var(--border-strong) 78%, var(--border));
-  font-size: 0.64rem;
+  font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+.home-path-selection__card-badge.is-loop {
+  background: rgba(255, 190, 127, 0.14);
+  color: #c17a16;
+  border-color: rgba(255, 190, 127, 0.38);
 }
 
 .home-path-selection__card-title {

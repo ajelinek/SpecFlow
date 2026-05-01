@@ -16,6 +16,11 @@ type FlowCard = {
   description: string;
 };
 
+type FlowCardBadge = {
+  label: string;
+  tone: 'loop';
+};
+
 // Keys that represent optional cards that are not required by every path.
 const optionalCardKeys = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '110', '203', '204', '302'];
 
@@ -66,9 +71,14 @@ const getVisibleCards = (sequence: string): FlowCard[] => {
     .filter((card): card is FlowCard => Boolean(card));
 };
 
-const getCardBadge = (key: string, isOptional: boolean) => {
-  if (key === '108') return 'Loop';
-  return isOptional ? 'Optional' : null;
+const getCardBadges = (key: string): FlowCardBadge[] => {
+  const badges: FlowCardBadge[] = [];
+
+  if (key === '108') badges.push({ label: 'Page Loop', tone: 'loop' });
+  if (key === '201') badges.push({ label: 'Spec Loop Start', tone: 'loop' });
+  if (key === '401') badges.push({ label: 'Spec Loop End', tone: 'loop' });
+
+  return badges;
 };
 
 const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
@@ -134,9 +144,9 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
       <div class="home-path-selection__steps">
         <p class="home-path-selection__steps-kicker">Visible steps</p>
         <div class="home-path-selection__rows" data-flow-rows data-flow-rows-json={JSON.stringify(flowRows)} data-optional-card-keys-json={JSON.stringify(optionalCardKeys)}>
-          {defaultVisibleCards.map((card, index) => {
+          {defaultVisibleCards.map((card) => {
             const isOptional = optionalCardKeys.includes(card.key);
-            const badge = getCardBadge(card.key, isOptional);
+            const badges = getCardBadges(card.key);
 
             return (
               <article
@@ -150,13 +160,12 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
                 data-optional={isOptional ? 'true' : undefined}
               >
                 <div class="home-path-selection__card-topline">
-                  <span class="home-path-selection__card-index">{String(index + 1).padStart(2, '0')}</span>
                   <span class="home-path-selection__card-code">{card.key}</span>
+                  {badges.map((badge) => (
+                    <span class:list={['home-path-selection__card-badge', `is-${badge.tone}`]}>{badge.label}</span>
+                  ))}
                 </div>
-                <div class="home-path-selection__card-heading">
-                  <h3 class="home-path-selection__card-title">{card.title}</h3>
-                  {badge && <span class="home-path-selection__card-badge">{badge}</span>}
-                </div>
+                <h3 class="home-path-selection__card-title">{card.title}</h3>
                 <p class="home-path-selection__card-description">{card.description}</p>
               </article>
             );
@@ -200,25 +209,29 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
           .filter((card): card is FlowCard => Boolean(card));
       };
 
-      const getCardBadge = (cardKey: string, isOptional: boolean): string | null => {
-        if (cardKey === '108') return 'Loop';
-        return isOptional ? 'Optional' : null;
+      const getCardBadges = (cardKey: string): Array<{ label: string; tone: 'loop' }> => {
+        const badges: Array<{ label: string; tone: 'loop' }> = [];
+
+        if (cardKey === '108') badges.push({ label: 'Page Loop', tone: 'loop' });
+        if (cardKey === '201') badges.push({ label: 'Spec Loop Start', tone: 'loop' });
+        if (cardKey === '401') badges.push({ label: 'Spec Loop End', tone: 'loop' });
+
+        return badges;
       };
 
       const buildCardHTML = (card: FlowCard, index: number): string => {
         const isOptional = optionalCardKeys.includes(card.key);
-        const badge = getCardBadge(card.key, isOptional);
+        const badges = getCardBadges(card.key)
+          .map((badge) => `<span class="home-path-selection__card-badge is-${badge.tone}">${badge.label}</span>`)
+          .join('');
         const classes = ['home-path-selection__card', isOptional && 'is-optional'].filter(Boolean).join(' ');
 
         return `<article class="${classes}" data-step-key="${card.key}"${isOptional ? ' data-optional="true"' : ''}>
   <div class="home-path-selection__card-topline">
-    <span class="home-path-selection__card-index">${String(index + 1).padStart(2, '0')}</span>
     <span class="home-path-selection__card-code">${card.key}</span>
+    ${badges}
   </div>
-  <div class="home-path-selection__card-heading">
-    <h3 class="home-path-selection__card-title">${card.title}</h3>
-    ${badge ? `<span class="home-path-selection__card-badge">${badge}</span>` : ''}
-  </div>
+  <h3 class="home-path-selection__card-title">${card.title}</h3>
   <p class="home-path-selection__card-description">${card.description}</p>
 </article>`;
       };
