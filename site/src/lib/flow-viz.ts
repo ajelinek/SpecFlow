@@ -52,11 +52,9 @@ export function pathIncludes(sequence: string, key: string): boolean {
  * Returns a filtered copy of `flowRows` containing only the cards that
  * belong to the selected `sequence`. Empty rows are omitted.
  *
- * - `optionalKeys`: cards that are only shown when explicitly in the sequence.
- *   Non-optional (core) cards are always shown if their row has any visible card.
- *   Actually the filtering is simpler: a card is visible iff pathIncludes returns
- *   true for it. The optionalKeys list is accepted for API symmetry with the
- *   caller but filtering is driven entirely by pathIncludes.
+ * A card is visible iff `pathIncludes` returns true for it.
+ * `optionalKeys` is accepted for API symmetry with the SSR caller but
+ * is not used here — inclusion is driven entirely by `pathIncludes`.
  *
  * Card objects are returned by reference from `flowRows` (no duplication).
  */

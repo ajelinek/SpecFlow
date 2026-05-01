@@ -165,10 +165,10 @@ describe('path-selection standalone Astro page removal', () => {
 //   - Show all four rows in the prescribed layout
 //   - Include connection lines between boxes
 //   - Include loop markers for 108 and the 201-401 feature cycle
-//   - Support skipped/faded card state via CSS classes
+//   - Remove inactive cards from the DOM rather than fading/skipping them
 //   - Show optional step markers
 //   - Use richer card titles (not numeric-only heading as primary title)
-// EXPECTED TO FAIL until index.astro is updated.
+//   - Default to the "lean" (minimal) path
 // ---------------------------------------------------------------------------
 
 describe('index.astro path-selection section', () => {
@@ -190,15 +190,15 @@ describe('index.astro path-selection section', () => {
     expect(content).toMatch(/workflowPaths/);
   });
 
-  it('homepage path cards support a faded/skipped visual state (not remove-on-skip)', () => {
-    // Cards for skipped paths must receive a CSS class (e.g. is-skipped, is-faded)
-    expect(content.toLowerCase()).toMatch(/is.skipped|is.faded|faded|skipped/);
+  it('homepage inactive path cards are removed from the DOM (not faded/skipped via class)', () => {
+    // The new implementation removes inactive cards from the DOM entirely.
+    // The rebuildRows function filters to only visible cards — no is-faded / is-skipped toggling.
+    expect(content.toLowerCase()).toMatch(/rebuildrows|rebuild.rows|visiblecards|visible.cards/);
   });
 
-  it('conservative path is marked or referenced as the default selection', () => {
-    const conservativeArea = content.match(/conservative[\s\S]{0,200}/i);
-    expect(conservativeArea, 'conservative path not referenced in index.astro').not.toBeNull();
-    expect(conservativeArea![0].toLowerCase()).toMatch(/default|selected|initial/);
+  it('lean path is marked or referenced as the default selection', () => {
+    // The default path is now "lean" (minimal), not "conservative".
+    expect(content).toMatch(/defaultPathId\s*=\s*['"]lean['"]/);
   });
 });
 

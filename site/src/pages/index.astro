@@ -7,8 +7,8 @@ import { getVisibleRows } from '../lib/flow-viz';
 
 const base = import.meta.env.BASE_URL;
 
-// Path selection: conservative is the default and recommended selection
-const defaultPathId = 'conservative';
+// Path selection: lean (minimal) is the default — define, specify, build, clean up.
+const defaultPathId = 'lean';
 const defaultPath = workflowPaths.find((path) => path.id === defaultPathId) ?? workflowPaths[0];
 
 const optionalKeys = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '110', '203', '204', '302'];
@@ -50,11 +50,6 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
       <p class="eyebrow">SpecFlow</p>
       <h1>Software, defined.</h1>
       <p class="home-hero__lede">A lightweight, spec-driven workflow for building with AI.</p>
-      <div class="home-hero__actions">
-        <a class="button button--primary button--hero" href={withBase('/getting-started/', base)}>Get Started</a>
-        <a class="home-hero__link" href={withBase('/skills/', base)}>Browse the skills</a>
-        <a class="home-hero__link" href={siteMeta.github}>GitHub</a>
-      </div>
     </div>
 
     <div class="home-hero__art" aria-hidden="true">
@@ -107,6 +102,7 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
             data-path-description={path.description}
             data-path-note={path.note}
             data-path-sequence={path.sequence}
+            data-path-action={withBase(path.action, base)}
           />
           <span class="home-path-selection__path-option">
             <PathIcon class="home-path-selection__path-icon" name={path.icon} />
@@ -127,6 +123,7 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
         <h3 data-path-name>{defaultPath.label}</h3>
         <p data-path-description>{defaultPath.description}</p>
         <p class="home-path-selection__note" data-path-note>{defaultPath.note}</p>
+        <a class="button button--primary home-path-selection__cta" data-path-action href={withBase(defaultPath.action, base)}>Get Started</a>
       </div>
 
       <div class="home-path-selection__rows" data-flow-rows data-flow-rows-json={JSON.stringify(flowRows)} data-optional-keys-json={JSON.stringify(optionalKeys)}>
@@ -168,20 +165,6 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
     </div>
   </section>
 
-  <section class="home-links container" aria-label="Reference links">
-    <div class="home-links__rule" aria-hidden="true"></div>
-    <div class="home-links__list">
-      {docSections.map((section) => (
-        <a class="home-links__item" href={withBase(`/${section.slug}/`, base)}>
-          <span>{section.label}</span>
-        </a>
-      ))}
-      <a class="home-links__item" href={siteMeta.github}>
-        <span>GitHub</span>
-      </a>
-    </div>
-  </section>
-
   <script>
     const pathSelection = document.querySelector('[data-path-selection]');
 
@@ -191,6 +174,7 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
       const name = pathSelection.querySelector<HTMLElement>('[data-path-name]');
       const description = pathSelection.querySelector<HTMLElement>('[data-path-description]');
       const note = pathSelection.querySelector<HTMLElement>('[data-path-note]');
+      const cta = pathSelection.querySelector<HTMLAnchorElement>('[data-path-action]');
       const connectorSvg = pathSelection.querySelector<SVGElement>('[data-connector-svg]');
       const connectorBase = pathSelection.querySelector<SVGPathElement>('[data-connector-base]');
       const connectorPulse = pathSelection.querySelector<SVGPathElement>('[data-connector-pulse]');
@@ -201,12 +185,12 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
       const flowRows: FlowCard[][] = JSON.parse(flowRowsEl?.dataset.flowRowsJson ?? '[]');
       const optionalKeys: string[] = JSON.parse(flowRowsEl?.dataset.optionalKeysJson ?? '[]');
 
-      // Cards excluded from the active path are removed from the DOM (replacing the
-      // older is-faded / is-skipped / is-hidden toggling approach). Only visible
-      // cards for the selected path are rendered.
+      // Cards excluded from the active path are removed from the DOM — only
+      // visible cards for the selected path are rendered.
 
       // ---------------------------------------------------------------------------
-      // sequenceIncludes — same rules as flow-viz.ts pathIncludes
+      // sequenceIncludes — mirrors pathIncludes logic from flow-viz.ts.
+      // Client-side scripts cannot import TS modules, so the rule is inlined here.
       // ---------------------------------------------------------------------------
       const sequenceIncludes = (seq: string, key: string): boolean => {
         if (key === '302') {
@@ -227,9 +211,9 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
         const badge = LOOP_BADGES[card.key];
         const classes = [
           'home-path-selection__card is-active',
-          isOptional ? 'is-optional' : '',
-          isLoopCard ? 'is-loop-card' : '',
-          isFeatureCycleCard ? 'is-feature-cycle-card' : '',
+          isOptional && 'is-optional',
+          isLoopCard && 'is-loop-card',
+          isFeatureCycleCard && 'is-feature-cycle-card',
         ].filter(Boolean).join(' ');
 
         return `<article class="${classes}" data-step-key="${card.key}"${isOptional ? ' data-optional="true"' : ''}>
@@ -267,10 +251,9 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
       // ---------------------------------------------------------------------------
       const updateConnector = (): void => {
         if (!flowRowsEl || !connectorSvg || (!connectorBase && !connectorPulse)) return;
+        if (!board) return;
 
-        const boardEl = pathSelection.querySelector<HTMLElement>('[data-path-board]');
-        if (!boardEl) return;
-        const boardBox = boardEl.getBoundingClientRect();
+        const boardBox = board.getBoundingClientRect();
         if (boardBox.width === 0) return;
 
         const rowEls = Array.from(flowRowsEl.querySelectorAll<HTMLElement>('[data-row]'));
@@ -328,6 +311,7 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
         if (name) name.textContent = activeControl.getAttribute('data-path-label') ?? '';
         if (description) description.textContent = activeControl.getAttribute('data-path-description') ?? '';
         if (note) note.textContent = activeControl.getAttribute('data-path-note') ?? '';
+        if (cta) cta.href = activeControl.getAttribute('data-path-action') ?? '#';
 
         rebuildRows(activeSequence);
 

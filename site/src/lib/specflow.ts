@@ -28,6 +28,8 @@ export interface WorkflowPath {
   sequence: string;
   description: string;
   note: string;
+  /** Primary CTA target URL for this path — used by the merged path hub. */
+  action: string;
 }
 
 export interface SkillSeries {
@@ -112,6 +114,7 @@ export const workflowPaths: WorkflowPath[] = [
     sequence: '100 -> 101 -> 102 -> 103 -> 104 -> 105 -> 106 -> 107 -> 108 loop -> 110 -> 201 -> 202 -> 203 -> 204 -> 301 -> 401',
     description: 'Use the full lifecycle when the product, architecture, UX, and feature plan all need to be made explicit before coding starts.',
     note: 'Best for greenfield work, major rewrites, and teams that want every reviewable artifact.',
+    action: '/getting-started/',
   },
   {
     id: 'conservative',
@@ -120,6 +123,7 @@ export const workflowPaths: WorkflowPath[] = [
     sequence: '100 -> 101 -> 102 -> 103 -> 104 -> 105 -> 106 -> 107 -> 201 -> 202 -> 301 -> 401',
     description: 'Do the project-definition work first, then move into the shortest steady delivery loop.',
     note: 'Recommended default when a project still needs more up-front clarity before moving into steady delivery.',
+    action: '/getting-started/',
   },
   {
     id: 'lean',
@@ -128,6 +132,7 @@ export const workflowPaths: WorkflowPath[] = [
     sequence: '201 -> 202 -> 301 -> 401',
     description: 'Skip the up-front project-definition series when the product and architecture are already clear enough.',
     note: 'Best default for normal feature work in an existing repo with solid context.',
+    action: '/getting-started/',
   },
   {
     id: 'crazy-lean',
@@ -136,6 +141,7 @@ export const workflowPaths: WorkflowPath[] = [
     sequence: '301',
     description: 'Start directly at implementation and let 301 synthesize missing planning context in memory.',
     note: 'Fastest path, but the least reviewable. Use it only when the scope is already obvious.',
+    action: '/core-workflow/',
   },
 ];
 
