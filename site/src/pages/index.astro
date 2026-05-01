@@ -3,20 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PathIcon from '../components/PathIcon.astro';
 import { coreWorkflow, docSections, siteMeta, workflowPaths } from '../lib/specflow';
 import { withBase } from '../lib/docs';
+import { getVisibleRows } from '../lib/flow-viz';
 
 const base = import.meta.env.BASE_URL;
 
-// Path selection: minimal is the default and featured selection
-const defaultPathId = 'lean';
+// Path selection: conservative is the default and recommended selection
+const defaultPathId = 'conservative';
 const defaultPath = workflowPaths.find((path) => path.id === defaultPathId) ?? workflowPaths[0];
-
-function pathIncludes(sequence: string, key: string) {
-  if (key === '302') {
-    return sequence.split('->').some((s) => s.trim().startsWith('301'));
-  }
-
-  return sequence.split('->').some((s) => s.trim().startsWith(key));
-}
 
 const optionalKeys = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '110', '203', '204', '302'];
 
@@ -46,7 +39,9 @@ const flowRows = [
     { key: '302', title: 'Test Implementation', description: 'Add or repair automated tests for behavior that already exists.' },
     { key: '301', title: 'Spec Implementation', description: 'Build through the tests-first, phase-isolated workflow.' },
   ],
-] as const;
+];
+
+const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, optionalKeys);
 ---
 
 <BaseLayout currentPath={Astro.url.pathname} homeOnly={true}>
@@ -122,12 +117,9 @@ const flowRows = [
     </div>
 
     <div class="home-path-selection__board is-selected" data-path-panel={defaultPath.id} data-path-board>
-      <svg class="home-path-selection__flow-map" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true">
-        <path class="home-path-selection__flow-line home-path-selection__flow-line--row-1" d="M 113 199 H 887" />
-        <path class="home-path-selection__flow-line home-path-selection__flow-line--drop-1" d="M 887 199 C 960 199 960 335 887 335 H 113" />
-        <path class="home-path-selection__flow-line home-path-selection__flow-line--drop-2" d="M 113 335 C 40 335 40 475 209 475 H 791" />
-        <path class="home-path-selection__flow-line home-path-selection__flow-line--drop-3" d="M 791 475 C 860 475 860 618 695 618 H 305" />
-        <path class="home-path-selection__flow-line home-path-selection__flow-line--pulse" d="M 113 199 H 887 C 960 199 960 335 887 335 H 113 C 40 335 40 475 209 475 H 791 C 860 475 860 618 695 618 H 305" />
+      <svg class="home-path-selection__flow-map" viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true" data-connector-svg>
+        <path class="home-path-selection__flow-line" data-connector-base d="" />
+        <path class="home-path-selection__flow-line home-path-selection__flow-line--pulse" data-connector-pulse d="" />
       </svg>
 
       <div class="home-path-selection__path-meta">
@@ -137,11 +129,10 @@ const flowRows = [
         <p class="home-path-selection__note" data-path-note>{defaultPath.note}</p>
       </div>
 
-      <div class="home-path-selection__rows">
-        {flowRows.map((row, rowIndex) => (
-          <div class="home-path-selection__row" data-row={rowIndex + 1}>
+      <div class="home-path-selection__rows" data-flow-rows data-flow-rows-json={JSON.stringify(flowRows)} data-optional-keys-json={JSON.stringify(optionalKeys)}>
+        {defaultVisibleRows.map((row, rowIndex) => (
+          <div class="home-path-selection__row" data-row={rowIndex + 1} style={`--row-cols: ${row.length}`}>
             {row.map((card) => {
-              const included = pathIncludes(defaultPath.sequence, card.key);
               const isOptional = optionalKeys.includes(card.key);
               const isLoopCard = card.key === '108';
               const isFeatureLoopCard = ['201', '202', '203', '204', '301', '302', '401'].includes(card.key);
@@ -150,10 +141,8 @@ const flowRows = [
                 <article
                   class:list={[
                     'home-path-selection__card',
+                    'is-active',
                     {
-                      'is-active': included,
-                      'is-faded': !included,
-                      'is-skipped': !included,
                       'is-optional': isOptional,
                       'is-loop-card': isLoopCard,
                       'is-feature-cycle-card': isFeatureLoopCard,
@@ -198,19 +187,133 @@ const flowRows = [
 
     if (pathSelection) {
       const controls = Array.from(pathSelection.querySelectorAll<HTMLInputElement>('[data-path-control]'));
-      const defaultPath = pathSelection.getAttribute('data-default-path') ?? 'lean';
       const board = pathSelection.querySelector<HTMLElement>('[data-path-board]');
-      const cards = Array.from(pathSelection.querySelectorAll<HTMLElement>('[data-step-key]'));
       const name = pathSelection.querySelector<HTMLElement>('[data-path-name]');
       const description = pathSelection.querySelector<HTMLElement>('[data-path-description]');
       const note = pathSelection.querySelector<HTMLElement>('[data-path-note]');
+      const connectorSvg = pathSelection.querySelector<SVGElement>('[data-connector-svg]');
+      const connectorBase = pathSelection.querySelector<SVGPathElement>('[data-connector-base]');
+      const connectorPulse = pathSelection.querySelector<SVGPathElement>('[data-connector-pulse]');
+      const flowRowsEl = pathSelection.querySelector<HTMLElement>('[data-flow-rows]');
 
-      const sequenceIncludes = (pathSequence: string, key: string) => {
-        return pathSequence.split('->').some((step) => step.trim().startsWith(key));
+      // Parse the full flowRows card data from the server-rendered attribute.
+      type FlowCard = { key: string; title: string; description: string };
+      const flowRows: FlowCard[][] = JSON.parse(flowRowsEl?.dataset.flowRowsJson ?? '[]');
+      const optionalKeys: string[] = JSON.parse(flowRowsEl?.dataset.optionalKeysJson ?? '[]');
+
+      // Cards excluded from the active path are removed from the DOM (replacing the
+      // older is-faded / is-skipped / is-hidden toggling approach). Only visible
+      // cards for the selected path are rendered.
+
+      // ---------------------------------------------------------------------------
+      // sequenceIncludes — same rules as flow-viz.ts pathIncludes
+      // ---------------------------------------------------------------------------
+      const sequenceIncludes = (seq: string, key: string): boolean => {
+        if (key === '302') {
+          return seq.split('->').some((s) => s.trim() === '301' || s.trim().startsWith('301 '));
+        }
+        return seq.split('->').some((s) => s.trim() === key || s.trim().startsWith(key + ' '));
       };
 
-      const setActivePath = (nextId: string) => {
-        const activeControl = controls.find((control) => control.getAttribute('data-path-control') === nextId);
+      // ---------------------------------------------------------------------------
+      // buildCardHTML — renders a single card article element
+      // ---------------------------------------------------------------------------
+      const LOOP_BADGES: Record<string, string> = { '108': 'Loop', '201': 'Spec Loop Start', '401': 'Spec Loop End' };
+
+      const buildCardHTML = (card: FlowCard): string => {
+        const isOptional = optionalKeys.includes(card.key);
+        const isLoopCard = card.key === '108';
+        const isFeatureCycleCard = ['201', '202', '203', '204', '301', '302', '401'].includes(card.key);
+        const badge = LOOP_BADGES[card.key];
+        const classes = [
+          'home-path-selection__card is-active',
+          isOptional ? 'is-optional' : '',
+          isLoopCard ? 'is-loop-card' : '',
+          isFeatureCycleCard ? 'is-feature-cycle-card' : '',
+        ].filter(Boolean).join(' ');
+
+        return `<article class="${classes}" data-step-key="${card.key}"${isOptional ? ' data-optional="true"' : ''}>
+  <div class="home-path-selection__card-topline">
+    <span class="home-path-selection__card-code">${card.key}</span>
+    ${badge ? `<span class="home-path-selection__card-badge">${badge}</span>` : ''}
+  </div>
+  <h3 class="home-path-selection__card-title">${card.title}</h3>
+  <p class="home-path-selection__card-description">${card.description}</p>
+</article>`;
+      };
+
+      // ---------------------------------------------------------------------------
+      // rebuildRows — replaces rows container content for the active sequence
+      // ---------------------------------------------------------------------------
+      const rebuildRows = (activeSequence: string): void => {
+        if (!flowRowsEl) return;
+        const html: string[] = [];
+        let rowIndex = 0;
+        for (const row of flowRows) {
+          const visibleCards = row.filter((c) => sequenceIncludes(activeSequence, c.key));
+          if (visibleCards.length === 0) continue;
+          rowIndex++;
+          html.push(
+            `<div class="home-path-selection__row" data-row="${rowIndex}" style="--row-cols: ${visibleCards.length}">` +
+            visibleCards.map(buildCardHTML).join('') +
+            `</div>`,
+          );
+        }
+        flowRowsEl.innerHTML = html.join('');
+      };
+
+      // ---------------------------------------------------------------------------
+      // updateConnector — measure actual rendered card centres, build SVG path
+      // ---------------------------------------------------------------------------
+      const updateConnector = (): void => {
+        if (!flowRowsEl || !connectorSvg || (!connectorBase && !connectorPulse)) return;
+
+        const boardEl = pathSelection.querySelector<HTMLElement>('[data-path-board]');
+        if (!boardEl) return;
+        const boardBox = boardEl.getBoundingClientRect();
+        if (boardBox.width === 0) return;
+
+        const rowEls = Array.from(flowRowsEl.querySelectorAll<HTMLElement>('[data-row]'));
+        const waypoints: [number, number][] = [];
+
+        for (const rowEl of rowEls) {
+          const cards = Array.from(rowEl.querySelectorAll<HTMLElement>('[data-step-key]'));
+          for (const card of cards) {
+            const r = card.getBoundingClientRect();
+            const cx = r.left + r.width / 2 - boardBox.left;
+            const cy = r.top + r.height / 2 - boardBox.top;
+            waypoints.push([cx, cy]);
+          }
+        }
+
+        if (waypoints.length === 0) return;
+
+        // Build viewBox from actual waypoints with a small margin.
+        const margin = 20;
+        const xs = waypoints.map(([x]) => x);
+        const ys = waypoints.map(([, y]) => y);
+        const vbX = Math.min(...xs) - margin;
+        const vbY = Math.min(...ys) - margin;
+        const vbW = Math.max(...xs) - Math.min(...xs) + margin * 2;
+        const vbH = Math.max(...ys) - Math.min(...ys) + margin * 2;
+
+        connectorSvg.setAttribute('viewBox', `${Math.round(vbX)} ${Math.round(vbY)} ${Math.round(vbW)} ${Math.round(vbH)}`);
+
+        const fmt = (n: number) => Math.round(n).toString();
+        const [first, ...rest] = waypoints;
+        const parts = [`M ${fmt(first[0])} ${fmt(first[1])}`];
+        for (const [x, y] of rest) parts.push(`L ${fmt(x)} ${fmt(y)}`);
+        const d = parts.join(' ');
+
+        connectorBase?.setAttribute('d', d);
+        connectorPulse?.setAttribute('d', d);
+      };
+
+      // ---------------------------------------------------------------------------
+      // setActivePath
+      // ---------------------------------------------------------------------------
+      const setActivePath = (nextId: string): void => {
+        const activeControl = controls.find((c) => c.getAttribute('data-path-control') === nextId);
         if (!activeControl) return;
 
         const activeSequence = activeControl.getAttribute('data-path-sequence') ?? '';
@@ -221,21 +324,15 @@ const flowRows = [
           control.closest('.home-path-selection__radio-label')?.classList.toggle('is-selected', isActive);
         });
 
-        if (board) {
-          board.setAttribute('data-path-panel', nextId);
-        }
-
+        if (board) board.setAttribute('data-path-panel', nextId);
         if (name) name.textContent = activeControl.getAttribute('data-path-label') ?? '';
         if (description) description.textContent = activeControl.getAttribute('data-path-description') ?? '';
         if (note) note.textContent = activeControl.getAttribute('data-path-note') ?? '';
 
-        cards.forEach((card) => {
-          const key = card.getAttribute('data-step-key') ?? '';
-          const isIncluded = sequenceIncludes(activeSequence, key);
-          card.classList.toggle('is-active', isIncluded);
-          card.classList.toggle('is-faded', !isIncluded);
-          card.classList.toggle('is-skipped', !isIncluded);
-        });
+        rebuildRows(activeSequence);
+
+        // Wait one frame for layout so getBoundingClientRect values are current.
+        requestAnimationFrame(updateConnector);
       };
 
       controls.forEach((control) => {
@@ -245,7 +342,8 @@ const flowRows = [
         });
       });
 
-      setActivePath(defaultPath);
+      // Initialize connector for the SSR-rendered default rows.
+      requestAnimationFrame(updateConnector);
     }
   </script>
 </BaseLayout>

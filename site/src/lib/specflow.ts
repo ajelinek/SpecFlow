@@ -1,5 +1,6 @@
 export type SectionSlug =
   | 'getting-started'
+  | 'core-workflow'
   | 'skills'
   | 'examples'
   | 'faq';
@@ -53,6 +54,11 @@ export const docSections: Array<{ slug: SectionSlug; label: string; summary: str
     slug: 'getting-started',
     label: 'Getting Started',
     summary: 'The shortest path to a first run.',
+  },
+  {
+    slug: 'core-workflow',
+    label: 'Core Workflow',
+    summary: 'The recommended default delivery loop: define, specify, build, clean up.',
   },
   {
     slug: 'skills',
@@ -113,7 +119,7 @@ export const workflowPaths: WorkflowPath[] = [
     icon: 'conservative',
     sequence: '100 -> 101 -> 102 -> 103 -> 104 -> 105 -> 106 -> 107 -> 201 -> 202 -> 301 -> 401',
     description: 'Do the project-definition work first, then move into the shortest steady delivery loop.',
-    note: 'Best when a project still needs more up-front clarity before moving into steady delivery.',
+    note: 'Recommended default when a project still needs more up-front clarity before moving into steady delivery.',
   },
   {
     id: 'lean',
@@ -361,6 +367,16 @@ export const starlightSidebar = [
       { label: 'Overview', link: '/getting-started/' },
       { label: 'Custom Agents', link: '/getting-started/custom-agents/' },
     ],
+  },
+  {
+    label: 'Core Workflow',
+    items: [
+      { label: 'Overview', link: '/core-workflow/' },
+    ],
+  },
+  {
+    label: 'Full Skill Catalog',
+    link: '/skills/',
   },
   {
     label: 'Project Foundation (100s)',
