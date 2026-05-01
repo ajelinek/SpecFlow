@@ -204,7 +204,7 @@ describe('workflowPaths path-aware action field', () => {
     // get going quickly — getting-started is the natural target.
     const lean = workflowPaths.find((p) => p.id === 'lean');
     expect(lean, '"lean" workflowPath not found').toBeDefined();
-    const action = lean.action;
+    const action = lean!.action;
     // action must exist and be a string before we match it
     expect(typeof action, '"lean" action must be a string').toBe('string');
     expect(
