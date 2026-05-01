@@ -53,7 +53,7 @@ export function pathIncludes(sequence: string, key: string): boolean {
  * belong to the selected `sequence`. Empty rows are omitted.
  *
  * A card is visible iff `pathIncludes` returns true for it.
- * `optionalKeys` is accepted for API symmetry with the SSR caller but
+ * `optionalCardKeys` is accepted for API symmetry with the SSR caller but
  * is not used here — inclusion is driven entirely by `pathIncludes`.
  *
  * Card objects are returned by reference from `flowRows` (no duplication).
@@ -61,7 +61,8 @@ export function pathIncludes(sequence: string, key: string): boolean {
 export function getVisibleRows(
   sequence: string,
   flowRows: FlowRow[],
-  _optionalKeys: string[],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _optionalCardKeys: string[],
 ): VisibleRows {
   const result: VisibleRows = [];
 

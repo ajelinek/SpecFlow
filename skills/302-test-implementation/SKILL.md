@@ -62,6 +62,8 @@ ask whether the implementation or the scenarios should be corrected first.
   - read the production files that implement the scoped behavior
   - find 2-3 similar tests
   - identify reusable page objects, fixtures, helpers, selectors, and setup utilities
+  - identify existing accessibility hooks, test IDs, or selector conventions already used in
+    similar tests
   - flag behavior or implementation smells relevant to testability
 
 - [ ] **Step 4: Freeze the touch boundary.** Build a task packet that names:
@@ -92,6 +94,14 @@ ask whether the implementation or the scenarios should be corrected first.
 - [ ] **Step 8: Record non-blocking smells.** If the tests pass but the exercised behavior seems
   awkward, fragile, inconsistent, or misleading, record it as a smell for the summary. Do not
   broaden scope to fix it unless the change stays within the allowed UI testability exception.
+
+  Typical smells include:
+  - awkward or surprising user action sequences for a common outcome
+  - weak labeling, affordance, or feedback on otherwise operable controls
+  - inconsistent API contracts or unnatural test setup compared with nearby endpoints
+  - inconsistent validation, loading, or error states across similar flows
+  - brittle timing workarounds or hidden state dependencies
+  - unnecessary coupling or odd state transitions that make tests harder to express clearly
 
 - [ ] **Step 9: Use the UI testability exception only when necessary.** If a UI test cannot be made
   reliable without a product hook, run a narrowly scoped `@coder` pass limited to the smallest
@@ -130,3 +140,8 @@ ask whether the implementation or the scenarios should be corrected first.
 4. Reuse existing test patterns before introducing new abstractions.
 5. Prefer accessible selectors over custom test hooks.
 6. If scenarios, implementation, and repo behavior disagree, stop and ask.
+7. Preserve existing assertions unless they are wrong; add assertions only when they materially
+   strengthen intended coverage.
+8. Keep helper inputs typed and intentional; remove dead branches and unused setup.
+9. If the tested behavior works but seems awkward or fragile, surface that smell rather than
+   normalizing it silently.

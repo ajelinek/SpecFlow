@@ -305,23 +305,6 @@ main {
   font-size: 1.05rem;
 }
 
-.home-hero__actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1.75rem;
-}
-
-.home-hero__link {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.home-hero__link:hover {
-  color: var(--accent-strong);
-}
-
 .home-hero__art {
   position: relative;
   min-height: 26rem;
@@ -483,10 +466,6 @@ main {
   max-width: 24rem;
 }
 
-.home-links {
-  padding: 0 0 2rem;
-}
-
 .home-path-selection {
   position: relative;
   display: grid;
@@ -595,33 +574,6 @@ main {
   box-shadow: var(--shadow);
 }
 
-.home-path-selection__flow-map {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.home-path-selection__flow-line {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.home-path-selection__flow-line {
-  stroke: rgba(129, 169, 255, 0.22);
-  stroke-width: 3;
-}
-
-.home-path-selection__flow-line--pulse {
-  stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 5;
-  stroke-dasharray: 18 26;
-  animation: home-flow-pulse 3.4s linear infinite;
-}
-
 .home-path-selection__path-meta {
   position: relative;
   z-index: 1;
@@ -660,8 +612,9 @@ main {
 
 .home-path-selection__row {
   display: grid;
-  gap: 0.9rem;
-  grid-template-columns: repeat(var(--row-cols, 1), minmax(0, 1fr));
+  gap: 0.9rem 0.75rem;
+  grid-template-columns: repeat(calc(var(--row-cols, 1) * 2 - 1), minmax(0, 1fr));
+  align-items: stretch;
 }
 
 .home-path-selection__row[data-row='3'],
@@ -672,8 +625,11 @@ main {
 .home-path-selection__card {
   position: relative;
   display: grid;
+  grid-template-rows: auto auto 1fr;
+  align-self: stretch;
   gap: 0.55rem;
-  min-height: 9.4rem;
+  min-height: 11rem;
+  height: 100%;
   padding: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 1.15rem;
@@ -690,6 +646,18 @@ main {
 .home-path-selection__card.is-active {
   border-color: rgba(129, 169, 255, 0.44);
   transform: translateY(-2px);
+}
+
+.home-path-selection__flow-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  color: var(--accent);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.85;
 }
 
 
@@ -736,16 +704,6 @@ main {
   margin: 0;
   color: var(--text-muted);
   font-size: 0.92rem;
-}
-
-@keyframes home-flow-pulse {
-  from {
-    stroke-dashoffset: 140;
-  }
-
-  to {
-    stroke-dashoffset: 0;
-  }
 }
 
 .lifecycle-map,
@@ -1735,10 +1693,6 @@ main {
 
   .home-path-selection__board {
     padding: 1rem;
-  }
-
-  .home-path-selection__flow-map {
-    display: none;
   }
 
   .hero__copy,

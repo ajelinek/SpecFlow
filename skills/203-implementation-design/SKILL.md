@@ -43,7 +43,15 @@ If the feature name is missing, ask. If the detail level is omitted, use **Balan
 
 ---
 
-## Decision Precedence
+## Standards Resolution
+
+Use standards already loaded into the current session as the authoritative source of project
+conventions. These may come from managed instructions, project instructions, or explicitly loaded
+skills.
+
+At the start of standards resolution, load any relevant skills available through the environment's
+supported skill-loading tools if they are not already active. Prefer supported tooling and managed
+instruction sources over manual filesystem discovery.
 
 Resolve implementation decisions in this order:
 
@@ -52,7 +60,12 @@ Resolve implementation decisions in this order:
 3. Existing codebase patterns confirmed via `@explore`
 4. Explicit user decisions in this session
 
-Stay generic only until the stack is known. After that, use the codebase's real technology terms.
+Determine relevance by concern, not by named technology. Stay concern-based while the
+implementation context is unresolved. Once the relevant stack is known, switch to the codebase's
+real technology terms for the rest of the workflow.
+
+If loaded guidance presents multiple plausible directions for the same concern, surface the
+conflict and ask instead of silently choosing.
 
 ---
 
@@ -132,11 +145,17 @@ Stay generic only until the stack is known. After that, use the codebase's real 
 
 - [ ] **Step 9: Validate the design.** Confirm:
   - every `New` file is justified
+  - no existing functionality is re-implemented in a new module
   - existing helpers/modules are reused where possible
   - the selected approach follows loaded standards and repository patterns
+  - no new abstraction layer exists unless it removes meaningful duplication
   - no premature optimization is introduced without a real requirement
   - every scenario is addressable
   - the selected detail level is followed exactly
+  - High Level excludes CSS/style files and function signatures
+  - Balanced excludes CSS/style files and function signatures
+  - Detailed includes CSS/style files and exported function/component signatures
+  - no test/spec/fixture/mock/snapshot files appear in any table
   - no Mermaid diagrams appear anywhere
 
 - [ ] **Step 10: Write the file and summarize.** Report:

@@ -64,6 +64,8 @@ If any input cannot be resolved from D01/D06/D07, stop and ask.
   - answer `@designer` clarifying questions from loaded context first
   - ask the user only when the context cannot answer them
   - surface conflicts with D06/D07 instead of overriding silently
+  - if the user approves a conflicting direction, update the relevant governing doc first before
+    treating that direction as resolved
   - if `@designer` is unavailable, use `@explore` to research three plausible layout patterns for
     the page type and evaluate those instead
 
@@ -129,3 +131,5 @@ If any input cannot be resolved from D01/D06/D07, stop and ask.
 - The mockup is the primary artifact, but it is still a design-only artifact.
 - Reuse proven D08 patterns before inventing new ones.
 - Three directions are required even when the page seems straightforward.
+- When a D06/D07 conflict is approved, reconcile the governing doc first so D08 does not become a
+  silent fork of the design system or UX architecture.

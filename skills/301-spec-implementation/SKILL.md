@@ -92,7 +92,8 @@ action and expected outcome.
     implementation-facing UI direction brief
 
   If `@designer` finds a conflict with existing UI docs and the resolution is not already explicit,
-  stop and surface it before coding.
+  stop and surface it before coding. If the user approves a conflicting direction, update the
+  governing doc first or carry the approved resolution explicitly in the UI direction brief.
 
 - [ ] **Step 5: Update feature status.** If `overview.md` exists and its `status` is `todo`, change
   it to `implementing`.
@@ -198,3 +199,5 @@ action and expected outcome.
 10. Code edits go through a coding subagent; validation goes through `@execution-agent`.
 11. Missing design artifacts stay in memory unless the user asks to persist them.
 12. Stop and escalate when repair loops stop converging.
+13. Clean validation is necessary, but human review still matters for high-risk architectural or
+    public-behavior changes.

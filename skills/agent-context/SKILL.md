@@ -66,15 +66,21 @@ overlays are clearly justified, and no extra exclusions beyond generated/depende
 - [ ] **Step 6: Draft nested overlays only where justified.** Each nested file should contain only
   local scope, commands, constraints, and integration points that genuinely differ from the root.
 
-- [ ] **Step 7: Review for overlap and weak guidance.** Confirm:
+- [ ] **Step 7: Use the general agent only for substantial markdown synthesis.** If the repo has
+  many overlapping docs and the output requires real synthesis, delegate the drafting pass with a
+  narrow markdown brief. Do not use the general agent for simple discovery or file listing.
+
+- [ ] **Step 8: Review for overlap and weak guidance.** Confirm:
   - filename is always `AGENTS.md`
   - root guidance is broad and nested guidance is local
   - commands are real
   - instructions do not conflict
   - large sections are not copied from existing docs or general standards
+  - response-formatting and collaboration rules stay in the root file unless a local exception is
+    genuinely required
   - unknowns are stated explicitly
 
-- [ ] **Step 8: Write the files and summarize.** Report which files were created or updated, why
+- [ ] **Step 9: Write the files and summarize.** Report which files were created or updated, why
   overlays were added or skipped, the repo evidence that shaped them, and any low-confidence areas.
 
 ---
@@ -86,3 +92,7 @@ overlays are clearly justified, and no extra exclusions beyond generated/depende
 3. Prefer references to existing docs over copying them.
 4. Exclude generic standards guidance that belongs elsewhere.
 5. Prefer brevity over teaching.
+6. Keep collaboration and response-formatting rules in the root file unless a local exception is
+   required.
+7. Make commands executable as written whenever possible.
+8. Name unknowns explicitly instead of filling gaps with assumptions.

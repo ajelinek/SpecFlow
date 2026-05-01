@@ -57,6 +57,8 @@ If the request is too vague, ask one clarifying question.
 
 - [ ] **Step 4: Draft Acceptance Criteria and Key Constraints.**
   - Acceptance Criteria are verifiable outcomes, not restated scope bullets.
+  - If a statement would be true the moment the capability exists at all, it belongs in scope,
+    not in Acceptance Criteria.
   - Include 3-5 when they add real value.
   - Include **Key Constraints** only when non-obvious constraints matter.
 
@@ -77,6 +79,10 @@ If the request is too vague, ask one clarifying question.
   - `fid`: assigned `F-ID` if available
   - `status`: `todo`
 
+  The `status` field is the feature lifecycle source of truth: `todo`, `implementing`, `done`.
+  Update status in place as work progresses; do not move the feature file between directories when
+  status changes.
+
   Report the output path, missing context that may affect accuracy, and suggest
   `202-spec-design` next.
 
@@ -87,5 +93,11 @@ If the request is too vague, ask one clarifying question.
 1. In Scope says what is built; Acceptance Criteria says how we know it works correctly.
 2. D10 is helpful but not required.
 3. The front matter `status` field is the feature lifecycle source of truth: `todo`,
-   `implementing`, `done`.
+   `implementing`, `done`, and the file path stays stable across status changes.
 4. The user journey should show where this feature changes behavior and stay brief elsewhere.
+
+## Additional Guidance
+
+**On scope vs. acceptance criteria**: In Scope answers "what are we building?" Acceptance Criteria
+answers "how do we know it works correctly?" A criterion that would be satisfied the moment the
+capability exists is a scope bullet in disguise.

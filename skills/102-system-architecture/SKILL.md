@@ -30,7 +30,15 @@ docs, or existing code.
 
 ---
 
-## Decision Precedence
+## Standards Resolution
+
+Use standards already loaded into the current session as the authoritative source of project
+conventions. These may come from managed instructions, project instructions, or explicitly loaded
+skills.
+
+At the start of standards resolution, load any relevant skills available through the environment's
+supported skill-loading tools if they are not already active. Prefer supported tooling and managed
+instruction sources over manual filesystem discovery.
 
 Resolve architecture decisions in this order:
 
@@ -39,7 +47,13 @@ Resolve architecture decisions in this order:
 3. Existing codebase patterns confirmed via `@explore`
 4. Explicit user decisions in this session
 
-If a concern remains unresolved after that, ask rather than guessing.
+Determine relevance by concern, not by named technology. Stay concern-based while the stack is
+unresolved. Once a concern is resolved to a concrete technology, switch to that technology's real
+terms for the rest of the workflow.
+
+If loaded guidance clearly resolves a concern, use it. If multiple plausible loaded directions
+conflict, surface that conflict and ask the user rather than silently choosing. If a concern still
+remains unresolved after the decision order above, ask rather than guessing.
 
 ---
 
@@ -59,6 +73,12 @@ If a concern remains unresolved after that, ask rather than guessing.
   - security/privacy
 
   Omit concerns that do not apply to the project.
+
+  For each relevant concern:
+  - if loaded guidance clearly resolves it, use that as the default
+  - if loaded guidance conflicts, surface the conflict and ask the user to choose
+  - if loaded guidance does not resolve it, check project docs and existing codebase evidence
+    before asking the user
 
 - [ ] **Step 3: Load project context.** Read D01 if it exists and align the architecture with the
   project's business goals, constraints, and success metrics.
@@ -80,6 +100,7 @@ If a concern remains unresolved after that, ask rather than guessing.
   - every important choice has a traceable justification
   - major single points of failure are identified with mitigation when relevant
   - security is addressed at each meaningful layer
+  - the architecture is consistent with D01 success metrics and scale requirements when D01 exists
   - unresolved decisions are named explicitly as open questions
   - the document stays at system level and does not duplicate D03, D04, or D05
 

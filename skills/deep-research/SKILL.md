@@ -37,6 +37,7 @@ Do not use it for:
 4. Prefer primary sources first; use strong secondary sources for context.
 5. Separate facts, interpretation, and recommendation.
 6. If discovery is too constrained for real deep research, say so explicitly.
+7. Do not present a recommendation until you have tested at least one plausible alternative.
 
 ---
 
@@ -64,6 +65,12 @@ Do not use it for:
     analysis over aggregators.
   - If open-ended discovery is unavailable, start from user-provided URLs or obvious official entry
     points and say that the research is narrower.
+
+  Behavioral guardrails:
+  - avoid rapid-fire page loading meant to simulate bulk scraping
+  - prefer reading pages clearly meant for public web access
+  - respect obvious access boundaries, login walls, rate limits, robots cues, and site terms
+  - if a site appears hostile to automated access, back off and use other available sources
 
 - [ ] **Step 4: Extract evidence.** For each source, capture only what matters:
   - exact claim
@@ -105,6 +112,21 @@ For lighter research, compress the format, but still include citations, trade-of
 - Cite every important factual claim.
 - Prefer 5+ meaningful sources for non-trivial research unless the topic is extremely narrow.
 - Use at least 2 primary sources when they exist.
+- Call out when evidence is thin, stale, or dominated by one interested party.
 - Say "I could not verify" instead of guessing.
 - If the topic is time-sensitive, note the research date.
 - If discovery was constrained, say so explicitly.
+
+## Recommendation Discipline
+
+- Separate facts, interpretation, and recommendation clearly.
+- Make trade-offs explicit instead of pretending one option is universally best.
+- Optimize for the user's context, not generic defaults.
+
+## Final Checks
+
+- The answer reflects the user's actual decision or question.
+- The source mix is not overly dependent on one vendor or commentator.
+- Key claims are cited.
+- The recommendation, if any, is supported by the evidence shown.
+- Limitations and unknowns are stated plainly.

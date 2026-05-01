@@ -82,8 +82,9 @@ bug fixing, or new test creation, reroute to `301-spec-implementation` or `302-t
   2. `mode: lint` when lint applies
   3. `mode: build` when type-check or compilation applies
 
-  Record pre-existing failures. If they make cleanup risk hard to judge, surface that before
-  proceeding.
+  Record pre-existing failures. If validation is already failing, surface that fact before editing
+  so later regressions can be judged honestly. If baseline failures make cleanup risk hard to
+  judge, stop and ask whether they should be resolved first.
 
 ### Phase 1 - Explore and Classify
 
@@ -162,3 +163,4 @@ bug fixing, or new test creation, reroute to `301-spec-implementation` or `302-t
    redesign as cleanup.
 8. Validation feedback outranks model opinion when judging whether the cleanup stayed safe.
 9. Stop and surface blockers if repair loops stop converging.
+10. Baseline integrity is mandatory: pre-existing failures must be surfaced before cleanup edits.

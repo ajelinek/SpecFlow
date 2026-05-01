@@ -30,7 +30,15 @@ If the feature name is missing, ask. If scope is omitted, use full review.
 
 ---
 
-## Decision Precedence
+## Standards Resolution
+
+Use standards already loaded into the current session as the authoritative source of project
+conventions. These may come from managed instructions, project instructions, or explicitly loaded
+skills.
+
+At the start of standards resolution, load any relevant skills available through the environment's
+supported skill-loading tools if they are not already active. Prefer supported tooling and managed
+instruction sources over manual filesystem discovery.
 
 Resolve validation criteria in this order:
 
@@ -39,7 +47,9 @@ Resolve validation criteria in this order:
 3. Existing codebase patterns confirmed via `@explore`
 4. Explicit user decisions in this session
 
-Use the project's concrete technology terms once the stack is known.
+Determine relevance by concern, not by named technology. Stay concern-based while the technical
+context is unresolved. Once the feature's concrete stack is known, switch to that stack's real
+terms for the rest of the validation.
 
 ---
 
@@ -87,12 +97,13 @@ Use the project's concrete technology terms once the stack is known.
   - severity: `🔴 High`, `🟡 Medium`, or `🔵 Low`
   - category: `Cross-artifact inconsistency`, `Coverage gap`, `Missed reuse opportunity`,
     `Rule violation`, or `Open question`
-  - exact evidence
+  - exact evidence: section numbers, `@TS###` tags, module paths, architecture doc sections, or
+    the loaded standards guidance that applies
   - why it matters
   - the smallest recommended fix
 
-  Do not create findings just because planned files are not implemented yet or because 203 ran at a
-  less detailed level.
+  Do not create findings just because planned files are not implemented yet, because 203 ran at a
+  less detailed level, or because a broad scenario still validates a complete business outcome.
 
 - [ ] **Step 7: Check the report before responding.** Confirm findings are grounded in evidence,
   that `🔴 High` findings are real blockers or correctness risks, and that the overall assessment
@@ -119,3 +130,11 @@ Use the project's concrete technology terms once the stack is known.
 2. Prefer evidence over taste.
 3. Keep the report lean and delta-focused.
 4. Judge `203` at its selected detail level.
+
+## Additional Guidance
+
+**Treat each artifact as having a distinct role.** `overview.md` defines scope and outcomes,
+`specs.feature` defines behavior coverage, and `implementation.md` defines the code change plan.
+
+**Prefer evidence over taste.** A missed opportunity should point to a concrete existing module,
+helper, route, or pattern that the plan could reuse.
