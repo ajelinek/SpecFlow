@@ -59,6 +59,8 @@ If brand personality or audience is missing, stop and ask.
   - ask the user only when the context cannot answer them
   - if `@designer` flags a conflict with existing D06/D07 decisions, surface it instead of
     overriding silently
+  - if the user approves a conflicting direction, update the governing doc first before treating
+    that direction as resolved
   - if `@designer` is unavailable, generate the three directions yourself from the same context
 
 - [ ] **Step 4: Evaluate the directions.** Score them against:
@@ -94,5 +96,23 @@ If brand personality or audience is missing, stop and ask.
 
 - Three directions are required. The comparison is part of the workflow, not optional polish.
 - Domain conventions can rule out entire directions early; use them.
-- “Clean and professional” is too vague. Make choices concrete enough that later docs can turn them
+- "Clean and professional" is too vague. Make choices concrete enough that later docs can turn them
   into tokens, type scales, and component styling rules.
+- If an approved direction conflicts with an existing D06 or D07 decision, reconcile the governing
+  doc first so later workflows do not inherit a silent fork.
+
+---
+
+## Additional Guidance
+
+**On multi-direction exploration**: The three-direction exercise in Step 3 is not optional even
+if the brand direction seems obvious. Comparing directions exposes hidden assumptions and often
+surfaces a clearly superior approach that would not have been reached by drafting directly.
+Document the rejected directions briefly in the output under an "Alternatives Considered" section
+so the decision is traceable.
+
+**On D06/D07 conflicts**: If `@designer` flags a conflict between the brief and an existing
+decision in D06 or D07, do not override the existing decision silently. Present the conflict and
+`@designer`'s proposed doc change to the user. If the user approves the change, update the
+relevant document first, then ask `@designer` to continue. If the user rejects the change, adjust
+the brief accordingly and re-invoke `@designer`.

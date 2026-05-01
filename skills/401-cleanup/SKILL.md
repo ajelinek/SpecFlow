@@ -58,6 +58,41 @@ bug fixing, or new test creation, reroute to `301-spec-implementation` or `302-t
 
 ---
 
+## Lead-Agent Working State
+
+Before any coding pass, create and maintain these compact artifacts for the run:
+
+- **Working cleanup brief** — intended outcome, scope anchor, and selected cleanup target type
+- **Cleanup ledger** — in-scope files, allowed modules, forbidden modules, and no-touch areas
+- **Context map** — nearby modules, helpers, abstractions, patterns, and validation surface
+- **Standards index** — relevant conventions, config files, loaded skills, and short applicability
+  notes
+- **Risk register** — in-scope correctness risks, fragile assumptions, and baseline failures
+- **Task packet template** — the required fields every cleanup coding pass receives
+
+Keep these concise and current. The lead agent owns the full bundle; subagents receive only the
+current slice.
+
+---
+
+## Task Packet Template
+
+Every coding subagent invocation should include only:
+
+- cleanup objective
+- current phase
+- cleanup target type: `source-cleanup-only` or `test-cleanup-only`
+- exact files or modules in scope
+- nearby reusable patterns or helpers
+- applicable standards excerpt
+- explicit out-of-scope files and modules
+- concrete success criteria
+
+Do not pass the full conversation, every changed file in the repo, or unrelated project history by
+default.
+
+---
+
 ## Steps
 
 ### Phase 0 - Prepare

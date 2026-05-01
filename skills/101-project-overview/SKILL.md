@@ -21,13 +21,19 @@ reference for downstream SpecFlow workflows.
 
 Before proceeding, confirm:
 
-1. **Pain point**
-2. **Differentiation**
-3. **Target users**
-4. **Key scenarios** — 3-5 important user journeys
-5. **Success metrics**
+1. **Pain point** — What specific problem does this application solve that existing solutions do not
+   address well?
+2. **Differentiation** — Who are the direct competitors (or solution categories) and how will this
+   application stand apart?
+3. **Target users** — Who are the primary user types and what are their main goals when using the
+   product?
+4. **Key scenarios** — What are the 3-5 most important user journeys that represent the core value
+   of the product?
+5. **Success metrics** — How will you know the product is succeeding? Quantifiable signals
+   preferred.
 
-Optional but useful: technology constraints, compliance requirements, and scale expectations.
+Optional but useful: technology constraints, compliance/regulatory requirements, and scale
+expectations.
 
 If required inputs are missing, ask before proceeding.
 
@@ -44,11 +50,14 @@ If required inputs are missing, ask before proceeding.
   existing docs or repo shape when that helps ground the product framing.
 
 - [ ] **Step 4: Draft the document.** Use `./templates/T01 - Project Overview.md` and fill:
-  - **Purpose & Value Proposition**
-  - **Target Users & Goals**
-  - **Key Business Scenarios**
-  - **Technology Constraints** *(only if real and known)*
-  - **High-Level Feature Categories**
+  - **Purpose & Value Proposition** — one to two sentences: problem + unique solution + who
+    benefits. No buzzwords.
+  - **Target Users & Goals** — name each user type with a specific, measurable goal, not just a
+    role label.
+  - **Key Business Scenarios** — 3-5 user journeys. Each names the user, what they are trying to
+    accomplish, and what a successful outcome looks like.
+  - **Technology Constraints** — only what is real and known.
+  - **High-Level Feature Categories** — major functional domains; avoid listing individual features.
 
 - [ ] **Step 5: Quality check.** Confirm:
   - the value proposition is specific to this product

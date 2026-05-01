@@ -47,17 +47,68 @@ action and expected outcome.
 
 ---
 
-## Execution Protocol
+## Operating Model
 
-- You are the orchestrator.
-- All code changes go through `@coder` when available; otherwise use the general agent.
-- All execution and validation go through `@execution-agent`.
-- If the change materially affects visible UI, route it through `@designer` first when available.
-- Maintain a compact working model for the run: feature brief, architecture ledger, context map,
-  standards index, and focused task packets.
-- Every coding packet should include only the current phase, exact files in scope, relevant
-  scenario text, relevant design/architecture excerpts, applicable standards, explicit forbidden
-  files, and concrete success criteria.
+This workflow uses an orchestrator-worker model specialized for software delivery. The lead agent
+plans and controls phase progression, coding subagents execute tightly scoped changes, `@designer`
+serves as the UI direction worker when the change affects user-facing surfaces, and
+`@execution-agent` serves as the primary evaluator by reporting environment-grounded test, lint,
+and build results.
+
+1. **You are the orchestrator.** Own the change model for the run: scope, architecture, touched
+   modules, phase state, and validation status.
+2. **All code changes go through a coding subagent.** Use `@coder` when available; otherwise use
+   the general agent as the fallback.
+3. **UI changes go through `@designer` first when available.** If the change materially affects UI
+   structure, interaction flow, visual hierarchy, navigation behavior, component usage, or page
+   layout, invoke `@designer` before coding. Ground the brief in D06, D07, and relevant D08 page
+   docs; ask it to keep those documents consistent and to return implementation-facing UI direction
+   rather than broad creative exploration.
+4. **All execution goes through `@execution-agent`.** Test, lint, and build results are the ground
+   truth for whether the workflow may advance.
+5. **Keep context tight.** Maintain a compact lead-agent working model. Give coding subagents only
+   the relevant excerpt for the current task, not the full conversation or full artifact set.
+6. **Use phase-isolated task packets.** Every coding pass must clearly name the phase, allowed
+   files, forbidden files, relevant scenarios, relevant design excerpts, and success criteria.
+
+---
+
+## Lead-Agent Working State
+
+Before any coding pass, create and maintain these compact artifacts for the run:
+
+- **Working feature brief** — intended outcome, scope, and key behavior
+- **Architecture ledger** — decisions, invariants, touched modules, and boundaries
+- **Context map** — likely production files, likely test files, helpers, dependencies, reference
+  patterns
+- **Standards index** — relevant conventions, config files, and short applicability notes
+- **Task packet template** — the required fields every coding pass receives
+
+Keep these concise and current. The lead agent owns the full bundle; subagents receive only the
+current slice.
+
+When the change touches UI, also maintain a **UI direction brief**: the applicable D06/D07/D08
+constraints, any proposed design-doc updates, unresolved design conflicts, and the concrete UI
+implementation guidance returned by `@designer`.
+
+---
+
+## Task Packet Template
+
+Every coding subagent invocation should include only:
+
+- implementation objective
+- current phase
+- exact files or modules in scope
+- relevant scenario text
+- relevant design or architecture excerpt
+- relevant UI direction excerpt when the change touches UI
+- applicable standards excerpt
+- allowed reference files for just-in-time reading
+- explicit out-of-scope boundaries
+- concrete success criteria
+
+Do not pass the full conversation, every feature artifact, or every standards file by default.
 
 ---
 

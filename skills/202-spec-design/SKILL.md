@@ -75,6 +75,10 @@ similar, treat it as **Happy Path Only**.
   - each scenario must be independently runnable
   - prefer adding assertions to an existing scenario over creating near-duplicates
   - use `Scenario Outline` when the same flow varies only by data
+  - every new scenario must include at least one path tag: `@happyPath`, `@errorPath`, or `@edgePath`
+  - use `Given` for preconditions, `When` for the primary user action, and `Then`/`And` for
+    observable outcomes
+  - step text must describe behavior, not implementation details
   - preserve `TSM#` grouping, `TS#` numbering, path tags, and status tags exactly as the template
     requires
 
@@ -107,3 +111,25 @@ similar, treat it as **Happy Path Only**.
 3. `TSM#` modules group by business context, not technical layer.
 4. Steps describe behavior, not implementation details.
 5. Status tags track lifecycle in place: `@status_pending`, `@status_implementing`, `@status_done`.
+
+## Additional Guidance
+
+**On scenario length**: Longer scenarios that prove end-to-end business value are preferred over
+many short scenarios that test individual steps. A scenario that takes a user from submitting a
+form through to receiving a confirmation email is more valuable than three separate scenarios that
+check form validation, submission storage, and email dispatch separately. Balance confidence with
+maintenance burden — if a scenario becomes so long that failures are impossible to diagnose, split
+it.
+
+**On updating existing specs**: Do not default to creating new scenarios for every new coverage
+request. If an existing scenario already exercises the same workflow, it is often better to add
+assertions there so the spec stays compact and easier to maintain. Create a new scenario only when
+the behavior deserves its own setup, action, path tag, or failure signal.
+
+**On step language**: Steps describe behavior, not implementation. "The user sees a confirmation
+message" is a valid assertion. "The component re-renders with success state" is not — it is an
+implementation detail that would need rewriting if the UI framework changes.
+
+**On test modules (TSM#)**: Modules group scenarios by business context, not by technical layer.
+"TSM002: Expense Submission — Error Handling" is correct. "TSM002: API Error Responses" is not —
+it groups by implementation layer rather than user experience.

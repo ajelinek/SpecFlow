@@ -112,9 +112,10 @@ ask whether the implementation or the scenarios should be corrected first.
   shared test helpers. Improve clarity and deduplication without reducing coverage.
 
 - [ ] **Step 11: Run post-change validation.** Execute the strongest normal validation the repo
-  supports for this test surface. If validation fails, run a focused repair pass through `@coder`,
-  repair only the reported test failure or approved UI hook, rerun validation, and stop if repair
-  loops stop converging.
+  supports for this test surface: the targeted tests, any broader related suite needed to catch
+  regressions, plus lint/build when those checks apply. If validation fails, run a focused repair
+  pass through `@coder`, repair only the reported test failure or approved UI hook, rerun
+  validation, and stop if repair loops stop converging.
 
 - [ ] **Step 12: Update feature status if applicable.** If `overview.md` exists, change `status`
   from `todo` to `implementing` when work starts and to `done` after validation passes.
@@ -125,7 +126,8 @@ ask whether the implementation or the scenarios should be corrected first.
   - test files changed
   - helpers, fixtures, or page objects added or updated
   - whether the UI testability exception was used
-  - behavior or implementation smells found
+  - behavior or implementation smells found, including whether each is primarily a UX smell, API
+    smell, validation smell, state-transition smell, or test fragility smell
   - baseline failures, if any
   - final validation result
   - any mismatch between requested scenarios and actual implemented behavior

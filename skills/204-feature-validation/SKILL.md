@@ -71,7 +71,7 @@ terms for the rest of the validation.
 
 - [ ] **Step 3: Research the codebase with `@explore`.** This step is required. Ask `@explore` to:
   - read the production files referenced in `implementation.md`
-  - find a few concrete similar implementations
+  - find a few concrete similar implementations and read them in full, not just summaries
   - identify reusable modules/helpers/routes/hooks/components the plan could extend
   - identify repo conventions and inconsistent existing patterns that matter to the review
 
@@ -106,8 +106,8 @@ terms for the rest of the validation.
   less detailed level, or because a broad scenario still validates a complete business outcome.
 
 - [ ] **Step 7: Check the report before responding.** Confirm findings are grounded in evidence,
-  that `🔴 High` findings are real blockers or correctness risks, and that the overall assessment
-  matches the findings.
+  that `🔴 High` findings are real blockers or correctness risks, that recommendations point to
+  concrete reuse candidates when relevant, and that the overall assessment matches the findings.
 
 - [ ] **Step 8: Return the report in chat.** Use these sections in order:
   - `Executive Summary`

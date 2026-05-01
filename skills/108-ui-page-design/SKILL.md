@@ -133,3 +133,16 @@ If any input cannot be resolved from D01/D06/D07, stop and ask.
 - Three directions are required even when the page seems straightforward.
 - When a D06/D07 conflict is approved, reconcile the governing doc first so D08 does not become a
   silent fork of the design system or UX architecture.
+
+---
+
+## Additional Guidance
+
+**On the HTML mockup as primary artifact**: `mockup.html` is the implementation reference, not
+the markdown. The markdown exists to carry context that cannot be read from the visual — data
+sources, role rules, interaction outcomes. Do not duplicate mockup content in prose.
+
+**On the mockup disclaimer**: Every `mockup.html` must include the HTML comment block immediately
+after the opening `<html>` tag. This keeps the warning invisible to human readers in the browser
+while signaling to any LLM or automated tool parsing the file that it must not treat the HTML as
+an implementation pattern.

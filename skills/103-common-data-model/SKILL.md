@@ -87,3 +87,26 @@ If required inputs are missing, ask before proceeding.
 2. Storage context is an annotation, not the organizing structure.
 3. Supporting concepts should be labeled as such.
 4. If a rule is unclear, name it as an open question instead of guessing.
+
+## Additional Guidance
+
+**On implementation independence**: This document describes the domain, not the implementation.
+Whether `User` is a Postgres table, a Firestore document, a Redux slice, or all three is not
+relevant here. A downstream document (`104-backend-architecture`, `105-frontend-architecture`)
+maps the conceptual model to its implementation. Keep those concerns separate.
+
+**On storage context as an annotation**: If an entity is client-only (e.g., a UI session object
+that is never sent to a server) or server-only (e.g., an audit log the client never reads), note
+this as a one-line storage annotation on the entity. Do not split the document into storage-tier
+sections — that organization loses the relationships between entities and forces readers to jump
+between sections to understand the domain.
+
+**On supporting concepts**: Not everything is a first-class entity. An `Address` attached to a
+`Customer` may be a value object with no independent identity. A `Status` may be an enum. Label
+these distinctions — they matter for how engineers model them downstream.
+
+**On business rules**: Write rules that a domain expert would recognize as true regardless of how
+the system is built. "A project must have at least one owner" is a business rule. "project_id is
+not null" is an implementation constraint — do not include implementation constraints unless they
+directly express a domain rule. If a rule is unclear, name it as an open question rather than
+guessing.

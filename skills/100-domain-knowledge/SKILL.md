@@ -95,3 +95,23 @@ If any required input is missing, ask before researching.
 3. Separate facts, interpretation, and recommendation.
 4. Prefer user workflows and decision-shaping constraints over generic market trivia.
 5. Keep the document business-level and decision-relevant.
+
+## Additional Guidance
+
+**On per-section quality expectations**: Each section in the domain knowledge document must contain
+concrete, research-grounded content:
+- **Domain Overview**: explains the market or industry in plain language and names the forces
+  shaping it now
+- **User Landscape**: identifies primary users or buyers, what they are trying to accomplish, and
+  what makes their environment difficult
+- **Domain Workflows & Decision Points**: describes real-world processes the product must fit into
+  or improve
+- **Market Expectations & Differentiation**: names what users already expect and where this product
+  can win or must be careful
+- **Regulatory / Operational Constraints**: includes only constraints that materially affect product
+  shape or delivery
+- **Domain Vocabulary & Concepts**: defines terms and distinctions later documents must use
+  consistently
+- **Implications For This Project**: translates research into concrete guidance for D01 and later
+  workflows — this section should tell the team what to prioritize, what to avoid copying blindly,
+  and what expectations must still be met

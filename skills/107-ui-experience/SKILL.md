@@ -59,6 +59,8 @@ If user roles or device targets are missing, stop and ask.
   - answer `@designer` clarifying questions from loaded context first
   - ask the user only when the context cannot answer them
   - surface conflicts with D06 or other established docs instead of overriding silently
+  - if the user approves a conflicting direction, update the governing doc first before treating
+    that direction as resolved
   - if `@designer` is unavailable, use `@explore` to research three plausible UX/navigation
     approaches for the product type and evaluate those instead
 
@@ -106,5 +108,8 @@ If user roles or device targets are missing, stop and ask.
 
 - Three directions are required.
 - Domain conventions can eliminate bad UX directions early; use them.
-- The page inventory should reflect route-level views only. Keep transient component states out of
-  it.
+- A page is a distinct view with its own route — not a component state, modal, drawer, or inline
+  toggle. The page inventory should reflect route-level views only. Keep transient component states
+  out of it.
+- If an approved UX direction conflicts with an existing doc, reconcile that governing doc first so
+  later page work inherits one source of truth.

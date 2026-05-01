@@ -26,10 +26,14 @@ Before drafting, confirm:
 2. **Deployment model** — static, SSR, hybrid, CDN-hosted, etc.
 3. **API integration** — REST, GraphQL, Firebase, or mixed
 4. **State management approach** — confirm a specific tool or pattern for each category:
-   - **Component state**
-   - **URL / navigation state**
-   - **Global / application state**
-   - **Server / remote state**
+   - **Component state** — local ephemeral UI state within a component. Confirm the primitive or
+     pattern in scope and any off-limits patterns.
+   - **URL / navigation state** — shareable or bookmarkable state encoded in query params, path
+     segments, or similar. Confirm what belongs in the URL, what does not, and what manages it.
+   - **Global / application state** — state shared across routes or unrelated components. Confirm
+     the library or pattern, what qualifies as global state, and what is explicitly kept out.
+   - **Server / remote state** — backend-fetched data, caching, and revalidation. Confirm the
+     library or pattern, caching approach, and where query or mutation definitions live.
 5. **Real-time requirements** — WebSockets, SSE, polling, or none
 6. **Audience and reach** — public vs internal, SEO needs, single-language vs i18n
 
@@ -96,6 +100,18 @@ If the framework or any state category is unresolved, stop and ask before procee
 ## Guidance
 
 - D05 must use the real stack vocabulary once the framework is known.
-- “Use hooks for state” is not architecture; name the actual boundary and tool for each state type.
+- "Use hooks for state" is not architecture; name the actual boundary and tool for each state type.
 - If an existing codebase already establishes a pattern, prefer documenting that pattern over
   inventing a replacement without calling out the divergence.
+
+## Additional Guidance
+
+**On optional sections**: Every section in D05 must earn its place. A real-time section for an app
+with no real-time requirements, or an i18n section for a single-language internal tool, adds noise
+and makes the document harder to use. When in doubt, leave the section out and add a one-line note
+under "open questions" if the decision is still pending.
+
+**On specificity**: "Use React hooks for state" is not architecture. "Local ephemeral state uses
+`useState`; shared UI state uses Zustand stores in `src/store/`; server state is managed by SWR
+with a 30-second revalidation window; components never call API endpoints directly — all API access
+goes through service hooks in `src/services/`" is architecture.

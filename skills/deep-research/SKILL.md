@@ -35,9 +35,10 @@ Do not use it for:
 2. Prefer `websearch_cited` for discovery when available.
 3. In OpenCode, assume DuckDuckGo Lite plus `webfetch` is the normal fallback path.
 4. Prefer primary sources first; use strong secondary sources for context.
-5. Separate facts, interpretation, and recommendation.
-6. If discovery is too constrained for real deep research, say so explicitly.
-7. Do not present a recommendation until you have tested at least one plausible alternative.
+5. Verify important claims across multiple sources when possible.
+6. Separate facts, interpretation, and recommendation.
+7. If discovery is too constrained for real deep research, say so explicitly.
+8. Do not present a recommendation until you have tested at least one plausible alternative.
 
 ---
 
@@ -75,10 +76,13 @@ Do not use it for:
 - [ ] **Step 4: Extract evidence.** For each source, capture only what matters:
   - exact claim
   - source URL
-  - source type
+  - source type (primary, secondary, promotional, anecdotal, analytical)
   - visible date/version
   - key evidence
   - reliability notes
+
+  Maintain a simple source ledger as you work: source title or page, URL, source type, date or
+  version, key claims, and reliability notes.
 
 - [ ] **Step 5: Triangulate.** Look for disagreement, version drift, caveats, biases, missing
   evidence, failure modes, and strong alternatives. Revisit search lanes if the evidence base is
@@ -96,14 +100,49 @@ Do not use it for:
 
 For substantial research, structure the answer roughly as:
 
-- direct answer or bottom line
-- recommendation *(if asked for)*
-- key findings with citations
-- alternatives considered
-- risks and unknowns
-- source notes
+```markdown
+# [Research topic]
+
+## Bottom line
+[2-5 sentence answer with the recommendation up front.]
+
+## Recommendation
+- [Recommended option or direction]
+- [Why it fits the user's criteria]
+- [Confidence and main caveat]
+
+## Key findings
+- [Finding]. Source: [title](URL)
+
+## Alternatives considered
+- [Alternative]: [why it was plausible, why it lost]
+
+## Risks and unknowns
+- [Risk, uncertainty, or missing evidence]
+
+## Source notes
+- [Title] - [publisher/site], [date or version if available], [why it matters]
+```
 
 For lighter research, compress the format, but still include citations, trade-offs, and uncertainty.
+
+---
+
+## Examples
+
+**Use this skill:**
+
+- "Do a deep dive on E2B vs Modal vs Daytona for remote code execution backends and recommend one
+  for an agent platform."
+- "Research the latest browser automation options for Claude Code style workflows and tell me the
+  best fit with risks."
+- "Can you look into recent EU AI Act obligations that would matter for a SaaS vendor shipping to
+  enterprise customers?"
+
+**Do not use this skill:**
+
+- "Summarize this one article I linked."
+- "Open this URL and tell me what it says."
 
 ---
 
@@ -122,6 +161,7 @@ For lighter research, compress the format, but still include citations, trade-of
 - Separate facts, interpretation, and recommendation clearly.
 - Make trade-offs explicit instead of pretending one option is universally best.
 - Optimize for the user's context, not generic defaults.
+- If the user did not ask for a recommendation, return findings first and offer one only if useful.
 
 ## Final Checks
 

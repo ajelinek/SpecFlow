@@ -99,7 +99,8 @@ conflict and ask instead of silently choosing.
   - requirements satisfied by small extensions to existing modules
   - requirements that genuinely need a new file
 
-  The default answer to “should I create a new file?” is no. Justify every `New` file.
+  The default answer to “should I create a new file?” is no. Justify every `New` file against
+  concrete reuse candidates found in Step 3.
 
 - [ ] **Step 5: Evaluate implementation approaches.** Identify 2-3 plausible structural approaches
   for the remaining decisions. For each, note:

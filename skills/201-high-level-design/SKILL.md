@@ -65,6 +65,8 @@ If the request is too vague, ask one clarifying question.
 - [ ] **Step 5: Draft the User Journey.** Write the happy path as a plain bullet sequence.
   - top-level bullets should reflect meaningful user-visible steps
   - sub-bullets should add detail only where this feature introduces change
+  - parts this feature directly changes should usually get 2-4 sub-bullets; unchanged systems should
+    get at most one brief sub-bullet
   - unchanged systems should be summarized briefly
   - keep error and edge branches out of this document
 
@@ -100,4 +102,21 @@ If the request is too vague, ask one clarifying question.
 
 **On scope vs. acceptance criteria**: In Scope answers "what are we building?" Acceptance Criteria
 answers "how do we know it works correctly?" A criterion that would be satisfied the moment the
-capability exists is a scope bullet in disguise.
+capability exists is a scope bullet in disguise. Good criteria describe correct behavior under real
+conditions: timing, sequencing, error states, cross-feature interactions.
+
+**On scope discipline**: The In Scope bullets must trace to either D10's behavior list or the
+user's stated scope for this feature. If new scope surfaces during drafting, flag it to the user
+rather than silently adding it. D10 does not need to be updated to reflect every scope change — it
+is a planning artifact, not a maintained source of truth.
+
+**On the user journey**: The bullet list is the most valuable part of this document for engineers
+and reviewers. Lead every step from the user's perspective when possible. A reviewer should be
+able to read the top-level bullets and understand what the user experiences; sub-bullets are for
+what the system does internally. Treat detail as a signal of ownership — high detail where this
+feature introduces change, low detail where it merely passes through existing behavior.
+
+**On unchanged systems**: If the feature calls an existing API, sends to an existing queue, or
+reads from an existing table without modifying that behavior, one sub-bullet is enough: "Backend
+persists the record via the existing expense API." Do not narrate the internals of systems this
+feature does not change.

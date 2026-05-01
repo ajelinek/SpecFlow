@@ -61,8 +61,10 @@ If required inputs are missing, ask before proceeding.
 
 - [ ] **Step 5: Quality check.** Confirm:
   - decisions trace to D01, D02, D03, or explicit user input
-  - API conventions are concrete enough to guide implementation
-  - service-layer boundaries are clear enough that a new engineer would know where code belongs
+  - API conventions are concrete enough to guide implementation; naming only the style (for example,
+    just saying "REST") is not enough — "REST: `GET /api/v1/users/:id`, camelCase JSON, 400 +
+    Problem+JSON envelope on validation failure" is specific enough
+  - service-layer description answers: does a new engineer know where to put new code?
   - security decisions match stated compliance needs
   - open questions are explicit
   - duplicate content from D01-D03 is removed
@@ -79,3 +81,10 @@ If required inputs are missing, ask before proceeding.
 2. Backend conventions should be specific enough that two engineers would implement similar code.
 3. Reference prior docs instead of re-explaining them.
 4. If a backend decision is unresolved, state it as an open question instead of inventing an answer.
+
+## Additional Guidance
+
+**On not repeating prior documents**: D04 references D01–D03; it does not summarize them.
+If a technology choice was documented in D02, write "per D02, the API uses Node.js with Express"
+— do not re-explain why. If a decision is genuinely unresolved, name it as an explicit open
+question in the document rather than omitting the section or inventing an answer.
