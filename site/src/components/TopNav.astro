@@ -10,6 +10,8 @@ interface Props {
 
 const { currentPath, homeOnly = false } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const hiddenSectionSlugs = new Set(['core-workflow', 'examples']);
+const visibleSections = docSections.filter((section) => !hiddenSectionSlugs.has(section.slug));
 ---
 
 <header class="site-header">
@@ -21,7 +23,7 @@ const base = import.meta.env.BASE_URL;
 
     <nav class:list={['top-nav', { 'top-nav--home': homeOnly }]} aria-label="Primary">
       <ul>
-        {docSections.map((section) => {
+        {visibleSections.map((section) => {
           const href = `/${section.slug}/`;
           return (
             <li>
