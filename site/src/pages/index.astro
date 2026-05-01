@@ -1,20 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PathIcon from '../components/PathIcon.astro';
-import { coreWorkflow, workflowPaths } from '../lib/specflow';
+import { workflowPaths } from '../lib/specflow';
 import { withBase } from '../lib/docs';
-import { getVisibleRows } from '../lib/flow-viz';
 
 const base = import.meta.env.BASE_URL;
 
-// Path selection: lean (minimal) is the default — define, specify, build, clean up.
+// Path selection: minimal is the default path for the homepage board.
 const defaultPathId = 'lean';
 const defaultPath = workflowPaths.find((path) => path.id === defaultPathId) ?? workflowPaths[0];
 
-// Keys that represent optional (dashed-border) cards — not required by every path.
+type FlowCard = {
+  key: string;
+  title: string;
+  description: string;
+};
+
+// Keys that represent optional cards that are not required by every path.
 const optionalCardKeys = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '110', '203', '204', '302'];
 
-const flowRows = [
+const flowRows: FlowCard[][] = [
   [
     { key: '100', title: 'Domain Knowledge', description: 'Research the domain, users, constraints, and differentiators.' },
     { key: '101', title: 'Project Overview', description: 'Define what the product is, who it serves, and why it matters.' },
@@ -42,7 +47,31 @@ const flowRows = [
   ],
 ];
 
-const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, optionalCardKeys);
+const flowCardMap = new Map<string, FlowCard>(flowRows.flat().map((card) => [card.key, card]));
+
+const getSequenceKey = (step: string) => step.trim().match(/^\d+/)?.[0] ?? null;
+
+const getVisibleCards = (sequence: string): FlowCard[] => {
+  const orderedKeys = sequence
+    .split('->')
+    .map(getSequenceKey)
+    .filter((key): key is string => Boolean(key));
+
+  if (orderedKeys.includes('301') && !orderedKeys.includes('302')) {
+    orderedKeys.splice(orderedKeys.indexOf('301') + 1, 0, '302');
+  }
+
+  return orderedKeys
+    .map((key) => flowCardMap.get(key))
+    .filter((card): card is FlowCard => Boolean(card));
+};
+
+const getCardBadge = (key: string, isOptional: boolean) => {
+  if (key === '108') return 'Loop';
+  return isOptional ? 'Optional' : null;
+};
+
+const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
 ---
 
 <BaseLayout currentPath={Astro.url.pathname} homeOnly={true}>
@@ -60,26 +89,6 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
       <div class="home-hero__ring home-hero__ring--one"></div>
       <div class="home-hero__ring home-hero__ring--two"></div>
     </div>
-  </section>
-
-  <section class="home-path container" aria-labelledby="home-path-title">
-    <div class="home-path__header">
-      <p class="eyebrow">Minimal path</p>
-      <h2 id="home-path-title">201 -> 202 -> 301 -> 401</h2>
-      <p>Define. Specify. Build. Clean up.</p>
-    </div>
-
-    <ol class="home-path__list">
-      {coreWorkflow.map((step, index) => (
-        <li class:list={{ 'home-path__step': true, 'is-offset': index % 2 === 1 }}>
-          <span class="home-path__dot" aria-hidden="true"></span>
-          <span class="home-path__line" aria-hidden="true"></span>
-          <code>{step.label}</code>
-          <h3>{step.title}</h3>
-          <p>{step.description}</p>
-        </li>
-      ))}
-    </ol>
   </section>
 
   <section class="home-path-selection container" aria-labelledby="home-path-selection-title" data-path-selection data-flow-visualization data-default-path={defaultPathId}>
@@ -122,44 +131,37 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
         <a class="button button--primary home-path-selection__cta" data-path-action href={withBase(defaultPath.action, base)}>Get Started</a>
       </div>
 
-      <div class="home-path-selection__rows" data-flow-rows data-flow-rows-json={JSON.stringify(flowRows)} data-optional-card-keys-json={JSON.stringify(optionalCardKeys)}>
-        {defaultVisibleRows.map((row, rowIndex) => (
-          <div class="home-path-selection__row" data-row={rowIndex + 1} style={`--row-cols: ${row.length}`}>
-            {row.map((card, cardIndex) => {
-              const isOptional = optionalCardKeys.includes(card.key);
-              const isLoopCard = card.key === '108';
-              const isFeatureLoopCard = ['201', '202', '203', '204', '301', '302', '401'].includes(card.key);
+      <div class="home-path-selection__steps">
+        <p class="home-path-selection__steps-kicker">Visible steps</p>
+        <div class="home-path-selection__rows" data-flow-rows data-flow-rows-json={JSON.stringify(flowRows)} data-optional-card-keys-json={JSON.stringify(optionalCardKeys)}>
+          {defaultVisibleCards.map((card, index) => {
+            const isOptional = optionalCardKeys.includes(card.key);
+            const badge = getCardBadge(card.key, isOptional);
 
-              return (
-                <>
-                  <article
-                    class:list={[
-                      'home-path-selection__card',
-                      'is-active',
-                      {
-                        'is-optional': isOptional,
-                        'is-loop-card': isLoopCard,
-                        'is-feature-cycle-card': isFeatureLoopCard,
-                      },
-                    ]}
-                    data-step-key={card.key}
-                    data-optional={isOptional ? 'true' : undefined}
-                  >
-                    <div class="home-path-selection__card-topline">
-                      <span class="home-path-selection__card-code">{card.key}</span>
-                      {card.key === '108' && <span class="home-path-selection__card-badge">Loop</span>}
-                      {card.key === '201' && <span class="home-path-selection__card-badge">Spec Loop Start</span>}
-                      {card.key === '401' && <span class="home-path-selection__card-badge">Spec Loop End</span>}
-                    </div>
-                    <h3 class="home-path-selection__card-title">{card.title}</h3>
-                    <p class="home-path-selection__card-description">{card.description}</p>
-                  </article>
-                  {cardIndex < row.length - 1 && <span class="home-path-selection__flow-arrow" aria-hidden="true">→</span>}
-                </>
-              );
-            })}
-          </div>
-        ))}
+            return (
+              <article
+                class:list={[
+                  'home-path-selection__card',
+                  {
+                    'is-optional': isOptional,
+                  },
+                ]}
+                data-step-key={card.key}
+                data-optional={isOptional ? 'true' : undefined}
+              >
+                <div class="home-path-selection__card-topline">
+                  <span class="home-path-selection__card-index">{String(index + 1).padStart(2, '0')}</span>
+                  <span class="home-path-selection__card-code">{card.key}</span>
+                </div>
+                <div class="home-path-selection__card-heading">
+                  <h3 class="home-path-selection__card-title">{card.title}</h3>
+                  {badge && <span class="home-path-selection__card-badge">{badge}</span>}
+                </div>
+                <p class="home-path-selection__card-description">{card.description}</p>
+              </article>
+            );
+          })}
+        </div>
       </div>
     </div>
   </section>
@@ -176,83 +178,57 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
       const cta = pathSelection.querySelector<HTMLAnchorElement>('[data-path-action]');
       const flowRowsEl = pathSelection.querySelector<HTMLElement>('[data-flow-rows]');
 
-      // Parse the full flowRows card data from the server-rendered attribute.
       type FlowCard = { key: string; title: string; description: string };
       const flowRows: FlowCard[][] = JSON.parse(flowRowsEl?.dataset.flowRowsJson ?? '[]');
       const optionalCardKeys: string[] = JSON.parse(flowRowsEl?.dataset.optionalCardKeysJson ?? '[]');
+      const flowCardMap = new Map<string, FlowCard>(flowRows.flat().map((card) => [card.key, card]));
 
-      // Cards excluded from the active path are removed from the DOM — only
-      // visible cards for the selected path are rendered.
+      const getSequenceKey = (step: string): string | null => step.trim().match(/^\d+/)?.[0] ?? null;
 
-      // ---------------------------------------------------------------------------
-      // sequenceIncludes — mirrors pathIncludes logic from flow-viz.ts.
-      // Client-side scripts cannot import TS modules, so the rule is inlined here.
-      // ---------------------------------------------------------------------------
-      const sequenceIncludes = (seq: string, key: string): boolean => {
-        if (key === '302') {
-          return seq.split('->').some((s) => s.trim() === '301' || s.trim().startsWith('301 '));
+      const buildVisibleCards = (activeSequence: string): FlowCard[] => {
+        const orderedKeys = activeSequence
+          .split('->')
+          .map(getSequenceKey)
+          .filter((key): key is string => Boolean(key));
+
+        if (orderedKeys.includes('301') && !orderedKeys.includes('302')) {
+          orderedKeys.splice(orderedKeys.indexOf('301') + 1, 0, '302');
         }
-        return seq.split('->').some((s) => s.trim() === key || s.trim().startsWith(key + ' '));
+
+        return orderedKeys
+          .map((key) => flowCardMap.get(key))
+          .filter((card): card is FlowCard => Boolean(card));
       };
 
-      // ---------------------------------------------------------------------------
-      // buildCardHTML — renders a single card article element
-      // ---------------------------------------------------------------------------
-      const LOOP_BADGES: Record<string, string> = { '108': 'Loop', '201': 'Spec Loop Start', '401': 'Spec Loop End' };
+      const getCardBadge = (cardKey: string, isOptional: boolean): string | null => {
+        if (cardKey === '108') return 'Loop';
+        return isOptional ? 'Optional' : null;
+      };
 
-      const buildCardHTML = (card: FlowCard): string => {
+      const buildCardHTML = (card: FlowCard, index: number): string => {
         const isOptional = optionalCardKeys.includes(card.key);
-        const isLoopCard = card.key === '108';
-        const isFeatureCycleCard = ['201', '202', '203', '204', '301', '302', '401'].includes(card.key);
-        const badge = LOOP_BADGES[card.key];
-        const classes = [
-          'home-path-selection__card is-active',
-          isOptional && 'is-optional',
-          isLoopCard && 'is-loop-card',
-          isFeatureCycleCard && 'is-feature-cycle-card',
-        ].filter(Boolean).join(' ');
+        const badge = getCardBadge(card.key, isOptional);
+        const classes = ['home-path-selection__card', isOptional && 'is-optional'].filter(Boolean).join(' ');
 
         return `<article class="${classes}" data-step-key="${card.key}"${isOptional ? ' data-optional="true"' : ''}>
   <div class="home-path-selection__card-topline">
+    <span class="home-path-selection__card-index">${String(index + 1).padStart(2, '0')}</span>
     <span class="home-path-selection__card-code">${card.key}</span>
+  </div>
+  <div class="home-path-selection__card-heading">
+    <h3 class="home-path-selection__card-title">${card.title}</h3>
     ${badge ? `<span class="home-path-selection__card-badge">${badge}</span>` : ''}
   </div>
-  <h3 class="home-path-selection__card-title">${card.title}</h3>
   <p class="home-path-selection__card-description">${card.description}</p>
 </article>`;
       };
 
-      const buildRowHTML = (visibleCards: FlowCard[], rowIndex: number): string => {
-        return `<div class="home-path-selection__row" data-row="${rowIndex}" style="--row-cols: ${visibleCards.length}">` +
-          visibleCards.map((card, cardIndex) => {
-            const separator = cardIndex < visibleCards.length - 1
-              ? '<span class="home-path-selection__flow-arrow" aria-hidden="true">→</span>'
-              : '';
-
-            return buildCardHTML(card) + separator;
-          }).join('') +
-          `</div>`;
-      };
-
-      // ---------------------------------------------------------------------------
-      // rebuildRows — replaces rows container content for the active sequence
-      // ---------------------------------------------------------------------------
-      const rebuildRows = (activeSequence: string): void => {
+      const rebuildCards = (activeSequence: string): void => {
         if (!flowRowsEl) return;
-        const html: string[] = [];
-        let rowIndex = 0;
-        for (const row of flowRows) {
-          const visibleCards = row.filter((c) => sequenceIncludes(activeSequence, c.key));
-          if (visibleCards.length === 0) continue;
-          rowIndex++;
-          html.push(buildRowHTML(visibleCards, rowIndex));
-        }
-        flowRowsEl.innerHTML = html.join('');
+        const visibleCards = buildVisibleCards(activeSequence);
+        flowRowsEl.innerHTML = visibleCards.map((card, index) => buildCardHTML(card, index)).join('');
       };
 
-      // ---------------------------------------------------------------------------
-      // setActivePath
-      // ---------------------------------------------------------------------------
       const setActivePath = (nextId: string): void => {
         const activeControl = controls.find((c) => c.getAttribute('data-path-control') === nextId);
         if (!activeControl) return;
@@ -275,7 +251,7 @@ const defaultVisibleRows = getVisibleRows(defaultPath.sequence, flowRows, option
         if (note) note.textContent = activeControl.getAttribute('data-path-note') ?? '';
         if (cta) cta.href = activeControl.getAttribute('data-path-action') ?? '#';
 
-        rebuildRows(activeSequence);
+        rebuildCards(activeSequence);
       };
 
       controls.forEach((control) => {
