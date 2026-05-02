@@ -31,11 +31,11 @@ After running the full lifecycle, the `.specflow/` directory looks like this:
         mockup.html              ← 108-ui-page-design
     D10-feature-overview.md      ← 110-feature-overview
   features/
-    invoice-approval/
+    F003-invoice-approval/
       overview.md                ← 201-high-level-design
       specs.feature              ← 202-spec-design
       implementation.md          ← 203-implementation-design (optional)
-    account-recovery/
+    F004-account-recovery/
       overview.md
       specs.feature
       implementation.md
@@ -45,16 +45,16 @@ After running the full lifecycle, the `.specflow/` directory looks like this:
 
 ## Feature overview (201)
 
-`.specflow/features/invoice-approval/overview.md`
+`.specflow/features/F003-invoice-approval/overview.md`
 
 ```markdown
 ---
-feature: Invoice Approval
-fid: F-003
-status: in_progress
+feature: invoice-approval
+fid: F003
+status: implementing
 ---
 
-# Invoice Approval
+# Invoice Approval (F003) - High-Level Design
 
 Allow project managers to submit expense reports for approval and allow approvers
 to review, approve, or reject them with comments.
@@ -93,7 +93,7 @@ to review, approve, or reject them with comments.
 
 ## Gherkin spec (202)
 
-`.specflow/features/invoice-approval/specs.feature`
+`.specflow/features/F003-invoice-approval/specs.feature`
 
 ```gherkin
 Feature: Invoice Approval
@@ -146,13 +146,13 @@ Feature: Invoice Approval
 
 ## Implementation plan (203)
 
-`.specflow/features/invoice-approval/implementation.md`
+`.specflow/features/F003-invoice-approval/implementation.md`
 
 ```markdown
 ---
-feature: Invoice Approval
-fid: F-003
-status: planned
+feature: invoice-approval
+fid: F003
+status: todo
 detail_level: balanced
 ---
 
@@ -247,6 +247,6 @@ with lien waiver requirements.
 ## What you can do with these files
 
 - **Review them** — they are plain Markdown and Gherkin, readable in any editor or on GitHub
-- **Reference them in prompts** — tell agents to read `@.specflow/features/invoice-approval/specs.feature` before implementing
+- **Reference them in prompts** — tell agents to read `@.specflow/features/F003-invoice-approval/specs.feature` before implementing
 - **Commit them** — the `.specflow/` directory is source-controlled like any other project document
 - **Update them** — skills treat existing files as prior drafts to update, not to replace

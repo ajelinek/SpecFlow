@@ -14,7 +14,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 This is the moment where a vague feature request becomes something reviewable. If the feature definition is blurry here, everything after it gets harder.
 
-**Output path**: `.specflow/features/<feature-name>/overview.md`
+**Output path**: `.specflow/features/<fid>-<feature-slug>/overview.md`
 
 ## When to use it
 
@@ -31,8 +31,8 @@ This is the moment where a vague feature request becomes something reviewable. I
 
 ## What it produces
 
-- `.specflow/features/<feature-name>/overview.md` with:
-  - Feature name and stable `F-ID` (when D10 exists)
+- `.specflow/features/<fid>-<feature-slug>/overview.md` with:
+  - Feature slug in front matter and a stable `F-ID`
   - Concise description of what the feature does
   - In-scope boundaries
   - Explicit out-of-scope decisions
@@ -45,7 +45,7 @@ This is the moment where a vague feature request becomes something reviewable. I
 - Feature name
 - One sentence of context about what the feature should do
 
-If `D10-feature-overview.md` tracks this feature, `201` may reuse its `F-ID` or ask whether to add it there first.
+`201` requires an assigned `F-ID` before it creates the feature folder. If `D10-feature-overview.md` tracks this feature, it reuses that `F-ID`. Otherwise it should ask whether to add the feature to D10 first or assign an `F-ID` explicitly.
 
 ## Common prompts
 
@@ -60,6 +60,7 @@ If `D10-feature-overview.md` tracks this feature, `201` may reuse its `F-ID` or 
 ## Practical guidance
 
 - Keep the output short enough for fast human review. The goal is a reviewable scope boundary, not a complete specification.
+- The feature folder should always start with the `F-ID`, for example `.specflow/features/F003-invoice-approval/overview.md`.
 - Use the out-of-scope list to draw explicit boundaries — implicit assumptions about what is not included tend to become scope creep.
 - The user journey should stay a plain-text bullet list, not a diagram. Diagrams are harder to review in code review and harder to update.
 - Acceptance criteria are optional but valuable on features where "done" is ambiguous.

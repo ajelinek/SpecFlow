@@ -24,12 +24,12 @@ The `200` series turns a feature request into a set of reviewable, implementatio
 
 ## All outputs go to the same path
 
-Every skill in the `200` series writes to `.specflow/features/<feature-name>/`. The files accumulate across the loop and `301` reads all of them before coding.
+Every skill in the `200` series writes to `.specflow/features/<fid>-<feature-slug>/`. The files accumulate across the loop and `301` reads all of them before coding.
 
 ```
 .specflow/
   features/
-    invoice-approval/
+    F003-invoice-approval/
       overview.md          ← written by 201
       specs.feature        ← written by 202
       implementation.md    ← written by 203 (optional)

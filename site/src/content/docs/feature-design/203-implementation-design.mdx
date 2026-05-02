@@ -14,7 +14,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 The guiding principle: **the best code is the code not written.** This skill always looks for the smallest additive change that satisfies the feature requirements. New files are a last resort. Where a small rearchitecture of an existing module produces a simpler result than adding new code alongside it, the rearchitecture is preferred.
 
-**Output path**: `.specflow/features/<feature-name>/implementation.md`
+**Output path**: `.specflow/features/<fid>-<feature-slug>/implementation.md`
 
 ## When to use it
 
@@ -45,8 +45,10 @@ If no level is specified, **Balanced** is used.
 
 ## Required inputs
 
-- Feature name
+- Feature name or existing feature artifact path
 - Detail level (optional — defaults to Balanced)
+
+When `201` and `202` already exist, `203` should write into the same `.specflow/features/<fid>-<feature-slug>/` folder.
 
 ## Common prompts
 

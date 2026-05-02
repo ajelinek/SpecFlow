@@ -9,8 +9,8 @@ description: >
 
 # 201 - High-Level Design
 
-Produce `.specflow/features/<feature-name>/overview.md`: a short document that explains what a
-feature does and how its primary user journey flows.
+Produce `.specflow/features/<fid>-<feature-slug>/overview.md`: a short document that explains what
+a feature does and how its primary user journey flows.
 
 This document should cover only:
 
@@ -19,7 +19,7 @@ This document should cover only:
 
 No test detail and no implementation design.
 
-**Output path**: `.specflow/features/<feature-name>/overview.md`
+**Output path**: `.specflow/features/<fid>-<feature-slug>/overview.md`
 
 ---
 
@@ -39,7 +39,9 @@ If the request is too vague, ask one clarifying question.
 - [ ] **Step 1: Resolve feature identity.** Read `.specflow/docs/D10-feature-overview.md` if it
   exists.
   - If the feature is in D10, use its `F-ID` and behavior bullets as the scope anchor.
-  - If it is not in D10, ask whether to add it there first or continue without updating D10.
+  - Derive the feature folder name as `<fid>-<feature-slug>`.
+  - If it is not in D10, ask whether to add it there first or explicitly assign an `F-ID` before
+    continuing. Do not create the feature folder without an `F-ID`.
 
 - [ ] **Step 2: Load context.** Read relevant existing docs when they exist:
   - D01
@@ -80,6 +82,7 @@ If the request is too vague, ask one clarifying question.
   - `feature`: feature slug
   - `fid`: assigned `F-ID` if available
   - `status`: `todo`
+  - Write the file to `.specflow/features/<fid>-<feature-slug>/overview.md`.
 
   The `status` field is the feature lifecycle source of truth: `todo`, `implementing`, `done`.
   Update status in place as work progresses; do not move the feature file between directories when
@@ -93,7 +96,7 @@ If the request is too vague, ask one clarifying question.
 ## Rules
 
 1. In Scope says what is built; Acceptance Criteria says how we know it works correctly.
-2. D10 is helpful but not required.
+2. The feature folder name must start with the assigned `F-ID`: `<fid>-<feature-slug>`.
 3. The front matter `status` field is the feature lifecycle source of truth: `todo`,
    `implementing`, `done`, and the file path stays stable across status changes.
 4. The user journey should show where this feature changes behavior and stay brief elsewhere.

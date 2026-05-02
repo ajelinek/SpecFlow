@@ -12,7 +12,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 `202-spec-design` writes Gherkin scenarios for a feature. It captures what the system should do in user-visible terms, supports multiple coverage levels (Happy Path Only, Balanced, Comprehensive), and continues existing numbering when a spec file already exists.
 
-**Output path**: `.specflow/features/<feature-name>/specs.feature`
+**Output path**: `.specflow/features/<fid>-<feature-slug>/specs.feature`
 
 ## When to use it
 
@@ -29,7 +29,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What it produces
 
-- `.specflow/features/<feature-name>/specs.feature` with:
+- `.specflow/features/<fid>-<feature-slug>/specs.feature` with:
   - Numbered `TS#` scenarios (e.g., `TS001`, `TS002`)
   - Grouped into `TSM#` test modules by logical area
   - Lifecycle tags (`@status_pending`)
@@ -47,8 +47,10 @@ Start with Happy Path Only for a fast first pass. Add more coverage in a second 
 
 ## Required inputs
 
-- Feature name
+- Feature name or existing feature artifact path
 - Coverage level: Happy Path Only, Balanced, or Comprehensive
+
+When the feature already has a `201` artifact, `202` should reuse the same `.specflow/features/<fid>-<feature-slug>/` folder.
 
 ## Common prompts
 
