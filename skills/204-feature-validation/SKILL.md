@@ -56,9 +56,9 @@ terms for the rest of the validation.
 ## Steps
 
 - [ ] **Step 1: Load feature artifacts.** Read these if they exist:
-  - `.specflow/features/<feature-name>/overview.md`
-  - `.specflow/features/<feature-name>/specs.feature`
-  - `.specflow/features/<feature-name>/implementation.md`
+  - `.specflow/features/<fid>-<feature-slug>/overview.md`
+  - `.specflow/features/<fid>-<feature-slug>/specs.feature`
+  - `.specflow/features/<fid>-<feature-slug>/implementation.md`
 
   `implementation.md` is required. If it is missing, stop and ask whether to run
   `203-implementation-design` first.

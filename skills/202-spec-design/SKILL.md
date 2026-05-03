@@ -9,12 +9,12 @@ description: >
 
 # 202 - Test Scenario Design
 
-Produce `.specflow/features/<feature-name>/specs.feature`: a Gherkin file containing numbered
-scenarios grouped into `TSM#` modules and tagged for path and status tracking.
+Produce `.specflow/features/<fid>-<feature-slug>/specs.feature`: a Gherkin file containing
+numbered scenarios grouped into `TSM#` modules and tagged for path and status tracking.
 
 `overview.md` remains the canonical feature definition. If it exists, do not duplicate it here.
 
-**Output path**: `.specflow/features/<feature-name>/specs.feature`
+**Output path**: `.specflow/features/<fid>-<feature-slug>/specs.feature`
 
 ---
 
@@ -36,15 +36,17 @@ similar, treat it as **Happy Path Only**.
 ## Steps
 
 - [ ] **Step 1: Load feature context.** Read these files if they exist:
-  - `.specflow/features/<feature-name>/overview.md`
+  - `.specflow/features/<fid>-<feature-slug>/overview.md`
   - `.specflow/docs/D01-project-overview.md`
   - `.specflow/docs/D07-ui-experience.md`
   - `.specflow/context/domain-knowledge.md`
 
   If `overview.md` is missing, ask for a short feature summary and primary user outcome, then use
   that as fallback context.
+  Derive the feature folder as `<fid>-<feature-slug>` and keep all feature artifacts in that same
+  folder.
 
-- [ ] **Step 2: Review existing specs first.** Read `.specflow/features/<feature-name>/specs.feature`
+- [ ] **Step 2: Review existing specs first.** Read `.specflow/features/<fid>-<feature-slug>/specs.feature`
   if it exists.
 
   If it exists:
@@ -107,10 +109,11 @@ similar, treat it as **Happy Path Only**.
 ## Rules
 
 1. `overview.md` defines feature scope; `specs.feature` defines behavior coverage.
-2. Longer business-outcome scenarios are preferred over many narrow, unit-style scenarios.
-3. `TSM#` modules group by business context, not technical layer.
-4. Steps describe behavior, not implementation details.
-5. Status tags track lifecycle in place: `@status_pending`, `@status_implementing`, `@status_done`.
+2. The feature folder name must stay stable across the feature lifecycle: `<fid>-<feature-slug>`.
+3. Longer business-outcome scenarios are preferred over many narrow, unit-style scenarios.
+4. `TSM#` modules group by business context, not technical layer.
+5. Steps describe behavior, not implementation details.
+6. Status tags track lifecycle in place: `@status_pending`, `@status_implementing`, `@status_done`.
 
 ## Additional Guidance
 

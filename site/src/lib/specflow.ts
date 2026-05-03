@@ -163,8 +163,8 @@ export const skillSeries: SkillSeries[] = [
   },
   {
     range: '400 Series',
-    title: 'Cleanup',
-    description: 'Run a deliberate cleanup-only pass over changed source files or changed test files.',
+    title: 'Correction and cleanup',
+    description: 'Triage failing tests when the right fix path is unclear, or run a deliberate cleanup pass over an already-changed scope.',
   },
 ];
 
@@ -349,6 +349,14 @@ export const skills: Skill[] = [
     category: 'Implementation and Cleanup',
   },
   {
+    slug: '402-test-correction',
+    label: '402-test-correction',
+    purpose: 'Investigate a failing automated test and decide whether the right correction is in the test, in source, or in the intended behavior itself.',
+    whenToUse: 'Use it when a red test needs source-vs-test triage before you decide what to change.',
+    tier: 'optional',
+    category: 'Implementation and Cleanup',
+  },
+  {
     slug: 'agent-context',
     label: 'agent-context',
     purpose: 'Refresh root AGENTS.md guidance, with nested overlays only where subtrees materially differ.',
@@ -419,10 +427,11 @@ export const starlightSidebar = [
     ],
   },
   {
-    label: 'Cleanup (400s)',
+    label: 'Correction & Cleanup (400s)',
     items: [
       { slug: 'cleanup', label: 'Overview' },
       'cleanup/401-cleanup',
+      'cleanup/402-test-correction',
     ],
   },
   {
@@ -441,6 +450,7 @@ export const starlightSidebar = [
       'examples/new-feature-existing-project',
       'examples/greenfield-project-with-more-planning',
       'examples/test-only-workflow',
+      'examples/failing-test-triage',
       'examples/cleanup-workflow',
       'examples/using-bonus-skills',
     ],

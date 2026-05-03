@@ -14,6 +14,8 @@ import Callout from '../../../components/Callout.astro';
 
 Use this workflow when production behavior is already implemented and the real problem is missing or weak automated coverage. The workflow consists of running `202` to generate Gherkin scenarios from the existing code, followed by `302` to implement those scenarios.
 
+If the immediate problem is a red automated test and you do not yet know whether the defect is in the test, in source, or in intended behavior, use `402-test-correction` first instead of starting with `302`.
+
 ## Example prompt sequence
 
 First, generate the test scenarios based on the existing implementation:
@@ -31,6 +33,8 @@ Review the generated feature file output. Once you are satisfied with the scenar
 `301` is for substantial implementation work. `302` exists to keep test-only work from silently turning into broader production changes.
 
 If the current implementation disagrees with the requested scenarios, fix the mismatch first instead of normalizing it inside `302`.
+
+If you are not confident that the implementation is actually correct, route through `402-test-correction` before deciding whether the next step is `302` or `301`.
 
 <Callout tone="tip" title="Boundary rule">
   If the tests reveal missing behavior rather than missing coverage, stop and switch back to `301-spec-implementation`.

@@ -38,7 +38,7 @@ The numbers make the catalog easy to scan, search, and reference in prompts.
 - Start with the `100` series for project and planning context.
 - Follow the `200` series for feature design.
 - Use the `300` series to implement the change.
-- Use the `400` series for cleanup-only refinement.
+- Use the `400` series for red-test triage when the fix path is unclear and for cleanup-only refinement.
 
 That means you can write short prompts like "follow `201` to build the feature set" or "follow `301` to implement this change" without needing to remember the full skill names.
 
@@ -74,6 +74,13 @@ Because `301` already includes internal test-cleanup and production-cleanup phas
 </details>
 
 <details>
+<summary>When should I use 402 instead of 302?</summary>
+
+Use `402` when the starting point is a failing test and you still need to determine whether the defect is in the test, in production code, or in the intended behavior. Use `302` when production behavior is already believed to be correct and the missing work is simply automated test coverage or a bounded test-side repair.
+
+</details>
+
+<details>
 <summary>Can I skip 201 and go straight to 202?</summary>
 
 You can, but `201` keeps the feature scope clear.
@@ -81,5 +88,5 @@ You can, but `201` keeps the feature scope clear.
 </details>
 
 <Callout tone="tip" title="Still unsure where to start?">
-  Read [Getting Started](../getting-started/) and start with `201 -> 202 -> 301 -> 401`, or go earlier in the lifecycle if the project still lacks context.
+  Read [Getting Started](../getting-started/) and start with `201 -> 202 -> 301 -> 401`, or use `402` when the immediate problem is a failing test whose fix path is not yet clear.
 </Callout>

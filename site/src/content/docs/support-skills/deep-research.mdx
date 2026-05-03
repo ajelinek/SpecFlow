@@ -44,7 +44,15 @@ This skill is normally called internally by `100-domain-knowledge` for non-trivi
 
 ## Required capabilities
 
-`deep-research` requires live web access. In OpenCode, the default discovery path is DuckDuckGo Lite result pages (`https://duckduckgo.com/lite/?q=<query>`) for search, combined with `webfetch` for page extraction. If neither search nor page retrieval is available, the skill states this rather than presenting model memory as live research.
+`deep-research` requires live web access. In OpenCode, the default discovery path is Brave Search result pages (`https://search.brave.com/search?q=<query>`) for primary search, with Bing result pages (`https://www.bing.com/search?q=<query>`) as secondary fallback, combined with `webfetch` for page extraction. Either engine may still return anti-bot or access-control pages to automated requests, so the skill should detect that outcome and report discovery as blocked for that engine rather than pretending results were retrieved. If neither search nor page retrieval is available, the skill states this rather than presenting model memory as live research.
+
+In practice, the current stack works like this:
+
+- **Brave first** for initial source discovery
+- **Bing second** when Brave is blocked, empty, or not usable from the current environment
+- **`webfetch` last** to read the actual source pages once promising URLs have been identified
+
+This means `deep-research` is currently using live search result pages for discovery, not a dedicated search API. The goal is to find relevant source URLs first, then fetch and synthesize the underlying pages.
 
 ## Common prompts
 
@@ -69,6 +77,7 @@ This skill is normally called internally by `100-domain-knowledge` for non-trivi
 
 - The research brief is the most important input. A vague question produces a broad survey. A specific question produces actionable evidence.
 - Primary sources come first: official documentation, maintainer statements, standards bodies, government publications. Secondary sources add context.
+- Search result pages are only the discovery layer. The actual evidence should come from the destination pages that are fetched afterward.
 - Important claims should be verified across multiple sources where possible — not accepted from a single page.
 - Do not treat model background knowledge as live research for freshness-sensitive questions. If the question involves "current", "latest", or "recent", live discovery is required.
 

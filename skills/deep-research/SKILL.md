@@ -5,7 +5,7 @@ description: >
   sources before answering. Use it when the user asks for research, a deep dive, current-state
   analysis, or an evidence-backed recommendation, including vendor comparisons, market scans,
   due diligence, or "what changed recently" questions.
-compatibility: Requires internet access plus a discovery mechanism. In OpenCode, assume `websearch_cited` is unavailable unless the environment clearly provides it. Use DuckDuckGo Lite search result pages such as `https://duckduckgo.com/lite/?q=<query>` for discovery, then use `webfetch` or equivalent page retrieval for source extraction. For latest, current-state, recent, or what-changed questions, do not rely on model memory alone; verify with live web sources.
+compatibility: Requires internet access plus a discovery mechanism. In OpenCode, assume `websearch_cited` is unavailable unless the environment clearly provides it. Use Brave Search result pages such as `https://search.brave.com/search?q=<query>` for primary discovery, fall back to Bing result pages such as `https://www.bing.com/search?q=<query>` when needed, then use `webfetch` or equivalent page retrieval for source extraction. For latest, current-state, recent, or what-changed questions, do not rely on model memory alone; verify with live web sources.
 ---
 
 # Deep Research
@@ -33,7 +33,7 @@ Do not use it for:
 1. For latest/current/recent questions, use live sources first. Do not answer from memory and add
    citations later.
 2. Prefer `websearch_cited` for discovery when available.
-3. In OpenCode, assume DuckDuckGo Lite plus `webfetch` is the normal fallback path.
+3. In OpenCode, assume Brave Search plus `webfetch` is the normal fallback path, with Bing as secondary fallback.
 4. Prefer primary sources first; use strong secondary sources for context.
 5. Verify important claims across multiple sources when possible.
 6. Separate facts, interpretation, and recommendation.
@@ -60,8 +60,13 @@ Do not use it for:
 
 - [ ] **Step 3: Discover sources.**
   - Use `websearch_cited` if available.
-  - Otherwise use DuckDuckGo Lite result pages and extract destination URLs, including decoding
-    `uddg` redirects when needed.
+  - Otherwise use Brave Search result pages first, then Bing result pages if Brave is blocked,
+    empty, or not parseable from the current environment.
+  - Extract destination URLs from the result page and avoid search-engine tracking or redirect
+    wrapper URLs when a direct destination is available.
+  - Detect challenge or block pages explicitly. If Brave or Bing returns anti-bot, challenge, or
+    access-denied content, say that discovery via that engine is blocked and fall back to the next
+    available search path instead of pretending the search succeeded.
   - Prioritize official docs, specs, maintainer pages, government sources, and high-quality
     analysis over aggregators.
   - If open-ended discovery is unavailable, start from user-provided URLs or obvious official entry

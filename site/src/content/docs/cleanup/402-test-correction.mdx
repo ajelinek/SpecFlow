@@ -1,0 +1,73 @@
+---
+title: 402 Test Correction
+description: Investigate a failing automated test and decide whether the right correction is in the test, in source, or in intended behavior.
+sidebar:
+  order: 2
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`402-test-correction` starts from a failing automated test and triages the real fix path before editing code. It is the workflow for "is this a broken test, a broken implementation, or a changed business behavior?"
+
+**Output**: Corrected test files, corrected source files, or a blocking user decision when the failure exposes an intended behavior change or unclear product expectation.
+
+## When to use it
+
+- When a CI or local test is red and it is not yet clear whether the bug is in the test or in production code
+- When recent changes may have affected selectors, contracts, validation rules, or business behavior and you need to classify the failure first
+- When you want the agent to inspect recent commits and changed files before deciding what to fix
+- When a failure may reflect a product-capability change rather than a straightforward defect
+
+## When NOT to use it
+
+- When you already know the work is only missing test coverage and production behavior is correct; use `302-test-implementation`
+- When the code already changed and you only want cleanup; use `401-cleanup`
+- When you are delivering new feature behavior; use `301-spec-implementation`
+
+<Callout tone="core" title="402 must classify before it edits">
+  `402` should not guess. It must reproduce the failing signal, inspect the relevant recent changes, and classify the failure as a test defect, a source defect, or a behavior-change question before taking the smallest correct path.
+</Callout>
+
+## What it produces
+
+- A clear classification of the failure cause
+- The smallest justified correction in tests or source
+- Validation showing the selected correction path was actually right
+- A concise rationale for why the fix belongs on that side
+
+## Required inputs
+
+- A failing test anchor: test name, file, command, stack trace, or CI failure reference
+- The recent change window most likely related to the failure, if known
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 402-test-correction for the failing checkout confirmation test and determine whether this is a product regression or a stale test.`} />
+
+<PromptBlock title="Prompt" text={`Use 402 on the red Playwright test. Review recent commits and changed files before deciding whether to correct the selector, the page behavior, or the expected flow.`} />
+
+## What usually comes next
+
+- `401-cleanup` if the correction leaves behind a changed scope that deserves a separate cleanup pass
+- `301-spec-implementation` if `402` determines the failure exposes a real product defect or missing behavior that needs a broader source fix
+
+## Practical guidance
+
+- Review recent commits and changed files around the failing area before deciding that the test is wrong.
+- A selector mismatch by itself is usually a test issue only if the user-visible capability still works as intended.
+- If the failing difference is really about changed functionality, validation rules, or user outcomes, treat it as a source defect or a behavior question, not as a harmless test repair.
+- If the implementation and the failing test point to two plausible interpretations of intended behavior, stop and ask instead of silently choosing one.
+
+## Common mistakes
+
+- Treating every red test as proof of a product bug
+- Treating every DOM or selector change as proof that only the test should change
+- Weakening assertions so the test passes without preserving the underlying business check
+- Skipping history review and missing that the product behavior intentionally changed
+
+<Callout tone="tip" title="Business behavior changes should trigger a stop-and-ask">
+  If the failure looks like a genuine behavior change rather than simple test drift, `402` should present the evidence and ask which direction is correct before rewriting either the source or the test.
+</Callout>

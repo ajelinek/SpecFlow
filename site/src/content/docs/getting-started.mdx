@@ -10,7 +10,7 @@ sidebar:
 import Callout from '../../components/Callout.astro';
 import PromptBlock from '../../components/PromptBlock.astro';
 
-SpecFlow is a lightweight, spec-driven workflow for building software with AI. It provides a structured catalog of skills (100–401 series) and optional worker agents that guide you through project setup, feature design, implementation, and cleanup without replacing your coding standards or framework rules.
+SpecFlow is a lightweight, spec-driven workflow for building software with AI. It provides a structured catalog of skills (100-402 series) and optional worker agents that guide you through project setup, feature design, implementation, correction, and cleanup without replacing your coding standards or framework rules.
 
 ## 1. Install the skills
 
@@ -37,7 +37,7 @@ Use `npx skills add ajelinek/SpecFlow --list` if you want to preview the availab
 If you want the supporting `coder`, `execution-agent`, and `designer` workers, use **[Custom Agents](./custom-agents/)** next.
 
 <Callout tone="tip" title="When the agents matter most">
-  The bundled workers are the intended support structure for full `301`, `302`, and `401` runs. You can start without them, but stronger orchestration comes from installing them.
+  The bundled workers are the intended support structure for full `301`, `302`, `401`, and `402` runs. You can start without them, but stronger orchestration comes from installing them.
 </Callout>
 
 ## 3. Run the lean default
@@ -64,7 +64,7 @@ Run `401-cleanup` again later for changed test files if you want a separate test
 </Callout>
 
 <Callout tone="tip" title="What the worker agents are for">
-  Full `301`, `302`, and `401` runs are designed around separate workers: `coder` for scoped code changes, `execution-agent` for test/lint/build validation, and `designer` for UI-affecting design direction.
+  Full `301`, `302`, `401`, and `402` runs are designed around separate workers: `coder` for scoped code changes, `execution-agent` for test/lint/build validation, and `designer` for UI-affecting design direction.
 </Callout>
 
 ## Next

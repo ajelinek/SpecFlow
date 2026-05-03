@@ -24,6 +24,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 ## When NOT to use it
 
 - When the behavior itself is still missing — route to `301-spec-implementation` first
+- When the first problem is a failing test and the real defect might be in the test, in source, or in the intended behavior — use `402-test-correction`
 - When the change requires meaningful production code modifications beyond testability hooks
 - For new feature work — that belongs in `301`
 
@@ -50,7 +51,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What usually comes next
 
-`401-cleanup` on the new test files if the test coverage pass warrants a cleanup review. Or `301` if `302` surfaces missing production behavior that needs to be built.
+`401-cleanup` on the new test files if the test coverage pass warrants a cleanup review. `402-test-correction` if a failing test needs source-vs-test triage first. Or `301` if `302` surfaces missing production behavior that needs to be built.
 
 ## Practical guidance
 

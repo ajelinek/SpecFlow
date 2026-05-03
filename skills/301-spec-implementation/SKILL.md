@@ -21,7 +21,7 @@ Implement a substantial change with this strict phase order:
 Do not mix test and production cleanup in the same pass.
 
 **Output**: Update source and test files in the project. If
-`.specflow/features/<feature-name>/overview.md` exists, change `status` from `todo` to
+`.specflow/features/<fid>-<feature-slug>/overview.md` exists, change `status` from `todo` to
 `implementing` when work starts and to `done` only after full validation passes. If 201/202/203/204
 artifacts had to be synthesized for this run, keep them in working memory unless the user explicitly
 asks to persist them.
@@ -116,9 +116,9 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 
 ### Phase 0 - Prepare Feature Context
 
-- [ ] **Step 1: Resolve feature and scope.** Determine the feature slug and working scope. If the
-  request points to an existing `.feature` file, require a single `@TS###`, single `TSM###`, or
-  the full file.
+- [ ] **Step 1: Resolve feature and scope.** Determine the feature `F-ID`, feature slug, feature
+  folder `<fid>-<feature-slug>`, and working scope. If the request points to an existing `.feature`
+  file, require a single `@TS###`, single `TSM###`, or the full file.
 
 - [ ] **Step 2: Load or synthesize feature artifacts.** Check for:
   - `overview.md`

@@ -9,14 +9,14 @@ description: >
 
 # 203 - Implementation Design
 
-Produce `.specflow/features/<feature-name>/implementation.md`: a standalone implementation plan
-that tells an engineer what files should change, why they change, and how the feature should fit
-the existing codebase.
+Produce `.specflow/features/<fid>-<feature-slug>/implementation.md`: a standalone implementation
+plan that tells an engineer what files should change, why they change, and how the feature should
+fit the existing codebase.
 
 The core rule is reuse-first: prefer extending existing modules over creating new files. A new file
 needs explicit justification.
 
-**Output path**: `.specflow/features/<feature-name>/implementation.md`
+**Output path**: `.specflow/features/<fid>-<feature-slug>/implementation.md`
 
 ---
 
@@ -72,13 +72,15 @@ conflict and ask instead of silently choosing.
 ## Steps
 
 - [ ] **Step 1: Load feature context.** Read these files if they exist:
-  - `.specflow/features/<feature-name>/overview.md`
-  - `.specflow/features/<feature-name>/specs.feature`
-  - `.specflow/features/<feature-name>/implementation.md`
+  - `.specflow/features/<fid>-<feature-slug>/overview.md`
+  - `.specflow/features/<fid>-<feature-slug>/specs.feature`
+  - `.specflow/features/<fid>-<feature-slug>/implementation.md`
 
   If `overview.md` is missing, ask for a short feature summary, primary user outcome, and known
   constraints. If `specs.feature` is missing, ask whether to run `202-spec-design` first or
   continue without it.
+  Keep `implementation.md` in the same feature folder as the other feature artifacts:
+  `<fid>-<feature-slug>`.
 
 - [ ] **Step 2: Load architecture context.** Read relevant existing docs such as D01-D08 and
   `.specflow/context/domain-knowledge.md` when they exist. Skip missing files and note them.
@@ -178,3 +180,4 @@ conflict and ask instead of silently choosing.
 3. A small rearchitecture is acceptable when it simplifies the overall result.
 4. Do not introduce new abstraction layers unless they remove meaningful duplication.
 5. This document is implementation design, not a rewrite of `overview.md`.
+6. Feature artifacts stay together in one stable folder: `.specflow/features/<fid>-<feature-slug>/`.

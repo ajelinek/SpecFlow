@@ -1,0 +1,49 @@
+---
+title: Failing Test Triage
+description: Use 402 when a red automated test needs source-vs-test triage before you decide what to correct.
+section: examples
+order: 5
+sidebar:
+  order: 5
+---
+
+import PromptBlock from '../../../components/PromptBlock.astro';
+import Callout from '../../../components/Callout.astro';
+
+## When this applies
+
+Use this workflow when the starting point is a failing automated test and it is not yet clear whether the defect is in the test, in production code, or in the intended behavior itself.
+
+Typical triggers:
+
+- a CI failure after recent product changes
+- a Playwright selector failure that may or may not reflect a real product regression
+- a broken API test after contract or validation changes
+- a failure where business behavior may have intentionally changed
+
+## Example prompt sequence
+
+<PromptBlock
+  title="Prompt sequence"
+  text={`Run 402-test-correction for the failing checkout confirmation test.
+Reproduce the failure, review recent commits and changed files around this flow, and determine whether the right fix is in the test, in source, or in intended behavior.
+If this is really a business behavior change rather than test drift, stop and ask before changing either side.`}
+/>
+
+## What this workflow should do
+
+- reproduce the failing signal first
+- inspect recent commits and changed files around the failing area
+- compare nearby tests and implementation patterns
+- classify the failure as a test defect, a source defect, or a behavior-change question
+- apply the smallest correct fix only after that classification is clear
+
+## What usually comes next
+
+- `302-test-implementation` if `402` concludes the implementation is correct and the next work is bounded test repair or additive coverage
+- `301-spec-implementation` if `402` concludes the failure exposes a real source defect or broader missing behavior
+- `401-cleanup` if the correction is done and the changed scope deserves a separate cleanup pass
+
+<Callout tone="core" title="Do not guess the side of the fix">
+  `402` exists to prevent two common mistakes: treating every red test as a product bug, and treating every selector or UI mismatch as a harmless test update. The workflow should classify first, then correct.
+</Callout>

@@ -1,15 +1,25 @@
 ---
-title: Cleanup (400 Series)
-description: Run a deliberate, scoped cleanup pass on already-changed source or test files — one target type per run.
+title: Correction and Cleanup (400 Series)
+description: Triage failing tests when the right fix path is unclear, or run a deliberate cleanup pass on already-changed source or test files.
 sidebar:
   order: 6
 ---
 
 import Callout from '../../components/Callout.astro';
 
-The `400` series is a single deliberate cleanup pass over an already-changed scope. It is strictly cleanup-only work — no new behavior, no new test coverage.
+The `400` series handles two adjacent kinds of follow-up work:
 
-## The one rule
+- failure triage and correction when a red test does not clearly point to test or source
+- cleanup-only refinement on an already-changed scope
+
+## The split
+
+`401` and `402` are different workflows:
+
+- `401-cleanup`: cleanup-only refinement on an existing changed set
+- `402-test-correction`: investigate a failing test and decide whether the right fix is in the test, in source, or in intended behavior
+
+## The 401 rule
 
 **One target type per run: source code or test code, never both.**
 
@@ -19,6 +29,11 @@ This constraint keeps cleanup small, reviewable, and safe to roll back. When you
   `301-spec-implementation` already includes internal test and production cleanup phases before its final validation. Use `401` when you want an additional explicit cleanup pass, or when the internal cleanup was not sufficient for a particularly complex change.
 </Callout>
 
+<Callout tone="tip" title="402 is the red-test triage path">
+  Use `402-test-correction` when the problem starts with a failing automated test and you still need to determine whether the defect is in the test, in production code, or in the intended behavior. `402` should stop and ask when the failure is really a business-capability question instead of a clear defect.
+</Callout>
+
 ## Skills in this series
 
-- **[401 Cleanup](./cleanup/401-cleanup/)** — the only skill in the series
+- **[401 Cleanup](./cleanup/401-cleanup/)** — cleanup-only refinement on an already-changed scope
+- **[402 Test Correction](./cleanup/402-test-correction/)** — classify and correct a failing test without guessing the fix path

@@ -203,8 +203,10 @@ If SpecFlow has a center of gravity, this is it.
 - `301-spec-implementation`: implement a substantial planned change
 - `302-test-implementation`: add or repair tests for behavior that already exists
 - `401-cleanup`: clean up changed source code or changed test code
+- `402-test-correction`: classify and correct a failing test by deciding whether the defect is in the test, in source, or in intended behavior
 
 `401-cleanup` handles exactly one cleanup target type per run. If you want both source and test cleanup, run it twice.
+`402-test-correction` is for failing-test triage and correction when the right fix path is not yet clear.
 
 ## Common Ways To Use SpecFlow
 
@@ -268,6 +270,7 @@ Validate the account recovery feature with 204-feature-validation.
 Run 301-spec-implementation for the account recovery feature.
 Run 302-test-implementation for the billing retry scenarios.
 Run 401-cleanup on the staged source changes.
+Run 402-test-correction for the failing checkout confirmation test.
 Refresh AGENTS.md for this repo using agent-context.
 Do deep research on the latest remote browser automation options for coding agents.
 ```
@@ -301,6 +304,7 @@ Everything else in SpecFlow is user-invoked.
 - Keep `201` and `202` short enough for fast human review
 - Use `301` for substantial implementation work, not tiny isolated edits
 - Use `401` after the code works, not instead of implementation discipline
+- Use `402` when a failing test needs source-vs-test triage before you decide what to change
 
 ## In One Sentence
 
