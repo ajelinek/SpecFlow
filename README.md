@@ -21,6 +21,8 @@ If you only use one part of SpecFlow, use this path:
 
 Docs site development and deployment notes live in `site/README.md`.
 
+For full documentation, see [ajelinek.github.io/SpecFlow](https://ajelinek.github.io/SpecFlow).
+
 ## Who This Is For
 
 SpecFlow is for teams or individuals who want a little more structure than pure prompt-and-pray coding, but do not want a heavyweight process.
