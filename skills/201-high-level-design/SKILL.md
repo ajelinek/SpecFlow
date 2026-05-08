@@ -39,9 +39,16 @@ If the request is too vague, ask one clarifying question.
 - [ ] **Step 1: Resolve feature identity.** Read `.specflow/docs/D10-feature-overview.md` if it
   exists.
   - If the feature is in D10, use its `F-ID` and behavior bullets as the scope anchor.
-  - Derive the feature folder name as `<fid>-<feature-slug>`.
+  - Resolve two separate values before writing anything:
+    - `fid`: the assigned `F-ID` such as `F013`
+    - `feature-slug`: a lowercase kebab-case slug derived from the feature name, such as
+      `expense-approval`
+  - Build one canonical folder value: `<fid>-<feature-slug>`.
+  - Use that exact folder string for every feature artifact path in this workflow.
   - If it is not in D10, ask whether to add it there first or explicitly assign an `F-ID` before
     continuing. Do not create the feature folder without an `F-ID`.
+  - Never write to `.specflow/features/<feature-slug>/...` or any folder that omits the `F-ID`,
+    even temporarily.
 
 - [ ] **Step 2: Load context.** Read relevant existing docs when they exist:
   - D01
@@ -80,9 +87,12 @@ If the request is too vague, ask one clarifying question.
 
 - [ ] **Step 7: Write the file and summarize.** Use `./templates/overview.md`. Set front matter:
   - `feature`: feature slug
-  - `fid`: assigned `F-ID` if available
+  - `fid`: assigned `F-ID`
   - `status`: `todo`
+  - Compute the output directory first as `.specflow/features/<fid>-<feature-slug>/`.
   - Write the file to `.specflow/features/<fid>-<feature-slug>/overview.md`.
+  - In the final response, report both the resolved `fid`, the resolved `feature-slug`, and the
+    exact output path written.
 
   The `status` field is the feature lifecycle source of truth: `todo`, `implementing`, `done`.
   Update status in place as work progresses; do not move the feature file between directories when
@@ -97,9 +107,22 @@ If the request is too vague, ask one clarifying question.
 
 1. In Scope says what is built; Acceptance Criteria says how we know it works correctly.
 2. The feature folder name must start with the assigned `F-ID`: `<fid>-<feature-slug>`.
-3. The front matter `status` field is the feature lifecycle source of truth: `todo`,
+3. Treat `fid` and `feature-slug` as separate required values. Do not infer that the slug alone is
+   an acceptable folder name.
+4. The front matter `status` field is the feature lifecycle source of truth: `todo`,
    `implementing`, `done`, and the file path stays stable across status changes.
-4. The user journey should show where this feature changes behavior and stay brief elsewhere.
+5. The user journey should show where this feature changes behavior and stay brief elsewhere.
+
+## Slug Rules
+
+- Convert the feature name to lowercase kebab-case for `feature-slug`.
+- Remove filler punctuation rather than encoding it in the folder name.
+- Keep the human-readable title in the document heading, but keep the folder and front matter
+  `feature` field slug-based.
+- Example:
+  - feature name: `Expense Approval`
+  - `fid`: `F013`
+  - folder: `.specflow/features/F013-expense-approval/`
 
 ## Additional Guidance
 

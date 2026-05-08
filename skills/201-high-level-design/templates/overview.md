@@ -3,6 +3,10 @@ INSTRUCTION BLOCK (remove before committing)
 ============================================
 This template is filled in by the 201-high-level-design skill.
 
+Output path rule:
+  `.specflow/features/<fid>-<feature-slug>/overview.md`
+  Never write this file to a slug-only folder.
+
 Status lifecycle — set the `status` field in the front matter block below:
   todo         → overview written; implementation not yet started
   implementing → feature is actively being built
@@ -24,7 +28,7 @@ Remove this instruction block before writing the file to the project.
 -->
 
 ---
-feature: [feature-name]
+feature: [feature-slug]
 fid: F000
 status: todo
 ---
@@ -77,4 +81,3 @@ status: todo
 - **User sees the result**
   - [What the UI shows in response — success state, updated data, navigation]
   - [Any secondary effect the user experiences — notification, redirect, etc.]
-
