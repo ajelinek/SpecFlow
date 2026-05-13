@@ -4,6 +4,8 @@
 
 > **Under active development.** Content and features may change without notice.
 
+Official documentation lives at [ajelinek.github.io/SpecFlow](https://ajelinek.github.io/SpecFlow).
+
 SpecFlow is a lightweight, spec-driven workflow for building software with AI.
 
 It helps you define a feature, describe its expected behavior, implement it, and clean it up without turning the process into a pile of bloated planning docs.
@@ -20,8 +22,6 @@ If you only use one part of SpecFlow, use this path:
 `201-high-level-design` -> `202-spec-design` -> `301-spec-implementation` -> `401-cleanup`
 
 Docs site development and deployment notes live in `site/README.md`.
-
-For full documentation, see [ajelinek.github.io/SpecFlow](https://ajelinek.github.io/SpecFlow).
 
 ## Who This Is For
 
