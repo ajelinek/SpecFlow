@@ -357,9 +357,9 @@ export const skills: Skill[] = [
     category: 'Implementation and Cleanup',
   },
   {
-    slug: 'agent-context',
-    label: 'agent-context',
-    purpose: 'Refresh root AGENTS.md guidance, with nested overlays only where subtrees materially differ.',
+    slug: 'context-manager',
+    label: 'context-manager',
+    purpose: 'Refresh root CLAUDE.md guidance, with nested overlays or path-scoped rules only where subtrees materially differ.',
     whenToUse: 'Use it when repo guidance is missing, stale, or needs local subtree overrides.',
     tier: 'bonus',
     category: 'Bonus Skills',
@@ -435,12 +435,11 @@ export const starlightSidebar = [
     ],
   },
   {
-    label: 'Support Skills & Reference',
+    label: 'Support Skills',
     items: [
       { slug: 'support-skills', label: 'Overview' },
-      'support-skills/agent-context',
+      'support-skills/context-manager',
       'support-skills/deep-research',
-      { label: 'Artifact Gallery', link: '/artifact-gallery/' },
     ],
   },
   {
