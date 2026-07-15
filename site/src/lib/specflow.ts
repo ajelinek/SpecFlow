@@ -435,12 +435,11 @@ export const starlightSidebar = [
     ],
   },
   {
-    label: 'Support Skills & Reference',
+    label: 'Support Skills',
     items: [
       { slug: 'support-skills', label: 'Overview' },
       'support-skills/context-manager',
       'support-skills/deep-research',
-      { label: 'Artifact Gallery', link: '/artifact-gallery/' },
     ],
   },
   {
