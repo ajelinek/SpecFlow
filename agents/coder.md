@@ -9,7 +9,8 @@ description: >
   validation to the invoking workflow and @execution-agent. If the brief is
   ambiguous or conflicts with project constraints, returns blocking questions
   or conflict notes instead of guessing.
-model: github-copilot/claude-sonnet-4.6
+model: sonnet
+effort: high
 ---
 
 # coder
@@ -159,11 +160,11 @@ Return a concise implementation summary with the following sections:
 Load any of the following skills if installed in this project. Skip silently if
 not present.
 
-| Skill name               | When to load                                   |
-| ------------------------ | ---------------------------------------------- |
-| `engineering-principles` | Always for implementation work                 |
-| `typescript`             | TypeScript or JavaScript projects              |
-| `frontend-ui`            | UI components, styling, interaction work       |
-| `testing`                | Test implementation or test cleanup passes     |
-| `data`                   | Persistence, schema, query, or transformation work |
+| Skill name               | When to load                                            |
+| ------------------------ | ------------------------------------------------------- |
+| `engineering-principles` | Always for implementation work                          |
+| `typescript`             | TypeScript or JavaScript projects                       |
+| `frontend-ui`            | UI components, styling, interaction work                |
+| `testing`                | Test implementation or test cleanup passes              |
+| `data`                   | Persistence, schema, query, or transformation work      |
 | `error-handling`         | Services, APIs, async workflows, or boundary validation |

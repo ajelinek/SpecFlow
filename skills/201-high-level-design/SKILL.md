@@ -5,6 +5,9 @@ description: >
   overview and end-to-end user journey without going into test or implementation detail. Trigger
   it for prompts like "201", "high-level design", "feature design", or "HLD" when a feature needs
   a short overview before specs or implementation.
+argument-hint: "[feature-name]"
+disable-model-invocation: true
+context: fork
 ---
 
 # 201 - High-Level Design

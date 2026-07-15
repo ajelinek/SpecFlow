@@ -4,6 +4,7 @@ description: >
   Use `104` to define the backend architecture, including API structure, service layering, data
   access, and security patterns. Trigger it for prompts like "104", "backend architecture", "API
   design", or "service layer" when backend patterns need to be specified before coding.
+disable-model-invocation: true
 ---
 
 # 104 - Backend Architecture

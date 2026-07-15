@@ -22,39 +22,15 @@ SpecFlow ships three supporting worker agents in `agents/`:
   These commands download the installer script directly from GitHub and run it in one step.
 </Callout>
 
-<Callout tone="caution" title="Model Configuration (Important)">
-  The worker agents are currently pre-configured for OpenCode with **GitHub Copilot** models. If you are not using this environment, you will need to edit the installed agent files to remove the `model` field, or change it to match your setup. 
-  
-  **Recommended Models:**
-  - `coder`: `claude-sonnet-4.6` (requires high reasoning and coding capability)
-  - `execution-agent`: `claude-haiku-4.5` (fast and cheap, just runs scripts)
-  - `designer`: `gemini-3.1-pro-preview` (UI and visual reasoning)
+<Callout tone="tip" title="Model Configuration">
+  The worker agents ship pre-configured with Claude Code model aliases. Edit the installed agent
+  files if you want different models.
+
+  **Defaults:**
+  - `coder`: `sonnet` (requires high reasoning and coding capability)
+  - `execution-agent`: `haiku` (fast and cheap, just runs scripts)
+  - `designer`: `opus` (UI and visual reasoning)
 </Callout>
-
-## OpenCode
-
-Global install:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/ajelinek/SpecFlow/main/install/install-agents.sh | sh -s -- --path="$HOME/.config/opencode/agents"
-```
-
-Project-local install:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/ajelinek/SpecFlow/main/install/install-agents.sh | sh -s -- --path=/path/to/project/.opencode/agents
-```
-
-Direct copy to a chosen directory:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/ajelinek/SpecFlow/main/install/install-agents.sh | sh -s -- --path=/path/to/agents-dir
-```
-
-Common target directories:
-
-- Project-local: `.opencode/agents/`
-- User-wide: `~/.config/opencode/agents/`
 
 ## Claude Code
 
@@ -91,12 +67,10 @@ If you prefer not to run the installer, download these files and place them in y
 
 Example target directories:
 
-- OpenCode global: `~/.config/opencode/agents/`
-- OpenCode project-local: `.opencode/agents/`
 - Claude Code global: `~/.claude/agents/`
 - Claude Code project-local: `.claude/agents/`
 
-If your Claude setup does not support the model named in one of these files, replace or remove
+If your setup does not support the model named in one of these files, replace or remove
 the `model` field after copying.
 
 ## Important Split

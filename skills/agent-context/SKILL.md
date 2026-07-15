@@ -4,6 +4,8 @@ description: >
   Create or refresh `AGENTS.md` guidance so coding agents can navigate a repository safely.
   Trigger it when repo guidance is missing, stale, or needs local subtree overrides, especially
   for first-time setup or monorepos with different conventions by directory.
+argument-hint: "[generate|refresh]"
+context: fork
 ---
 
 # Agent Context

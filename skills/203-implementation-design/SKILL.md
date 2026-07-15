@@ -5,6 +5,9 @@ description: >
   file changes and explains how the implementation should fit the existing code. Trigger it for
   prompts like "203", "implementation design", "technical design", or "how do I build this" when
   overview and spec artifacts already exist.
+argument-hint: "[feature-name] [detail-level]"
+disable-model-invocation: true
+context: fork
 ---
 
 # 203 - Implementation Design

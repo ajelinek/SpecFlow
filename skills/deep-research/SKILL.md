@@ -5,7 +5,8 @@ description: >
   sources before answering. Use it when the user asks for research, a deep dive, current-state
   analysis, or an evidence-backed recommendation, including vendor comparisons, market scans,
   due diligence, or "what changed recently" questions.
-compatibility: Requires internet access plus a discovery mechanism. In OpenCode, assume `websearch_cited` is unavailable unless the environment clearly provides it. Use Brave Search result pages such as `https://search.brave.com/search?q=<query>` for primary discovery, fall back to Bing result pages such as `https://www.bing.com/search?q=<query>` when needed, then use `webfetch` or equivalent page retrieval for source extraction. For latest, current-state, recent, or what-changed questions, do not rely on model memory alone; verify with live web sources.
+argument-hint: "[research question]"
+context: fork
 ---
 
 # Deep Research
@@ -32,13 +33,20 @@ Do not use it for:
 
 1. For latest/current/recent questions, use live sources first. Do not answer from memory and add
    citations later.
-2. Prefer `websearch_cited` for discovery when available.
-3. In OpenCode, assume Brave Search plus `webfetch` is the normal fallback path, with Bing as secondary fallback.
-4. Prefer primary sources first; use strong secondary sources for context.
-5. Verify important claims across multiple sources when possible.
-6. Separate facts, interpretation, and recommendation.
-7. If discovery is too constrained for real deep research, say so explicitly.
-8. Do not present a recommendation until you have tested at least one plausible alternative.
+2. Check once, at the start of the task, whether a native/built-in web search tool is available in
+   the current tool list (commonly named something like `WebSearch`, `web_search`, or
+   `websearch_cited` depending on the harness). If so, it is the default and only discovery
+   mechanism for the whole task — do not also scrape Brave/Bing.
+3. Only fall back to Brave Search result pages plus `webfetch` (Bing as secondary fallback) when
+   no native web search tool exists in the current environment.
+4. Minimize tool invocations: merge overlapping search lanes into fewer, well-targeted queries, and
+   rely on returned snippets for citation-worthy facts. Only fetch a full page when a snippet can't
+   verify the claim, a quote/figure must be exact, or a primary source needs deeper reading.
+5. Prefer primary sources first; use strong secondary sources for context.
+6. Verify important claims across multiple sources when possible.
+7. Separate facts, interpretation, and recommendation.
+8. If discovery is too constrained for real deep research, say so explicitly.
+9. Do not present a recommendation until you have tested at least one plausible alternative.
 
 ---
 
@@ -59,20 +67,33 @@ Do not use it for:
   If the user provided URLs, treat them as seed sources, not the whole universe.
 
 - [ ] **Step 3: Discover sources.**
-  - Use `websearch_cited` if available.
-  - Otherwise use Brave Search result pages first, then Bing result pages if Brave is blocked,
-    empty, or not parseable from the current environment.
-  - Extract destination URLs from the result page and avoid search-engine tracking or redirect
-    wrapper URLs when a direct destination is available.
-  - Detect challenge or block pages explicitly. If Brave or Bing returns anti-bot, challenge, or
-    access-denied content, say that discovery via that engine is blocked and fall back to the next
-    available search path instead of pretending the search succeeded.
+  - **Check tool availability once, before the first query** — do not re-check per lane. Look for
+    a native/built-in web search tool in the current tool list (commonly named something like
+    `WebSearch`, `web_search`, or `websearch_cited` depending on the harness).
+  - **If a native web search tool is available (preferred path):**
+    - Use it for every lane. Merge lanes with overlapping intent into a single well-crafted query
+      instead of issuing one query per lane, to keep the call count low.
+    - Use the tool's returned snippets and citations directly to populate the source ledger. Do
+      not follow up with a page fetch unless a snippet is insufficient to support a claim, a
+      quote/figure needs to be exact, or a primary source needs to be read in full.
+    - This path replaces the Brave/Bing steps below entirely — do not use both.
+  - **If no native web search tool is available (fallback path):**
+    - Use Brave Search result pages first, then Bing result pages if Brave is blocked, empty, or
+      not parseable from the current environment.
+    - Extract destination URLs from the result page and avoid search-engine tracking or redirect
+      wrapper URLs when a direct destination is available.
+    - Detect challenge or block pages explicitly. If Brave or Bing returns anti-bot, challenge, or
+      access-denied content, say that discovery via that engine is blocked and fall back to the
+      next available search path instead of pretending the search succeeded.
+    - To keep invocations down here too: merge lanes into fewer queries, and only fetch full
+      source pages you actually plan to cite or that need deeper verification — do not fetch
+      every result indiscriminately.
   - Prioritize official docs, specs, maintainer pages, government sources, and high-quality
     analysis over aggregators.
   - If open-ended discovery is unavailable, start from user-provided URLs or obvious official entry
     points and say that the research is narrower.
 
-  Behavioral guardrails:
+  Behavioral guardrails (fallback path especially):
   - avoid rapid-fire page loading meant to simulate bulk scraping
   - prefer reading pages clearly meant for public web access
   - respect obvious access boundaries, login walls, rate limits, robots cues, and site terms
@@ -87,7 +108,9 @@ Do not use it for:
   - reliability notes
 
   Maintain a simple source ledger as you work: source title or page, URL, source type, date or
-  version, key claims, and reliability notes.
+  version, key claims, and reliability notes. When a native web search tool provided enough
+  snippet content to fill in this ledger, that's sufficient — a full-page fetch is not required
+  just to re-derive what the snippet already gave you.
 
 - [ ] **Step 5: Triangulate.** Look for disagreement, version drift, caveats, biases, missing
   evidence, failure modes, and strong alternatives. Revisit search lanes if the evidence base is

@@ -5,6 +5,9 @@ description: >
   handles preparation, tests-first implementation, separate cleanup passes, and final validation.
   Trigger it for prompts like "301", "spec implementation", or "implement this feature" when the
   work is large enough to benefit from a disciplined multi-phase delivery flow.
+argument-hint: "[change-request-or-spec-reference]"
+disable-model-invocation: true
+context: fork
 ---
 
 # 301 - Spec-Driven System Implementation

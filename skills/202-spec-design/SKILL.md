@@ -5,6 +5,9 @@ description: >
   `specs.feature` file with coverage sized to the task. Trigger it for prompts like "202", "test
   spec", "gherkin", "BDD scenarios", or "write specs" when the next step is defining behavior to
   test.
+argument-hint: "[feature-name] [coverage-level]"
+disable-model-invocation: true
+context: fork
 ---
 
 # 202 - Test Scenario Design

@@ -10,7 +10,7 @@ When the local agents directory is not present, the script downloads the agent
 files from the SpecFlow GitHub repository instead.
 
 Example:
-  ./install/install-agents.sh --path="$HOME/.config/opencode/agents"
+  ./install/install-agents.sh --path="$HOME/.claude/agents"
 EOF
 }
 

@@ -5,6 +5,7 @@ description: >
   error handling, and the page inventory. Trigger it for prompts like "107", "user experience",
   "navigation design", "interaction patterns", or "information architecture" before per-page
   design work begins.
+disable-model-invocation: true
 ---
 
 # 107 - UI Experience Overview

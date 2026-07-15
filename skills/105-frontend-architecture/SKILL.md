@@ -4,6 +4,7 @@ description: >
   Use `105` to define the frontend architecture: UI structure, component boundaries, state, and
   development patterns. Trigger it for prompts like "105", "frontend architecture", "component
   structure", or "state management" when frontend patterns need to be specified before UI design.
+disable-model-invocation: true
 ---
 
 # 105 - Frontend Architecture

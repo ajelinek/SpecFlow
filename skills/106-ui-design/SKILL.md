@@ -5,6 +5,7 @@ description: >
   design philosophy, color system, typography, layout principles, and component visual language.
   Trigger it for prompts like "106", "ui design", "design system", "visual design", or "color
   palette" when the project needs a strategic visual foundation.
+disable-model-invocation: true
 ---
 
 # 106 - UI Design

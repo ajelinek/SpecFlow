@@ -4,6 +4,7 @@ description: >
   Use `102` to define the system architecture, stack, major components, and testing approach.
   Trigger it for prompts like "102", "system architecture", "architecture doc", or "define the
   tech stack" when the project is ready for foundational technical decisions.
+disable-model-invocation: true
 ---
 
 # 102 - System Architecture

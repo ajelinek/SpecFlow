@@ -4,6 +4,9 @@ description: >
   Use `302` to add or repair automated tests for behavior that already exists. Choose it when the
   missing work is test coverage, not broad production-code changes. Trigger it for prompts like
   "302", "test-only implementation", "write the tests", or "add E2E coverage".
+argument-hint: "[test-scope]"
+disable-model-invocation: true
+context: fork
 ---
 
 # 302 - Test-Only Implementation

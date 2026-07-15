@@ -4,6 +4,7 @@ description: >
   Use `110` to define and prioritize the product's feature set as concise, reviewable slices.
   Trigger it for prompts like "110", "feature overview", "feature list", "feature backlog", or
   "what features should we build" after the main project framing is in place.
+disable-model-invocation: true
 ---
 
 # 110 - Feature Overview

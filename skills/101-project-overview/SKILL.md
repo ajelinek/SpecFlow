@@ -5,6 +5,7 @@ description: >
   success criteria. Trigger it for prompts like "101", "project overview", "create project
   overview", or when a new product idea needs a structured foundation before architecture or
   feature work.
+disable-model-invocation: true
 ---
 
 # 101 - Project Overview

@@ -4,6 +4,9 @@ description: >
   Use `108` to design a specific page or view in detail, including layout, mockup, interactions,
   and responsive behavior. Trigger it for prompts like "108", "page design", "wireframe", or
   "design the [page] page" when a single route or view needs a detailed design spec.
+argument-hint: "[page-name]"
+disable-model-invocation: true
+context: fork
 ---
 
 # 108 - UI Page Design

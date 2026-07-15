@@ -4,6 +4,7 @@ description: >
   Use `103` to define the conceptual data model: entities, relationships, and business rules.
   Trigger it for prompts like "103", "data model", "conceptual data model", "entity
   relationships", or when the team needs a shared domain model before implementation choices.
+disable-model-invocation: true
 ---
 
 # 103 - Common Data Model

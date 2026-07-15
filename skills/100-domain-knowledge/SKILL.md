@@ -5,6 +5,9 @@ description: >
   Trigger it for prompts like "100", "domain knowledge", "domain research", "industry context",
   or when the project needs research-backed understanding of users, workflows, terminology,
   regulations, or differentiators.
+argument-hint: "[product/domain description]"
+disable-model-invocation: true
+context: fork
 ---
 
 # 100 - Domain Knowledge

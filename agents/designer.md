@@ -8,19 +8,9 @@ description: >
   with them, flags the conflict as a proposed doc change rather than silently overriding.
   Asks clarifying questions when brand intent, audience, or constraints are ambiguous; the
   invoking skill answers from its loaded context or escalates to the user.
-model: github-copilot/gemini-3.1-pro-preview
-permission:
-  question: deny
-  read: allow
-  grep: deny
-  glob: deny
-  edit: deny
-  bash: deny
-  webfetch: allow
-  task: deny
-  todowrite: deny
-  skill: allow
-color: "#A855F7"
+model: sonnet
+effort: xhigh
+tools: Read, WebFetch, Skill
 ---
 
 # designer
@@ -120,6 +110,7 @@ Ask when any of the following are unclear:
   for web fonts, or a brand asset (logo, existing color) that constrains the direction space?
 
 Format clarifying questions as a numbered list. Each question must be:
+
 - Specific and answerable from project documentation or direct user knowledge
 - Tied to a concrete design decision it unlocks
 - Not a question that could be answered with "whatever looks good"
@@ -136,6 +127,7 @@ Use WebFetch to research design directions when the brief gives creative latitud
 precedent exists.
 
 Useful sources:
+
 - Siteinspire by tone: `https://www.siteinspire.com/websites?style=minimal` (swap style value)
 - Mobbin by screen type: `https://mobbin.com/browse/web/apps`
 - Specific referenced sites or competitors named in the brief
@@ -211,7 +203,7 @@ state that at the end — what was considered and why it was set aside.
 
 Load any of the following skills if installed in this project. Skip silently if not present.
 
-| Skill name      | When to load                                      |
-| --------------- | ------------------------------------------------- |
-| `frontend-ui`   | Always — governs component and styling patterns   |
-| `accessibility` | Always — governs contrast and WCAG requirements   |
+| Skill name      | When to load                                    |
+| --------------- | ----------------------------------------------- |
+| `frontend-ui`   | Always — governs component and styling patterns |
+| `accessibility` | Always — governs contrast and WCAG requirements |

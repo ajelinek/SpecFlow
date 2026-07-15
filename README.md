@@ -96,18 +96,6 @@ Copy the bundled agents into any directory you choose:
 ./install/install-agents.sh --path=/path/to/agents-dir
 ```
 
-OpenCode global:
-
-```bash
-./install/install-agents.sh --path="$HOME/.config/opencode/agents"
-```
-
-OpenCode project-local:
-
-```bash
-./install/install-agents.sh --path=/path/to/project/.opencode/agents
-```
-
 Claude Code global:
 
 ```bash
@@ -120,12 +108,10 @@ Claude Code project-local:
 ./install/install-agents.sh --path=/path/to/project/.claude/agents
 ```
 
-You can also copy them manually if you prefer:
+You can also copy them manually if you prefer: copy the files into `~/.claude/agents/` or
+`.claude/agents/`.
 
-- OpenCode: copy the files into `~/.config/opencode/agents/` or `.opencode/agents/`
-- Claude Code: copy the files into `~/.claude/agents/` or `.claude/agents/`
-
-If your runtime does not support the bundled `model` value in one of these files, edit the copied
+If your setup does not support the bundled `model` value in one of these files, edit the copied
 agent file and replace or remove that field.
 
 Site-specific install notes live on the docs site.

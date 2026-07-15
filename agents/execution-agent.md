@@ -8,7 +8,8 @@ description: >
   scripts and tooling where possible, falls back to direct package-tool
   commands only when necessary, and surfaces likely root-cause clusters when
   multiple failures appear together.
-model: github-copilot/claude-haiku-4.5
+model: haiku
+effort: high
 ---
 
 # execution-agent

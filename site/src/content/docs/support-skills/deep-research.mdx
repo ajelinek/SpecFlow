@@ -24,7 +24,7 @@ This skill is normally called internally by `100-domain-knowledge` for non-trivi
 
 ## When NOT to use it
 
-- For summarizing a single URL the user has already provided — that is a `webfetch` task
+- For summarizing a single URL the user has already provided — that is a `WebFetch` task
 - For simple fact lookups that do not require source discovery and synthesis
 - When the question is really a code change, document edit, or data processing task with minimal web research involved
 - When model memory is sufficient and freshness is not a concern
@@ -44,15 +44,11 @@ This skill is normally called internally by `100-domain-knowledge` for non-trivi
 
 ## Required capabilities
 
-`deep-research` requires live web access. In OpenCode, the default discovery path is Brave Search result pages (`https://search.brave.com/search?q=<query>`) for primary search, with Bing result pages (`https://www.bing.com/search?q=<query>`) as secondary fallback, combined with `webfetch` for page extraction. Either engine may still return anti-bot or access-control pages to automated requests, so the skill should detect that outcome and report discovery as blocked for that engine rather than pretending results were retrieved. If neither search nor page retrieval is available, the skill states this rather than presenting model memory as live research.
+`deep-research` requires live web access. In Claude Code, that means the built-in `WebSearch` tool: the skill checks once, at the start of the task, whether `WebSearch` is available and uses it as the sole discovery mechanism for every research lane, merging overlapping lanes into fewer, well-targeted queries. `WebFetch` is used afterward, and only when a returned snippet can't support a claim, a quote or figure needs to be exact, or a primary source needs to be read in full — not as a way to re-fetch everything `WebSearch` already returned.
 
-In practice, the current stack works like this:
+If `WebSearch` is not available in the current environment, the skill falls back to Brave Search result pages (`https://search.brave.com/search?q=<query>`) for primary discovery, then Bing result pages (`https://www.bing.com/search?q=<query>`) as secondary fallback, combined with `WebFetch` for page extraction. Either engine may still return anti-bot or access-control pages to automated requests, so the skill detects that outcome and reports discovery as blocked for that engine rather than pretending results were retrieved. If neither search nor page retrieval is available, the skill states this rather than presenting model memory as live research.
 
-- **Brave first** for initial source discovery
-- **Bing second** when Brave is blocked, empty, or not usable from the current environment
-- **`webfetch` last** to read the actual source pages once promising URLs have been identified
-
-This means `deep-research` is currently using live search result pages for discovery, not a dedicated search API. The goal is to find relevant source URLs first, then fetch and synthesize the underlying pages.
+This means `deep-research` prefers a native search tool for discovery over scraping search result pages directly. The goal is to find relevant source URLs first, then fetch and synthesize the underlying pages only when the search results themselves are not enough.
 
 ## Common prompts
 
