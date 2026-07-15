@@ -1,0 +1,91 @@
+---
+title: Context Manager
+description: Create or refresh CLAUDE.md guidance files so Claude Code can navigate the repository safely and follow verified commands.
+sidebar:
+  order: 1
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`context-manager` creates or refreshes the project's `CLAUDE.md` guidance from actual repository evidence. `CLAUDE.md` is Claude Code's native project-memory file — it is read automatically at the start of every session. The goal is to give Claude a concise, trustworthy map of the codebase: where to look first, which commands are real, which architectural boundaries matter, and where local overrides apply.
+
+This skill works from repository evidence, not assumptions — it uses `@explore` to discover the actual structure, verified commands, and architectural patterns before writing anything.
+
+**Output paths**:
+- `CLAUDE.md` at the project root
+- Optional nested `CLAUDE.md` files in subtrees with materially different conventions, or path-scoped `.claude/rules/*.md` files where the same rule spans scattered paths
+- If the repo already has an `AGENTS.md` other agents rely on, `CLAUDE.md` imports it with `@AGENTS.md` instead of duplicating it
+
+<Callout tone="tip" title="Claude Code reads CLAUDE.md, not AGENTS.md">
+  Claude Code loads `CLAUDE.md` automatically every session. It does not read a bare `AGENTS.md` on its own — that's the open, tool-agnostic file other agents (Codex, Cursor, Windsurf) read. If a repo already has a current `AGENTS.md`, the right move is a `CLAUDE.md` that imports it (`@AGENTS.md`) plus any Claude-specific additions, not a second copy of the same guidance.
+</Callout>
+
+## When to use it
+
+- When setting up a repository for the first time with Claude Code
+- When `CLAUDE.md` guidance is stale or no longer reflects the actual codebase
+- When a repo has an `AGENTS.md` but no `CLAUDE.md`, so Claude Code isn't picking up guidance other agents already use
+- When a monorepo has packages or apps with significantly different tooling or conventions that need local overrides
+- When Claude is consistently making wrong decisions that accurate guidance would prevent
+
+## When NOT to use it
+
+- When `CLAUDE.md` guidance is current and working well
+- For projects where agent guidance has not been needed
+- When only the root guidance needs an update — a scoped refresh is faster than a full run
+
+<Callout tone="bonus" title="High value on first project setup">
+  Getting `CLAUDE.md` right early prevents a class of errors that accumulates over time — wrong commands, wrong file locations, wrong architectural assumptions. The investment in a good initial run pays off across every subsequent session, since the file is loaded in full every time.
+</Callout>
+
+## What it produces
+
+- `CLAUDE.md` at the project root with:
+  - Project overview and directory structure
+  - Canonical commands for setup, testing, linting, building, and local development
+  - Key architectural boundaries and invariants
+  - References to deeper architecture or domain docs, pulled in with `@path` imports instead of pasted
+  - Collaboration preferences that improve agent usefulness
+- Optional nested `CLAUDE.md` files in subtrees with materially different conventions (local package commands, different test stacks, distinct runtime requirements), loaded automatically when Claude reads files in that subtree
+- Optional `.claude/rules/*.md` files with `paths:` frontmatter when a convention applies to scattered file patterns rather than one directory
+
+## Required inputs
+
+1. Operation mode — generating for the first time, or refreshing existing files?
+2. Scope policy — root only, nested `CLAUDE.md` overlays, or `.claude/rules/` where justified?
+3. Excluded paths — any directories that must not be analyzed?
+4. Project-specific constraints — sensitive areas, forbidden commands, or deployment-critical paths
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run context-manager to create CLAUDE.md for this repository.`} />
+
+<PromptBlock title="Prompt" text={`Run context-manager to refresh the existing CLAUDE.md — use @explore to find what has changed.`} />
+
+## What usually comes next
+
+Returning to whatever workflow was in progress — domain research, architecture work, or the feature design loop. `context-manager` is a setup or maintenance task, not a stage in the feature lifecycle.
+
+## Practical guidance
+
+- Default to root-only unless there is clear evidence that a subtree has materially different tooling, commands, or conventions.
+- Nested `CLAUDE.md` files should be override layers, not copies of the root. Only include content that is genuinely different from the root guidance.
+- Use `.claude/rules/*.md` with `paths:` frontmatter instead of a nested file when the same convention applies across scattered paths (for example, everything under `**/migrations/**`) rather than one owned subtree.
+- Keep every `CLAUDE.md` well under ~200 lines — it loads in full every session, and longer files measurably reduce how reliably Claude follows it.
+- The root file should be concise — it is not a full architecture document. Point Claude to where detailed docs live with `@imports`; do not duplicate them.
+- Collaboration preferences (how to ask clarifying questions, response format expectations) belong in the root file only, not in nested overlays.
+
+## Common mistakes
+
+- Writing `CLAUDE.md` without reading the actual codebase first
+- Duplicating an existing `AGENTS.md` into `CLAUDE.md` instead of importing it with `@AGENTS.md`
+- Creating nested overlays that repeat root content instead of only overriding what differs
+- Including inaccurate commands that fail when Claude tries to use them — verify every command before including it
+- Making the root file so long that Claude cannot extract the key guidance quickly
+
+<Callout tone="tip" title="Verify commands before including them">
+  Every command listed in `CLAUDE.md` should be verified as working. An agent that runs a wrong command from trusted guidance is harder to diagnose than one that simply does not know which command to run.
+</Callout>

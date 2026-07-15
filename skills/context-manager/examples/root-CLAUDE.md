@@ -1,6 +1,7 @@
-# Project Agent Guide
+# Project Guide
 
-> Scope: Repository root. These instructions apply across the project unless a deeper `AGENTS.md` overrides local implementation details.
+> Scope: Repository root. These instructions apply across the project unless a deeper `CLAUDE.md`
+> overrides local implementation details. See @README.md for project overview.
 
 ## Collaboration Rules
 
@@ -38,10 +39,13 @@
 ## Source Of Truth
 
 - Read architecture and domain docs before making structural changes.
-- Follow package- or app-local `AGENTS.md` files for subtree-specific commands or constraints.
+- Follow package- or app-local `CLAUDE.md` files for subtree-specific commands or constraints.
 - If project docs and code disagree, trust the current code and call out the mismatch.
 
 ## Delivery
 
 - Summarize what changed, affected files, and any remaining risks.
 - Keep follow-up recommendations short and only include them when they are useful.
+
+<!-- If this repo already has an AGENTS.md that other coding agents read, replace the body above
+     with `@AGENTS.md` plus a short Claude-specific section instead of duplicating content. -->
