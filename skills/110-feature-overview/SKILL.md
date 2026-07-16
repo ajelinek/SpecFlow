@@ -4,7 +4,6 @@ description: >
   Use `110` to define and prioritize the product's feature set as concise, reviewable slices.
   Trigger it for prompts like "110", "feature overview", "feature list", "feature backlog", or
   "what features should we build" after the main project framing is in place.
-disable-model-invocation: true
 ---
 
 # 110 - Feature Overview
@@ -26,14 +25,15 @@ Before proceeding, confirm:
 2. **Existing architecture docs** — minimum D01 and D02; D03-D08 help when present
 3. **Known features or priorities** — anything already named or ranked by the user
 
-If any required input is missing, ask before proceeding.
+Resolve these with `gap-check`: it tries to answer them from existing context before asking, then
+asks about anything still open one question at a time with a recommended answer.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** If architecture docs are missing, note that the overview will be
-  more speculative.
+- [ ] **Step 1: Validate inputs.** Run `gap-check` against the Required Inputs above. If architecture
+  docs are missing, note that the overview will be more speculative rather than blocking on them.
 
 - [ ] **Step 2: Load context.** Retrieve D01, D02, and any useful D03/D07 context that helps define
   natural feature boundaries.

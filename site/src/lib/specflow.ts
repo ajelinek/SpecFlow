@@ -379,6 +379,14 @@ export const skills: Skill[] = [
     category: 'Bonus Skills',
   },
   {
+    slug: 'gap-check',
+    label: 'gap-check',
+    purpose: "Resolve a workflow's declared Required Inputs from existing context first, then ask about only what's left, one question at a time with a recommended answer.",
+    whenToUse: "Not invoked directly by users — referenced by name from another skill's input-validation step, most often in the 100-series, whenever that step needs its Required Inputs resolved before proceeding.",
+    tier: 'bonus',
+    category: 'Bonus Skills',
+  },
+  {
     slug: '900-feedback-loop',
     label: '900-feedback-loop',
     purpose: 'Run a bounded review/apply-fix convergence cycle around work that already happened, using isolated subagent contexts for the review and apply-fix roles.',
@@ -462,6 +470,7 @@ export const starlightSidebar = [
       { slug: 'support-skills', label: 'Overview' },
       'support-skills/context-manager',
       'support-skills/deep-research',
+      'support-skills/gap-check',
     ],
   },
   {

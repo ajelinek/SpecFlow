@@ -284,9 +284,20 @@ These are useful support skills, but they are not part of the core SpecFlow feat
 - `context-manager`: create or refresh `CLAUDE.md` files based on the actual repo
 - `deep-research`: do real web research when current external information matters
 
-Only these skills may be invoked automatically when appropriate.
+These two, like the rest of the numbered catalog, can trigger from a matching prompt — you do not
+need to type an exact slash command.
 
-Everything else in SpecFlow is user-invoked.
+## Support Skills
+
+These aren't invoked directly by users — they're referenced by name from inside other skills'
+steps, the same way `100-domain-knowledge` references `deep-research`.
+
+- `gap-check`: resolve a workflow's declared Required Inputs from existing context first, then ask
+  about only what's left, one question at a time with a recommended answer. Used by the 100-series
+  workflows during input validation.
+
+Unlike the rest of the catalog, `gap-check` has model invocation disabled — it is not meant to be
+typed or asked for directly, and only runs when a workflow step names it.
 
 ## Orchestration Skills
 

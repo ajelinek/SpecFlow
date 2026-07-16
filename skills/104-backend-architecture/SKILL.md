@@ -4,7 +4,6 @@ description: >
   Use `104` to define the backend architecture, including API structure, service layering, data
   access, and security patterns. Trigger it for prompts like "104", "backend architecture", "API
   design", or "service layer" when backend patterns need to be specified before coding.
-disable-model-invocation: true
 ---
 
 # 104 - Backend Architecture
@@ -32,13 +31,15 @@ Before proceeding, confirm:
 Optional but useful: background jobs, rate limiting, latency targets, request volume, and external
 integrations.
 
-If required inputs are missing, ask before proceeding.
+Resolve these with `gap-check`: it tries to answer them from existing context before asking, then
+asks about anything still open one question at a time with a recommended answer.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Do not define conventions against unresolved stack choices.
+- [ ] **Step 1: Validate inputs.** Run `gap-check` against the Required Inputs above. Do not define
+  conventions against unresolved stack choices.
 
 - [ ] **Step 2: Load context.** If D04 already exists, treat it as a draft to update. Read D01,
   D02, and D03 when present. Reference them instead of repeating them.

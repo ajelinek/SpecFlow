@@ -6,7 +6,6 @@ description: >
   it for prompts like "201", "high-level design", "feature design", or "HLD" when a feature needs
   a short overview before specs or implementation.
 argument-hint: "[feature-name]"
-disable-model-invocation: true
 context: fork
 ---
 

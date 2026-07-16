@@ -4,7 +4,6 @@ description: >
   Use `105` to define the frontend architecture: UI structure, component boundaries, state, and
   development patterns. Trigger it for prompts like "105", "frontend architecture", "component
   structure", or "state management" when frontend patterns need to be specified before UI design.
-disable-model-invocation: true
 ---
 
 # 105 - Frontend Architecture
@@ -41,14 +40,16 @@ Before drafting, confirm:
 Optional but useful: design system or component library, accessibility target, performance goals,
 mobile-first requirements, frontend auth constraints.
 
-If the framework or any state category is unresolved, stop and ask before proceeding.
+Resolve these with `gap-check`: it tries to answer them from existing context (D01, D02, D04, repo
+exploration) before asking, then asks about anything still open — including any unresolved state
+category — one question at a time with a recommended answer.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Confirm all six inputs, especially the four state categories.
-  Do not assume default libraries or patterns.
+- [ ] **Step 1: Validate inputs.** Run `gap-check` against all six inputs above, especially the four
+  state categories. Do not assume default libraries or patterns.
 
 - [ ] **Step 2: Load existing context.** If D05 already exists, treat it as a draft to update. Read
   D01, D02, D04, and any other directly relevant docs. Reference them; do not re-describe them.

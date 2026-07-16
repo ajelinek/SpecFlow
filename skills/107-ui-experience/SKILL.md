@@ -5,7 +5,6 @@ description: >
   error handling, and the page inventory. Trigger it for prompts like "107", "user experience",
   "navigation design", "interaction patterns", or "information architecture" before per-page
   design work begins.
-disable-model-invocation: true
 ---
 
 # 107 - UI Experience Overview
@@ -33,13 +32,15 @@ Before generating directions or writing output, confirm:
 Optional but useful: existing research, competitor navigation patterns, onboarding needs, and UI
 conventions already fixed in D06.
 
-If user roles or device targets are missing, stop and ask.
+Resolve these with `gap-check`: it tries to answer them from existing context before asking, then
+asks about anything still open — especially user roles or device targets — one question at a time
+with a recommended answer.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Confirm all five required inputs.
+- [ ] **Step 1: Validate inputs.** Run `gap-check` against all five required inputs.
 
 - [ ] **Step 2: Load existing context.** If D07 already exists, treat it as a draft to update. Read
   D01, D02, D05, D06, and `.specflow/context/domain-knowledge.md` when present. If helpful,

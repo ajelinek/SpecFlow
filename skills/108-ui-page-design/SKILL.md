@@ -5,7 +5,6 @@ description: >
   and responsive behavior. Trigger it for prompts like "108", "page design", "wireframe", or
   "design the [page] page" when a single route or view needs a detailed design spec.
 argument-hint: "[page-name]"
-disable-model-invocation: true
 context: fork
 ---
 
@@ -35,14 +34,16 @@ Before proceeding, confirm:
 4. **Key data** — rough list is sufficient
 5. **Responsive priority** — primary form factor and what must degrade gracefully
 
-If any input cannot be resolved from D01/D06/D07, stop and ask.
+Resolve these with `gap-check` against D01/D06/D07: it tries to answer them from that context before
+asking, then asks about anything still open one question at a time with a recommended answer.
 
 ---
 
 ## Steps
 
 - [ ] **Step 1: Validate inputs.** Confirm the page exists in D07 or the user explicitly approves
-  adding it. Do not design an untracked page silently.
+  adding it. Do not design an untracked page silently. Run `gap-check` against the remaining
+  required inputs above.
 
 - [ ] **Step 2: Load existing context.** If a page design already exists, treat it as a draft to
   update. Load the relevant context from D01, D06, D07, existing D08 page docs, and

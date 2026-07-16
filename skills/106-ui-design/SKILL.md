@@ -5,7 +5,6 @@ description: >
   design philosophy, color system, typography, layout principles, and component visual language.
   Trigger it for prompts like "106", "ui design", "design system", "visual design", or "color
   palette" when the project needs a strategic visual foundation.
-disable-model-invocation: true
 ---
 
 # 106 - UI Design
@@ -33,13 +32,15 @@ Before generating directions or writing output, confirm:
 Optional but useful: brand assets, chosen component library, performance constraints that affect
 font choices.
 
-If brand personality or audience is missing, stop and ask.
+Resolve these with `gap-check`: it tries to answer them from existing context before asking, then
+asks about anything still open — especially brand personality or audience — one question at a time
+with a recommended answer.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Confirm all five required inputs.
+- [ ] **Step 1: Validate inputs.** Run `gap-check` against all five required inputs.
 
 - [ ] **Step 2: Load existing context.** If D06 already exists, treat it as a draft to update. Read
   D01, D05, and `.specflow/context/domain-knowledge.md` when present. Reference these docs; do not

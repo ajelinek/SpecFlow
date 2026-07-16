@@ -8,7 +8,6 @@ description: >
   until it's clean", or when another workflow needs a reusable review-and-converge step around a
   specific artifact or change set.
 argument-hint: "[step-1-review-brief] [step-2-apply-fix-brief]"
-disable-model-invocation: true
 context: fork
 ---
 

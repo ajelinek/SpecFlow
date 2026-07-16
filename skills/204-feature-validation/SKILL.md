@@ -6,7 +6,6 @@ description: >
   reuse. Trigger it for prompts like "204", "validate the feature", or "implementation readiness
   review" before coding starts.
 argument-hint: "[feature-name] [validation-scope]"
-disable-model-invocation: true
 context: fork
 ---
 

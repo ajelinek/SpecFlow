@@ -6,7 +6,6 @@ description: >
   or when the project needs research-backed understanding of users, workflows, terminology,
   regulations, or differentiators.
 argument-hint: "[product/domain description]"
-disable-model-invocation: true
 context: fork
 ---
 
@@ -35,14 +34,17 @@ Before proceeding, confirm:
 Optional but useful: named competitors, seed URLs, existing customer research, assumptions, or a
 draft project overview.
 
-If any required input is missing, ask before researching.
+Resolve these with `gap-check`: it tries to answer them from existing context (D01, prior domain
+knowledge, repo exploration) before asking, then asks about anything still open one question at a
+time with a recommended answer.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Make sure the product, domain, users, and major constraints are
-  defined well enough to research.
+- [ ] **Step 1: Validate inputs.** Run `gap-check` against the Required Inputs above. Make sure the
+  product, domain, users, and major constraints are defined well enough to research before moving
+  on.
 
 - [ ] **Step 2: Load existing project context.** If `.specflow/context/domain-knowledge.md` exists,
   treat it as a draft to update. Read D01 and D10 when present. If the repo already exists and you

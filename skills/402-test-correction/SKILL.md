@@ -6,7 +6,6 @@ description: >
   "402", "fix this failing test", "is this a test issue or a product bug", or "triage the
   failing spec".
 argument-hint: "[failing-test]"
-disable-model-invocation: true
 context: fork
 ---
 

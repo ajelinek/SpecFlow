@@ -4,7 +4,6 @@ description: >
   Use `102` to define the system architecture, stack, major components, and testing approach.
   Trigger it for prompts like "102", "system architecture", "architecture doc", or "define the
   tech stack" when the project is ready for foundational technical decisions.
-disable-model-invocation: true
 ---
 
 # 102 - System Architecture
@@ -26,8 +25,13 @@ Before proceeding, confirm:
 3. **Deployment environment** — cloud, on-prem, hybrid, etc.
 4. **Architecture drivers** — constraints or goals such as team size, cost, compliance, or time
 
+Resolve items 1-4 with `gap-check`: it tries to answer them from D01, prior architecture context, or
+repo exploration before asking, then asks about anything still open one question at a time with a
+recommended answer.
+
 Do not ask about specific stack choices upfront if they can be resolved from loaded guidance, prior
-docs, or existing code.
+docs, or existing code. Stack choices are resolved separately in Step 2 via the decision order below,
+not through the `gap-check` checklist.
 
 ---
 
@@ -60,8 +64,9 @@ remains unresolved after the decision order above, ask rather than guessing.
 
 ## Steps
 
-- [ ] **Step 1: Validate required inputs.** Do not proceed without enough information about
-  components, scale, deployment, and architecture drivers.
+- [ ] **Step 1: Validate required inputs.** Run `gap-check` against items 1-4 in Required Inputs. Do
+  not proceed without enough information about components, scale, deployment, and architecture
+  drivers.
 
 - [ ] **Step 2: Resolve technology choices.** For each relevant concern, use the decision order
   above before asking the user. Common concerns include:

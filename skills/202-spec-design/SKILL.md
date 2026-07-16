@@ -6,7 +6,6 @@ description: >
   spec", "gherkin", "BDD scenarios", or "write specs" when the next step is defining behavior to
   test.
 argument-hint: "[feature-name] [coverage-level]"
-disable-model-invocation: true
 context: fork
 ---
 

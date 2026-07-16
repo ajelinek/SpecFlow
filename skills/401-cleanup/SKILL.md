@@ -5,7 +5,6 @@ description: >
   broad rewrite. Trigger it for prompts like "401", "cleanup this change", "refactor the touched
   files", or "tidy the tests", and run it separately for source and test cleanup.
 argument-hint: "[source|test] [scope-anchor]"
-disable-model-invocation: true
 context: fork
 ---
 

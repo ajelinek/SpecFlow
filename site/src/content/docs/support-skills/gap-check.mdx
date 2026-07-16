@@ -1,0 +1,75 @@
+---
+title: Gap Check
+description: Resolve a workflow's declared Required Inputs from existing context first, then ask about only what's left — one question at a time with a recommended answer.
+sidebar:
+  order: 3
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`gap-check` closes every gap on a fixed, invoking-skill-provided checklist of Required Inputs with minimum friction for the user. It is not an open-ended interview — the invoking skill hands it a specific, bounded list (for example: pain point, differentiation, target users), and its only job is to resolve every item on that list and hand back a resolved answer set.
+
+It is referenced by name from other skills' input-validation steps — most of SpecFlow's 100-series calls it directly instead of re-implementing its own ask-the-user logic.
+
+<Callout tone="tip" title="Credit: adapted from Matt Pocock's grill-me">
+  The one-question-at-a-time, recommend-then-confirm interview loop that `gap-check` is built on comes from [Matt Pocock](https://github.com/mattpocock)'s `grilling` skill — the reusable primitive behind his `/grill-me` command ([mattpocock/skills](https://github.com/mattpocock/skills), MIT licensed). `gap-check` is a modified version of that pattern, narrowed to a fixed, invoking-skill-provided checklist instead of an open-ended, exhaustive interview. Thanks, Matt, for the original technique.
+</Callout>
+
+## When to use it
+
+- When a workflow step declares Required Inputs and needs them resolved before it can proceed
+- When some of those inputs can likely be answered from existing project context — prior docs, domain knowledge, repo exploration — rather than asked
+- When the checklist is short and known in advance, not an open-ended exploration of a plan
+
+## When NOT to use it
+
+- To interrogate a plan the user hasn't asked to have stress-tested — that is [`grilling`](https://github.com/mattpocock/skills)'s job, not this one
+- Inside a workflow's input-validation step if what is actually needed is an exhaustive, open-ended interview — `grilling` over-asks and stalls a bounded validation step
+- When a step needs open-ended research rather than a fixed input list — use `deep-research`
+
+<Callout tone="bonus" title="gap-check vs grilling">
+  Both skills share the same one-question-at-a-time, recommend-an-answer interview style. The difference is scope: `gap-check` stops as soon as a fixed checklist is satisfied; `grilling` keeps walking every branch of a decision tree until the whole plan holds up. Use the bounded one inside a workflow step, and the open-ended one when the user actually asks to be grilled.
+</Callout>
+
+## What it produces
+
+A compact "Resolved Inputs" list handed back to the invoking workflow — one line per checklist item, its resolved value, and its source (an existing doc or context, or "confirmed by user"):
+
+```markdown
+## Resolved Inputs
+- **<Input name>**: <value> — _source: <doc/context, or "confirmed by user">_
+- **<Input name>**: <value> — _source: ..._
+```
+
+## Required inputs
+
+1. The Required Inputs checklist — each item's name and what it needs to capture. If invoked without an explicit checklist, `gap-check` treats the invoking skill's own "Required Inputs" section as the checklist.
+2. Whatever project context the invoking skill already has or knows how to load — prior docs, `.specflow/context/domain-knowledge.md`, repo exploration.
+
+## Common prompts
+
+`gap-check` has model invocation disabled, so it is not meant to be typed directly — it runs when a workflow step calls it by name. That call usually looks like this inside a skill's own steps:
+
+<PromptBlock title="Invoked from another skill's step" text={`Run gap-check against the Required Inputs above. Make sure the product, domain, users, and major constraints are defined well enough to research before moving on.`} />
+
+## What usually comes next
+
+Control returns to the invoking workflow — most often a 100-series skill — which proceeds using the resolved input set.
+
+## Practical guidance
+
+- Resolve from context first. Only put an input on the "to ask" list if it is genuinely undetermined from available context, not just unstated so far in the conversation.
+- Ask one question at a time. Never batch remaining gaps into a single message.
+- Always propose a recommended answer, grounded in whatever context is available, so the user can confirm or override instead of composing an answer from scratch.
+- Follow dependencies within the checklist — resolve the input that constrains another one first, and re-check whether a later answer makes an already-resolved item stale before moving on.
+- Stop at the checklist boundary. Do not expand into an exhaustive interview or chase tangents the checklist didn't name.
+
+## Common mistakes
+
+- Asking about an input that available context could already have answered
+- Batching multiple unresolved questions into one message
+- Letting the invoking workflow proceed while an item is still unresolved
+- Reaching for `gap-check` to interrogate a plan instead of resolving a fixed input list — that's `grilling`'s job

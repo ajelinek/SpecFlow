@@ -5,7 +5,6 @@ description: >
   success criteria. Trigger it for prompts like "101", "project overview", "create project
   overview", or when a new product idea needs a structured foundation before architecture or
   feature work.
-disable-model-invocation: true
 ---
 
 # 101 - Project Overview
@@ -36,13 +35,15 @@ Before proceeding, confirm:
 Optional but useful: technology constraints, compliance/regulatory requirements, and scale
 expectations.
 
-If required inputs are missing, ask before proceeding.
+Resolve these with `gap-check`: it tries to answer them from existing context before asking, then
+asks about anything still open one question at a time with a recommended answer.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Do not proceed on vague product framing.
+- [ ] **Step 1: Validate inputs.** Run `gap-check` against the Required Inputs above. Do not proceed
+  on vague product framing.
 
 - [ ] **Step 2: Load existing context.** If D01 already exists, treat it as a draft to update. Read
   `domain-knowledge.md` when present so the overview uses the right terminology and user framing.

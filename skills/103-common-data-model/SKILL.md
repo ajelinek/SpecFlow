@@ -4,7 +4,6 @@ description: >
   Use `103` to define the conceptual data model: entities, relationships, and business rules.
   Trigger it for prompts like "103", "data model", "conceptual data model", "entity
   relationships", or when the team needs a shared domain model before implementation choices.
-disable-model-invocation: true
 ---
 
 # 103 - Common Data Model
@@ -31,13 +30,15 @@ Before proceeding, confirm:
 
 Optional but useful: lifecycle states, audit/history requirements, and compliance constraints.
 
-If required inputs are missing, ask before proceeding.
+Resolve these with `gap-check`: it tries to answer them from existing context before asking, then
+asks about anything still open one question at a time with a recommended answer.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Do not proceed with undefined entities or vague relationships.
+- [ ] **Step 1: Validate inputs.** Run `gap-check` against the Required Inputs above. Do not proceed
+  with undefined entities or vague relationships.
 
 - [ ] **Step 2: Load existing context.** If D03 already exists, treat it as a draft to update. Read
   D01 and D02 when present.
