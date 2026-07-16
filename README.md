@@ -46,7 +46,7 @@ Instead, it is designed to work with them.
 When it runs, it should use your existing:
 
 - project rules
-- `AGENTS.md` guidance
+- `CLAUDE.md` guidance (or `AGENTS.md`, imported into `CLAUDE.md`, if that's what the project already uses)
 - local architecture docs
 - installed standards skills
 
@@ -245,9 +245,9 @@ Reusable domain context goes under:
 
 Project agent guidance goes in:
 
-- `AGENTS.md`
+- `CLAUDE.md`
 
-Nested `AGENTS.md` files should only be added when a subtree genuinely needs local overrides.
+Nested `CLAUDE.md` files should only be added when a subtree genuinely needs local overrides.
 
 ## Example Prompts
 
@@ -260,7 +260,7 @@ Run 301-spec-implementation for the account recovery feature.
 Run 302-test-implementation for the billing retry scenarios.
 Run 401-cleanup on the staged source changes.
 Run 402-test-correction for the failing checkout confirmation test.
-Refresh AGENTS.md for this repo using agent-context.
+Refresh CLAUDE.md for this repo using context-manager.
 Do deep research on the latest remote browser automation options for coding agents.
 ```
 
@@ -279,7 +279,7 @@ These are support workers, not the main user-facing interface. The main interfac
 
 These are useful support skills, but they are not part of the core SpecFlow feature workflow.
 
-- `agent-context`: create or refresh `AGENTS.md` files based on the actual repo
+- `context-manager`: create or refresh `CLAUDE.md` files based on the actual repo
 - `deep-research`: do real web research when current external information matters
 
 Only these skills may be invoked automatically when appropriate.
