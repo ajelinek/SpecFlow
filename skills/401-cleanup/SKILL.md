@@ -52,7 +52,7 @@ bug fixing, or new test creation, reroute to `301-spec-implementation` or `302-t
 
 - You are the orchestrator.
 - All edits go through `@coder` when available; otherwise use the general agent.
-- All validation goes through `@execution-agent`.
+- All validation goes through `@validator`.
 - Prefer loaded standards and repo conventions over generic cleanup advice.
 - Keep a compact working model for the run: cleanup brief, scope ledger, nearby patterns/helpers,
   relevant standards, and validation surface.
@@ -114,7 +114,7 @@ default.
   - explicit no-touch areas
   - files excluded because they belong to the unselected target type
 
-- [ ] **Step 4: Establish the baseline with `@execution-agent`.** Run the strongest relevant
+- [ ] **Step 4: Establish the baseline with `@validator`.** Run the strongest relevant
   validation the project supports before editing:
   1. `mode: test`
   2. `mode: lint` when lint applies
@@ -169,7 +169,7 @@ default.
 
 ### Phase 3 - Validate and Summarize
 
-- [ ] **Step 10: Run post-change validation with `@execution-agent`.** Execute the strongest normal
+- [ ] **Step 10: Run post-change validation with `@validator`.** Execute the strongest normal
   validation that applies to the touched files: targeted/relevant tests, broader regression tests
   when needed, plus lint/build where applicable.
 

@@ -55,7 +55,7 @@ action and expected outcome.
 This workflow uses an orchestrator-worker model specialized for software delivery. The lead agent
 plans and controls phase progression, coding subagents execute tightly scoped changes, `@designer`
 serves as the UI direction worker when the change affects user-facing surfaces, and
-`@execution-agent` serves as the primary evaluator by reporting environment-grounded test, lint,
+`@validator` serves as the primary evaluator by reporting environment-grounded test, lint,
 and build results.
 
 1. **You are the orchestrator.** Own the change model for the run: scope, architecture, touched
@@ -67,7 +67,7 @@ and build results.
    layout, invoke `@designer` before coding. Ground the brief in D06, D07, and relevant D08 page
    docs; ask it to keep those documents consistent and to return implementation-facing UI direction
    rather than broad creative exploration.
-4. **All execution goes through `@execution-agent`.** Test, lint, and build results are the ground
+4. **All execution goes through `@validator`.** Test, lint, and build results are the ground
    truth for whether the workflow may advance.
 5. **Keep context tight.** Maintain a compact lead-agent working model. Give coding subagents only
    the relevant excerpt for the current task, not the full conversation or full artifact set.
@@ -152,7 +152,7 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 - [ ] **Step 5: Update feature status.** If `overview.md` exists and its `status` is `todo`, change
   it to `implementing`.
 
-- [ ] **Step 6: Establish the baseline.** Run `@execution-agent` for:
+- [ ] **Step 6: Establish the baseline.** Run `@validator` for:
   1. `mode: test`
   2. `mode: lint`
   3. `mode: build`
@@ -173,7 +173,7 @@ Do not pass the full conversation, every feature artifact, or every standards fi
   Instruction: write only the tests for the selected scope. The tests must fail cleanly because the
   behavior is not implemented yet.
 
-- [ ] **Step 8: Verify the tests fail for the right reason.** Run `@execution-agent` with
+- [ ] **Step 8: Verify the tests fail for the right reason.** Run `@validator` with
   `mode: test` scoped to the new tests. Confirm they are discovered and fail, not error, while
   previously passing tests remain green.
 
@@ -190,7 +190,7 @@ Do not pass the full conversation, every feature artifact, or every standards fi
   Instruction: implement only what is needed to make the failing tests pass. Prefer extending
   existing modules. No cleanup or extra scope in this pass.
 
-- [ ] **Step 10: Verify the tests pass.** Run `@execution-agent` with `mode: test`. Confirm the
+- [ ] **Step 10: Verify the tests pass.** Run `@validator` with `mode: test`. Confirm the
   targeted scenarios now pass and previously passing tests still pass.
 
 ### Phase 3 - Clean Up Tests
@@ -199,7 +199,7 @@ Do not pass the full conversation, every feature artifact, or every standards fi
   test files in scope. Improve clarity, naming, and deduplication without changing coverage or
   assertions.
 
-- [ ] **Step 12: Verify tests still pass.** Run `@execution-agent` with `mode: test`.
+- [ ] **Step 12: Verify tests still pass.** Run `@validator` with `mode: test`.
 
 ### Phase 4 - Clean Up Production Code
 
@@ -207,7 +207,7 @@ Do not pass the full conversation, every feature artifact, or every standards fi
   `production-cleanup-only` and only the production files changed in Phase 2. Improve clarity,
   naming, structure, and deduplication without changing behavior.
 
-- [ ] **Step 14: Verify tests still pass.** Run `@execution-agent` with `mode: test`.
+- [ ] **Step 14: Verify tests still pass.** Run `@validator` with `mode: test`.
 
 ### Phase 5 - Final Validation
 
@@ -250,7 +250,7 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 7. If scenarios need to be created or materially revised, route that through `202-spec-design`.
 8. Keep task packets tight; do not dump full conversation state into subagents.
 9. For UI changes, follow resolved D06/D07/D08 guidance rather than inventing new patterns in code.
-10. Code edits go through a coding subagent; validation goes through `@execution-agent`.
+10. Code edits go through a coding subagent; validation goes through `@validator`.
 11. Missing design artifacts stay in memory unless the user asks to persist them.
 12. Stop and escalate when repair loops stop converging.
 13. Clean validation is necessary, but human review still matters for high-risk architectural or

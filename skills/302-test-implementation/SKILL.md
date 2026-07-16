@@ -44,7 +44,7 @@ ask whether the implementation or the scenarios should be corrected first.
 
 - You are the orchestrator.
 - Code changes go through `@coder`.
-- Validation goes through `@execution-agent`.
+- Validation goes through `@validator`.
 - Use `@explore` only for focused discovery of implementation and test patterns.
 - Keep a compact working model: scope, touched test files, allowed read-only references,
   touch-boundary exceptions, and reusable helpers/patterns.
@@ -81,14 +81,14 @@ ask whether the implementation or the scenarios should be corrected first.
   - do not touch frontend code for backend-only or API-only test work
   - preserve existing assertions unless they are wrong
 
-- [ ] **Step 5: Establish the baseline.** Run `@execution-agent` for the relevant test/lint/build
+- [ ] **Step 5: Establish the baseline.** Run `@validator` for the relevant test/lint/build
   checks before editing. Record pre-existing failures and surface them if they block confidence.
 
 - [ ] **Step 6: Run the test-only coding pass.** Use `@coder` to implement only the missing tests
   and directly supporting test helpers, fixtures, page objects, or setup code. Follow existing repo
   patterns.
 
-- [ ] **Step 7: Validate the test changes.** Run `@execution-agent` as narrowly as the repo allows.
+- [ ] **Step 7: Validate the test changes.** Run `@validator` as narrowly as the repo allows.
   Confirm the new tests are discovered and that regressions are not introduced.
 
   If failure shows the behavior is not actually implemented, stop and escalate instead of writing

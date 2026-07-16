@@ -1,5 +1,5 @@
 ---
-name: execution-agent
+name: validator
 description: >
   Scoped validation worker. Invoked by 301-spec-implementation,
   302-test-implementation, and 401-cleanup to run one validation mode at a
@@ -12,7 +12,7 @@ model: haiku
 effort: high
 ---
 
-# execution-agent
+# validator
 
 Run one validation pass, capture the real result, and return diagnostics that
 the invoking workflow can hand back to `@coder` or to the user.

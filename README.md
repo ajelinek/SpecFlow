@@ -85,9 +85,10 @@ npx skills add ajelinek/SpecFlow --list
 SpecFlow includes supporting worker agents in `agents/`:
 
 - `coder`
+- `decider`
 - `designer`
-- `execution-agent`
 - `reviewer`
+- `validator`
 
 The main install covers skills only. The worker agents are optional.
 
@@ -269,9 +270,10 @@ Do deep research on the latest remote browser automation options for coding agen
 SpecFlow includes a small worker bundle that supports the workflows:
 
 - `coder`
+- `decider`
 - `designer`
-- `execution-agent`
 - `reviewer`
+- `validator`
 
 These are support workers, not the main user-facing interface. The main interface is the skill catalog.
 
@@ -290,7 +292,7 @@ Everything else in SpecFlow is user-invoked.
 
 These compose the core workflow into larger, git-tracked runs. Both are user-invoked.
 
-- `900-feedback-loop`: run a bounded apply-fix/review convergence cycle around work that already
+- `900-feedback-loop`: run a bounded review/apply-fix convergence cycle around work that already
   happened, using isolated subagent contexts for each role
 - `901-feature-loop`: run one feature end-to-end through `201` -> `202` -> per-scenario `301`/`401`
   build-out -> cleanup -> an optional expanded-coverage round -> merge, on its own branch, with

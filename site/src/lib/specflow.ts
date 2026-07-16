@@ -381,7 +381,7 @@ export const skills: Skill[] = [
   {
     slug: '900-feedback-loop',
     label: '900-feedback-loop',
-    purpose: 'Run a bounded apply-fix/review convergence cycle around work that already happened, using isolated subagent contexts for the apply-fix and review roles.',
+    purpose: 'Run a bounded review/apply-fix convergence cycle around work that already happened, using isolated subagent contexts for the review and apply-fix roles.',
     whenToUse: 'Use it any time another workflow needs a reusable review-and-converge step around a specific artifact or change set, or to review something and keep fixing it until it passes explicit criteria.',
     tier: 'optional',
     category: 'Orchestration Skills',
@@ -389,7 +389,7 @@ export const skills: Skill[] = [
   {
     slug: '901-feature-loop',
     label: '901-feature-loop',
-    purpose: 'Run one feature end-to-end through the full SpecFlow pipeline as a single git-tracked run — design, happy-path specs, per-scenario build-out, cleanup, an optional expanded-coverage round, and a merge back to the base branch.',
+    purpose: 'Run one feature end-to-end, headless, through the full SpecFlow pipeline as a single git-tracked run — a green baseline gate, design, happy-path specs, per-scenario build-out, cleanup, an optional expanded-coverage round, final validation, and a merge back to the base branch.',
     whenToUse: 'Use it for a feature that genuinely warrants full BDD rigor and branch-level traceability; route small, isolated changes to 301 or 401 directly instead.',
     tier: 'optional',
     category: 'Orchestration Skills',

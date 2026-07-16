@@ -6,7 +6,7 @@ description: >
   inside a bounded file set and a single phase of work. Extends existing
   modules before creating new ones, follows project context and installed
   standards skills, and leaves orchestration, broad discovery, and repo-wide
-  validation to the invoking workflow and @execution-agent. If the brief is
+  validation to the invoking workflow and @validator. If the brief is
   ambiguous or conflicts with project constraints, returns blocking questions
   or conflict notes instead of guessing.
 model: sonnet
@@ -51,7 +51,7 @@ concise handoff notes.
   for the current workflow phase.
 - Narrow cleanup passes where the invoking workflow has already frozen scope to
   either tests only or production only.
-- Targeted fixes in response to failing output produced by `@execution-agent`.
+- Targeted fixes in response to failing output produced by `@validator`.
 
 ---
 
@@ -59,7 +59,7 @@ concise handoff notes.
 
 - Feature slicing, architecture redesign, or broad implementation planning
 - Broad repository discovery; the invoking workflow should use `@explore`
-- Repo-wide test, lint, or build orchestration; `@execution-agent` owns that
+- Repo-wide test, lint, or build orchestration; `@validator` owns that
 - Mixed-phase work when the brief isolates the pass to tests only, production
   only, or cleanup only
 - Silent scope expansion or speculative refactors unrelated to the brief
@@ -84,7 +84,7 @@ concise handoff notes.
 8. Use Bash only for narrow implementation-supporting commands when needed. Do
    not run full repo validation loops here unless the brief explicitly asks for
    a focused local command; full test, lint, and build execution belongs to
-   `@execution-agent`.
+   `@validator`.
 
 ---
 

@@ -34,7 +34,7 @@ Use `npx skills add ajelinek/SpecFlow --list` if you want to preview the availab
 
 ## 2. Install the optional worker agents
 
-If you want the supporting `coder`, `execution-agent`, and `designer` workers, use **[Custom Agents](./custom-agents/)** next.
+If you want the supporting `coder`, `validator`, `designer`, `reviewer`, and `decider` workers, use **[Custom Agents](./custom-agents/)** next.
 
 <Callout tone="tip" title="When the agents matter most">
   The bundled workers are the intended support structure for full `301`, `302`, `401`, and `402` runs. You can start without them, but stronger orchestration comes from installing them.
@@ -64,7 +64,7 @@ Run `401-cleanup` again later for changed test files if you want a separate test
 </Callout>
 
 <Callout tone="tip" title="What the worker agents are for">
-  Full `301`, `302`, `401`, and `402` runs are designed around separate workers: `coder` for scoped code changes, `execution-agent` for test/lint/build validation, and `designer` for UI-affecting design direction.
+  Full `301`, `302`, `401`, and `402` runs are designed around separate workers: `coder` for scoped code changes, `validator` for test/lint/build validation, and `designer` for UI-affecting design direction. The `900`/`901` orchestration loops add two more: `reviewer` for the review role in `900-feedback-loop`, and `decider` for the headless Decision Consult in `901-feature-loop`.
 </Callout>
 
 ## Next

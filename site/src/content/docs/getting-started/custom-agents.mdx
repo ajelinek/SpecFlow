@@ -12,11 +12,13 @@ import Callout from '../../../components/Callout.astro';
 
 Install the main SpecFlow skills first. Then add the bundled worker agents only if you want them.
 
-SpecFlow ships three supporting worker agents in `agents/`:
+SpecFlow ships five supporting worker agents in `agents/`:
 
 - `coder` — implementation worker for `301-spec-implementation`, `302-test-implementation`, `401-cleanup`, and `402-test-correction`
-- `execution-agent` — validation worker for test, lint, and build passes
+- `validator` — validation worker that runs one test/lint/build mode at a time and reports diagnostics without modifying code
 - `designer` — UI direction worker for `106-ui-design`, `107-ui-experience`, `108-ui-page-design`, and UI-affecting `301-spec-implementation` runs
+- `reviewer` — read-only review worker for the Step 1 (review) role in `900-feedback-loop`
+- `decider` — read-only decision-making worker for the Decision Consult in `901-feature-loop`, picking one option from a brief's option set so headless runs never stop to ask a question
 
 <Callout tone="tip" title="No repo clone required">
   These commands download the installer script directly from GitHub and run it in one step.
@@ -28,8 +30,10 @@ SpecFlow ships three supporting worker agents in `agents/`:
 
   **Defaults:**
   - `coder`: `sonnet` (requires high reasoning and coding capability)
-  - `execution-agent`: `haiku` (fast and cheap, just runs scripts)
+  - `validator`: `haiku` (fast and cheap, just runs scripts)
   - `designer`: `opus` (UI and visual reasoning)
+  - `reviewer`: `sonnet` (grounded review against explicit criteria)
+  - `decider`: `opus` at max effort (the highest-stakes calls in a headless `901` run — nothing else double-checks them)
 </Callout>
 
 ## Claude Code
@@ -62,8 +66,10 @@ Common target directories:
 If you prefer not to run the installer, download these files and place them in your target agents directory:
 
 - [`coder.md`](https://github.com/ajelinek/SpecFlow/blob/main/agents/coder.md?raw=1)
-- [`execution-agent.md`](https://github.com/ajelinek/SpecFlow/blob/main/agents/execution-agent.md?raw=1)
+- [`validator.md`](https://github.com/ajelinek/SpecFlow/blob/main/agents/validator.md?raw=1)
 - [`designer.md`](https://github.com/ajelinek/SpecFlow/blob/main/agents/designer.md?raw=1)
+- [`reviewer.md`](https://github.com/ajelinek/SpecFlow/blob/main/agents/reviewer.md?raw=1)
+- [`decider.md`](https://github.com/ajelinek/SpecFlow/blob/main/agents/decider.md?raw=1)
 
 Example target directories:
 
@@ -80,4 +86,5 @@ the `model` field after copying.
 - Edit copied agent files if you want different `model` values
 
 These agents are installed separately, but they are the intended support structure for full
-`301`, `302`, `401`, and `402` runs.
+`301`, `302`, `401`, and `402` runs, plus the `900-feedback-loop` and `901-feature-loop`
+orchestration loops.

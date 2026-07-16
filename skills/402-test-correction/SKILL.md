@@ -51,7 +51,7 @@ If the failing scope is too vague, ask one blocking question.
 - You are the orchestrator.
 - Use `@explore` for focused discovery of failing-test context, similar patterns, and recent code
   movement.
-- Use `@execution-agent` to reproduce failures and validate the chosen fix.
+- Use `@validator` to reproduce failures and validate the chosen fix.
 - Use `@coder` only after the failure classification is strong enough to justify a specific edit
   path.
 - Keep a compact working model: failure anchor, suspected affected files, recent changes, current
@@ -79,7 +79,7 @@ The third bucket is mandatory. Do not force every failure into "test bug" or "so
 - [ ] **Step 1: Anchor the exact failing signal.** Identify the smallest reproducible failing unit:
   single test, scenario, spec block, or command. Capture the exact failure text and where it occurs.
 
-- [ ] **Step 2: Establish baseline reproduction with `@execution-agent`.** Re-run the narrowest
+- [ ] **Step 2: Establish baseline reproduction with `@validator`.** Re-run the narrowest
   useful command first. Confirm the failure is current, reproducible, and not already superseded by
   unrelated repo breakage. Record any pre-existing failures that weaken confidence.
 
@@ -136,7 +136,7 @@ The third bucket is mandatory. Do not force every failure into "test bug" or "so
     setup
   - do not reinterpret a regression as a test issue to avoid touching source
 
-- [ ] **Step 10: Validate the chosen fix with `@execution-agent`.** Run the failing test first, then
+- [ ] **Step 10: Validate the chosen fix with `@validator`.** Run the failing test first, then
   the strongest nearby validation surface the repo supports. If the fix path fails to converge,
   reassess the classification rather than blindly iterating.
 

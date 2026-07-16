@@ -1,6 +1,6 @@
 ---
 title: 901 Feature Loop
-description: Run one feature end-to-end through SpecFlow's full pipeline as a single git-tracked run, with 900-feedback-loop reviewing every design and cleanup pass along the way.
+description: Run one feature end-to-end through SpecFlow's full pipeline as a single headless, git-tracked run, with a four-layer validation gate, 900-feedback-loop reviewing every design and cleanup pass, and a Decision Consult resolving every fork in the road.
 sidebar:
   order: 2
 ---
@@ -10,40 +10,54 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What this skill is for
 
-`901-feature-loop` runs one feature through `201` -> `202` (Happy Path) -> per-scenario `301`+`401`+`401` -> end-of-round cleanup -> an optional expanded-coverage round of the same shape -> final validation -> merge, all on its own branch, with a commit after every stage. `900-feedback-loop` reviews every design/spec artifact and every aggregate cleanup pass before the run advances past it.
+`901-feature-loop` runs one feature end-to-end on its own branch, headless: a green four-layer baseline gate, then `201` -> `202` (Happy Path) -> per-scenario `301`+`401`+`401` (each scenario closed out with a `specs.feature` status-tag update and its own green check) -> end-of-round cleanup and a round close-out green check -> an optional expanded-coverage round of the same shape -> final validation -> merge. `900-feedback-loop` reviews every design/spec artifact and every aggregate cleanup pass before the run advances past it. Every green check — baseline, per scenario, round close-out, and final — covers unit, integration/e2e, lint, and build as four separate `@validator` calls. Nothing in this run blocks on a user question: every fork in the road routes through the **Decision Consult**, a two-`@decider`-call arbitration the orchestrator resolves itself before continuing.
 
 **Output**: Updates project source/test files and `.specflow/features/<fid>-<feature-slug>/` artifacts. Creates a feature branch, commits throughout, and merges it back. No new artifact type of its own.
 
 ## When to use it
 
-- For a whole feature that justifies full BDD rigor and branch-level traceability, end to end, with minimal manual orchestration
+- For a whole feature that justifies full BDD rigor and branch-level traceability, end to end, with no manual orchestration and no pauses for input
 - When you want every design/spec artifact and every aggregate cleanup pass reviewed and converged automatically before the run advances
-- When commit-level traceability across every stage — design, each scenario, cleanup, merge — matters more than moving fast
+- When commit-level traceability across every stage — baseline, design, each scenario, cleanup, merge — matters more than moving fast
 
 ## When NOT to use it
 
 - For an isolated fix or small maintenance change — reroute to `301-spec-implementation` or `401-cleanup` directly instead
-- When you want to review or steer individual stages by hand rather than letting the loop run to completion
-- On a dirty working tree — the loop requires a clean `git status --porcelain` before it will start
+- When you want to review or steer individual stages by hand rather than letting the loop run to completion unattended
+- When you need a human to weigh in on ambiguous calls as they happen — this workflow never stops to ask; see the Decision Consult below
 
 <Callout tone="core" title="Heavy by design">
   A feature with several scenarios across two coverage rounds can involve on the order of a hundred or more subagent invocations. Use `901-feature-loop` when a feature genuinely warrants full BDD rigor and branch-level traceability; route small, isolated changes to `301` or `401` directly instead.
 </Callout>
 
+## The Decision Consult
+
+This workflow never pauses mid-run to ask the user a question. Every point that would otherwise be a blocking question — feature identity, an existing branch, a dirty working tree, a merge conflict, a repair loop that stops converging — instead runs this consult, and the run acts on the result immediately:
+
+1. **Frame it** — a short, self-contained brief: the specific question, the concrete option set (including that step's documented default, if any), and the state needed to reason about it.
+2. **Consult two independent `@decider` calls in parallel**, given the identical brief, each in its own fresh context with no visibility into the other's answer. `@decider` is a purpose-built worker — a stronger model at higher effort than the other workers, since these are the calls nothing else double-checks in a headless run. Each call gets opposing stance framing so they reason from different vantage points: one weights keeping the run moving, the other weights the lowest-risk, most-reversible option.
+3. **Resolve** — same option from both wins outright; a `high`-confidence pick beats a lower-confidence one; a genuine tie falls back to smaller blast radius, and if that still doesn't separate them, a third unframed `@decider` call breaks it. If both calls report the brief genuinely unanswerable, the run falls back to that step's documented default — or, at the baseline gate or final validation only, ends with a terminal report.
+4. **Log it** — the brief, both recommendations, and the resolution feed into the final summary so it's clear what was decided and why.
+
+<Callout tone="optional" title="Only two ways to end without a merge">
+  The baseline gate (before any feature work starts) and final validation (right before merge) are the only two checkpoints where consult-driven retries running out ends the run with a terminal status report instead of a suspended question. Everywhere else, the Decision Consult always produces a way forward.
+</Callout>
+
 ## What it produces
 
 - A dedicated `feature/<fid>-<feature-slug>` branch, created from the current branch, with a commit after every stage
+- A green four-layer baseline (`@validator`: unit, integration/e2e, lint, build) confirmed before any branch or design work starts
 - Every design/spec artifact (`201` overview, `202` specs) reviewed and refined by `900-feedback-loop` before the run advances
-- Round 1 (Happy Path Only, always runs) and an optional Round 2 (`none` / `balanced` / `comprehensive` coverage, default `comprehensive`)
+- Round 1 (Happy Path Only, always runs) and an optional Round 2 (`none` / `balanced` / `comprehensive` coverage, default `comprehensive`) — Round 2 only builds out the newly added scenarios, not Round 1 again
 - Aggregate source and test cleanup passes at the end of each round, each reviewed by `900-feedback-loop`
-- A final validation pass (`test`, `lint`, `build`) and a `--no-ff` merge back into the base branch — the feature branch is kept afterward, never deleted, and nothing is ever pushed to a remote
-- A summary: feature identity, branch name, round-2 coverage used, the full commit ledger, scenarios implemented per round, `900-feedback-loop` iteration counts per stage, final validation result, and the merge commit
+- A four-layer final validation pass and a `--no-ff` merge back into the base branch — the feature branch is kept afterward, never deleted, and nothing is ever pushed to a remote
+- A summary: feature identity, branch name, round-2 coverage used, the full commit ledger, scenarios implemented per round, `900-feedback-loop` iteration counts per stage, final validation result, the merge commit (or terminal-report reason), and every Decision Consult invoked with its resolution
 
 ## Required inputs
 
-- **Feature identity** — a name and/or `F-ID`, resolved the same way `201` resolves it
+- **Feature identity** — a name and/or `F-ID`, resolved the same way `201` resolves it; ambiguity here routes through the Decision Consult rather than blocking
 - **Round 2 coverage** — one of `none`, `balanced`, `comprehensive` (defaults to `comprehensive` if unstated)
-- **A clean working tree** and confirmation this is genuinely a whole-feature run, not an isolated fix
+- **Workflow fit** — confirmation this is genuinely a whole-feature run, not an isolated fix better served by `301` or `401` directly
 
 ## Common prompts
 
@@ -59,15 +73,17 @@ Once the loop merges back into the base branch, the feature branch is kept (not 
 
 - Per-scenario build steps (`301`, then `401` source, then `401` test) run as direct sequential skill calls, never wrapped in `900-feedback-loop` — `301`'s own internal phase validation is the guardrail at that granularity
 - Only design/spec artifacts and aggregate end-of-round cleanup get the `900-feedback-loop` treatment
+- Every validation checkpoint — baseline, each scenario, round close-out, and final — runs all four layers as separate `@validator` calls, never combined into one pass; failing tests route to `402-test-correction`, lint/build failures to a focused `@coder` repair pass
 - Scope-expansion authorization for aggregate `401` cleanup applies only to whichever round actually runs last
 - All git operations run directly in the orchestrating context, never delegated to a subagent
 
 ## Common mistakes
 
 - Running it for a small, isolated change that `301` or `401` alone would have handled with far less overhead
-- Starting the next scenario's build cycle before the current one is committed
+- Starting the next scenario's build cycle before the current one — including its status-tag update and green check — is committed
 - Expecting round 2 to re-run round-1 scenarios — it only builds out the newly added `@TS###` scenarios
+- Treating a merge conflict resolution as a substitute for revalidation — the final four-layer check always reruns after a conflict is resolved
 
-<Callout tone="tip" title="Stops rather than guesses">
-  `901-feature-loop` stops and asks rather than guessing at feature identity, round-2 coverage ambiguity, a dirty working tree, an existing branch of the same name, or a repair/feedback loop that stops converging.
+<Callout tone="tip" title="Decides rather than asks">
+  `901-feature-loop` never stops mid-run to ask the user a question. Feature identity, round-2 coverage ambiguity, a dirty working tree, an existing branch of the same name, and a repair/feedback loop that stops converging all route through the Decision Consult instead, and the run acts on the result immediately.
 </Callout>

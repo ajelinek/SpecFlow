@@ -1,26 +1,28 @@
 ---
 name: 900-feedback-loop
 description: >
-  Use `900` to run a bounded apply-fix/review convergence cycle around a piece of work
-  that already happened. It runs the Step 1 (apply-fix) and Step 2 (review) roles in separate,
-  isolated subagent contexts and repeats them until Step 2 returns a clean verdict or a safety
-  cap is hit. Trigger it for prompts like "900", "feedback loop", "review this and fix it until
-  it's clean", or when another workflow needs a reusable review-and-converge step around a
+  Use `900` to run a bounded review/apply-fix convergence cycle around a piece of work that
+  already happened. It runs the Step 1 (review) and Step 2 (apply-fix) roles in separate,
+  isolated subagent contexts and repeats them until Step 1's review returns a clean verdict or a
+  safety cap is hit. Trigger it for prompts like "900", "feedback loop", "review this and fix it
+  until it's clean", or when another workflow needs a reusable review-and-converge step around a
   specific artifact or change set.
-argument-hint: "[step-1-apply-fix-brief] [step-2-review-brief]"
+argument-hint: "[step-1-review-brief] [step-2-apply-fix-brief]"
 disable-model-invocation: true
 context: fork
 ---
 
 # 900 - Feedback Loop
 
-Run a two-role convergence loop: Step 1 applies fixes, Step 2 reviews the result against explicit
-criteria, and the loop repeats until Step 2 reports clean or the iteration cap is hit. This skill
-does not perform the original work itself — the caller does that beforehand and hands this skill
-the review criteria plus how to apply fixes when there are any.
+Two-role convergence loop: Step 1 reviews the work against explicit criteria, Step 2 fixes
+exactly what Step 1 flagged, and the cycle repeats — review, fix, review — until Step 1 reports
+clean or the iteration cap is hit. The caller has already done the original work; this skill only
+judges it and patches what's wrong with it.
 
-**Output**: No new `.specflow/` artifact of its own. Updates whatever files the Step 1 brief scopes
-in on later iterations. Returns a convergence report in chat.
+**Output**: A convergence report in chat, nothing else. This skill creates no artifacts of its
+own — no tracking docs, no `.specflow/` files, no scratch reports. Step 2 only edits files already
+in scope, touching anything outside it solely when a specific Step 1 finding requires it (e.g. a
+missing test the finding names) — never speculatively, never as general cleanup.
 
 ---
 
@@ -28,73 +30,61 @@ in on later iterations. Returns a convergence report in chat.
 
 Before proceeding, confirm:
 
-1. **Step 1 brief** — the apply-fix objective, exact files/artifacts in scope, and how to apply
-   review feedback when there is any. If the real creation work already happened outside this
-   skill, say so explicitly here rather than leaving Step 1 undefined; the first pass is then a
-   no-op until Step 2 finds something.
-2. **Step 2 brief** — the exact artifact/scope to review and the concrete criteria to judge it
-   against.
-3. **Agent for each step** *(optional)* — defaults to `general-purpose` for Step 1 and `@reviewer`
-   for Step 2. The caller may name a different agent for either role (for example `@coder` for
-   Step 1 when the fix is a real code change).
-4. **Iteration cap** *(optional)* — defaults to 5 apply-fix/review pairs.
+1. **Step 1 brief (review)** — the exact artifact/scope to review, already completed, and the
+   criteria to judge it against. If the work isn't done yet, send the caller back to finish it
+   first — this skill never performs it.
+2. **Step 2 brief (apply-fix)** — which files are in scope and any constraints on how fixes should
+   be made. Every fix pass is driven entirely by Step 1's latest feedback, never a general
+   "improve this."
+3. **Agents** *(optional)* — default `@reviewer` for Step 1, `general-purpose` for Step 2.
+   Override either when the work needs a specialist (e.g. `@coder` for real code fixes).
+4. **Iteration cap** *(optional)* — default 5 review/apply-fix pairs.
 
-If either brief is missing its scope or its criteria, ask one blocking question before starting.
-
----
-
-## Execution Protocol
-
-- Step 1 and Step 2 always run in separate, freshly spawned subagent contexts. Never reuse one
-  subagent's context for the other role, and never reuse a subagent across iterations.
-- This skill's own working state stays tiny: the two briefs, the current iteration count, and the
-  latest verdict. Do not accumulate subagent transcripts turn over turn.
-- Step 2's verdict is the sole authority on convergence. Do not override a `CHANGES_REQUIRED`
-  verdict because iterating further is expensive or slow.
+If either brief is missing its scope or criteria, ask one blocking question before starting.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Freeze the loop packet.** Record the Step 1 brief and agent, the Step 2 brief and
-  agent, the iteration cap (default 5), and set the iteration counter to 0.
+- [ ] **Step 1: Freeze the loop packet.** Record both briefs and agents, the iteration cap, and
+  set the iteration counter to 0.
 
-- [ ] **Step 2: Run Step 1.** Spawn the named Step 1 agent (default `general-purpose`) with the
-  Step 1 brief. On iteration 0 this may be a no-op pass-through if the brief says so. On later
-  iterations, replace the brief's instruction with exactly the feedback items Step 2 just returned.
-  Keep only its summary once it returns; discard the rest.
+- [ ] **Step 2: Run the review.** Spawn a fresh Step 1 subagent with the review brief and scope.
+  From iteration 2 on, also include a summary of the last fix pass so it checks resolution instead
+  of re-reviewing from a blank slate. Keep only the verdict and feedback items; discard the rest.
 
-- [ ] **Step 3: Run Step 2.** Spawn the named Step 2 agent (default `@reviewer`) with the Step 2
-  brief. From iteration 1 onward, include the prior iteration's feedback items verbatim in the
-  brief so the reviewer checks resolution status instead of free-reviewing from a blank slate.
-  Keep only its verdict once it returns; discard the rest.
-
-- [ ] **Step 4: Branch on the verdict.**
+- [ ] **Step 3: Branch on the verdict.**
   - `CLEAN` → go to Step 6.
-  - `CHANGES_REQUIRED` → increment the iteration counter. If it now exceeds the cap, go to Step 7.
-    Otherwise, go to Step 2 with the new feedback items.
-  - Blocking questions from either subagent, or an unparseable verdict → stop and surface them to
-    the caller instead of guessing.
+  - `CHANGES_REQUIRED` → increment the iteration counter. If it now exceeds the cap, go to Step 7;
+    otherwise go to Step 4.
+  - Blocking questions from Step 1, or an unparseable verdict → stop and surface them to the
+    caller instead of guessing.
 
-- [ ] **Step 5: (loop point)** Steps 2-4 repeat until Step 6 or Step 7 is reached.
+- [ ] **Step 4: Apply the fix.** Spawn a fresh Step 2 subagent with the apply-fix brief, its
+  instruction replaced by exactly Step 1's feedback items. Scope changes to the files those items
+  point at — no unrelated cleanup, no new files unless a specific item requires one. Keep only its
+  summary; discard the rest.
 
-- [ ] **Step 6: Report convergence.** Summarize total iterations run, what changed across them if
+- [ ] **Step 5: Loop.** Return to Step 2. Steps 2-4 repeat until Step 6 or Step 7 is reached.
+
+- [ ] **Step 6: Report convergence.** Summarize iterations run, what changed across them if
   anything, and the final clean verdict.
 
 - [ ] **Step 7: Escalate on cap.** Report the iteration history (what feedback recurred or kept
-  changing), the final outstanding feedback items, and stop. Do not force-accept the current state
-  and do not silently give up — hand the decision back to whatever invoked this skill.
+  changing) and the final outstanding items, then stop. Hand the decision back to the caller
+  rather than force-accepting the current state or silently giving up.
 
 ---
 
 ## Rules
 
-1. Step 1 and Step 2 never share a subagent context, and no subagent persists across iterations.
-2. Every iteration's Step 1 brief must be explicit about what it is doing, even when it is a
-   no-op — never leave Step 1 ambiguous.
-3. Step 2 is authoritative on whether the loop continues.
-4. Escalate rather than guess when the cap is hit, when a subagent returns blocking questions, or
-   when a verdict cannot be parsed as `CLEAN` or `CHANGES_REQUIRED`.
-5. Keep this skill's own context small: briefs, iteration count, and latest verdict only.
-6. Default agents are `general-purpose` (Step 1) and `@reviewer` (Step 2); the caller may override
-   either when the work needs a more specialized worker.
+1. Step 1 and Step 2 always run in separate, freshly spawned subagent contexts — never shared,
+   never reused across iterations.
+2. Step 1 runs first every cycle and is the sole authority on whether the loop continues; never
+   override a `CHANGES_REQUIRED` verdict because another pass is slow or costly.
+3. Step 2's instruction is always exactly Step 1's latest feedback items — never vague, and never
+   scoped beyond what those items name.
+4. Keep this skill's own working state tiny: the two briefs, iteration count, and latest verdict —
+   no subagent transcripts carried forward between iterations.
+5. Escalate rather than guess: a cap hit, blocking questions, or an unparseable verdict all stop
+   the loop for caller input.
