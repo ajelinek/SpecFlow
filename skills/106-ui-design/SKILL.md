@@ -46,26 +46,28 @@ with a recommended answer.
   D01, D05, and `.specflow/context/domain-knowledge.md` when present. Reference these docs; do not
   restate them.
 
-- [ ] **Step 3: Generate three design directions.** Use `@designer` when available. Pass only the
-  relevant context:
+- [ ] **Step 3: Generate three design directions.** Use `@designer` when available. Spawn three
+  parallel calls in a single message (foreground, `run_in_background: false`, so all three return
+  before you continue) — each call is a fresh, independent `@designer` invocation with no
+  visibility into the other two. Pass every call the same relevant context:
   - confirmed inputs from Step 1
   - relevant excerpts from D01
   - styling and implementation constraints from D05
   - domain conventions from `domain-knowledge.md` when they materially affect design
 
-  Ask for **three distinct directions** that differ in color philosophy, typography, density, and
-  motion tone.
+  Assign each call exactly one seed bet so the three diverge structurally: restrained/functional,
+  expressive/characterful, dense/information-forward. Each call returns exactly one direction.
 
   Handling rules:
   - answer `@designer` clarifying questions from loaded context first
   - ask the user only when the context cannot answer them
-  - if `@designer` flags a conflict with existing D06/D07 decisions, surface it instead of
-    overriding silently
+  - if any call flags a conflict with existing D06/D07 decisions, surface it instead of overriding
+    silently
   - if the user approves a conflicting direction, update the governing doc first before treating
     that direction as resolved
   - if `@designer` is unavailable, generate the three directions yourself from the same context
 
-- [ ] **Step 4: Evaluate the directions.** Score them against:
+- [ ] **Step 4: Evaluate the directions.** Score the three returned candidates against:
   - brand alignment
   - audience fit and accessibility
   - differentiation from named competitors
@@ -73,7 +75,9 @@ with a recommended answer.
   - accessibility feasibility without special workarounds
 
   Choose one direction as the recommendation. If the runner-up has elements worth keeping, note
-  exactly what to borrow.
+  exactly what to borrow. If two candidates are too close to call confidently on these criteria
+  alone, get a second opinion: pass the two closest cards to one more `@designer` call framed as a
+  judgment brief between them, rather than guessing or defaulting to a generic pick.
 
 - [ ] **Step 5: Draft the document.** Use `./templates/T06 - UI Design.md` and fill in:
   - **Design Strategy & Brand Foundation**

@@ -46,16 +46,19 @@ with a recommended answer.
   D01, D02, D05, D06, and `.specflow/context/domain-knowledge.md` when present. If helpful,
   delegate file retrieval to `@explore` to keep the main context tight.
 
-- [ ] **Step 3: Generate three UX directions.** Use `@designer` when available. Pass only the
-  relevant context:
+- [ ] **Step 3: Generate three UX directions.** Use `@designer` when available. Spawn three
+  parallel calls in a single message (foreground, `run_in_background: false`, so all three return
+  before you continue) — each call is a fresh, independent `@designer` invocation with no
+  visibility into the other two. Pass every call the same relevant context:
   - user roles and workflows from Step 1 and D01
   - device targets and form-factor constraints
   - routing and structural constraints from D02/D05
   - visual conventions from D06
   - domain user mental models when they materially affect navigation
 
-  Ask for **three distinct UX directions** that differ in navigation model, interaction density,
-  and cross-platform adaptation.
+  Assign each call exactly one seed bet so the three diverge structurally: a role-segmented
+  navigation structure, a unified single structure, and a task-first workflow structure. Each call
+  returns exactly one direction.
 
   Handling rules:
   - answer `@designer` clarifying questions from loaded context first
@@ -66,7 +69,7 @@ with a recommended answer.
   - if `@designer` is unavailable, use `@explore` to research three plausible UX/navigation
     approaches for the product type and evaluate those instead
 
-- [ ] **Step 4: Evaluate the directions.** Score them against:
+- [ ] **Step 4: Evaluate the directions.** Score the three returned candidates against:
   - user-goal alignment
   - role differentiation
   - device feasibility
@@ -75,7 +78,9 @@ with a recommended answer.
   - cognitive load
 
   Choose one direction as the recommendation. If the runner-up has elements worth preserving, note
-  them.
+  them. If two candidates are too close to call confidently on these criteria alone, get a second
+  opinion: pass the two closest cards to one more `@designer` call framed as a judgment brief
+  between them, rather than guessing or defaulting to a generic pick.
 
 - [ ] **Step 5: Build the page inventory.** Using the selected direction and known workflows,
   produce a complete page inventory with:

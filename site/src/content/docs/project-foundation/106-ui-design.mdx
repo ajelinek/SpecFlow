@@ -56,7 +56,7 @@ This is a decision record, not an implementation spec. Design tokens and CSS var
 
 <PromptBlock title="Prompt" text={`Run 106-ui-design. Professional and approachable, responsive with desktop priority, light and dark modes, construction industry context.`} />
 
-<PromptBlock title="Prompt" text={`Run 106 — generate three design direction options for a healthcare tool targeting clinical staff.`} />
+<PromptBlock title="Prompt" text={`Run 106 for a healthcare tool targeting clinical staff — professional, high-trust, desktop-first.`} />
 
 ## What usually comes next
 
@@ -64,7 +64,7 @@ This is a decision record, not an implementation spec. Design tokens and CSS var
 
 ## Practical guidance
 
-- Generate multiple distinct design directions before committing to one. A single-option design process tends to produce mediocre output.
+- `106` calls `@designer` three times in parallel, each a fresh invocation with a different seed bet, to get genuinely divergent directions, then scores them itself in Step 4 — a single-option design process tends to produce mediocre output.
 - The color system should define semantic roles (primary action, destructive, surface, border) not just color values. Usage rules matter as much as the colors themselves.
 - Reference D01 for brand intent and user goals, and D05 for the component library already chosen. D06 must work within those constraints.
 - Every design decision should be traceable to a business goal, user need, or design principle. Avoid aesthetic choices that cannot be explained in those terms.

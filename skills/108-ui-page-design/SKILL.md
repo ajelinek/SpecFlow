@@ -50,8 +50,10 @@ asking, then asks about anything still open one question at a time with a recomm
   `domain-knowledge.md` when present. Reuse existing D08 patterns unless there is a good reason not
   to.
 
-- [ ] **Step 3: Generate three layout directions.** Use `@designer` when available. Pass only the
-  relevant page context:
+- [ ] **Step 3: Generate three layout directions.** Use `@designer` when available. Spawn three
+  parallel calls in a single message (foreground, `run_in_background: false`, so all three return
+  before you continue) — each call is a fresh, independent `@designer` invocation with no
+  visibility into the other two. Pass every call the same relevant page context:
   - page purpose and primary action
   - role-specific differences
   - responsive priority
@@ -61,8 +63,9 @@ asking, then asks about anything still open one question at a time with a recomm
   - reusable patterns already established in D08
   - domain conventions that affect data density, display rules, or hierarchy
 
-  Ask for **three distinct layout directions** that differ in information hierarchy, content
-  density, and primary action placement.
+  Assign each call exactly one seed bet so the three diverge structurally: a content-led
+  hierarchy, a spatial/layout-led hierarchy, and an action-led hierarchy. Each call returns
+  exactly one direction.
 
   Handling rules:
   - answer `@designer` clarifying questions from loaded context first
@@ -73,7 +76,7 @@ asking, then asks about anything still open one question at a time with a recomm
   - if `@designer` is unavailable, use `@explore` to research three plausible layout patterns for
     the page type and evaluate those instead
 
-- [ ] **Step 4: Evaluate the directions.** Score them against:
+- [ ] **Step 4: Evaluate the directions.** Score the three returned candidates against:
   - user goal alignment
   - D06 design-system compliance
   - D07 navigation consistency
@@ -82,7 +85,10 @@ asking, then asks about anything still open one question at a time with a recomm
   - pattern reuse
   - accessibility
 
-  Choose one direction and note any elements worth borrowing from the runner-up.
+  Choose one direction and note any elements worth borrowing from the runner-up. If two candidates
+  are too close to call confidently on these criteria alone, get a second opinion: pass the two
+  closest cards to one more `@designer` call framed as a judgment brief between them, rather than
+  guessing or defaulting to a generic pick.
 
 - [ ] **Step 5: Formalize the data and interaction inventory.** Produce:
   - **Key data attributes** — name, source, and display format when relevant

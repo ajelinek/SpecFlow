@@ -31,7 +31,7 @@ SpecFlow ships five supporting worker agents in `agents/`:
   **Defaults:**
   - `coder`: `sonnet` (requires high reasoning and coding capability)
   - `validator`: `haiku` (fast and cheap, just runs scripts)
-  - `designer`: `opus` (UI and visual reasoning)
+  - `designer`: `sonnet` at `xhigh` effort (generates one design direction per call; `106`/`107`/`108` call it three times in parallel with different seed bets and pick the winner themselves)
   - `reviewer`: `sonnet` (grounded review against explicit criteria)
   - `decider`: `opus` at max effort (the highest-stakes calls in a headless `901` run — nothing else double-checks them)
 </Callout>

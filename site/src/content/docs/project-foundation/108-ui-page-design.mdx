@@ -53,7 +53,7 @@ The mockup is a **pure design tool**. It uses inline styles and placeholder data
 
 <PromptBlock title="Prompt" text={`Run 108-ui-page-design for the expense detail page.`} />
 
-<PromptBlock title="Prompt" text={`Run 108 for the project dashboard page — generate three layout options and let me choose.`} />
+<PromptBlock title="Prompt" text={`Run 108 for the project dashboard page.`} />
 
 ## What usually comes next
 
@@ -62,7 +62,7 @@ After D08 pages are designed for the routes where it is needed, move to `110-fea
 ## Practical guidance
 
 - Every design decision in the mockup should trace to D01 (user goals), D06 (design system), or D07 (navigation and page inventory). This skill applies established decisions — it does not establish new design system rules.
-- Generating multiple layout directions before committing to one produces better outcomes. Let the team choose rather than accepting the first generated option.
+- `108` calls `@designer` three times in parallel, each a fresh invocation with a different seed bet, to get genuinely divergent layouts, then scores them itself in Step 4 rather than committing to the first generated option.
 - The `overview.md` should capture things the mockup cannot show: which fields are required, what happens on error, what roles see different content.
 - When designing a page, check D08 for other pages already designed — reuse patterns and components rather than inventing new ones.
 

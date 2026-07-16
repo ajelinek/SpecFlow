@@ -1,0 +1,32 @@
+---
+title: Core Workflow
+description: The recommended default delivery loop for most feature work — define, specify, build, clean up.
+sidebar:
+  order: 2
+---
+
+import Callout from '../../components/Callout.astro';
+
+Most feature work follows the same four-step loop. It is the default path behind the **Minimal** and **Lean** options on the [homepage path picker](../), and the one to reach for whenever the product and architecture are already clear enough that you do not need the full `100` series first.
+
+## The loop
+
+| Step | Does | Output |
+|---|---|---|
+| [`201-high-level-design`](../feature-design/201-high-level-design/) | Define the feature in plain language: scope and user journey | `overview.md` |
+| [`202-spec-design`](../feature-design/202-spec-design/) | Write the Gherkin scenarios that describe expected behavior | `specs.feature` |
+| [`301-spec-implementation`](../implementation/301-spec-implementation/) | Build the feature through a tests-first, phase-isolated workflow | Working, tested code |
+| [`401-cleanup`](../cleanup/401-cleanup/) | Run a separate cleanup-only pass on the changed source or test files | Refined diff |
+
+<Callout tone="core" title="This is the minimum viable loop">
+  `201 → 202 → 301` is the shortest path from feature request to implemented, tested code. `401` is a deliberate follow-up pass — `301` already includes internal cleanup, so treat `401` as optional extra polish rather than a required fourth step.
+</Callout>
+
+<Callout tone="tip" title="Need more upfront context?">
+  If the product, architecture, or UX is still unclear, run the [Project Foundation](../project-foundation/) series first. If the missing work is only test coverage for behavior that already exists, use [`302-test-implementation`](../implementation/302-test-implementation/) instead of `301`.
+</Callout>
+
+## Next
+
+- **[Full Skill Catalog](../skills/)** — every skill, including the optional steps this loop skips
+- **[Examples](../examples/)** — worked prompt sequences through this loop and its variations

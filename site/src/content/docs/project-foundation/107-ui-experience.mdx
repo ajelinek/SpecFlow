@@ -63,6 +63,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 ## Practical guidance
 
 - The page inventory is the most used output of D07. Make it complete and specific: route, purpose, primary user action, and which roles have access.
+- `107` calls `@designer` three times in parallel, each a fresh invocation with a different seed bet, to get genuinely divergent UX directions, then scores them itself in Step 4.
 - Navigation philosophy should explain the structural choice (why top nav over sidebar, why tabs over a drawer) in terms of user goals and device support.
 - Error and empty state patterns belong here, not in individual page designs. Consistent handling reduces the number of decisions `108` has to make.
 - Reference D06 for design conventions already established. Navigation and interaction patterns must align with the visual system.

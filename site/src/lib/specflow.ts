@@ -465,7 +465,7 @@ export const starlightSidebar = [
     ],
   },
   {
-    label: 'Support Skills',
+    label: 'Bonus Skills',
     items: [
       { slug: 'support-skills', label: 'Overview' },
       'support-skills/context-manager',

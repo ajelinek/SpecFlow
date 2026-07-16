@@ -12,7 +12,7 @@ The `900` series is different from the `100`-`400` series: it is not a pipeline 
 ## The split
 
 - `900-feedback-loop`: a bounded review/apply-fix convergence cycle around work that already happened, using isolated subagent contexts for the review and apply-fix roles
-- `901-feature-loop`: runs one feature end-to-end, headless, through a green four-layer baseline gate, `201` -> `202` -> per-scenario `301`/`401` build-out -> cleanup -> an optional expanded-coverage round -> final validation -> merge, on its own branch, with `900-feedback-loop` reviewing every design artifact and cleanup pass and a two-`@decider`-call Decision Consult resolving every fork in the road along the way
+- `901-feature-loop`: runs one feature end-to-end, headless, through a green four-layer baseline gate, `201` -> `202` -> per-scenario `301`/`401` build-out -> cleanup -> an optional expanded-coverage round -> final validation -> merge, on its own branch, with `900-feedback-loop` reviewing every design artifact and cleanup pass and a single-`@decider`-call Decision Consult — the agent runs its own three-way stance-framed arbitration internally — resolving every fork in the road along the way
 
 <Callout tone="core" title="901 is built on 900">
   `901-feature-loop` does not reimplement review-and-converge logic — every design/spec artifact and every aggregate end-of-round cleanup pass in a `901` run is checked by a `900-feedback-loop` call before the run advances.
@@ -24,5 +24,5 @@ The `900` series is different from the `100`-`400` series: it is not a pipeline 
 
 ## Skills in this series
 
-- **[900 Feedback Loop](./orchestration/900-feedback-loop/)** — bounded review/apply-fix convergence cycle around a specific artifact or change set
-- **[901 Feature Loop](./orchestration/901-feature-loop/)** — run one feature end-to-end through the full pipeline as a single git-tracked run
+- **[900 Feedback Loop](./900-feedback-loop/)** — bounded review/apply-fix convergence cycle around a specific artifact or change set
+- **[901 Feature Loop](./901-feature-loop/)** — run one feature end-to-end through the full pipeline as a single git-tracked run
