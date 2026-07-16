@@ -1,0 +1,65 @@
+---
+title: 900 Feedback Loop
+description: Run a bounded apply-fix/review convergence cycle around a piece of work that already happened, using isolated subagent contexts for each role.
+sidebar:
+  order: 1
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`900-feedback-loop` runs a two-role convergence loop around work that already happened: a Step 1 agent applies fixes, a Step 2 agent reviews the result against explicit criteria, and the loop repeats until Step 2 reports clean or a safety cap is hit. It does not perform the original work itself — the caller supplies the review criteria and how to apply fixes.
+
+**Output**: No new `.specflow/` artifact of its own. Updates whatever files the Step 1 brief scopes in on later iterations, and returns a convergence report in chat.
+
+## When to use it
+
+- When another workflow needs a reusable review-and-converge step around a specific artifact or change set — this is how `901-feature-loop` checks every design/spec artifact and cleanup pass
+- To review something and keep fixing it until it passes explicit criteria, without doing the apply-fix/review cycling by hand
+- Whenever a Step 1 apply-fix brief and a Step 2 review brief can both be stated concretely
+
+## When NOT to use it
+
+- When the original creation work has not happened yet — this skill only wraps around work that already exists
+- When review criteria cannot be stated concretely — a vague brief produces a vague, unreliable loop
+- For one-off review with no intent to iterate — a direct `@reviewer` call is simpler
+
+<Callout tone="core" title="Step 2 is the sole authority on convergence">
+  This skill never overrides a `CHANGES_REQUIRED` verdict just because iterating further is expensive or slow. If the cap is hit, it escalates with the full iteration history instead of force-accepting the current state.
+</Callout>
+
+## What it produces
+
+- A convergence report: total iterations run, what changed across them, and the final verdict
+- On cap escalation instead: the iteration history, what feedback recurred, and the final outstanding items — handed back to the caller rather than silently given up on
+
+## Required inputs
+
+- **Step 1 brief** — the apply-fix objective, exact files/artifacts in scope, and how to apply review feedback. If the real creation work already happened outside this skill, say so explicitly; the first pass is then a no-op until Step 2 finds something.
+- **Step 2 brief** — the exact artifact/scope to review and the concrete criteria to judge it against
+- **Agent for each step** *(optional)* — defaults to `general-purpose` for Step 1 and `@reviewer` for Step 2
+- **Iteration cap** *(optional)* — defaults to 5 apply-fix/review pairs
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Use 900-feedback-loop to review the invoice-approval spec against 202's quality checklist and fix anything it flags.`} />
+
+<PromptBlock title="Prompt" text={`Run a feedback loop on the changed files in this branch: apply-fix with @coder, review against our lint and test-coverage rules with @reviewer.`} />
+
+## Practical guidance
+
+- Step 1 and Step 2 always run in separate, freshly spawned subagent contexts — never reuse one subagent's context for the other role, and never reuse a subagent across iterations
+- Keep the loop's own working state small: the two briefs, the iteration count, and the latest verdict — do not accumulate subagent transcripts turn over turn
+- Every iteration's Step 1 brief should be explicit about what it is doing, even a no-op pass
+
+## Common mistakes
+
+- Handing Step 1 a vague brief on later iterations instead of the exact feedback items Step 2 just returned
+- Letting the loop run past the iteration cap by silently resetting the counter instead of escalating
+- Reusing one subagent context across both roles, which lets the "reviewer" see its own fix reasoning instead of judging fresh
+
+<Callout tone="tip" title="Default agents can be overridden">
+  Step 1 defaults to `general-purpose` and Step 2 defaults to `@reviewer`, but the caller may name a different agent for either role — for example `@coder` for Step 1 when the fix is a real code change.
+</Callout>

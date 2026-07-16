@@ -113,6 +113,7 @@ describe('skills', () => {
     'Feature Design',
     'Implementation and Cleanup',
     'Bonus Skills',
+    'Orchestration Skills',
   ];
 
   it('contains at least one core skill', () => {
@@ -148,6 +149,7 @@ describe('getSkillsByCategory', () => {
       'Feature Design',
       'Implementation and Cleanup',
       'Bonus Skills',
+      'Orchestration Skills',
     ]);
   });
 

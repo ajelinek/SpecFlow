@@ -1,0 +1,73 @@
+---
+title: 901 Feature Loop
+description: Run one feature end-to-end through SpecFlow's full pipeline as a single git-tracked run, with 900-feedback-loop reviewing every design and cleanup pass along the way.
+sidebar:
+  order: 2
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`901-feature-loop` runs one feature through `201` -> `202` (Happy Path) -> per-scenario `301`+`401`+`401` -> end-of-round cleanup -> an optional expanded-coverage round of the same shape -> final validation -> merge, all on its own branch, with a commit after every stage. `900-feedback-loop` reviews every design/spec artifact and every aggregate cleanup pass before the run advances past it.
+
+**Output**: Updates project source/test files and `.specflow/features/<fid>-<feature-slug>/` artifacts. Creates a feature branch, commits throughout, and merges it back. No new artifact type of its own.
+
+## When to use it
+
+- For a whole feature that justifies full BDD rigor and branch-level traceability, end to end, with minimal manual orchestration
+- When you want every design/spec artifact and every aggregate cleanup pass reviewed and converged automatically before the run advances
+- When commit-level traceability across every stage — design, each scenario, cleanup, merge — matters more than moving fast
+
+## When NOT to use it
+
+- For an isolated fix or small maintenance change — reroute to `301-spec-implementation` or `401-cleanup` directly instead
+- When you want to review or steer individual stages by hand rather than letting the loop run to completion
+- On a dirty working tree — the loop requires a clean `git status --porcelain` before it will start
+
+<Callout tone="core" title="Heavy by design">
+  A feature with several scenarios across two coverage rounds can involve on the order of a hundred or more subagent invocations. Use `901-feature-loop` when a feature genuinely warrants full BDD rigor and branch-level traceability; route small, isolated changes to `301` or `401` directly instead.
+</Callout>
+
+## What it produces
+
+- A dedicated `feature/<fid>-<feature-slug>` branch, created from the current branch, with a commit after every stage
+- Every design/spec artifact (`201` overview, `202` specs) reviewed and refined by `900-feedback-loop` before the run advances
+- Round 1 (Happy Path Only, always runs) and an optional Round 2 (`none` / `balanced` / `comprehensive` coverage, default `comprehensive`)
+- Aggregate source and test cleanup passes at the end of each round, each reviewed by `900-feedback-loop`
+- A final validation pass (`test`, `lint`, `build`) and a `--no-ff` merge back into the base branch — the feature branch is kept afterward, never deleted, and nothing is ever pushed to a remote
+- A summary: feature identity, branch name, round-2 coverage used, the full commit ledger, scenarios implemented per round, `900-feedback-loop` iteration counts per stage, final validation result, and the merge commit
+
+## Required inputs
+
+- **Feature identity** — a name and/or `F-ID`, resolved the same way `201` resolves it
+- **Round 2 coverage** — one of `none`, `balanced`, `comprehensive` (defaults to `comprehensive` if unstated)
+- **A clean working tree** and confirmation this is genuinely a whole-feature run, not an isolated fix
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 901-feature-loop for invoice approval.`} />
+
+<PromptBlock title="Prompt" text={`Master loop this feature: F013, round-2 coverage balanced.`} />
+
+## What usually comes next
+
+Once the loop merges back into the base branch, the feature branch is kept (not deleted) for reference — no further steps are required unless expanded coverage was skipped and you want to add it later as a separate run.
+
+## Practical guidance
+
+- Per-scenario build steps (`301`, then `401` source, then `401` test) run as direct sequential skill calls, never wrapped in `900-feedback-loop` — `301`'s own internal phase validation is the guardrail at that granularity
+- Only design/spec artifacts and aggregate end-of-round cleanup get the `900-feedback-loop` treatment
+- Scope-expansion authorization for aggregate `401` cleanup applies only to whichever round actually runs last
+- All git operations run directly in the orchestrating context, never delegated to a subagent
+
+## Common mistakes
+
+- Running it for a small, isolated change that `301` or `401` alone would have handled with far less overhead
+- Starting the next scenario's build cycle before the current one is committed
+- Expecting round 2 to re-run round-1 scenarios — it only builds out the newly added `@TS###` scenarios
+
+<Callout tone="tip" title="Stops rather than guesses">
+  `901-feature-loop` stops and asks rather than guessing at feature identity, round-2 coverage ambiguity, a dirty working tree, an existing branch of the same name, or a repair/feedback loop that stops converging.
+</Callout>

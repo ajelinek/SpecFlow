@@ -1,0 +1,28 @@
+---
+title: Orchestration Skills (900 Series)
+description: Cross-cutting loops that wrap around other skills — a reusable review/converge primitive and a full end-to-end feature orchestrator built on top of it.
+sidebar:
+  order: 9
+---
+
+import Callout from '../../components/Callout.astro';
+
+The `900` series is different from the `100`-`400` series: it is not a pipeline phase you move through once per feature. These skills wrap *around* other skills — reviewing and converging on their output, or composing several of them into one automated run. Both are user-invoked.
+
+## The split
+
+- `900-feedback-loop`: a bounded apply-fix/review convergence cycle around work that already happened, using isolated subagent contexts for the apply-fix and review roles
+- `901-feature-loop`: runs one feature end-to-end through `201` -> `202` -> per-scenario `301`/`401` build-out -> cleanup -> an optional expanded-coverage round -> merge, on its own branch, with `900-feedback-loop` reviewing every design artifact and cleanup pass along the way
+
+<Callout tone="core" title="901 is built on 900">
+  `901-feature-loop` does not reimplement review-and-converge logic — every design/spec artifact and every aggregate end-of-round cleanup pass in a `901` run is checked by a `900-feedback-loop` call before the run advances.
+</Callout>
+
+<Callout tone="optional" title="901 is heavy by design">
+  A feature with several scenarios across two coverage rounds can involve on the order of a hundred or more subagent invocations. Use `901-feature-loop` when a feature genuinely warrants full BDD rigor and branch-level traceability; route small, isolated changes to `301` or `401` directly instead.
+</Callout>
+
+## Skills in this series
+
+- **[900 Feedback Loop](./orchestration/900-feedback-loop/)** — bounded apply-fix/review convergence cycle around a specific artifact or change set
+- **[901 Feature Loop](./orchestration/901-feature-loop/)** — run one feature end-to-end through the full pipeline as a single git-tracked run

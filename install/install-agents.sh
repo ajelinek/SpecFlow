@@ -59,7 +59,7 @@ fi
 
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 source_dir="$script_dir/../agents"
-agent_files="coder.md designer.md execution-agent.md"
+agent_files="coder.md designer.md execution-agent.md reviewer.md"
 
 mkdir -p "$target_dir"
 

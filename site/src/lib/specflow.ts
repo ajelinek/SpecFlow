@@ -10,7 +10,8 @@ export type SkillCategory =
   | 'Project Definition'
   | 'Feature Design'
   | 'Implementation and Cleanup'
-  | 'Bonus Skills';
+  | 'Bonus Skills'
+  | 'Orchestration Skills';
 
 export interface Skill {
   slug: string;
@@ -165,6 +166,11 @@ export const skillSeries: SkillSeries[] = [
     range: '400 Series',
     title: 'Correction and cleanup',
     description: 'Triage failing tests when the right fix path is unclear, or run a deliberate cleanup pass over an already-changed scope.',
+  },
+  {
+    range: '900 Series',
+    title: 'Orchestration',
+    description: 'Cross-cutting loops that wrap around other skills — a reusable review/converge primitive and a full end-to-end feature orchestrator built on top of it.',
   },
 ];
 
@@ -372,6 +378,22 @@ export const skills: Skill[] = [
     tier: 'bonus',
     category: 'Bonus Skills',
   },
+  {
+    slug: '900-feedback-loop',
+    label: '900-feedback-loop',
+    purpose: 'Run a bounded apply-fix/review convergence cycle around work that already happened, using isolated subagent contexts for the apply-fix and review roles.',
+    whenToUse: 'Use it any time another workflow needs a reusable review-and-converge step around a specific artifact or change set, or to review something and keep fixing it until it passes explicit criteria.',
+    tier: 'optional',
+    category: 'Orchestration Skills',
+  },
+  {
+    slug: '901-feature-loop',
+    label: '901-feature-loop',
+    purpose: 'Run one feature end-to-end through the full SpecFlow pipeline as a single git-tracked run — design, happy-path specs, per-scenario build-out, cleanup, an optional expanded-coverage round, and a merge back to the base branch.',
+    whenToUse: 'Use it for a feature that genuinely warrants full BDD rigor and branch-level traceability; route small, isolated changes to 301 or 401 directly instead.',
+    tier: 'optional',
+    category: 'Orchestration Skills',
+  },
 ];
 
 export const starlightSidebar = [
@@ -444,6 +466,14 @@ export const starlightSidebar = [
     ],
   },
   {
+    label: 'Orchestration Skills (900s)',
+    items: [
+      { slug: 'orchestration', label: 'Overview' },
+      'orchestration/900-feedback-loop',
+      'orchestration/901-feature-loop',
+    ],
+  },
+  {
     label: 'Examples',
     items: [
       { slug: 'examples', label: 'Overview' },
@@ -464,6 +494,7 @@ export function getSkillsByCategory() {
     'Feature Design',
     'Implementation and Cleanup',
     'Bonus Skills',
+    'Orchestration Skills',
   ];
 
   return categories.map((category) => ({

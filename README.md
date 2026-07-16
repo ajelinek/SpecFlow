@@ -87,6 +87,7 @@ SpecFlow includes supporting worker agents in `agents/`:
 - `coder`
 - `designer`
 - `execution-agent`
+- `reviewer`
 
 The main install covers skills only. The worker agents are optional.
 
@@ -270,6 +271,7 @@ SpecFlow includes a small worker bundle that supports the workflows:
 - `coder`
 - `designer`
 - `execution-agent`
+- `reviewer`
 
 These are support workers, not the main user-facing interface. The main interface is the skill catalog.
 
@@ -283,6 +285,21 @@ These are useful support skills, but they are not part of the core SpecFlow feat
 Only these skills may be invoked automatically when appropriate.
 
 Everything else in SpecFlow is user-invoked.
+
+## Orchestration Skills
+
+These compose the core workflow into larger, git-tracked runs. Both are user-invoked.
+
+- `900-feedback-loop`: run a bounded apply-fix/review convergence cycle around work that already
+  happened, using isolated subagent contexts for each role
+- `901-feature-loop`: run one feature end-to-end through `201` -> `202` -> per-scenario `301`/`401`
+  build-out -> cleanup -> an optional expanded-coverage round -> merge, on its own branch, with
+  `900-feedback-loop` reviewing every design artifact and cleanup pass along the way
+
+`901-feature-loop` is heavy by design — on the order of a hundred or more subagent invocations for a
+feature with several scenarios across two coverage rounds. Use it when a feature genuinely
+warrants full BDD rigor and branch-level traceability; route small, isolated changes to `301` or
+`401` directly instead.
 
 ## Practical Advice
 
