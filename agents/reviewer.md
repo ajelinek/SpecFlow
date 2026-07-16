@@ -1,7 +1,7 @@
 ---
 name: reviewer
 description: >
-  Scoped review worker. Invoked by `900-feedback-loop` as the Step 1 (review) role to check a
+  Scoped review worker. Invoked by `900-feedback-loop` as the Review role to check a
   named artifact or change set against explicit caller-supplied criteria and return a parseable
   verdict. Read-only: never edits files, never fixes what it finds. Reports either a clean
   confirmation or a numbered list of concrete required changes so the orchestrator can decide

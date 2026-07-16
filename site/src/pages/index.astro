@@ -87,7 +87,10 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
 <BaseLayout currentPath={Astro.url.pathname} homeOnly={true}>
   <section class="home-hero container">
     <div class="home-hero__copy">
-      <p class="eyebrow">SpecFlow</p>
+      <div class="home-hero__badge-row">
+        <p class="eyebrow">SpecFlow</p>
+        <span class="home-hero__claude-badge">Built for Claude Code</span>
+      </div>
       <h1>Software, defined.</h1>
       <p class="home-hero__lede">A lightweight, spec-driven workflow for building with AI.</p>
     </div>
@@ -171,6 +174,47 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
             );
           })}
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-also-available container" aria-labelledby="home-also-available-title">
+    <div class="home-also-available__header">
+      <h2 id="home-also-available-title">Also available</h2>
+      <p>Skills that sit outside the linear path — used situationally, not as a pipeline step.</p>
+    </div>
+
+    <div class="home-also-available__grid">
+      <a class="home-also-available__feature" href={withBase('/orchestration/901-feature-loop/', base)}>
+        <svg class="home-also-available__feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m17 2 4 4-4 4" />
+          <path d="M3 11v-1a4 4 0 0 1 4-4h14" />
+          <path d="m7 22-4-4 4-4" />
+          <path d="M21 13v1a4 4 0 0 1-4 4H3" />
+        </svg>
+        <div class="home-also-available__feature-copy">
+          <div class="home-path-selection__card-topline">
+            <span class="home-path-selection__card-code">901</span>
+            <span class="home-path-selection__card-badge is-loop">Feature Loop</span>
+          </div>
+          <h3>Run a feature end-to-end, headless</h3>
+          <p>One command drives the full pipeline — design, specs, per-scenario build-out, cleanup, and a merge back to the base branch — as a single git-tracked run.</p>
+          <span class="home-also-available__feature-cta">See how it works →</span>
+        </div>
+      </a>
+
+      <div class="home-also-available__row">
+        <a class="home-also-available__card" href={withBase('/orchestration/900-feedback-loop/', base)}>
+          <span class="home-path-selection__card-code">900</span>
+          <h3>Feedback Loop</h3>
+          <p>Bounded review/apply-fix convergence cycle around any artifact or change set.</p>
+        </a>
+
+        <a class="home-also-available__card" href={withBase('/cleanup/402-test-correction/', base)}>
+          <span class="home-path-selection__card-code">402</span>
+          <h3>Test Correction</h3>
+          <p>Triage a failing test to decide whether the fix belongs in the test, the source, or the intended behavior.</p>
+        </a>
       </div>
     </div>
   </section>

@@ -10,15 +10,15 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What this skill is for
 
-`900-feedback-loop` runs a two-role convergence loop around work that already happened: a Step 1 agent reviews the work against explicit criteria, a Step 2 agent fixes exactly what Step 1 flagged, and the cycle repeats — review, fix, review — until Step 1 reports clean or a safety cap is hit. It does not perform the original work itself — the caller supplies the review criteria and how to apply fixes.
+`900-feedback-loop` runs a two-role convergence loop around work that already happened: **Review** checks the work against explicit criteria, **Apply-Fix** fixes exactly what Review flagged, and the cycle repeats — review, fix, review — until Review reports clean or a safety cap is hit. It does not perform the original work itself — the caller supplies the review criteria and how to apply fixes.
 
-**Output**: A convergence report in chat, nothing else. This skill creates no artifacts of its own — no tracking docs, no `.specflow/` files, no scratch reports. Step 2 only edits files already in scope, touching anything outside it solely when a specific Step 1 finding requires it.
+**Output**: A convergence report in chat, nothing else. This skill creates no artifacts of its own — no tracking docs, no `.specflow/` files, no scratch reports. Apply-Fix only edits files already in scope, touching anything outside it solely when a specific Review finding requires it.
 
 ## When to use it
 
 - When another workflow needs a reusable review-and-converge step around a specific artifact or change set — this is how `901-feature-loop` checks every design/spec artifact and cleanup pass
 - To review something and keep fixing it until it passes explicit criteria, without doing the review/apply-fix cycling by hand
-- Whenever a Step 1 review brief and a Step 2 apply-fix brief can both be stated concretely
+- Whenever a Review brief and an Apply-Fix brief can both be stated concretely
 
 ## When NOT to use it
 
@@ -26,7 +26,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 - When review criteria cannot be stated concretely — a vague brief produces a vague, unreliable loop
 - For one-off review with no intent to iterate — a direct `@reviewer` call is simpler
 
-<Callout tone="core" title="Step 1's review is the sole authority on convergence">
+<Callout tone="core" title="Review is the sole authority on convergence">
   This skill never overrides a `CHANGES_REQUIRED` verdict just because iterating further is expensive or slow. If the cap is hit, it escalates with the full iteration history instead of force-accepting the current state.
 </Callout>
 
@@ -37,9 +37,9 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## Required inputs
 
-- **Step 1 brief (review)** — the exact artifact/scope to review, already completed, and the criteria to judge it against. If the work isn't done yet, send the caller back to finish it first.
-- **Step 2 brief (apply-fix)** — which files are in scope and any constraints on how fixes should be made. Every fix pass is driven entirely by Step 1's latest feedback, never a general "improve this."
-- **Agents** *(optional)* — defaults to `@reviewer` for Step 1 and `general-purpose` for Step 2. Override either when the work needs a specialist (e.g. `@coder` for real code fixes).
+- **Review brief** — the exact artifact/scope to review, already completed, and the criteria to judge it against. If the work isn't done yet, send the caller back to finish it first.
+- **Apply-Fix brief** — which files are in scope and any constraints on how fixes should be made. Every fix pass is driven entirely by Review's latest feedback, never a general "improve this."
+- **Agents** *(optional)* — defaults to `@reviewer` for Review and `general-purpose` for Apply-Fix. Override either when the work needs a specialist (e.g. `@coder` for real code fixes).
 - **Iteration cap** *(optional)* — defaults to 5 review/apply-fix pairs
 
 ## Common prompts
@@ -50,16 +50,16 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## Practical guidance
 
-- Step 1 and Step 2 always run in separate, freshly spawned subagent contexts — never reuse one subagent's context for the other role, and never reuse a subagent across iterations
+- Review and Apply-Fix always run in separate, freshly spawned subagent contexts — never reuse one subagent's context for the other role, and never reuse a subagent across iterations
 - Keep the loop's own working state small: the two briefs, the iteration count, and the latest verdict — do not accumulate subagent transcripts turn over turn
-- From iteration 2 on, Step 1 also gets a summary of the last fix pass so it checks resolution instead of re-reviewing from a blank slate
+- From iteration 2 on, Review also gets a summary of the last fix pass so it checks resolution instead of re-reviewing from a blank slate
 
 ## Common mistakes
 
-- Handing Step 2 a vague brief instead of exactly Step 1's latest feedback items
+- Handing Apply-Fix a vague brief instead of exactly Review's latest feedback items
 - Letting the loop run past the iteration cap by silently resetting the counter instead of escalating
-- Reusing one subagent context across both roles, which lets the "reviewer" see its own fix reasoning instead of judging fresh
+- Reusing one subagent context across both roles, which lets the reviewer see its own fix reasoning instead of judging fresh
 
 <Callout tone="tip" title="Default agents can be overridden">
-  Step 1 defaults to `@reviewer` and Step 2 defaults to `general-purpose`, but the caller may name a different agent for either role — for example `@coder` for Step 2 when the fix is a real code change.
+  Review defaults to `@reviewer` and Apply-Fix defaults to `general-purpose`, but the caller may name a different agent for either role — for example `@coder` for Apply-Fix when the fix is a real code change.
 </Callout>

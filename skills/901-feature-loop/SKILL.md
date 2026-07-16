@@ -15,17 +15,21 @@ context: fork
 
 # 901 - Feature Loop
 
-Run one feature end-to-end on its own branch, headless: a Green Check baseline gate, then
-`201` → `202` (Happy Path) → per-scenario `301`+`401`+`401` (each scenario closed out with a
-`specs.feature` status-tag update and its own Green Check) → end-of-round cleanup and a round
-close-out Green Check → an optional expanded-coverage round of the same shape → final Green Check
-→ merge. Every `NNN` call below is a single direct skill invocation except `900`, itself a small
-review⇄apply-fix cycle — see **Feedback Pass** below — that checks every design/spec artifact and
-aggregate cleanup pass before the run advances past it. Nothing here blocks on a user question:
-every fork in the road routes through the Decision Consult, a single `@decider` call (see below).
+Runs one feature end-to-end on its own branch, headless: a Green Check baseline, then `201` →
+`202` (Happy Path) → per-scenario `301` (each scenario closed out with a `specs.feature`
+status-tag update and its own lightweight Scenario Check) → aggregate end-of-round cleanup and a
+round close-out Green Check → an optional expanded-coverage round of the same shape → final Green
+Check → merge.
+
+Every `NNN` call is a single direct skill invocation, except `900-feedback-loop` — a small
+review⇄apply-fix cycle (see **Feedback Pass** below) that checks every design/spec artifact and
+aggregate cleanup pass before the run advances, under a tighter cap than `900`'s own default.
+Nothing here blocks on a user question: every fork in the road routes through the **Decision
+Consult**, a single `@decider` call.
 
 **Output**: Updates project source/test files and `.specflow/features/<fid>-<feature-slug>/`
-artifacts. Creates a feature branch, commits throughout, and merges it back. No new artifact type
+artifacts, plus this feature's entry in `.specflow/docs/D10-feature-overview.md` when that registry
+tracks it. Creates a feature branch, commits throughout, and merges it back. No new artifact type
 of its own.
 
 ---
@@ -33,33 +37,32 @@ of its own.
 ## Required Inputs
 
 1. **Feature identity** — a name and/or `F-ID`, resolved the same way `201` resolves it (existing
-   `D10` entry, or an explicit new `F-ID` assignment). Do not create the feature branch before this
-   resolves; see Step 3 for how ambiguity is resolved without asking.
-2. **Round 2 coverage** — `none`, `balanced`, or `comprehensive`. Default `comprehensive` if
-   unstated; say so in the final summary rather than blocking. Round 1 is always **Happy Path
-   Only** and always runs.
+   `D10` entry, or an explicit new `F-ID` assignment). Don't create the feature branch before this
+   resolves — see Step 3.
+2. **Round 2 coverage** — `none`, `balanced`, or `comprehensive`. Default `balanced` if unstated;
+   state the default in the final summary. Round 1 is always **Happy Path Only** and always runs.
 3. **Workflow fit** — this is for a whole feature that justifies full BDD rigor and branch-level
-   traceability. For an isolated fix or small maintenance change, reroute to `301-spec-implementation`
-   or `401-cleanup` directly instead.
+   traceability. For an isolated fix or small maintenance change, reroute to
+   `301-spec-implementation` or `401-cleanup` directly instead.
 
-This workflow runs headless end-to-end: nothing here is resolved by asking the user. Feature
-identity ambiguity is resolved by the Decision Consult using the defaults in Step 3.
+This workflow runs headless: nothing is resolved by asking the user. Feature identity ambiguity is
+resolved by the Decision Consult using Step 3's defaults.
 
 ---
 
 ## Execution Protocol
 
-- You are the orchestrator for the entire run, and you run it headless: no step ever pauses to ask
-  the user a question. Every decision point that would otherwise block routes through the Decision
-  Consult below instead, and the run acts on its result immediately.
-- Every checkpoint this workflow owns directly runs a **Green Check** (defined below); every
-  design/spec artifact and aggregate cleanup pass gets a **Feedback Pass** (also below). Per-scenario
-  build steps never get a Feedback Pass — see Rule 3.
+- You are the orchestrator for the entire run, and you run it headless — no step ever pauses to
+  ask the user a question. Every blocking decision routes through the **Decision Consult** below,
+  and the run acts on its result immediately.
+- Every checkpoint runs a **Green Check** or, for per-scenario build steps, the lighter **Scenario
+  Check**; every design/spec artifact and aggregate cleanup pass gets a **Feedback Pass** — all
+  three defined once under **Checkpoint Protocols** below.
 - All git operations (branch, commit, merge) run directly here via Bash, never delegated to a
   subagent.
 - Keep working state compact: feature identity, branch name, base branch, current stage, a running
-  commit ledger, and a log of every Decision Consult invoked (brief and `@decider`'s returned
-  decision). Do not carry full skill or subagent transcripts forward between stages.
+  commit ledger, and a log of every Decision Consult invoked. Don't carry full skill or subagent
+  transcripts forward between stages.
 
 ---
 
@@ -73,59 +76,88 @@ continue."
 1. **Frame a brief:** the specific question, the concrete option set (including that step's
    documented default, if any), and the state needed to reason about it — feature identity,
    current stage, what triggered the decision.
-2. **Call `@decider` once** with that brief. `@decider` (`agents/decider.md`) is a purpose-built
-   worker — this run's strongest model setup, since these are calls nothing double-checks — that
-   returns exactly one decided option, a rationale, and a confidence level; how it arrives at that
-   pick is its own concern.
+2. **Call `@decider` once** with that brief. `@decider` (`agents/decider.md`) returns exactly one
+   decided option, a rationale, and a confidence level; how it arrives there is its own concern.
+   It's a purpose-built worker running this run's strongest model setup, since these are calls
+   nothing double-checks.
 3. **Act on it.** Take the decision immediately. On `UNANSWERABLE`, fall back to that step's
    documented default; a step with none ends the run with a terminal status report instead of a
-   merge — only possible at the baseline gate (Step 2) or final validation (Step 19); see Rule 9.
-   Log the brief and the returned decision for Step 22's summary.
+   merge — only possible at the baseline gate (Step 2) or final validation (Step 19). Log the brief
+   and the returned decision for Step 22's summary.
 
 ---
 
 ## Checkpoint Protocols
 
-Two shapes recur at almost every checkpoint below. Define them once here; each step just names
-which flavor applies and what's unique to it.
+Three shapes recur at almost every checkpoint below: two flavors of validation (**Green Check**,
+**Scenario Check**) and one convergence loop (**Feedback Pass**). Defined once here; each step
+below just names which applies and what's unique to it.
 
 ### Green Check
 
-Run `@validator` as four separate calls — `@validator` takes only one mode per invocation, and
-this orchestrating context never checks output directly:
+The full four-mode validation. Reserved for the baseline (Step 2), each round's close-out (Steps
+13, 19), and merge revalidation (Step 21) — never per-scenario; see **Scenario Check** for that.
+
+Dispatch all four `@validator` calls in parallel, in a single message — `@validator` takes one
+mode per invocation, the four modes are independent, and this orchestrating context never checks
+output directly, so sequential calls would be pure latency with no benefit:
 
 1. `mode: test`, unit suite
 2. `mode: test`, integration/e2e suite (whatever the project separates out)
 3. `mode: lint`
 4. `mode: build`
 
-Repair, per layer:
+`@validator` runs on its own pinned model (haiku) — call it plainly, no override needed.
+
+Repair, per layer, once all four calls return:
 - **Failing test** → `402-test-correction` scoped to exactly that test, then revalidate that
   layer. Repeat per failing test until green or `402` raises a blocking question.
 - **Lint/build failure** → a focused `@coder` repair pass scoped to the failure, then recheck.
 
-Non-convergence fallback (which flavor applies is named at each call site):
-- **Standard fallback**: on a `402` blocking question, Decision Consult — `402`'s suggested
-  resolutions, or skip-and-flag; default: `402`'s own likeliest pick. On lint/build
-  non-convergence, Decision Consult — widened-scope retry, or terminal report; default: one
-  widened retry, then terminal.
-- **Per-scenario fallback** (Steps 10, 16 only): any non-convergence, regardless of layer, gets
-  one Decision Consult — retry `301` for this scenario with a revised approach, revert and retry
-  `301` from scratch, or terminal report naming the stuck scenario; default: revised-approach
-  retry, then from-scratch retry, then terminal.
+Non-convergence fallback — **standard fallback** (Steps 2, 13, 19, 21): on a `402` blocking
+question, Decision Consult — `402`'s suggested resolutions, or skip-and-flag; default: `402`'s own
+likeliest pick. On lint/build non-convergence, Decision Consult — widened-scope retry, or terminal
+report; default: one widened retry, then terminal.
+
+### Scenario Check
+
+The lightweight per-scenario validation used at Steps 10 and 16 instead of a full Green Check. A
+regression from one scenario's own change is almost always in lint or that scenario's own spec,
+not the unit suite or the build — those get their one real check at the round's Green Check
+(Steps 13, 19).
+
+Two `@validator` calls, dispatched in parallel:
+
+1. `mode: lint`
+2. `mode: test`, scoped to exactly this scenario's own spec file — not the full e2e suite.
+   Re-running every prior scenario's spec after each new one is quadratic waste; the full suite
+   runs once, at the round's Green Check.
+
+Repair: same per-layer repair as Green Check above, scoped to just these two layers.
+
+Non-convergence fallback — **per-scenario fallback** (Steps 10, 16 only): any non-convergence,
+regardless of layer, gets one Decision Consult — retry `301` for this scenario with a revised
+approach, revert and retry `301` from scratch, or terminal report naming the stuck scenario;
+default: revised-approach retry, then from-scratch retry, then terminal.
 
 ### Feedback Pass
 
-One `900-feedback-loop` cycle: a Step 1 review by `@reviewer`, a Step 2 apply-fix, then a commit
-if anything changed. Two flavors:
+One `900-feedback-loop` cycle: a Review pass by `@reviewer`, an Apply-Fix pass, then a commit if
+anything changed. Pin the Apply-Fix role's `general-purpose` call to `sonnet` at every site — it's
+mechanical fix application driven entirely by Review's feedback, not fresh judgment. Both flavors
+below override `900`'s own default iteration cap of 5. These are the only two flavors — Steps 10
+and 16's per-scenario build cycles never get one.
+
 - **Artifact refine** (Steps 7, 9, 15): `@reviewer` judges the artifact against that artifact's
   own producing skill's documented quality checks; `general-purpose` applies the feedback directly
-  to the file.
+  to the file. Iteration cap: **1** — a freshly produced artifact rarely needs a second pass, and
+  this flavor fires three times a run.
 - **Aggregate cleanup** (Steps 11, 12, 17, 18): `@reviewer` judges the round's diff for
   cross-scenario issues a single-scenario view would miss — duplication, inconsistent patterns,
   dead code. `general-purpose` applies the fix by running a real `401-cleanup` invocation (not a
-  bare edit) scoped to that diff and driven by the review, so `401`'s own
-  baseline/validation/repair discipline applies.
+  bare edit) scoped to that diff and driven by the review, so `401`'s own baseline/validation/repair
+  discipline applies. Iteration cap: **2** — cross-scenario cleanup can legitimately need one
+  retry, but never the full default of 5.
 
 ---
 
@@ -133,41 +165,39 @@ if anything changed. Two flavors:
 
 ### Phase 0 - Set Up
 
-- [ ] **Step 1: Verify a clean working tree.** `git status --porcelain` must be empty. If not, run
-      a Decision Consult — options: commit the outstanding changes as a pre-run commit, or stash
-      them (`git stash push -u`) and continue; default: stash, since it's fully reversible and
-      keeps the run's own commit ledger free of unrelated changes.
+- [ ] **Step 1: Verify a clean working tree.** `git status --porcelain` must be empty. If not,
+      Decision Consult — commit the outstanding changes as a pre-run commit, or stash
+      (`git stash push -u`) and continue; default: stash (fully reversible, keeps the run's own
+      commit ledger free of unrelated changes).
 
 - [ ] **Step 2: Establish and confirm a green baseline.** Before any design or code work starts,
-      run a **Green Check** with the standard fallback. A pre-existing baseline that still cannot
-      be made green after consult-driven retries ends the run here with a terminal report — this
-      is one of only two checkpoints (the other is Step 19) where "end the run" rather than "keep
-      going" is right, since no feature work has started yet to build on top of a red baseline.
-      Do not create the feature branch (Step 4) or begin Phase 1 until all four layers are green.
+      run a **Green Check** with the standard fallback. A baseline that still can't be made green
+      after consult-driven retries ends the run here with a terminal report — this is one of only
+      two checkpoints (the other is Step 19) where ending the run is right, since no feature work
+      has started yet. Don't create the feature branch (Step 4) or begin Phase 1 until this is
+      satisfied.
 
 - [ ] **Step 3: Resolve feature identity.** Use `201`'s own resolution rule: check `D10` for an
-      existing `F-ID`. If none exists, run a Decision Consult — options: assign the next available
-      `F-ID` and add the `D10` entry now, or treat the given name as referring to an existing
-      near-match entry; default: assign the next available `F-ID` — an unresolvable name is more
-      likely new work than a typo against something already tracked.
-
-      If `overview.md` already exists with `status: done`, run a Decision Consult — options: start
-      a new run under a new `F-ID` for follow-on work, or treat the invocation as unintended and
-      end the run with a terminal report; default: start a new run — a `done` feature invoked
-      again is almost always new follow-on work, not a re-run of the same one.
-
-      If it exists with `status: implementing`, run a Decision Consult — options: resume from that
-      point, or restart from Phase 1; default: resume — it preserves prior work and is fully
-      reversible if wrong, where a restart is not.
+      existing `F-ID`.
+      - No entry → Decision Consult — assign the next `F-ID` and add the `D10` entry now, or treat
+        the given name as an existing near-match entry; default: assign new (an unresolvable name
+        is more likely new work than a typo).
+      - `overview.md` exists with `status: done` → Decision Consult — start a new run under a new
+        `F-ID` for follow-on work, or treat the invocation as unintended and end with a terminal
+        report; default: start a new run (a `done` feature invoked again is almost always follow-on
+        work).
+      - `overview.md` exists with `status: implementing` → Decision Consult — resume from that
+        point, or restart from Phase 1; default: resume (preserves prior work and is reversible if
+        wrong, where a restart isn't).
 
 - [ ] **Step 4: Create the feature branch.** Record the current branch as the base branch. Create
-      and check out `feature/<fid>-<feature-slug>` from it. If that branch already exists, run a
-      Decision Consult — options: check it out and resume on it, or create a disambiguated name
-      (append a short numeric suffix) and start fresh; default: resume on it — a branch with this
-      exact name is almost always this same feature's own prior attempt.
+      and check out `feature/<fid>-<feature-slug>` from it. If that branch already exists,
+      Decision Consult — check it out and resume, or create a disambiguated name (append a short
+      numeric suffix) and start fresh; default: resume (a branch with this exact name is almost
+      always this same feature's own prior attempt).
 
-- [ ] **Step 5: Resolve round-2 coverage.** `none`, `balanced`, or `comprehensive` (default
-      `comprehensive`).
+- [ ] **Step 5: Resolve round-2 coverage.** `none`, `balanced`, or `comprehensive` — default
+      `balanced` if unstated.
 
 ### Phase 1 - High-Level Design
 
@@ -190,19 +220,15 @@ if anything changed. Two flavors:
 - [ ] **Step 10: Build out each happy-path scenario, one at a time.** For each `@TS###` in the
       happy-path set, in order:
   1. Run `301-spec-implementation` scoped to exactly that `@TS###`.
-  2. Run `401-cleanup` (`source-cleanup-only`), scope anchor: the working-tree changes from that
-     `301` pass.
-  3. Run `401-cleanup` (`test-cleanup-only`), same scope anchor.
-  4. In `specs.feature`, replace that scenario's status tag with `@status_done` — `301`'s own
-     validation already confirmed a passing test run for it, which is the tag's own definition of
-     done.
-  5. Run a **Green Check** with the per-scenario fallback — a failure here is a regression from
-     this scenario's own changes, not a baseline issue, so it's repaired here rather than
-     surfaced as a blocker.
-  6. Commit: `test cycle: <TS###> implement + cleanup + status`.
+  2. In `specs.feature`, replace that scenario's status tag with `@status_done` — `301`'s own
+     validation already confirmed the passing run this tag certifies.
+  3. Run a **Scenario Check** with the per-scenario fallback — a failure here is a regression from
+     this scenario's own change, repaired on the spot rather than surfaced as a blocker.
+  4. Commit: `test cycle: <TS###> implement + status`.
 
-  Do not start the next scenario until the current one — including its status-tag update and
-  Green Check — is committed.
+  Skip per-scenario cleanup — Steps 11/12 (and 17/18 in round 2) clean the same files in aggregate
+  at round end. Never start the next scenario until the current one, including its status-tag
+  update and Scenario Check, is committed.
 
 - [ ] **Step 11: Feedback Pass (aggregate cleanup) on round-1 source.** Scope: the round-1 source
       diff, `source-cleanup-only`. Strictly bounded to round-1 files (see Rule 2 on final-round
@@ -227,8 +253,8 @@ if anything changed. Two flavors:
       only to the `@TS###` scenarios Step 14 added — not the round-1 scenarios again.
 
 - [ ] **Step 17: Feedback Pass (aggregate cleanup) on final source.** Scope: the entire feature
-      branch diff. This is the final round's cleanup: pre-authorize scope expansion past the
-      frozen boundary so `401`'s normal approval gate doesn't stop the run. Commit if changed:
+      branch diff. This is the final round's cleanup, so pre-authorize scope expansion past the
+      frozen boundary — `401`'s normal approval gate doesn't stop the run here. Commit if changed:
       `900: final source cleanup`.
 
 - [ ] **Step 18: Feedback Pass (aggregate cleanup) on final tests.** Same as Step 17, same
@@ -236,21 +262,25 @@ if anything changed. Two flavors:
 
 ### Phase 4 - Finalize
 
-- [ ] **Step 19: Run the final Green Check.** Standard fallback. Do not merge on a red build — if
-      consult-driven retries here don't converge, end the run with a terminal report instead of
-      merging. This and Step 2 are the only two points where the run ends without a merge.
+- [ ] **Step 19: Run the final Green Check.** Standard fallback: any failing test found here is
+      repaired via `402-test-correction`, scoped to exactly that test and revalidated, per Green
+      Check's own repair discipline — before anything is treated as non-convergent. Don't merge on
+      a red build — if consult-driven retries here don't converge, end the run with a terminal
+      report instead of merging. This and Step 2 are the only two points where the run ends
+      without a merge.
 
-- [ ] **Step 20: Update feature status** to `done` in `overview.md` if not already.
+- [ ] **Step 20: Update feature status.** Set `status: done` in `overview.md` if not already. If
+      `.specflow/docs/D10-feature-overview.md` exists and tracks this `F-ID`, update that entry's
+      status marker to 🟢 Done too — the same registry Step 3 may have added it to.
 
 - [ ] **Step 21: Merge back.** `git merge --no-ff feature/<fid>-<feature-slug>` into the recorded
-      base branch. Keep the feature branch afterward — do not delete it. Never push to a remote. If
-      the merge conflicts, run a Decision Consult — options: resolve the conflicting hunks directly
-      (favoring the feature branch's changes, since the base branch is expected to be behind it), or
-      abort the merge and end the run with a terminal report describing the conflicting files;
-      default: resolve directly. Resolving a conflict here does not stand in for a green check:
-      rerun the full Step 19 Green Check afterward before treating this step as complete. If that
-      revalidation cannot converge, abort the merge and end the run with a terminal report instead
-      of leaving a red merge on the base branch.
+      base branch. If the merge conflicts, Decision Consult — resolve the conflicting hunks
+      directly (favoring the feature branch, since the base branch is expected to be behind it), or
+      abort and end with a terminal report describing the conflicting files; default: resolve
+      directly. Resolving a conflict here doesn't stand in for a green check: rerun the full Step
+      19 Green Check afterward before treating this step as complete. If that revalidation can't
+      converge, abort the merge and end with a terminal report instead of leaving a red merge on
+      the base branch.
 
 - [ ] **Step 22: Summarize.** Report: feature identity, branch name, round-2 coverage used, the
       full commit ledger, scenarios implemented per round, Feedback Pass iteration counts per
@@ -261,28 +291,22 @@ if anything changed. Two flavors:
 
 ## Rules
 
-1. Round 1 is always Happy Path Only and always runs; round 2 is optional and defaults to
-   `comprehensive`.
-2. Scope-expansion authorization for aggregate `401` cleanup applies only to whichever round
-   actually runs last — round 2's cleanup if it runs, otherwise round 1's cleanup. Every other
-   aggregate cleanup pass stays strictly bounded to its own round's files.
-3. Per-scenario `301`/`401`/`401` cycles run as direct sequential skill calls, never wrapped in a
-   Feedback Pass. Only design/spec artifacts and aggregate end-of-round cleanup get one.
-4. No branch or Phase 1 work exists until the Step 2 baseline Green Check is green. Only Step 2
-   and Step 19 can end the run outright once consult-driven retries are exhausted, and even then
-   as a terminal report, not a question.
-5. One commit per top-level sequence item. Skip a commit only when a step produced no file
-   changes.
-6. All git operations run directly in this orchestrating context, never delegated to a subagent.
-7. Never push to a remote. Merge is always `--no-ff`; the feature branch is kept afterward, not
+1. Round 1 is always Happy Path Only and always runs; round 2 is optional per Required Input #2's
+   default.
+2. Scope-expansion authorization for aggregate `401` cleanup applies only to whichever round runs
+   last (round 2's cleanup if it runs, otherwise round 1's). Every other aggregate cleanup pass
+   stays strictly bounded to its own round's files.
+3. One commit per top-level step; skip a commit only when a step produced no file changes.
+4. All git operations run directly in this orchestrating context, never delegated to a subagent.
+   Never push to a remote. Merge is always `--no-ff`; the feature branch is kept afterward, not
    deleted.
-8. Never start the next scenario's build cycle before the current one — including its
-   `specs.feature` status-tag update and Green Check — is committed. A scenario is never left at
+5. Never start the next scenario's build cycle before the current one — including its
+   `specs.feature` status-tag update and Scenario Check — is committed. A scenario is never left at
    `@status_pending` once its build cycle has run.
-9. Never stop mid-run to ask the user a question — every blocking decision routes through the
-   Decision Consult and the run acts on the result immediately. The only way this workflow ends
-   without a merge is a terminal report from Step 2 or Step 19.
-10. This workflow is heavy by design: a feature with several scenarios across two coverage rounds
-    can involve on the order of a hundred or more subagent invocations. Use it for a feature that
-    genuinely warrants full BDD rigor and branch-level traceability — route small, isolated changes
-    to `301-spec-implementation` or `401-cleanup` directly instead.
+6. Only Step 2 and Step 19 can end the run outright, and only as a terminal report once
+   consult-driven retries are exhausted — never as a blocking question. Every other decision point
+   routes through the Decision Consult and the run acts on the result immediately.
+7. Route mechanical subagent work to a cheaper/faster model than this run's own tier — `@validator`
+   (haiku) and the Feedback Pass's Apply-Fix role (sonnet), both pinned in **Checkpoint
+   Protocols**. Reserve this run's own strongest model tier for judgment-heavy work: `@decider` and
+   the `201`/`202`/`301`/`302` skill invocations.
