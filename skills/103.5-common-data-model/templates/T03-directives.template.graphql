@@ -32,23 +32,48 @@ directive @access(rules: [AccessRule!]!) on OBJECT | FIELD_DEFINITION
 """Field-level data quality and sensitivity constraints. Required-ness is never an
 argument here — it's expressed natively by GraphQL's `!` on the field's type. Only
 include the specific constraint arguments that actually apply to a field; a plain
-field with nothing to say stays undecorated."""
+field with nothing to say stays undecorated. Need a constraint not listed here? See
+103.5's SKILL.md, "On extending the directive vocabulary for project-specific
+needs" — add a new argument below and document it the same way as the others."""
 directive @validate(
+  """String fields only. Minimum length, inclusive."""
   minLength: Int
+  """String fields only. Maximum length, inclusive."""
   maxLength: Int
+  """String fields only. A regular expression (ECMAScript flavor) the value must
+  match."""
   pattern: String
+  """String fields only. A named format the value must satisfy: "email", "url",
+  "uuid", "date" (YYYY-MM-DD), "date-time" (ISO 8601), or "phone". Add a new value
+  to this vocabulary in the project's own copy of this file if a domain needs a
+  format not listed here, documented the same way."""
   format: String
+  """String fields only. The value must start with this literal substring."""
   startsWith: String
+  """String fields only. The value must end with this literal substring."""
   endsWith: String
+  """String fields only. The value must contain this literal substring."""
   contains: String
+  """String fields only. The value must NOT contain this literal substring."""
   notContains: String
+  """Int/Float fields only. Minimum value, inclusive."""
   min: Float
+  """Int/Float fields only. Maximum value, inclusive."""
   max: Float
+  """Int/Float fields only. Minimum value, exclusive."""
   exclusiveMin: Float
+  """Int/Float fields only. Maximum value, exclusive."""
   exclusiveMax: Float
+  """Int/Float fields only. The value must be an exact multiple of this number."""
   multipleOf: Float
+  """List fields only. Minimum number of items, inclusive."""
   minItems: Int
+  """List fields only. Maximum number of items, inclusive."""
   maxItems: Int
+  """Any field. The kind of sensitive data this field holds: "pii", "financial",
+  "confidential", or a freeform value if none fit. Drives downstream handling
+  (encryption at rest, audit logging, redaction in logs) — not a format or range
+  constraint."""
   sensitivity: String
 ) on FIELD_DEFINITION
 

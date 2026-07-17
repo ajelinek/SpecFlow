@@ -106,6 +106,16 @@ submit forms, complete flows, and interact with the site the way a real user wou
     as-is; fold in a cleaner repro if this pass found one, but don't duplicate it.
   - Matches an entry previously marked `Fixed` or `Won't Fix` → set it to `Reopened` and add a note
     that it recurred on this run.
+  - Matches an entry previously marked `Not a Defect` → don't reflag it on recurrence alone. Read
+    that entry's **Rationale** and compare this run's finding against it:
+    - Finding is consistent with the rationale (same trigger, same conditions the rationale says
+      make this expected) → leave the entry untouched, still `Not a Defect`. Do not create a
+      duplicate and do not change status. Optionally add a dated note that it recurred and still
+      matches, but this is not a new finding.
+    - Finding diverges from the rationale (different trigger, different conditions, worse
+      severity, or the stated reason no longer holds) → the rationale doesn't cover this
+      occurrence. Set the entry to `Reopened` and add a note stating specifically how this run's
+      finding differs from the recorded rationale, so a human can re-triage it.
   - Doesn't match anything existing → append as a new entry, status `Open`, next sequential
     `DEF-###` id.
 
@@ -117,11 +127,21 @@ submit forms, complete flows, and interact with the site the way a real user wou
 
 - [ ] **Step 8: Write the file.** Use `./templates/D11-exploratory-defects.md` for a new file, or
   update the existing one in place following Step 7's reconciliation. Keep `DEF-###` ids stable and
-  sequential — never renumber existing entries.
+  sequential — never renumber existing entries. Keep entries split across the file's two sections
+  by current status, each in ascending id order:
+  - **Active Defects** — `Open`, `In Progress`, `Reopened`.
+  - **Resolved Defects** — `Fixed`, `Won't Fix`, `Not a Defect`.
+
+  Any entry whose status changed this run moves to match: newly resolved entries move down out of
+  Active into Resolved; a `Reopened` entry (including one reopened out of `Not a Defect` per Step
+  7) moves back up into Active. This is a position change only — the id and content move with the
+  entry unchanged.
 
 - [ ] **Step 9: Summarize.** Report: pages/flows covered, new defects logged (with ids and
-  severities), any entries reopened, the current total open/in-progress backlog size, and that
-  turning entries into test cases and fixes is a separate next step through `202-spec-design` and
+  severities), any entries reopened (split out ones reopened because a `Not a Defect` rationale no
+  longer matched), any `Not a Defect` entries that recurred but were left suppressed as still
+  matching their rationale, the current total open/in-progress backlog size, and that turning
+  entries into test cases and fixes is a separate next step through `202-spec-design` and
   `301-spec-implementation`/`402-test-correction`.
 
 ---
@@ -143,6 +163,16 @@ submit forms, complete flows, and interact with the site the way a real user wou
 7. Only Step 7's reconciliation logic changes status on an existing entry. A run never marks
    something `Fixed` on its own — only `Open` (new), `Reopened` (recurrence), or an explicit
    "appears resolved, needs confirmation" note.
+8. `Not a Defect` is a manual triage status, like `Fixed`/`Won't Fix` — a run never sets it. Every
+   entry in that status must carry a **Rationale** explaining why the behavior is expected; an
+   entry missing one is incomplete and should be flagged as such rather than silently treated as
+   resolved.
+9. A recurring finding that matches a `Not a Defect` entry's rationale is left suppressed, not
+   reflagged — that's the entire point of recording the rationale. It's only reopened when this
+   run's finding diverges from what the rationale actually covers (Step 7).
+10. Terminal-status entries (`Fixed`, `Won't Fix`, `Not a Defect`) belong in the **Resolved
+    Defects** section, not mixed into **Active Defects** — move an entry the moment its status
+    becomes terminal, and move it back if it's later reopened (Step 8).
 
 ## Additional Guidance
 
@@ -168,3 +198,21 @@ detail a later fix pass needs.
 major feature is broken, though a workaround may exist. `Medium` — noticeable friction or incorrect
 behavior that doesn't block completion. `Low` — cosmetic or minor polish. Estimate severity from
 the user's perspective, not implementation difficulty.
+
+**On `Not a Defect` vs. `Won't Fix`**: These sound similar but mean different things. `Won't Fix`
+confirms the behavior *is* a real defect but a decision was made not to address it. `Not a Defect`
+means investigation concluded the behavior was never a defect at all — it's expected, intentional,
+or a correct response to the input given. Don't use `Not a Defect` as a softer way to say "low
+priority"; that's what `Won't Fix` + `Low` severity is for.
+
+**On matching a recurrence against a `Not a Defect` rationale (Step 7)**: The rationale should say
+*why* the behavior is expected and under what conditions — e.g. "field is read-only by design for
+archived records" or "this validation error is correct because the test account lacks the required
+role." When this run hits the same flow again, don't just check that the same failure mode
+recurred — check whether the conditions the rationale describes still hold. Same trigger, same
+conditions, same outcome the rationale already accounts for → leave it alone, that's the rationale
+doing its job. Different trigger, different conditions (e.g. it now happens for non-archived
+records too, or for an account that *does* have the required role), or a materially worse outcome →
+the rationale doesn't cover this case, so reopen it rather than assuming it's still fine. When the
+rationale is too vague to make that call confidently, treat it as a mismatch and reopen with a note
+asking for a more specific rationale — don't guess in favor of suppression.

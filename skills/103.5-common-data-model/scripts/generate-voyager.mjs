@@ -2,10 +2,12 @@
 // Combines every *.graphql file under a D03-common-data-model folder into one
 // schema, validates it, and emits an interactive Voyager visualization.
 //
-// Run via npx so the `graphql` dependency is fetched on demand and nothing is
-// installed into the consuming project:
+// `npm install` here is a one-time, skill-local step (never touches the consuming
+// project — see package.json) that only needs to run once, then reused for every
+// project. Run from this scripts/ folder:
 //
-//   npx --yes --package graphql node scripts/generate-voyager.mjs <path-to-D03-folder>
+//   npm install
+//   node generate-voyager.mjs <path-to-D03-folder>
 //
 // Output: <D03-folder>/build/introspection.json and <D03-folder>/build/voyager.html
 
@@ -84,6 +86,25 @@ if (introspectionResult.errors?.length) {
 // not just by reading the API.
 const introspectionEnvelope = { data: introspectionResult.data };
 
+// The placeholder Query/Mutation roots (see _directives.graphql) have no fields
+// pointing into the domain, so Voyager's default Query-rooted graph traversal has
+// nothing to draw — a first-time viewer just sees an empty `Query { _: Boolean }`
+// box with no visual cue that anything else exists. Voyager *can* root the graph on
+// any type (there's a type-picker dropdown, confirmed against the actual rendered
+// page, not just the docs), but defaulting to it removes the dependency on a user
+// finding that control on their own. Heuristic: the first object type, in schema
+// declaration order, that has its own `id` field — i.e. the first first-class entity
+// the author wrote, per this skill's own entity-vs-value-object test.
+let defaultRootType = 'Query';
+for (const [name, type] of Object.entries(schema.getTypeMap())) {
+  if (name.startsWith('__') || name === 'Query' || name === 'Mutation') continue;
+  if (type.astNode?.kind !== 'ObjectTypeDefinition') continue;
+  if ('id' in (type.getFields?.() ?? {})) {
+    defaultRootType = name;
+    break;
+  }
+}
+
 const buildDir = join(root, 'build');
 mkdirSync(buildDir, { recursive: true });
 
@@ -99,14 +120,29 @@ writeFileSync(
 <meta charset="utf-8" />
 <title>Common Data Model — Voyager</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css" />
-<style>html, body, #voyager { height: 100%; margin: 0; }</style>
+<style>
+  html, body { height: 100%; margin: 0; }
+  #root-hint {
+    box-sizing: border-box;
+    height: 32px;
+    padding: 6px 12px;
+    background: #2c3e50;
+    color: #fff;
+    font: 13px/20px -apple-system, sans-serif;
+  }
+  #voyager { height: calc(100% - 32px); }
+</style>
 </head>
 <body>
+<div id="root-hint">Documentation-only schema, opened on <strong>${defaultRootType}</strong> — pick any other entity from the dropdown at the bottom-left to jump to it.</div>
 <div id="voyager">Loading...</div>
 <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js"></script>
 <script>
   var introspection = ${JSON.stringify(introspectionEnvelope)};
-  GraphQLVoyager.renderVoyager(document.getElementById('voyager'), { introspection: introspection });
+  GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
+    introspection: introspection,
+    displayOptions: { rootType: ${JSON.stringify(defaultRootType)} }
+  });
 </script>
 </body>
 </html>
@@ -115,4 +151,4 @@ writeFileSync(
 
 console.log(`Combined ${files.length} schema file(s): ${files.map((f) => relative(root, f)).join(', ')}`);
 console.log(`Wrote ${introspectionPath}`);
-console.log(`Wrote ${voyagerPath}`);
+console.log(`Wrote ${voyagerPath} (default root type: ${defaultRootType})`);

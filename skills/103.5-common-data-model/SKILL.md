@@ -99,24 +99,27 @@ answer.
   - `_directives.graphql` (from `T03-directives.template.graphql`) — copy as-is
     except filling in the project's actual `Role` enum values. Everything else in
     this file is fixed boilerplate; see Additional Guidance for why.
-  - One `README.md` per domain (from `T03-README.template.md`) — single-domain
+  - One `OVERVIEW.md` per domain (from `T03-OVERVIEW.template.md`) — single-domain
     projects get one at the D03 root; multi-domain projects get a root index plus one
-    per domain subfolder.
+    per domain subfolder. Captures only what `schema.graphql` can't express on its
+    own: the domain summary and cross-field/cross-entity business rules. Entity,
+    relationship, access-rule, and field-constraint detail all live in
+    `schema.graphql` only, to avoid drift.
   - One `schema.graphql` per domain (from `T03-schema.template.graphql`) — replace
     the example entities with the project's real ones, following the directive
     vocabulary and schema-level conventions in Additional Guidance.
   - `.gitignore` (from `T03-gitignore`) — copy once to the D03 root as-is.
 
   Folder shape (single-domain projects omit the domain subfolder and put
-  `README.md`/`schema.graphql` directly under the D03 root):
+  `OVERVIEW.md`/`schema.graphql` directly under the D03 root):
 
   ```
   .specflow/docs/D03-common-data-model/
     .gitignore
     _directives.graphql
-    README.md
+    OVERVIEW.md
     <domain>/
-      README.md
+      OVERVIEW.md
       schema.graphql
   ```
 
@@ -125,6 +128,9 @@ answer.
   - every important relationship is present, including many-to-many join types
   - business rules are domain rules, not implementation constraints
   - sensitive attributes carry `@validate(sensitivity: ...)`
+  - any project-specific `@validate` argument or new directive added to
+    `_directives.graphql` is documented at its declaration (see "On extending the
+    directive vocabulary for project-specific needs")
   - every type/field that needs explanation uses a `"""..."""` description, not a `#`
     comment (only descriptions survive into the visualizer)
   - mutations use `extend type Mutation` against the placeholder root, never
@@ -147,9 +153,12 @@ answer.
 1. Documentation only — this schema is never deployed as an executable API.
 2. Describe the domain, not the implementation. Physical shape (relational vs. NoSQL,
    indexes, partitioning) is a downstream decision the schema implies, never dictates.
-3. The directive vocabulary is exactly two directives: `@access` and `@validate`. Only
-   decorate a type or field when it deviates from a sensible default — a plain field
-   or type with nothing special to say stays bare.
+3. The default directive vocabulary is exactly two directives: `@access` and
+   `@validate`. Only decorate a type or field when it deviates from a sensible
+   default — a plain field or type with nothing special to say stays bare. Extend
+   this vocabulary only per "On extending the directive vocabulary for
+   project-specific needs" below — never invent a one-off directive or argument
+   without checking there first.
 4. Entity-vs-value-object status is signaled purely by the presence or absence of an
    `id` field — never by a directive.
 5. Required-ness is signaled purely by GraphQL's `!` — never duplicated as a
@@ -180,12 +189,23 @@ in `_directives.graphql`:
   }
   ```
 
-- `@validate(...)` — field-level typed constraints: `minLength`, `maxLength`,
-  `pattern`, `format`, `startsWith`, `endsWith`, `contains`, `notContains`, `min`,
-  `max`, `exclusiveMin`, `exclusiveMax`, `multipleOf`, `minItems`, `maxItems`, and
-  `sensitivity`. Only include the arguments that actually apply to a field — a string
-  field never gets `min`/`max`. `sensitivity` uses `"pii"` / `"financial"` /
-  `"confidential"` by convention, with a freeform fallback if none fit.
+- `@validate(...)` — field-level typed constraints. Only include the arguments that
+  actually apply to a field — a string field never gets `min`/`max`. Full reference
+  (also documented inline on the directive declaration in `_directives.graphql`):
+
+  | Argument | Applies to | Meaning |
+  |----------|-----------|---------|
+  | `minLength` | `String` | Minimum length, inclusive |
+  | `maxLength` | `String` | Maximum length, inclusive |
+  | `pattern` | `String` | Regular expression (ECMAScript flavor) the value must match |
+  | `format` | `String` | Named format: `"email"`, `"url"`, `"uuid"`, `"date"` (YYYY-MM-DD), `"date-time"` (ISO 8601), `"phone"` |
+  | `startsWith` / `endsWith` | `String` | Value must start/end with this literal substring |
+  | `contains` / `notContains` | `String` | Value must (not) contain this literal substring |
+  | `min` / `max` | `Int`/`Float` | Minimum/maximum value, inclusive |
+  | `exclusiveMin` / `exclusiveMax` | `Int`/`Float` | Minimum/maximum value, exclusive |
+  | `multipleOf` | `Int`/`Float` | Value must be an exact multiple of this number |
+  | `minItems` / `maxItems` | list fields | Minimum/maximum item count, inclusive |
+  | `sensitivity` | any field | `"pii"` / `"financial"` / `"confidential"` (freeform fallback) — drives downstream handling, not a format/range constraint |
 
   ```graphql
   email: String! @validate(format: "email", sensitivity: "pii")
@@ -197,6 +217,59 @@ in `_directives.graphql`:
   natively by the schema's own structure. A directive that just repeats what the
   schema already says is noise that can drift out of sync with the thing it's
   repeating.
+
+**On extending the directive vocabulary for project-specific needs.** The
+two-directive baseline covers the general case; a specific project can still need
+something it doesn't. Pick the right extension point instead of forcing the fit:
+
+- **A new single-field constraint that's still "is this input valid?"** — add a new
+  argument to `@validate` in the project's own `_directives.graphql`, typed and
+  scoped the same way the existing arguments are (e.g. `equals: String` for exact
+  match, `oneOf: [String!]` for a fixed set too small to warrant an enum,
+  `divisibleBy: Int`). Document what it means and which field types it applies to
+  right on the new argument, in the directive declaration — same as the built-in
+  arguments in the reference table above. An undocumented argument is worse than no
+  argument at all.
+
+- **A genuinely new semantic category — not a constraint on input at all** — add a
+  new directive instead of stretching `@validate` to cover it. The canonical example
+  is a computed/derived field: its value is never written directly and isn't being
+  validated, so `@validate` is the wrong place for it.
+
+  ```graphql
+  """Marks a field as derived from other fields on the same type rather than stored
+  directly. `from` names the sibling fields the computation reads; `description`
+  states the derivation itself (the formula or logic) — distinct from the field's
+  own top-level description, which states what the value means, not how it's
+  produced."""
+  directive @computed(from: [String!]!, description: String!) on FIELD_DEFINITION
+  ```
+
+  ```graphql
+  type Order {
+    id: ID!
+    lineItems: [LineItem!]!
+    """Grand total across every line item."""
+    totalCents: Int!
+      @computed(
+        from: ["lineItems"]
+        description: "Sum of unitPriceCents * quantity across all lineItems."
+      )
+  }
+  ```
+
+  Add a directive like this only when it names a category that recurs across
+  multiple fields or entities in the project — a one-off note belongs in the
+  field's own `"""..."""` description instead, not a new directive.
+
+- **A rule that doesn't attach to a single field at all** — spans multiple fields or
+  entities (e.g. "an order must have at least one line item"). Neither extension
+  point above fits; it belongs in `OVERVIEW.md`'s Business Rules section, not a
+  directive.
+
+Whichever extension point applies, edit the project's own `_directives.graphql` —
+never this skill's template — and confirm the new argument or directive is
+documented at its declaration as part of Step 6's quality check.
 
 **On the nesting/identity test.** A nested type with its own `id` field is a
 first-class entity — independently meaningful, an own-table/collection candidate. A
@@ -262,9 +335,17 @@ This writes `build/introspection.json` and `build/voyager.html` inside the proje
 D03 folder (gitignored by the `.gitignore` dropped there in Step 5). `npm install`
 only writes into this skill's own `scripts/` folder — never into the project — and
 only needs to run once; rerunning it is fast and harmless. Open `build/voyager.html`
-in a browser; it opens on the placeholder `Query` type by design (there is no real
-root query in a documentation-only CDM), so use the root-type dropdown at the bottom
-of the page to switch to any real entity and explore from there.
+in a browser. There is no real root query in a documentation-only CDM, so the
+generator does not default Voyager to the placeholder `Query` type — that would
+render as an empty `Query { _: Boolean }` box with no visible cue that anything else
+exists, which is exactly the confusing state a first-time viewer hits if this isn't
+handled. Instead the generator auto-picks the first first-class entity declared in
+the schema (first object type, in file order, with its own `id` field) as the
+initial root, and logs which one it picked to the console. The rendered page also
+gets a hint bar reminding you that the dropdown at the bottom of the page jumps to
+any other entity — confirmed by actually driving the rendered output in a browser,
+not just read off Voyager's docs, since the dropdown's existence and behavior aren't
+obvious from the API surface alone.
 
 **On implementation independence and business rules.** Same guidance as `103`: write
 rules a domain expert would recognize as true regardless of how the system is built.
