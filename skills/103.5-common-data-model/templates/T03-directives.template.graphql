@@ -1,0 +1,67 @@
+# Shared directive declarations for this Common Data Model.
+#
+# This file is boilerplate — @access, @validate, AccessLevel, and AccessRule never
+# change between projects. The only project-specific part is the Role enum's values,
+# filled in once the project's actual access roles are known (see 103.5's Step 4).
+#
+# This schema is documentation only. It is never deployed as a live GraphQL API.
+
+"""The actors who can read or write data in this domain. Replace ADMIN/USER below
+with this project's real roles (e.g. OWNER, MEMBER, VIEWER) — resolved once via
+gap-check, not guessed."""
+enum Role {
+  ADMIN
+  USER
+}
+
+enum AccessLevel {
+  READ_WRITE
+  READ_ONLY
+  NONE
+}
+
+input AccessRule {
+  role: Role!
+  level: AccessLevel!
+}
+
+"""Role-based access. Usable on a type (sets the default for all its fields) or on a
+field (overrides the type's default — field-level always wins when present)."""
+directive @access(rules: [AccessRule!]!) on OBJECT | FIELD_DEFINITION
+
+"""Field-level data quality and sensitivity constraints. Required-ness is never an
+argument here — it's expressed natively by GraphQL's `!` on the field's type. Only
+include the specific constraint arguments that actually apply to a field; a plain
+field with nothing to say stays undecorated."""
+directive @validate(
+  minLength: Int
+  maxLength: Int
+  pattern: String
+  format: String
+  startsWith: String
+  endsWith: String
+  contains: String
+  notContains: String
+  min: Float
+  max: Float
+  exclusiveMin: Float
+  exclusiveMax: Float
+  multipleOf: Float
+  minItems: Int
+  maxItems: Int
+  sensitivity: String
+) on FIELD_DEFINITION
+
+"""Documentation-only placeholder root — this schema is never executed as an API, so
+there is no real Query type to author. Do not add fields here; domains never need to
+extend Query for a CDM (list fields live on entity types, not a root query)."""
+type Query {
+  _: Boolean
+}
+
+"""Documentation-only placeholder root. Domains attach their mutations with
+`extend type Mutation { ... }` — never declare `type Mutation` yourself in a domain
+schema file, always extend this one."""
+type Mutation {
+  _: Boolean
+}

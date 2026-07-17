@@ -1,0 +1,10 @@
+{
+  "name": "specflow-cdm-voyager",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Generates a Voyager visualization from a 103.5-common-data-model D03 folder. `npm install` here is a one-time, skill-local step run by 103.5's visualize step — it never touches the consuming project.",
+  "type": "module",
+  "dependencies": {
+    "graphql": "^16.8.0"
+  }
+}

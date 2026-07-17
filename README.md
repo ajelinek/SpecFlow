@@ -301,13 +301,17 @@ typed or asked for directly, and only runs when a workflow step names it.
 
 ## Orchestration Skills
 
-These compose the core workflow into larger, git-tracked runs. Both are user-invoked.
+These extend the core workflow into larger runs or specialized passes. All three are user-invoked.
 
 - `900-feedback-loop`: run a bounded review/apply-fix convergence cycle around work that already
   happened, using isolated subagent contexts for each role
 - `901-feature-loop`: run one feature end-to-end through `201` -> `202` -> per-scenario `301`/`401`
   build-out -> cleanup -> an optional expanded-coverage round -> merge, on its own branch, with
   `900-feedback-loop` reviewing every design artifact and cleanup pass along the way
+- `902-browser-qa-analyst`: drive a real, visible Chrome browser through a live site as a QA
+  analyst would, judging each flow against a rubric and against what a reasonable user would
+  expect, and logging anything broken or unintuitive to a running defect backlog
+  (`D11-exploratory-defects.md`) for a later `202`/`301`/`402` pass to fix
 
 `901-feature-loop` is heavy by design — on the order of a hundred or more subagent invocations for a
 feature with several scenarios across two coverage rounds. Use it when a feature genuinely

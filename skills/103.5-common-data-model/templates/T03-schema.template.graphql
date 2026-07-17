@@ -1,0 +1,110 @@
+# ============================================================================
+# INSTRUCTION BLOCK — remove before committing
+#
+# This is a per-domain schema file for the 103.5-common-data-model skill. Replace the
+# example types below with the project's real entities. Guidelines:
+#
+# - Use `"""..."""` descriptions (not `#` comments) on every type and field that
+#   needs explanation — only descriptions survive into introspection and Voyager.
+#   `#` comments (like this block) are author-only asides, invisible to Voyager.
+# - Type names are singular (Customer, not Customers).
+# - A nested type with its own `id` field is a first-class entity (own table/
+#   collection candidate). A nested type with no `id` is a value object that embeds
+#   with its parent (document/JSON-blob candidate). No directive needed — the
+#   presence of `id` IS the signal.
+# - Many-to-many relationships get an explicit join type (its own entity, with an
+#   `id`) instead of a bare `[OtherEntity!]!` list — otherwise the relationship is
+#   invisible.
+# - List fields that take `first`/`after` pagination arguments signal a high-volume
+#   access pattern — a candidate for indexing (relational) or its own top-level
+#   collection (NoSQL).
+# - Enum values are SCREAMING_SNAKE_CASE.
+# - Mutations take a single input object and return a payload object, attached via
+#   `extend type Mutation { ... }` against the placeholder root in
+#   _directives.graphql — never declare `type Mutation` yourself.
+# - Only decorate a field with @access or @validate when it deviates from the type's
+#   default — a plain field with nothing special stays bare.
+# - If this entity references a type defined in another domain's schema file, just
+#   reference it by name with a `# defined in ../<domain>/schema.graphql` comment —
+#   no stub type needed. The generator concatenates every domain's schema before
+#   validating, so the reference resolves at generation time even though this file
+#   alone isn't valid SDL in isolation.
+#
+# Remove this instruction block when the document is complete.
+# ============================================================================
+
+"""A physical mailing address — no independent identity, embeds with its parent."""
+type Address {
+  line1: String!
+  line2: String
+  city: String!
+  postalCode: String!
+  country: String!
+}
+
+"""One line item within an order — independently meaningful, gets its own identity."""
+type LineItem @access(rules: [{ role: ADMIN, level: READ_WRITE }, { role: USER, level: READ_ONLY }]) {
+  id: ID!
+  sku: String! @validate(pattern: "^[A-Z]{3}-[0-9]{4}$")
+  quantity: Int! @validate(min: 1)
+  unitPriceCents: Int!
+}
+
+enum OrderStatus {
+  DRAFT
+  SUBMITTED
+  FULFILLED
+  CANCELLED
+}
+
+"""A customer's placed order."""
+type Order @access(rules: [{ role: ADMIN, level: READ_WRITE }, { role: USER, level: READ_ONLY }]) {
+  id: ID!
+  status: OrderStatus!
+  shippingAddress: Address!
+  lineItems: [LineItem!]!
+}
+
+"""A label a customer can be tagged with."""
+type Tag {
+  id: ID!
+  name: String!
+  customers: [CustomerTag!]!
+}
+
+"""Join between Customer and Tag — many-to-many, documented explicitly. Not
+implemented by the CDM; a real system might realize this as a join table
+(relational) or an array field on one side (document)."""
+type CustomerTag {
+  id: ID!
+  customer: Customer!
+  tag: Tag!
+  assignedAt: String!
+}
+
+"""A paying customer of record."""
+type Customer @access(rules: [{ role: ADMIN, level: READ_WRITE }, { role: USER, level: READ_ONLY }]) {
+  id: ID!
+  email: String! @validate(format: "email", sensitivity: "pii")
+  displayName: String!
+  ssn: String
+    @access(rules: [{ role: ADMIN, level: READ_ONLY }, { role: USER, level: NONE }])
+    @validate(sensitivity: "pii")
+  orders: [Order!]!
+  tags: [CustomerTag!]!
+}
+
+input UpdateCustomerInput {
+  id: ID!
+  email: String
+  displayName: String
+}
+
+type UpdateCustomerPayload {
+  customer: Customer
+  errors: [String!]
+}
+
+extend type Mutation {
+  updateCustomer(input: UpdateCustomerInput!): UpdateCustomerPayload!
+}
