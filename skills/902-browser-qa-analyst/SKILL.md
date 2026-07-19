@@ -30,6 +30,10 @@ fixes is a separate, later pass through `202-spec-design` and `301-spec-implemen
 place across every run. This skill creates no other artifacts and never invokes `202`, `301`, or
 `402` itself.
 
+This file is not a general-purpose defect log for implementation sessions — a defect surfaced
+outside a `902` run (direct user report, incidental discovery mid-feature-work) should be fixed and
+documented in the commit/PR, not appended here.
+
 ---
 
 ## Required Inputs

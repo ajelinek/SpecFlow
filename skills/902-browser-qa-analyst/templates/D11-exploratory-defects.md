@@ -9,6 +9,9 @@
 > `Fixed` or `Won't Fix` once a downstream fix lands) are expected and preserved — a later run only
 > touches an entry it directly matches again.
 >
+> New DEF-### entries may only be created by a `902` run. Other flows (`402`, `301`, manual fixes)
+> may append a triage note or flip status on an existing entry, but must never fabricate a new id.
+>
 > Marking an entry `Not a Defect` requires filling in **Rationale** — a specific explanation of why
 > the observed behavior is expected/intentional, precise enough that a later run can tell whether a
 > recurrence still matches it. A `Not a Defect` entry with no rationale is incomplete. On a later

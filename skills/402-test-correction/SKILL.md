@@ -33,8 +33,8 @@ failing test exposes an intended behavior change or product-capability ambiguity
 
 Before proceeding, confirm:
 
-1. **Failure anchor** — failing test name, file, command, stack trace, CI link, or screenshot of the
-   failure
+1. **Failure anchor** — failing test name, file, command, stack trace, CI link, screenshot of the
+   failure, or an existing `.specflow/docs/D11-exploratory-defects.md` entry (`DEF-###`)
 2. **Execution surface** — UI, API, integration, unit, or mixed
 3. **Change window** — the recent commits, diff range, PR, or changed files most likely related to
    the failure
@@ -140,7 +140,10 @@ The third bucket is mandatory. Do not force every failure into "test bug" or "so
   reassess the classification rather than blindly iterating.
 
 - [ ] **Step 11: Record rationale and risks.** Summarize why the failure was classified the way it
-  was, what evidence supported that call, and any residual fragility that remains.
+  was, what evidence supported that call, and any residual fragility that remains. If this run was
+  triggered by an existing `.specflow/docs/D11-exploratory-defects.md` entry (`DEF-###`), append a
+  triage note to that entry recording the classification and outcome — never create a new `DEF-###`
+  entry; only a `902` run may do that.
 
 - [ ] **Step 12: Summarize.** Report:
   - failing test scope
@@ -152,6 +155,7 @@ The third bucket is mandatory. Do not force every failure into "test bug" or "so
   - whether the fix changed tests, source, or both
   - final validation result
   - any user decision that was required before continuing
+  - if triggered by a D11 entry, confirmation that a triage note was appended to it
 
 ---
 
@@ -166,3 +170,5 @@ The third bucket is mandatory. Do not force every failure into "test bug" or "so
 7. Prefer the smallest correct fix once classification is clear.
 8. Never "fix" a test by deleting meaningful coverage or replacing business assertions with weaker
    implementation-detail checks.
+9. If this run was triggered by an existing `D11-exploratory-defects.md` entry, append a triage note
+   to that entry — never create a new `DEF-###` entry; only a `902` run may do that.
