@@ -12,6 +12,10 @@
 > New DEF-### entries may only be created by a `902` run. Other flows (`402`, `301`, manual fixes)
 > may append a triage note or flip status on an existing entry, but must never fabricate a new id.
 >
+> Once **Resolved Defects** grows large, run `902` in cleanup mode ("902 cleanup") to compact
+> resolved entries down to one or two lines each — see that section below for the compacted format.
+> **Active Defects** entries are never compacted, regardless of age.
+>
 > Marking an entry `Not a Defect` requires filling in **Rationale** — a specific explanation of why
 > the observed behavior is expected/intentional, precise enough that a later run can tell whether a
 > recurrence still matches it. A `Not a Defect` entry with no rationale is incomplete. On a later
@@ -78,5 +82,17 @@
 > `Fixed`, `Won't Fix`, and `Not a Defect` entries live here, in ascending id order, out of the way
 > of the active list above. Ids are never renumbered on the move — only the entry's position in the
 > file changes.
+>
+> A freshly resolved entry moves here with its full detail intact (Steps to reproduce, Expected,
+> Actual, etc.) — it's only compacted the next time `902` runs in cleanup mode. Compacted format:
+>
+> - `Fixed` / `Won't Fix` — one line: id, status, severity, a short flow + failure description, and
+>   a one-line resolution note. For example:
+>   `**DEF-003** (`Fixed`, High) — Login button double-submits on slow network, Checkout flow.
+>   Resolved via PR #482, 2026-05-12.`
+> - `Not a Defect` — the same one-line summary, plus the entry's **Rationale** kept verbatim on its
+>   own line underneath. The Rationale is never shortened, even when compacted — a later run
+>   compares a recurrence against it verbatim to decide whether to leave it suppressed or reopen it.
 
-<!-- Move resolved DEF-### entries here, in ascending id order. Never renumber an existing id. -->
+<!-- Move resolved DEF-### entries here, in ascending id order. Never renumber an existing id.
+     A resolved entry is compacted only by a 902 cleanup run, not automatically on the move. -->

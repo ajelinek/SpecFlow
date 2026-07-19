@@ -8,8 +8,10 @@ description: >
   this site" when the next step is a live, click-driven exploratory test pass rather than authoring
   test cases directly. Produces `.specflow/docs/D11-exploratory-defects.md`, a running defect
   backlog meant to feed `202-spec-design` and `301`/`402` once someone is ready to turn findings
-  into fixes.
-argument-hint: "[starting-url] [credentials?] [priority-features?]"
+  into fixes. Also has a cleanup mode — trigger it with "902 cleanup", "clean up D11", or "compact
+  the defect backlog" — that reorganizes and compacts the backlog's resolved history without
+  opening a browser.
+argument-hint: "[starting-url] [credentials?] [priority-features?] | cleanup"
 context: fork
 ---
 
@@ -36,7 +38,22 @@ documented in the commit/PR, not appended here.
 
 ---
 
+## Modes
+
+`902` runs in one of two modes:
+
+- **Exploration** (default) — the full click-driven QA pass in **Steps 1-9** below. Triggered by a
+  starting URL, "902", "browser QA", etc.
+- **Cleanup** — reorganizes and compacts `.specflow/docs/D11-exploratory-defects.md` without
+  opening a browser. Triggered explicitly by phrases like "902 cleanup", "clean up D11", or
+  "compact the defect backlog", or by accepting the offer a normal run makes at Step 9 once the
+  backlog has grown large. See **Cleanup Steps** below instead of Steps 1-9.
+
+---
+
 ## Required Inputs
+
+**Exploration mode:**
 
 1. **Starting URL** — where exploration begins. If missing, ask for it before proceeding.
 2. **Test credentials** *(optional)* — username/password (or equivalent) for sites that require
@@ -47,6 +64,9 @@ documented in the commit/PR, not appended here.
 
 Assume the target is a safe/staging environment. There are no destructive-action restrictions —
 submit forms, complete flows, and interact with the site the way a real user would.
+
+**Cleanup mode:** no starting URL, credentials, or priority list needed — only the existing D11
+file.
 
 ---
 
@@ -146,7 +166,47 @@ submit forms, complete flows, and interact with the site the way a real user wou
   longer matched), any `Not a Defect` entries that recurred but were left suppressed as still
   matching their rationale, the current total open/in-progress backlog size, and that turning
   entries into test cases and fixes is a separate next step through `202-spec-design` and
-  `301-spec-implementation`/`402-test-correction`.
+  `301-spec-implementation`/`402-test-correction`. If **Resolved Defects** now holds more than 15
+  entries, or the file exceeds roughly 400 lines, say so and offer to run a cleanup pass (see
+  **Cleanup Steps**) — don't run it automatically as part of this pass.
+
+---
+
+## Cleanup Steps
+
+Runs instead of Steps 1-9 above when cleanup mode is triggered explicitly, or when offered and
+accepted at the end of a normal run. No browser session opens.
+
+- [ ] **Cleanup Step 1: Read the file.** Read `.specflow/docs/D11-exploratory-defects.md`. If it
+  doesn't exist, or **Resolved Defects** has no entries to compact, report there's nothing to clean
+  up and stop.
+
+- [ ] **Cleanup Step 2: Repair structure first.** Before compacting anything, confirm every entry
+  lives in the right section and order: `Open`/`In Progress`/`Reopened` in **Active Defects**,
+  everything else in **Resolved Defects**, both in ascending `DEF-###` order. Fix any entry that
+  drifted from this (e.g. a manual status edit that never moved the entry) without changing its id,
+  status, or content yet.
+
+- [ ] **Cleanup Step 3: Compact eligible Resolved entries.** For every entry in **Resolved
+  Defects**:
+  - `Fixed` or `Won't Fix` → collapse the full block to one line: id, status, severity, a short
+    flow + failure description, and a one-line resolution note (drawn from the entry's `Notes`
+    field if present). Discard the detailed Steps to reproduce / Expected / Actual — the one-line
+    summary is the permanent record from here on.
+  - `Not a Defect` → collapse to two lines: the same one-line id/status/severity/flow+failure
+    summary, plus the entry's **Rationale** kept verbatim on its own line. Never shorten or drop
+    the Rationale — Step 7's reconciliation reads it verbatim on every future run to decide whether
+    a recurrence still matches or needs reopening.
+  - Leave entries already in compact form (from a prior cleanup run) untouched.
+  - Never touch **Active Defects** — `Open`, `In Progress`, and `Reopened` entries keep full detail
+    regardless of age; they aren't resolved yet.
+
+- [ ] **Cleanup Step 4: Write the file.** Preserve every id and status exactly. This is a
+  reformatting pass only — no entry is deleted, renumbered, or reclassified.
+
+- [ ] **Cleanup Step 5: Summarize.** Report: entries compacted (with ids), entries left untouched
+  and why (already compact, or still Active), any structural drift repaired in Cleanup Step 2, and
+  the file's size before/after (line count, resolved-entry count).
 
 ---
 
@@ -162,8 +222,9 @@ submit forms, complete flows, and interact with the site the way a real user wou
 5. This skill never invokes `202-spec-design`, `301-spec-implementation`, or `402-test-correction`
    itself. Converting defects into test cases and fixes is always a separate, later, manually
    triggered step.
-6. Every defect entry carries an id, status, severity, detection mode (rubric/judgment), repro
-   steps, and expected-vs-actual — no partial entries.
+6. Every defect entry, as originally logged (Step 8) or reopened, carries an id, status, severity,
+   detection mode (rubric/judgment), repro steps, and expected-vs-actual — no partial entries. A
+   later cleanup pass compacting a resolved entry (Cleanup Step 3) is the one documented exception.
 7. Only Step 7's reconciliation logic changes status on an existing entry. A run never marks
    something `Fixed` on its own — only `Open` (new), `Reopened` (recurrence), or an explicit
    "appears resolved, needs confirmation" note.
@@ -177,6 +238,11 @@ submit forms, complete flows, and interact with the site the way a real user wou
 10. Terminal-status entries (`Fixed`, `Won't Fix`, `Not a Defect`) belong in the **Resolved
     Defects** section, not mixed into **Active Defects** — move an entry the moment its status
     becomes terminal, and move it back if it's later reopened (Step 8).
+11. Cleanup mode never changes an id, status, or which section an entry belongs in beyond fixing
+    structural drift (Cleanup Step 2) — it only shortens already-resolved entries' detail level.
+12. A `Not a Defect` entry's **Rationale** is never shortened or dropped during cleanup, compacted
+    or not — it's the only thing that lets a later run tell a suppressed recurrence from a genuine
+    reopen.
 
 ## Additional Guidance
 

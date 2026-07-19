@@ -64,6 +64,10 @@ similar, treat it as **Happy Path Only**.
   - **Update existing scenario** — name the `TS#` and what assertion/example rows to add
   - **Add new scenario** — explain briefly why it needs a separate workflow or path
 
+  For every new scenario, also assign its `TSM#` module as part of this same decision: an existing
+  module when it shares that module's business context, or a new module when it doesn't. Never
+  leave a scenario unassigned to a module.
+
   Coverage expectations:
   - **Happy Path Only**: primary success workflows only; no error or edge scenarios
   - **Balanced**: happy paths plus the most important error states and 1-2 meaningful edge cases
@@ -93,6 +97,7 @@ similar, treat it as **Happy Path Only**.
   - all new scenarios use `@status_pending`
   - coverage level is reflected in the kinds of scenarios present
   - Gherkin syntax is valid
+  - every scenario sits inside a `TSM#` module — no scenario left ungrouped
 
 - [ ] **Step 6: Write the file and summarize.** If the file exists, update scenarios in place first
   and append only truly new modules/scenarios after that. Do not renumber existing `TS#` tags.
@@ -137,4 +142,5 @@ implementation detail that would need rewriting if the UI framework changes.
 
 **On test modules (TSM#)**: Modules group scenarios by business context, not by technical layer.
 "TSM002: Expense Submission — Error Handling" is correct. "TSM002: API Error Responses" is not —
-it groups by implementation layer rather than user experience.
+it groups by implementation layer rather than user experience. Every scenario belongs to a module —
+assign an existing one or open a new one; never leave a scenario ungrouped.

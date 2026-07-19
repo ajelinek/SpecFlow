@@ -2,7 +2,7 @@
 name: 901-feature-loop
 description: >
   Use `901` to run one feature end-to-end through SpecFlow's full pipeline as a single
-  git-tracked run: high-level design, happy-path specs, per-scenario test-driven build-out,
+  git-tracked run: high-level design, happy-path specs, per-module test-driven build-out,
   cleanup, an optional expanded-coverage round, and a merge back to the base branch. Every
   design/spec artifact and every end-of-round cleanup pass is checked by `900-feedback-loop`
   before the run advances, and every stage lands its own commit on a dedicated feature branch.
@@ -16,8 +16,9 @@ context: fork
 # 901 - Feature Loop
 
 Runs one feature end-to-end on its own branch, headless: a Green Check baseline, then `201` →
-`202` (Happy Path) → per-scenario `301` (each scenario closed out with a `specs.feature`
-status-tag update and its own lightweight Scenario Check) → aggregate end-of-round cleanup and a
+`202` (Happy Path) → per-module `301` (each `TSM#` module closed out in one pass, with a
+`specs.feature` status-tag update for every scenario it contains and its own lightweight Module
+Check) → aggregate end-of-round cleanup and a
 round close-out Green Check → an optional expanded-coverage round of the same shape → final Green
 Check → merge.
 
@@ -55,7 +56,7 @@ resolved by the Decision Consult using Step 3's defaults.
 - You are the orchestrator for the entire run, and you run it headless — no step ever pauses to
   ask the user a question. Every blocking decision routes through the **Decision Consult** below,
   and the run acts on its result immediately.
-- Every checkpoint runs a **Green Check** or, for per-scenario build steps, the lighter **Scenario
+- Every checkpoint runs a **Green Check** or, for per-module build steps, the lighter **Module
   Check**; every design/spec artifact and aggregate cleanup pass gets a **Feedback Pass** — all
   three defined once under **Checkpoint Protocols** below.
 - All git operations (branch, commit, merge) run directly here via Bash, never delegated to a
@@ -90,13 +91,13 @@ continue."
 ## Checkpoint Protocols
 
 Three shapes recur at almost every checkpoint below: two flavors of validation (**Green Check**,
-**Scenario Check**) and one convergence loop (**Feedback Pass**). Defined once here; each step
+**Module Check**) and one convergence loop (**Feedback Pass**). Defined once here; each step
 below just names which applies and what's unique to it.
 
 ### Green Check
 
 The full four-mode validation. Reserved for the baseline (Step 2), each round's close-out (Steps
-13, 19), and merge revalidation (Step 21) — never per-scenario; see **Scenario Check** for that.
+13, 19), and merge revalidation (Step 21) — never per-module; see **Module Check** for that.
 
 Dispatch all four `@validator` calls in parallel, in a single message — `@validator` takes one
 mode per invocation, the four modes are independent, and this orchestrating context never checks
@@ -119,26 +120,27 @@ question, Decision Consult — `402`'s suggested resolutions, or skip-and-flag; 
 likeliest pick. On lint/build non-convergence, Decision Consult — widened-scope retry, or terminal
 report; default: one widened retry, then terminal.
 
-### Scenario Check
+### Module Check
 
-The lightweight per-scenario validation used at Steps 10 and 16 instead of a full Green Check. A
-regression from one scenario's own change is almost always in lint or that scenario's own spec,
-not the unit suite or the build — those get their one real check at the round's Green Check
-(Steps 13, 19).
+The lightweight per-module validation used at Steps 10 and 16 instead of a full Green Check. A
+regression from one module's own change is almost always in lint or that module's own spec
+scenarios, not the unit suite or the build — those get their one real check at the round's Green
+Check (Steps 13, 19).
 
 Two `@validator` calls, dispatched in parallel:
 
 1. `mode: lint`
-2. `mode: test`, scoped to exactly this scenario's own spec file — not the full e2e suite.
-   Re-running every prior scenario's spec after each new one is quadratic waste; the full suite
+2. `mode: test`, scoped to exactly this module's own spec file(s) — not the full e2e suite.
+   Re-running every prior module's spec after each new one is quadratic waste; the full suite
    runs once, at the round's Green Check.
 
 Repair: same per-layer repair as Green Check above, scoped to just these two layers.
 
-Non-convergence fallback — **per-scenario fallback** (Steps 10, 16 only): any non-convergence,
-regardless of layer, gets one Decision Consult — retry `301` for this scenario with a revised
-approach, revert and retry `301` from scratch, or terminal report naming the stuck scenario;
-default: revised-approach retry, then from-scratch retry, then terminal.
+Non-convergence fallback — **per-module fallback** (Steps 10, 16 only): any non-convergence,
+regardless of layer, gets one Decision Consult — retry `301` for this module with a revised
+approach, revert and retry `301` from scratch, or terminal report naming the stuck module (and, if
+only some of its scenarios are implicated, which `@TS###` within it); default: revised-approach
+retry, then from-scratch retry, then terminal.
 
 ### Feedback Pass
 
@@ -146,7 +148,7 @@ One `900-feedback-loop` cycle: a Review pass by `@reviewer`, an Apply-Fix pass, 
 anything changed. Pin the Apply-Fix role's `general-purpose` call to `sonnet` at every site — it's
 mechanical fix application driven entirely by Review's feedback, not fresh judgment. Both flavors
 below override `900`'s own default iteration cap of 5. These are the only two flavors — Steps 10
-and 16's per-scenario build cycles never get one.
+and 16's per-module build cycles never get one.
 
 - **Artifact refine** (Steps 7, 9, 15): `@reviewer` judges the artifact against that artifact's
   own producing skill's documented quality checks; `general-purpose` applies the feedback directly
@@ -217,18 +219,23 @@ and 16's per-scenario build cycles never get one.
 - [ ] **Step 9: Feedback Pass (artifact refine) on the specs.** Criteria from `202`'s own Step 5
       quality check. Commit if changed: `900: refine 202 happy-path specs for <feature-slug>`.
 
-- [ ] **Step 10: Build out each happy-path scenario, one at a time.** For each `@TS###` in the
+- [ ] **Step 10: Build out each happy-path module, one at a time.** For each `TSM#` in the
       happy-path set, in order:
-  1. Run `301-spec-implementation` scoped to exactly that `@TS###`.
-  2. In `specs.feature`, replace that scenario's status tag with `@status_done` — `301`'s own
-     validation already confirmed the passing run this tag certifies.
-  3. Run a **Scenario Check** with the per-scenario fallback — a failure here is a regression from
-     this scenario's own change, repaired on the spot rather than surfaced as a blocker.
-  4. Commit: `test cycle: <TS###> implement + status`.
+  1. Run `301-spec-implementation` scoped to exactly that `TSM###` — one pass builds out every
+     `@TS###` scenario the module contains, not one call per scenario. `301`'s own phases (write
+     failing tests for the module's scope, then implement, then clean up tests/production) already
+     operate across a multi-scenario scope; this is the same discipline `301` applies whenever it's
+     handed the full file, just narrowed to one module's scenarios.
+  2. In `specs.feature`, replace the status tag for every `@TS###` scenario in that module with
+     `@status_done` — `301`'s own validation already confirmed the passing run this tag certifies.
+  3. Run a **Module Check** with the per-module fallback — a failure here is a regression from
+     this module's own change, repaired on the spot rather than surfaced as a blocker.
+  4. Commit: `test cycle: <TSM###> implement + status`.
 
-  Skip per-scenario cleanup — Steps 11/12 (and 17/18 in round 2) clean the same files in aggregate
-  at round end. Never start the next scenario until the current one, including its status-tag
-  update and Scenario Check, is committed.
+  Skip per-module cleanup — Steps 11/12 (and 17/18 in round 2) clean the same files in aggregate
+  at round end. Never start the next module until the current one, including its status-tag
+  updates and Module Check, is committed. A module with only one `@TS###` scenario collapses to the
+  same single-scenario cycle this replaced — no special case needed.
 
 - [ ] **Step 11: Feedback Pass (aggregate cleanup) on round-1 source.** Scope: the round-1 source
       diff, `source-cleanup-only`. Strictly bounded to round-1 files (see Rule 2 on final-round
@@ -249,8 +256,12 @@ and 16's per-scenario build cycles never get one.
 - [ ] **Step 15: Feedback Pass (artifact refine) on the updated specs.** Same as Step 9. Commit if
       changed.
 
-- [ ] **Step 16: Build out each newly added scenario, one at a time.** Same as Step 10, scoped
-      only to the `@TS###` scenarios Step 14 added — not the round-1 scenarios again.
+- [ ] **Step 16: Build out each newly touched module, one at a time.** Same as Step 10, scoped
+      only to the `TSM#` modules Step 14 added or changed — not round-1 modules that got no new
+      scenarios. If a targeted module mixes round-1 `@status_done` scenarios with new
+      `@status_pending` ones, scope `301` to the module as usual; its own scope-handling already
+      covers a partial-completion file (this is the same case as being handed the full file with
+      some scenarios already done), so it only needs to build out what's still pending.
 
 - [ ] **Step 17: Feedback Pass (aggregate cleanup) on final source.** Scope: the entire feature
       branch diff. This is the final round's cleanup, so pre-authorize scope expansion past the
@@ -283,7 +294,7 @@ and 16's per-scenario build cycles never get one.
       the base branch.
 
 - [ ] **Step 22: Summarize.** Report: feature identity, branch name, round-2 coverage used, the
-      full commit ledger, scenarios implemented per round, Feedback Pass iteration counts per
+      full commit ledger, modules and scenarios implemented per round, Feedback Pass iteration counts per
       stage, final validation result, the merge commit (or terminal-report reason if the run ended
       without one), and every Decision Consult invoked during the run with its resolution.
 
@@ -300,9 +311,9 @@ and 16's per-scenario build cycles never get one.
 4. All git operations run directly in this orchestrating context, never delegated to a subagent.
    Never push to a remote. Merge is always `--no-ff`; the feature branch is kept afterward, not
    deleted.
-5. Never start the next scenario's build cycle before the current one — including its
-   `specs.feature` status-tag update and Scenario Check — is committed. A scenario is never left at
-   `@status_pending` once its build cycle has run.
+5. Never start the next module's build cycle before the current one — including its
+   `specs.feature` status-tag updates and Module Check — is committed. No scenario within a module
+   is ever left at `@status_pending` once that module's build cycle has run.
 6. Only Step 2 and Step 19 can end the run outright, and only as a terminal report once
    consult-driven retries are exhausted — never as a blocking question. Every other decision point
    routes through the Decision Consult and the run acts on the result immediately.
