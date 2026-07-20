@@ -7,12 +7,19 @@ sidebar:
 
 import Callout from '../../../components/Callout.astro';
 import PromptBlock from '../../../components/PromptBlock.astro';
+import { withBase } from '../../../lib/docs';
+
+export const featureLoopHref = withBase('/FeatureLoop/', import.meta.env.BASE_URL);
 
 ## What this skill is for
 
-`901-feature-loop` runs one feature end-to-end on its own branch, headless: a green four-layer baseline gate, then `201` -> `202` (Happy Path) -> per-scenario `301`+`401`+`401` (each scenario closed out with a `specs.feature` status-tag update and its own green check) -> end-of-round cleanup and a round close-out green check -> an optional expanded-coverage round of the same shape -> final validation -> merge. `900-feedback-loop` reviews every design/spec artifact and every aggregate cleanup pass before the run advances past it. Every green check — baseline, per scenario, round close-out, and final — covers unit, integration/e2e, lint, and build as four separate `@validator` calls. Nothing in this run blocks on a user question: every fork in the road routes through the **Decision Consult**, a single `@decider` call per fork — `@decider` itself runs a three-way stance-framed arbitration internally and hands back one decided answer, so the orchestrator never manages that arbitration directly.
+`901-feature-loop` runs one feature end-to-end on its own branch, headless: a green four-layer baseline gate, then `201` -> `202` (Happy Path) -> per-scenario `301` grouped by `TSM#` module (each scenario still gets its own `301` pass and `specs.feature` status-tag update, but the module — not the individual scenario — is the unit that gets a lightweight Module Check and a commit) -> end-of-round cleanup and a round close-out green check -> an optional expanded-coverage round of the same shape -> final validation -> merge. `900-feedback-loop` reviews every design/spec artifact and every aggregate cleanup pass before the run advances past it. The full four-layer Green Check — unit, integration/e2e, lint, and build as four separate `@validator` calls — runs at the baseline, each round's close-out, and merge revalidation; the lighter two-layer Module Check runs once per module instead. Nothing in this run blocks on a user question: every fork in the road routes through the **Decision Consult**, a single `@decider` call per fork — `@decider` itself runs a three-way stance-framed arbitration internally and hands back one decided answer, so the orchestrator never manages that arbitration directly. Every step, consult, and feedback pass appends to a durable audit trail — see **Audit trail** below.
 
-**Output**: Updates project source/test files and `.specflow/features/<fid>-<feature-slug>/` artifacts. Creates a feature branch, commits throughout, and merges it back. No new artifact type of its own.
+**Output**: Updates project source/test files and `.specflow/features/<fid>-<feature-slug>/` artifacts, including its own `implementation-log.jsonl` audit trail. Creates a feature branch, commits throughout, and merges it back. No new artifact type of its own.
+
+<Callout tone="core" title="See the full run, visually">
+  Every phase, all 22 steps, every skill and agent call, and the audit trail behind it — laid out as an interactive walkthrough at <a href={featureLoopHref}>SpecFlow/FeatureLoop</a>.
+</Callout>
 
 ## When to use it
 
@@ -43,20 +50,27 @@ This workflow never pauses mid-run to ask the user a question. Every point that 
   The baseline gate (before any feature work starts) and final validation (right before merge) are the only two checkpoints where consult-driven retries running out ends the run with a terminal status report instead of a suspended question. Everywhere else, the Decision Consult always produces a way forward.
 </Callout>
 
+## Audit trail
+
+Every run keeps its own durable, append-only ledger: `.specflow/features/<fid>-<feature-slug>/implementation-log.jsonl`, one JSON object per line, written starting the moment the feature branch is created. It exists so a stuck or interrupted run leaves a mechanical trail behind instead of losing everything with the context that produced it — resuming reads back the last recorded step instead of guessing, and the final summary is composed by reading the file in full rather than from carried-forward context.
+
+Seven event types cover the whole run: `run_init` (once, at branch creation), `step_complete` (after every top-level step), `decision_consult` (every Decision Consult call), `feedback_pass` (every `900-feedback-loop` cycle), `resume` (when picking a prior run back up), `terminal` (a non-convergent end at the baseline gate or final validation), and `run_complete` (once, at the end). See it rendered as a live log at <a href={featureLoopHref}>SpecFlow/FeatureLoop</a>.
+
 ## What it produces
 
 - A dedicated `feature/<fid>-<feature-slug>` branch, created from the current branch, with a commit after every stage
 - A green four-layer baseline (`@validator`: unit, integration/e2e, lint, build) confirmed before any branch or design work starts
 - Every design/spec artifact (`201` overview, `202` specs) reviewed and refined by `900-feedback-loop` before the run advances
-- Round 1 (Happy Path Only, always runs) and an optional Round 2 (`none` / `balanced` / `comprehensive` coverage, default `comprehensive`) — Round 2 only builds out the newly added scenarios, not Round 1 again
+- Round 1 (Happy Path Only, always runs) and an optional Round 2 (`none` / `balanced` / `comprehensive` coverage, default `balanced`) — Round 2 only builds out the newly added scenarios, not Round 1 again
 - Aggregate source and test cleanup passes at the end of each round, each reviewed by `900-feedback-loop`
 - A four-layer final validation pass and a `--no-ff` merge back into the base branch — the feature branch is kept afterward, never deleted, and nothing is ever pushed to a remote
+- An append-only `implementation-log.jsonl` audit trail — every step, Decision Consult, and Feedback Pass, from branch creation through to the merge (see **Audit trail** above)
 - A summary: feature identity, branch name, round-2 coverage used, the full commit ledger, scenarios implemented per round, `900-feedback-loop` iteration counts per stage, final validation result, the merge commit (or terminal-report reason), and every Decision Consult invoked with its resolution
 
 ## Required inputs
 
 - **Feature identity** — a name and/or `F-ID`, resolved the same way `201` resolves it; ambiguity here routes through the Decision Consult rather than blocking
-- **Round 2 coverage** — one of `none`, `balanced`, `comprehensive` (defaults to `comprehensive` if unstated)
+- **Round 2 coverage** — one of `none`, `balanced`, `comprehensive` (defaults to `balanced` if unstated)
 - **Workflow fit** — confirmation this is genuinely a whole-feature run, not an isolated fix better served by `301` or `401` directly
 
 ## Common prompts
@@ -71,17 +85,17 @@ Once the loop merges back into the base branch, the feature branch is kept (not 
 
 ## Practical guidance
 
-- Per-scenario build steps (`301`, then `401` source, then `401` test) run as direct sequential skill calls, never wrapped in `900-feedback-loop` — `301`'s own internal phase validation is the guardrail at that granularity
+- Per-scenario build steps run as direct sequential `301` calls, never wrapped in `900-feedback-loop` — `301`'s own internal phase validation is the guardrail at that granularity; only the module-wide Module Check and the commit batch to the module
 - Only design/spec artifacts and aggregate end-of-round cleanup get the `900-feedback-loop` treatment
-- Every validation checkpoint — baseline, each scenario, round close-out, and final — runs all four layers as separate `@validator` calls, never combined into one pass; failing tests route to `402-test-correction`, lint/build failures to a focused `@coder` repair pass
+- The full four-layer Green Check runs only at the baseline, each round's close-out, and merge revalidation, as four separate `@validator` calls; the per-module Module Check is a lighter two-layer pass (lint plus that module's own spec tests) run once after every scenario in the module has its own `301` pass. Failing tests route to `402-test-correction`, lint/build failures to a focused `@coder` repair pass
 - Scope-expansion authorization for aggregate `401` cleanup applies only to whichever round actually runs last
 - All git operations run directly in the orchestrating context, never delegated to a subagent
 
 ## Common mistakes
 
 - Running it for a small, isolated change that `301` or `401` alone would have handled with far less overhead
-- Starting the next scenario's build cycle before the current one — including its status-tag update and green check — is committed
-- Expecting round 2 to re-run round-1 scenarios — it only builds out the newly added `@TS###` scenarios
+- Starting the next module's build cycle before the current one — including every scenario's status-tag update and that module's Module Check — is committed
+- Expecting round 2 to re-run round-1 scenarios or round-1 modules — it only builds out the newly added `@TS###` scenarios inside the modules Round 2 touched
 - Treating a merge conflict resolution as a substitute for revalidation — the final four-layer check always reruns after a conflict is resolved
 
 <Callout tone="tip" title="Decides rather than asks">

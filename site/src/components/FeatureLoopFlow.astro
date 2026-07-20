@@ -1,0 +1,422 @@
+---
+import { featureLoopPhases, type FeatureLoopStep, type StepKind } from '../lib/feature-loop-steps';
+
+const kindMeta: Record<Exclude<StepKind, 'normal'>, string> = {
+  gate: 'Green Check',
+  consult: 'Decision Consult',
+  loop: 'Build loop',
+};
+
+/** Escapes HTML, then turns `backtick` spans into <code> — content is author-controlled. */
+function mdInline(text: string): string {
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  return escaped.replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+
+function stepNum(step: FeatureLoopStep): string {
+  return String(step.num).padStart(2, '0');
+}
+---
+
+<section class="feature-loop-flow" aria-label="901-feature-loop step-by-step run">
+  <ul class="feature-loop-flow__legend">
+    <li><span class="feature-loop-flow__chip feature-loop-flow__chip--skill">201</span> skill invoked</li>
+    <li><span class="feature-loop-flow__chip feature-loop-flow__chip--agent">@agent</span> agent invoked</li>
+    <li><span class="feature-loop-flow__kind is-gate">Green Check</span> full four-layer validation</li>
+    <li><span class="feature-loop-flow__kind is-consult">Decision Consult</span> resolves a fork automatically</li>
+    <li><span class="feature-loop-flow__kind is-loop">Build loop</span> nested module/scenario cycle</li>
+  </ul>
+
+  {featureLoopPhases.map((phase) => (
+    <div class="feature-loop-flow__phase">
+      <h4 class="feature-loop-flow__phase-heading">
+        <span class="feature-loop-flow__phase-num">{phase.label}</span>
+        {phase.title}
+      </h4>
+
+      <ol class="feature-loop-flow__steps">
+        {phase.steps.map((step) => (
+          <li class:list={['feature-loop-flow__step', `feature-loop-flow__step--${step.kind}`]}>
+            <details>
+              <summary>
+                <span class="feature-loop-flow__step-head">
+                  <span class="feature-loop-flow__step-num">{stepNum(step)}</span>
+                  <span class="feature-loop-flow__step-title">{step.title}</span>
+                  {step.kind !== 'normal' && (
+                    <span class:list={['feature-loop-flow__kind', `is-${step.kind}`]}>{kindMeta[step.kind]}</span>
+                  )}
+                </span>
+
+                <span class="feature-loop-flow__ref-row">
+                  {step.skills.map((s) => (
+                    <span class="feature-loop-flow__chip feature-loop-flow__chip--skill" title={s.when}>{s.id}</span>
+                  ))}
+                  {step.agents.map((a) => (
+                    <span class="feature-loop-flow__chip feature-loop-flow__chip--agent" title={a.when}>{a.id}</span>
+                  ))}
+                  {step.skills.length === 0 && step.agents.length === 0 && (
+                    <span class="feature-loop-flow__chip feature-loop-flow__chip--none">901 only — no other skill or agent</span>
+                  )}
+                </span>
+              </summary>
+
+              <div class="feature-loop-flow__detail">
+                <p set:html={mdInline(step.description)} />
+
+                {step.loop && (
+                  <div class="feature-loop-flow__loop">
+                    <div class="feature-loop-flow__loop-level feature-loop-flow__loop-level--outer">
+                      <p class="feature-loop-flow__loop-label"><span class="feature-loop-flow__loop-badge">1</span>{step.loop.outerLabel}</p>
+                      <div class="feature-loop-flow__loop-level feature-loop-flow__loop-level--inner">
+                        <p class="feature-loop-flow__loop-label"><span class="feature-loop-flow__loop-badge feature-loop-flow__loop-badge--inner">2</span>{step.loop.innerLabel}</p>
+                        <ol class="feature-loop-flow__loop-actions">
+                          {step.loop.innerActions.map((action) => <li set:html={mdInline(action)} />)}
+                        </ol>
+                      </div>
+                      <ul class="feature-loop-flow__loop-after">
+                        {step.loop.afterActions.map((action) => <li set:html={mdInline(action)} />)}
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {step.techNote && <p class="feature-loop-flow__note" set:html={mdInline(step.techNote)} />}
+
+                {step.commit && (
+                  <p class="feature-loop-flow__commit">
+                    <span>saves as</span>
+                    <code>{step.commit}</code>
+                  </p>
+                )}
+              </div>
+            </details>
+          </li>
+        ))}
+      </ol>
+    </div>
+  ))}
+</section>
+
+<style>
+  .feature-loop-flow {
+    display: grid;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .feature-loop-flow__legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.1rem;
+    margin: 0;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    font-size: 0.86rem;
+    color: var(--text-muted);
+  }
+
+  .feature-loop-flow__legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .feature-loop-flow__chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.4rem;
+    padding: 0 0.55rem;
+    border-radius: 999px;
+    font-family: 'SFMono-Regular', SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .feature-loop-flow__chip--skill {
+    background: var(--code-bg);
+    color: var(--code-text);
+  }
+
+  .feature-loop-flow__chip--agent {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+  }
+
+  .feature-loop-flow__chip--none {
+    background: var(--surface-soft);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .feature-loop-flow__kind {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.4rem;
+    padding: 0 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .feature-loop-flow__kind.is-gate {
+    background: var(--core);
+    color: var(--text);
+  }
+
+  .feature-loop-flow__kind.is-consult {
+    background: var(--bonus);
+    color: var(--text);
+  }
+
+  .feature-loop-flow__kind.is-loop {
+    background: var(--warning);
+    color: var(--text);
+  }
+
+  /* ---- phases ---- */
+  .feature-loop-flow__phase-heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin: 0 0 0.75rem;
+    font-size: 1.1rem;
+  }
+
+  .feature-loop-flow__phase-num {
+    font-family: 'SFMono-Regular', SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--text-muted);
+    padding: 0.2rem 0.55rem;
+    border-radius: 5px;
+  }
+
+  /* ---- step cards ---- */
+  .feature-loop-flow__steps {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .feature-loop-flow__step details {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  /*
+   * Starlight's own markdown styles already give every <summary> its disclosure
+   * chevron (a rotating ::before icon) and hide the native marker — reuse that
+   * instead of drawing a second one. This row wraps: the step-head (num/title/
+   * kind badge) sits on the first line next to Starlight's icon, and ref-row is
+   * forced onto its own line via flex-basis: 100%, so it stays visible even
+   * while the step is collapsed.
+   */
+  .feature-loop-flow__step summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0.6rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .feature-loop-flow__step summary:hover {
+    background: var(--surface-soft);
+  }
+
+  .feature-loop-flow__step summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .feature-loop-flow__step-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  .feature-loop-flow__step-num {
+    font-family: 'SFMono-Regular', SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    flex: none;
+    width: 1.6em;
+  }
+
+  .feature-loop-flow__step-title {
+    flex: 1;
+    min-width: 0;
+    font-weight: 700;
+  }
+
+  .feature-loop-flow__step--gate summary {
+    background: color-mix(in srgb, var(--core) 55%, transparent);
+  }
+
+  .feature-loop-flow__detail {
+    padding: 0 1rem 1.1rem 1rem;
+    border-top: 1px solid var(--border);
+    margin-top: -1px;
+    padding-top: 0.9rem;
+  }
+
+  .feature-loop-flow__detail p {
+    margin: 0 0 0.65rem;
+    color: var(--text-muted);
+  }
+
+  .feature-loop-flow__detail p:last-child {
+    margin-bottom: 0;
+  }
+
+  .feature-loop-flow__ref-row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: 100%;
+    gap: 0.4rem;
+  }
+
+  .feature-loop-flow__note {
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  .feature-loop-flow__commit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .feature-loop-flow__commit span {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+
+  /* ---- nested loop visual ---- */
+  .feature-loop-flow__loop {
+    margin: 0.75rem 0 1rem;
+  }
+
+  .feature-loop-flow__loop-level {
+    border-left: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    background: color-mix(in srgb, var(--warning) 45%, transparent);
+    padding: 0.9rem 1rem 1rem;
+  }
+
+  .feature-loop-flow__loop-level--inner {
+    margin: 0.4rem 0.25rem 0.9rem;
+    border-left: 4px solid var(--accent-strong);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 0.9rem 0.9rem;
+  }
+
+  .feature-loop-flow__loop-label {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 0 0.6rem !important;
+    font-weight: 700;
+    color: var(--text) !important;
+    font-size: 0.92rem;
+  }
+
+  .feature-loop-flow__loop-badge {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'SFMono-Regular', SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.76rem;
+    font-weight: 700;
+  }
+
+  .feature-loop-flow__loop-badge--inner {
+    background: var(--accent-strong);
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .feature-loop-flow__loop-actions,
+  .feature-loop-flow__loop-after {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .feature-loop-flow__loop-actions li,
+  .feature-loop-flow__loop-after li {
+    background: var(--surface-soft);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.88rem;
+    color: var(--text) !important;
+  }
+
+  .feature-loop-flow__loop-actions {
+    counter-reset: loopaction;
+  }
+
+  .feature-loop-flow__loop-actions li {
+    counter-increment: loopaction;
+    display: flex;
+    gap: 0.55rem;
+  }
+
+  .feature-loop-flow__loop-actions li::before {
+    content: counter(loopaction);
+    flex: none;
+    font-family: 'SFMono-Regular', SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
+    font-weight: 700;
+    color: var(--accent-strong);
+  }
+
+  .feature-loop-flow__loop-after {
+    margin: 0.7rem 0.25rem 0;
+  }
+
+  @media (max-width: 36rem) {
+    .feature-loop-flow__legend {
+      font-size: 0.8rem;
+    }
+  }
+</style>

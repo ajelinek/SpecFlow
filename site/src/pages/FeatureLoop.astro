@@ -1,0 +1,549 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeatureLoopFlow from '../components/FeatureLoopFlow.astro';
+import PromptBlock from '../components/PromptBlock.astro';
+import { featureLoopPhases, implementationLogEvents } from '../lib/feature-loop-steps';
+import { withBase } from '../lib/docs';
+
+const base = import.meta.env.BASE_URL;
+
+const allSteps = featureLoopPhases.flatMap((phase) => phase.steps);
+const stats = [
+  { value: String(featureLoopPhases.length), label: 'Phases' },
+  { value: String(allSteps.length), label: 'Steps' },
+  { value: String(allSteps.filter((s) => s.kind === 'gate').length), label: 'Green Checks' },
+  { value: '0', label: 'Questions asked' },
+];
+
+const highlights = [
+  {
+    tag: 'Baseline → merge',
+    title: 'Green Check',
+    body: 'A full four-layer validation — unit, integration/e2e, lint, and build — gates the baseline, every round close-out, and the merge revalidation.',
+  },
+  {
+    tag: 'Never blocks',
+    title: 'Decision Consult',
+    body: 'Every fork in the road — a dirty tree, an existing branch, a merge conflict — routes through @decider, which runs a three-way stance-framed arbitration and hands back one decided answer.',
+  },
+  {
+    tag: 'Per module',
+    title: 'Module Check',
+    body: 'A lighter two-layer pass — lint plus that module’s own spec tests — runs once after every scenario in a TSM# module is built, instead of a full Green Check per scenario.',
+  },
+  {
+    tag: 'New',
+    title: 'Audit trail',
+    body: 'Every step, consult, and feedback pass appends one line to implementation-log.jsonl — an append-only ledger the run reads back to resume, and Step 22 reads in full to report.',
+  },
+];
+---
+
+<BaseLayout
+  title="Feature Loop"
+  description="A full visual walkthrough of 901-feature-loop: every phase, step, Green Check, Decision Consult, and the append-only audit trail behind it."
+  currentPath={Astro.url.pathname}
+  homeOnly={true}
+>
+  <section class="fl-hero container">
+    <div class="fl-hero__copy">
+      <div class="fl-hero__badge-row">
+        <p class="eyebrow">SpecFlow · 901</p>
+        <span class="fl-hero__pill">Fully headless</span>
+      </div>
+      <h1>One command. <br />A whole feature, built.</h1>
+      <p class="fl-hero__lede">
+        <code>901-feature-loop</code> takes a feature from a green baseline to a merged branch on its own
+        &mdash; design, specs, per-scenario build-out, cleanup, and a four-layer validation gate at every
+        checkpoint. Nothing stops to ask you a question. Here&rsquo;s exactly how it runs.
+      </p>
+      <div class="fl-hero__actions">
+        <a class="button button--primary button--hero" href="#flow">See the full flow ↓</a>
+        <a class="button button--hero" href={withBase('/orchestration/901-feature-loop/', base)}>Read the skill docs</a>
+      </div>
+    </div>
+
+    <div class="fl-hero__art" aria-hidden="true">
+      <div class="fl-hero__orb fl-hero__orb--large"></div>
+      <div class="fl-hero__orb fl-hero__orb--small"></div>
+      <div class="fl-hero__grid"></div>
+      <div class="fl-hero__ring fl-hero__ring--one"></div>
+      <div class="fl-hero__ring fl-hero__ring--two"></div>
+    </div>
+  </section>
+
+  <section class="fl-stats container" aria-label="Run at a glance">
+    {stats.map((stat) => (
+      <div class="fl-stats__item">
+        <p class="fl-stats__value">{stat.value}</p>
+        <p class="fl-stats__label">{stat.label}</p>
+      </div>
+    ))}
+  </section>
+
+  <section class="fl-highlights container" aria-labelledby="fl-highlights-title">
+    <h2 id="fl-highlights-title">The four things that make it hold together</h2>
+    <div class="fl-highlights__grid">
+      {highlights.map((item) => (
+        <article class="fl-highlights__card">
+          <span class="fl-highlights__tag">{item.tag}</span>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="flow" class="fl-flow container" aria-labelledby="fl-flow-title">
+    <div class="fl-flow__header">
+      <p class="eyebrow">The full run</p>
+      <h2 id="fl-flow-title">Every step, start to finish</h2>
+      <p>
+        Five phases, {allSteps.length} steps. Expand any step to see exactly which skills and agents it
+        calls &mdash; Steps 10 and 16 each expand into a nested module/scenario build loop.
+      </p>
+    </div>
+
+    <FeatureLoopFlow />
+  </section>
+
+  <section class="fl-audit container" aria-labelledby="fl-audit-title">
+    <div class="fl-audit__header">
+      <p class="eyebrow">New in this run</p>
+      <h2 id="fl-audit-title">Every step leaves a paper trail</h2>
+      <p>
+        <code>implementation-log.jsonl</code> is the run&rsquo;s own durable state &mdash; an append-only
+        ledger, one JSON object per line, written starting at Step 4. A stuck or interrupted run reads it
+        back to resume at the exact step it left off; a finished run reads it in full to compose its final
+        summary. Nothing about the run&rsquo;s history has to be carried forward in context.
+      </p>
+    </div>
+
+    <div class="fl-audit__body">
+      <pre class="fl-audit__log" tabindex="0"><code>{implementationLogEvents.map((event) => event.sample).join('\n')}</code></pre>
+
+      <ul class="fl-audit__legend">
+        {implementationLogEvents.map((event) => (
+          <li>
+            <code class="fl-audit__event-type">{event.type}</code>
+            <div>
+              <p class="fl-audit__event-when">{event.writtenAt}</p>
+              <p class="fl-audit__event-fields">{event.fields}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="fl-cta container">
+    <div class="fl-cta__box">
+      <div class="fl-cta__copy">
+        <h2>Ready to run it?</h2>
+        <p>Point it at a feature name or an existing F-ID and let it run.</p>
+      </div>
+      <PromptBlock title="Prompt" text={`/901-feature-loop F001 balanced`} />
+      <a class="button button--primary button--hero fl-cta__link" href={withBase('/orchestration/901-feature-loop/', base)}>
+        Read the full skill reference →
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .fl-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.75fr);
+    align-items: center;
+    gap: 2rem;
+    padding: 4.5rem 0 2.5rem;
+  }
+
+  .fl-hero__copy {
+    position: relative;
+    z-index: 1;
+    max-width: 40rem;
+  }
+
+  .fl-hero__badge-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  .fl-hero__badge-row .eyebrow {
+    margin-bottom: 0;
+  }
+
+  .fl-hero__pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.6rem;
+    padding: 0.15rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--border));
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .fl-hero__copy h1 {
+    margin: 0;
+    font-size: clamp(2.6rem, 5.4vw, 4rem);
+    line-height: 1.03;
+    letter-spacing: -0.03em;
+  }
+
+  .fl-hero__lede {
+    margin: 1.1rem 0 0;
+    max-width: 34rem;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+
+  .fl-hero__lede code {
+    background: var(--code-bg);
+    color: var(--code-text);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.92em;
+  }
+
+  .fl-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
+  .fl-hero__art {
+    position: relative;
+    min-height: 22rem;
+    z-index: 0;
+  }
+
+  .fl-hero__orb,
+  .fl-hero__ring,
+  .fl-hero__grid {
+    position: absolute;
+  }
+
+  .fl-hero__orb {
+    border-radius: 999px;
+    filter: blur(6px);
+  }
+
+  .fl-hero__orb--large {
+    top: 1rem;
+    right: 1rem;
+    width: 15rem;
+    height: 15rem;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 190, 127, 0.42), rgba(191, 133, 77, 0.08) 62%, transparent 72%);
+  }
+
+  .fl-hero__orb--small {
+    top: 10rem;
+    left: 2rem;
+    width: 7rem;
+    height: 7rem;
+    background: radial-gradient(circle, rgba(147, 180, 255, 0.32), transparent 72%);
+  }
+
+  .fl-hero__grid {
+    inset: 3.5rem 1rem 1rem 3.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 2rem;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: linear-gradient(135deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.95));
+  }
+
+  .fl-hero__ring {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+  }
+
+  .fl-hero__ring--one {
+    top: 1.5rem;
+    right: 2rem;
+    width: 16rem;
+    height: 16rem;
+  }
+
+  .fl-hero__ring--two {
+    bottom: 1rem;
+    left: 0.5rem;
+    width: 9rem;
+    height: 9rem;
+    border-color: rgba(147, 180, 255, 0.24);
+  }
+
+  /* ---- stats strip ---- */
+  .fl-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0 0 3rem;
+  }
+
+  .fl-stats__item {
+    padding: 1.4rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+
+  .fl-stats__value {
+    margin: 0;
+    font-size: clamp(2rem, 3.6vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--accent-strong);
+  }
+
+  .fl-stats__label {
+    margin: 0.25rem 0 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---- highlights ---- */
+  .fl-highlights {
+    padding: 1rem 0 3.5rem;
+  }
+
+  .fl-highlights h2 {
+    max-width: 32ch;
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+  }
+
+  .fl-highlights__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .fl-highlights__card {
+    padding: 1.35rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+  }
+
+  .fl-highlights__tag {
+    display: inline-flex;
+    align-self: start;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .fl-highlights__card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .fl-highlights__card p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  /* ---- flow section ---- */
+  .fl-flow {
+    padding: 1rem 0 3.5rem;
+  }
+
+  .fl-flow__header {
+    max-width: 42rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .fl-flow__header h2 {
+    margin: 0.3rem 0 0.75rem;
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    letter-spacing: -0.02em;
+  }
+
+  .fl-flow__header p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  /* ---- audit trail ---- */
+  .fl-audit {
+    padding: 1rem 0 3.5rem;
+  }
+
+  .fl-audit__header {
+    max-width: 46rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .fl-audit__header h2 {
+    margin: 0.3rem 0 0.75rem;
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    letter-spacing: -0.02em;
+  }
+
+  .fl-audit__header p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .fl-audit__header code {
+    background: var(--code-bg);
+    color: var(--code-text);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.92em;
+  }
+
+  .fl-audit__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .fl-audit__log {
+    margin: 0;
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    background: var(--code-bg);
+    color: var(--code-text);
+    overflow-x: auto;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    box-shadow: var(--shadow);
+  }
+
+  .fl-audit__legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .fl-audit__legend li {
+    display: grid;
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+  }
+
+  .fl-audit__event-type {
+    font-family: 'SFMono-Regular', SFMono-Regular, ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--accent-strong);
+    white-space: nowrap;
+  }
+
+  .fl-audit__event-when {
+    margin: 0;
+    font-size: 0.84rem;
+    font-weight: 600;
+  }
+
+  .fl-audit__event-fields {
+    margin: 0.15rem 0 0;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  /* ---- closing CTA ---- */
+  .fl-cta {
+    padding: 1rem 0 4.5rem;
+  }
+
+  .fl-cta__box {
+    display: grid;
+    gap: 1.25rem;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    border: 1px solid var(--border);
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--accent-soft) 32%, var(--surface)), var(--surface));
+    box-shadow: var(--shadow);
+  }
+
+  .fl-cta__copy h2 {
+    margin: 0 0 0.4rem;
+    font-size: clamp(1.6rem, 2.8vw, 2rem);
+  }
+
+  .fl-cta__copy p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .fl-cta__link {
+    justify-self: start;
+  }
+
+  @media (max-width: 64rem) {
+    .fl-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .fl-highlights__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .fl-audit__body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .fl-hero {
+      grid-template-columns: minmax(0, 1fr);
+      padding-top: 3rem;
+    }
+
+    .fl-hero__art {
+      display: none;
+    }
+
+    .fl-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .fl-highlights__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .fl-audit__legend li {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.25rem;
+    }
+  }
+</style>

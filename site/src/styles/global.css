@@ -19,6 +19,49 @@
   --shadow: 0 16px 40px rgba(18, 32, 51, 0.06);
   --radius: 14px;
   --content-width: 72rem;
+
+  /* Widen both docs side columns beyond Starlight's 18.75rem default — --sl-sidebar-width
+     drives the left nav's own width AND is reused as the baseline for the right ToC
+     column's width, so bumping it widens both rails together and keeps them matched. */
+  --sl-sidebar-width: 21rem;
+
+  /* Starlight's own content column defaults to a flat 45rem, which leaves a large,
+     asymmetric gap before the prose on wide viewports (content is right-aligned
+     against the right sidebar within its column). Scale with viewport width instead
+     of a flat value: a flat 72rem (matching --content-width) removes the gap on wide
+     screens but starves the right ToC column down to single digits at common laptop
+     widths (1152-1440px), since Starlight reserves --sl-sidebar-width twice when
+     sizing the two-column split. This clamp keeps a wide-enough floor (so the ToC stays
+     comfortably wide through ~1536px, where the gap is already zero) and only grows
+     content width on larger screens, capping at 62rem for readable line length.
+     Verified with Playwright across 1152-3440px viewports before landing these values. */
+  --sl-content-width: clamp(46rem, 55vw, 62rem);
+}
+
+/* Starlight's two-column split (TwoColumnContent.astro) doesn't build a plain 3-column
+   shell — it gives .main-pane a *bonus* half of the leftover viewport space baked into its
+   own width (on top of --sl-content-width), then right-aligns the actual prose within that
+   oversized box. The other bonus half goes to .right-sidebar-container, but the visible ToC
+   list inside it stays a fixed, narrower width — so that bonus just becomes dead space to
+   the right of "On this page". Net effect: a lopsided gap before the content and a floating,
+   overly wide right rail. Replace it with the plain layout this site actually wants: left
+   nav and right ToC pinned to the same fixed --sl-sidebar-width, and the content column
+   filling the true remaining space and centering itself in it via --sl-content-margin-inline
+   below (which also caps out at --sl-content-width, so it doesn't stretch edge to edge). */
+@media (min-width: 72rem) {
+  [data-has-sidebar][data-has-toc] .right-sidebar-container {
+    width: var(--sl-sidebar-width);
+  }
+
+  [data-has-sidebar][data-has-toc] .main-pane {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 0%;
+  }
+}
+
+.main-pane {
+  --sl-content-margin-inline: auto;
 }
 
 :root[data-theme='dark'] {
