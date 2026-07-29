@@ -6,7 +6,6 @@ description: >
   it for prompts like "201", "high-level design", "feature design", or "HLD" when a feature needs
   a short overview before specs or implementation.
 argument-hint: "[feature-name]"
-context: fork
 ---
 
 # 201 - High-Level Design
@@ -33,6 +32,11 @@ Before proceeding, confirm:
    outcome
 
 If the request is too vague, ask one clarifying question.
+
+This skill runs in its caller's context so that question actually reaches the user. When another
+workflow invokes it with no user in the loop — `901-feature-loop` dispatching it into a subagent —
+the invocation is expected to carry the resolved feature identity. If the description is still too
+vague, return the question to the caller unanswered instead of guessing.
 
 ---
 

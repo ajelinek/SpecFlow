@@ -34,17 +34,19 @@ Before proceeding, confirm:
 Optional but useful: named competitors, seed URLs, existing customer research, assumptions, or a
 draft project overview.
 
-Resolve these with `gap-check`: it tries to answer them from existing context (D01, prior domain
-knowledge, repo exploration) before asking, then asks about anything still open one question at a
-time with a recommended answer.
+Resolve these from existing context — D01, prior domain knowledge, the invocation itself, repo
+exploration — in that order. Unlike the rest of the 100-series, this workflow runs in its own forked
+context and cannot reach the user, so it does not use `gap-check`. Anything still unresolved after
+the research pass is reported as an open question rather than asked about mid-run.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Run `gap-check` against the Required Inputs above. Make sure the
-  product, domain, users, and major constraints are defined well enough to research before moving
-  on.
+- [ ] **Step 1: Validate inputs.** Resolve the Required Inputs above from the invocation and
+  existing context. Make sure the product, domain, users, and major constraints are defined well
+  enough to research before moving on. If the product concept or domain is too thin to research at
+  all, stop and return that as the result — don't research a guess.
 
 - [ ] **Step 2: Load existing project context.** If `.specflow/context/domain-knowledge.md` exists,
   treat it as a draft to update. Read D01 and D10 when present. If the repo already exists and you

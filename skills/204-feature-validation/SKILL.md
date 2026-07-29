@@ -47,7 +47,11 @@ Resolve validation criteria in this order:
 1. Loaded standards guidance relevant to the concern
 2. Existing SpecFlow or project documentation
 3. Existing codebase patterns confirmed via `@explore`
-4. Explicit user decisions in this session
+4. Explicit user decisions passed in with the invocation
+
+This workflow runs in its own forked context, so it cannot see the conversation that invoked it.
+Decisions made earlier in that conversation only count if they were included in the request — never
+assume unstated context, and never pause to ask for it mid-run.
 
 Determine relevance by concern, not by named technology. Stay concern-based while the technical
 context is unresolved. Once the feature's concrete stack is known, switch to that stack's real
@@ -62,11 +66,12 @@ terms for the rest of the validation.
   - `.specflow/features/<fid>-<feature-slug>/specs.feature`
   - `.specflow/features/<fid>-<feature-slug>/implementation.md`
 
-  `implementation.md` is required. If it is missing, stop and ask whether to run
-  `203-implementation-design` first.
+  `implementation.md` is required. If it is missing, stop and return a report that says only that —
+  `203-implementation-design` has to run first. Do not attempt a validation without it.
 
-  If `overview.md` or `specs.feature` is missing, ask whether to run the missing upstream workflow
-  first or continue with limited validation. If continuing, label the report as limited.
+  If `overview.md` or `specs.feature` is missing, continue with limited validation, label the report
+  as limited, and name the missing upstream workflow in the report so the caller can decide whether
+  to run it.
 
 - [ ] **Step 2: Load architecture and product context.** Read relevant existing D01-D08 docs and
   `domain-knowledge.md` when present. Note missing context.

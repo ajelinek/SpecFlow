@@ -23,9 +23,10 @@ is the unit that gets a lightweight Module Check and a commit) → aggregate end
 a round close-out Green Check → an optional expanded-coverage round of the same shape → final Green
 Check → merge.
 
-Every `NNN` call is a single direct skill invocation, except `900-feedback-loop` — a small
-review⇄apply-fix cycle (see **Feedback Pass** below) that checks every design/spec artifact and
-aggregate cleanup pass before the run advances, under a tighter cap than `900`'s own default.
+Every `NNN` call is a single skill invocation — dispatched per **Skill Dispatch** below — except
+`900-feedback-loop`, a small review⇄apply-fix cycle (see **Feedback Pass** below) that checks every
+design/spec artifact and aggregate cleanup pass before the run advances, under a tighter cap than
+`900`'s own default.
 Nothing here blocks on a user question: every fork in the road routes through the **Decision
 Consult**, a single `@decider` call.
 
@@ -68,6 +69,34 @@ resolved by the Decision Consult using Step 3's defaults.
   Feedback Pass's iteration count live in `implementation-log.jsonl` (see **Implementation Log**
   below), not in carried-forward context. Don't carry full skill or subagent transcripts forward
   between stages; read the log back instead of re-deriving this from memory.
+
+---
+
+## Skill Dispatch
+
+`201-high-level-design` and `202-spec-design` no longer fork on their own — they are authoring
+skills that run in their caller's context so a human can shape the artifact as it's written. This
+run has no human in the loop and no room for their full working context, so **invoke them inside a
+`general-purpose` subagent**, one agent per invocation, rather than calling the skill directly here.
+
+Each dispatch brief carries everything the skill would otherwise ask for, since a subagent can't
+ask:
+
+- the resolved feature identity (`F-ID`, feature name, slug, folder path) — Step 3 already settled
+  this, so the skill must never re-resolve it
+- the skill to run and its arguments (for `202`, the coverage level for this round)
+- an explicit instruction to run the real skill invocation, follow its own steps and quality checks,
+  and write its artifact to disk as usual
+- an instruction to make no git commits — this orchestrator owns every commit (Rule 4)
+- what to return: the artifact path, a short summary of what was produced, and any blocking question
+  the skill would have asked, unanswered
+
+A returned blocking question becomes a **Decision Consult** here, and the dispatch is re-run with
+the decision included in the brief. Read the artifact back from disk when a later step needs it —
+don't carry the subagent's transcript forward (Execution Protocol, last bullet).
+
+`301-spec-implementation`, `302-test-implementation`, `401-cleanup`, `402-test-correction`, and
+`204-feature-validation` still fork on their own; call those directly.
 
 ---
 
@@ -263,7 +292,7 @@ Mechanics:
 
 ### Phase 1 - High-Level Design
 
-- [ ] **Step 6: Run `201-high-level-design`** directly for the feature. Commit:
+- [ ] **Step 6: Run `201-high-level-design`** for the feature, per **Skill Dispatch**. Commit:
       `201: high-level design for <feature-slug>`.
 
 - [ ] **Step 7: Feedback Pass (artifact refine) on the overview.** Criteria: scope clarity, real
@@ -273,7 +302,7 @@ Mechanics:
 
 ### Phase 2 - Round 1: Happy Path
 
-- [ ] **Step 8: Run `202-spec-design`** directly, coverage: Happy Path Only. Commit:
+- [ ] **Step 8: Run `202-spec-design`** per **Skill Dispatch**, coverage: Happy Path Only. Commit:
       `202: happy-path specs for <feature-slug>`.
 
 - [ ] **Step 9: Feedback Pass (artifact refine) on the specs.** Criteria from `202`'s own Step 5
@@ -312,7 +341,8 @@ Mechanics:
 
 ### Phase 3 - Round 2: Expanded Coverage (skip entirely if round-2 coverage is `none`)
 
-- [ ] **Step 14: Run `202-spec-design`** again, coverage: the resolved round-2 level. Commit:
+- [ ] **Step 14: Run `202-spec-design`** again per **Skill Dispatch**, coverage: the resolved
+      round-2 level. Commit:
       `202: <level> specs for <feature-slug>`.
 
 - [ ] **Step 15: Feedback Pass (artifact refine) on the updated specs.** Same as Step 9. Commit if
@@ -387,4 +417,6 @@ Mechanics:
 7. Route mechanical subagent work to a cheaper/faster model than this run's own tier — `@validator`
    (haiku) and the Feedback Pass's Apply-Fix role (sonnet), both pinned in **Checkpoint
    Protocols**. Reserve this run's own strongest model tier for judgment-heavy work: `@decider` and
-   the `201`/`202`/`301`/`302` skill invocations.
+   the `201`/`202`/`301`/`302` skill invocations — including the `general-purpose` subagents that
+   carry `201` and `202` under **Skill Dispatch**, which inherit this run's tier rather than being
+   pinned down.

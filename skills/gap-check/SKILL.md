@@ -7,8 +7,6 @@ description: >
   validation steps (most of SpecFlow's 100-series). Not for open-ended plan interrogation — for
   stress-testing a plan or decision end to end, use `grilling` instead.
 argument-hint: "[required inputs checklist]"
-disable-model-invocation: true
-context: fork
 ---
 
 # Gap Check
@@ -19,6 +17,10 @@ friction for the user. Try to answer everything from context first; ask only abo
 This is not an open-ended interview. The invoking skill hands `gap-check` a specific, bounded list
 of required inputs — the job here is to resolve every item on that list and hand back a resolved
 answer set, nothing more.
+
+This skill runs in the invoking workflow's own context on purpose — it has to reach the user
+directly to ask, and it needs whatever context that workflow already loaded. Never run it in a
+forked or background subagent: the questions would have no one to answer them.
 
 ---
 
@@ -55,18 +57,23 @@ as the checklist.
    already loaded or can load (prior docs, `.specflow/context/domain-knowledge.md`, repo
    exploration) for an answer. Only put an input on the "to ask" list if it is genuinely
    undetermined from available context — not just unstated so far in the conversation.
-2. **One question at a time.** For inputs that remain unresolved, ask a single question, then wait
-   for the user's answer before asking the next. Do not batch remaining gaps into one message.
-3. **Recommend, don't just ask.** For each question, propose a recommended answer — and the
-   reasoning behind it, grounded in whatever context is available — then let the user confirm or
-   override it.
-4. **Stop at the checklist boundary.** Resolve exactly the declared Required Inputs. Do not expand
+2. **Ask every question through the question tool.** Use `AskUserQuestion` for every gap, never
+   plain prose text — even for open-ended ones. It always offers an "Other" choice, so free-text
+   answers stay available.
+3. **One question at a time.** Each `AskUserQuestion` call carries exactly one question. Wait for
+   the user's answer before asking the next. Do not batch remaining gaps into one call or one
+   message.
+4. **Recommend, don't just ask.** Put the recommended answer first, with "(Recommended)" appended
+   to its label, and use that option's `description` to state the reasoning — grounded in whatever
+   context is available. Cover the realistic alternatives with the remaining options; "Other"
+   catches anything not listed.
+5. **Stop at the checklist boundary.** Resolve exactly the declared Required Inputs. Do not expand
    into an exhaustive interview or chase tangents the checklist didn't name — that is `grilling`'s
    job, not this one.
-5. **Follow dependencies within the checklist.** If two inputs are related, resolve the one that
+6. **Follow dependencies within the checklist.** If two inputs are related, resolve the one that
    constrains the other first, and re-check whether a later answer makes an already-resolved item
    stale before moving on.
-6. **Don't let the workflow proceed with an open gap.** Every required input must be either resolved
+7. **Don't let the workflow proceed with an open gap.** Every required input must be either resolved
    from context or confirmed by the user before handing control back to the invoking workflow.
 
 ---
@@ -80,10 +87,10 @@ as the checklist.
   knowledge, or repo state the invoking skill has access to. Mark each input resolved (with its
   source) or unresolved.
 
-- [ ] **Step 3: Ask about unresolved inputs, one at a time.** For each unresolved input, in
-  checklist order (respecting dependencies from Rule 5):
-  - state what's still missing and why it matters for this document
-  - propose a recommended answer when one can be reasoned out from context, even partial context
+- [ ] **Step 3: Ask about unresolved inputs, one `AskUserQuestion` call at a time.** For each
+  unresolved input, in checklist order (respecting dependencies from Rule 6):
+  - put what's still missing and why it matters for this document in the question text
+  - lead with a recommended option when one can be reasoned out from context, even partial context
   - wait for the user's reply before moving to the next unresolved input
   - if an answer changes a previously resolved input, re-resolve that input before continuing
 
@@ -124,5 +131,6 @@ as the checklist.
 - Every checklist item is either resolved from context or confirmed by the user — none are silently
   assumed.
 - No question was asked that available context could have answered.
+- Every question went through `AskUserQuestion`, one per call, with a recommended option first.
 - No two questions were batched together.
 - The invoking workflow was not allowed to proceed with a gap still open.

@@ -5,7 +5,6 @@ description: >
   and responsive behavior. Trigger it for prompts like "108", "page design", "wireframe", or
   "design the [page] page" when a single route or view needs a detailed design spec.
 argument-hint: "[page-name]"
-context: fork
 ---
 
 # 108 - UI Page Design

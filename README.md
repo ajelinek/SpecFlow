@@ -289,15 +289,16 @@ need to type an exact slash command.
 
 ## Support Skills
 
-These aren't invoked directly by users — they're referenced by name from inside other skills'
-steps, the same way `100-domain-knowledge` references `deep-research`.
+These are meant to be referenced by name from inside other skills' steps, the same way
+`100-domain-knowledge` references `deep-research`, rather than reached for on their own.
 
 - `gap-check`: resolve a workflow's declared Required Inputs from existing context first, then ask
-  about only what's left, one question at a time with a recommended answer. Used by the 100-series
-  workflows during input validation.
+  about only what's left, one question at a time with a recommended answer. Used during input
+  validation by the 100-series workflows that run in the main conversation — `100-domain-knowledge`
+  is the exception, since it runs forked with no user to ask.
 
-Unlike the rest of the catalog, `gap-check` has model invocation disabled — it is not meant to be
-typed or asked for directly, and only runs when a workflow step names it.
+`gap-check` runs in its caller's context — it has to reach the user to ask, so it is never dispatched
+to a forked or background subagent.
 
 ## Orchestration Skills
 

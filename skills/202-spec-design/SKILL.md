@@ -6,7 +6,6 @@ description: >
   spec", "gherkin", "BDD scenarios", or "write specs" when the next step is defining behavior to
   test.
 argument-hint: "[feature-name] [coverage-level]"
-context: fork
 ---
 
 # 202 - Test Scenario Design
@@ -32,6 +31,12 @@ Before writing scenarios, confirm:
 
 If either is missing, ask. Do not assume a coverage level. If the user says “core flow only” or
 similar, treat it as **Happy Path Only**.
+
+This skill runs in its caller's context so those questions actually reach the user. When another
+workflow invokes it with no user in the loop — `301-spec-implementation` routing a spec revision
+here, or `901-feature-loop` dispatching it into a subagent — the invocation is expected to carry
+both inputs. If one is still missing, return the question to the caller unanswered instead of
+guessing or stalling.
 
 ---
 
