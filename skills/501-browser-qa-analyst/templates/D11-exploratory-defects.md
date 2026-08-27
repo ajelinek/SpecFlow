@@ -1,18 +1,20 @@
 # D11 — Exploratory Defects
 
-> **Purpose**: A running backlog of defects found by `902-browser-qa-analyst` exploratory QA
-> passes. Each entry is a specific, reproducible finding from a live, click-driven browser session
-> — not a design opinion or a feature request. This file accumulates across every run: entries are
-> updated in place by each run's reconciliation pass, never duplicated.
+> **Purpose**: A running backlog of defects found by `501-browser-qa-analyst` exploratory QA
+> passes, and worked toward resolution by `502-defect-resolution`. Each entry is a specific,
+> reproducible finding from a live, click-driven browser session — not a design opinion or a
+> feature request. This file accumulates across every run: entries are updated in place by each
+> run's reconciliation pass, never duplicated.
 >
-> Instructions: `902` maintains this file automatically. Manual edits (e.g. flipping an entry to
-> `Fixed` or `Won't Fix` once a downstream fix lands) are expected and preserved — a later run only
-> touches an entry it directly matches again.
+> Instructions: `501` and `502` maintain this file automatically. Manual edits (e.g. flipping an
+> entry to `Fixed` or `Won't Fix` once a downstream fix lands) are expected and preserved — a later
+> run only touches an entry it directly matches again.
 >
-> New DEF-### entries may only be created by a `902` run. Other flows (`402`, `301`, manual fixes)
-> may append a triage note or flip status on an existing entry, but must never fabricate a new id.
+> New DEF-### entries may only be created by a `501` run. `502` (via `402-test-correction`) may
+> append a triage note and update status on an existing entry once it's investigated; manual fixes
+> may do the same, but nothing but `501` fabricates a new id.
 >
-> Once **Resolved Defects** grows large, run `902` in cleanup mode ("902 cleanup") to compact
+> Once **Resolved Defects** grows large, run `502` in compact-only mode ("502 compact") to compact
 > resolved entries down to one or two lines each — see that section below for the compacted format.
 > **Active Defects** entries are never compacted, regardless of age.
 >
@@ -20,7 +22,7 @@
 > the observed behavior is expected/intentional, precise enough that a later run can tell whether a
 > recurrence still matches it. A `Not a Defect` entry with no rationale is incomplete. On a later
 > run, this entry is only left suppressed if the new occurrence matches the rationale; if it
-> doesn't, the run reopens it rather than silently continuing to suppress it (see `902`'s
+> doesn't, the run reopens it rather than silently continuing to suppress it (see `501`'s
 > reconciliation step).
 
 ---
@@ -30,7 +32,7 @@
 | Status | Meaning |
 |---|---|
 | `Open` | Logged, not yet triaged into a fix |
-| `In Progress` | A fix is underway (e.g. via `202-spec-design` + `301`/`402`) |
+| `In Progress` | A fix is underway (e.g. via `502-defect-resolution` / `402`, or `202-spec-design` + `301`) |
 | `Fixed` | Verified resolved |
 | `Won't Fix` | Triaged, confirmed as a real defect, and intentionally not addressed |
 | `Not a Defect` | Investigated and determined to not be a real defect — requires a **Rationale** |
@@ -84,7 +86,8 @@
 > file changes.
 >
 > A freshly resolved entry moves here with its full detail intact (Steps to reproduce, Expected,
-> Actual, etc.) — it's only compacted the next time `902` runs in cleanup mode. Compacted format:
+> Actual, etc.) — it's only compacted the next time `502` runs (or runs in compact-only mode).
+> Compacted format:
 >
 > - `Fixed` / `Won't Fix` — one line: id, status, severity, a short flow + failure description, and
 >   a one-line resolution note. For example:
@@ -95,4 +98,4 @@
 >   compares a recurrence against it verbatim to decide whether to leave it suppressed or reopen it.
 
 <!-- Move resolved DEF-### entries here, in ascending id order. Never renumber an existing id.
-     A resolved entry is compacted only by a 902 cleanup run, not automatically on the move. -->
+     A resolved entry is compacted only by a 502 run, not automatically on the move. -->

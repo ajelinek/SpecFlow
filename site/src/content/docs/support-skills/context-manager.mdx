@@ -17,7 +17,12 @@ This skill works from repository evidence, not assumptions — it uses `@explore
 **Output paths**:
 - `CLAUDE.md` at the project root
 - Optional nested `CLAUDE.md` files in subtrees with materially different conventions, or path-scoped `.claude/rules/*.md` files where the same rule spans scattered paths
+- `.specflow/CLAUDE.md`, when `.specflow/` exists — describes the `context/`/`docs/`/`features/` layout and states the feature isolation rule (don't read a sibling feature's folder unless asked)
 - If the repo already has an `AGENTS.md` other agents rely on, `CLAUDE.md` imports it with `@AGENTS.md` instead of duplicating it
+
+<Callout tone="tip" title="`initialize` mode">
+  Besides `generate`/`refresh`, `context-manager` has a fast `initialize` mode: it only checks whether `.specflow/CLAUDE.md` exists and writes it from a fixed template if not — no repo research. Run it once, right after installing the skills, as part of setting up SpecFlow in a project — see [Getting Started](../../getting-started/). No other skill calls it automatically, so the feature isolation rule stays in place without re-checking on every feature.
+</Callout>
 
 <Callout tone="tip" title="Claude Code reads CLAUDE.md, not AGENTS.md">
   Claude Code loads `CLAUDE.md` automatically every session. It does not read a bare `AGENTS.md` on its own — that's the open, tool-agnostic file other agents (Codex, Cursor, Windsurf) read. If a repo already has a current `AGENTS.md`, the right move is a `CLAUDE.md` that imports it (`@AGENTS.md`) plus any Claude-specific additions, not a second copy of the same guidance.

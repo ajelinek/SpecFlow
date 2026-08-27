@@ -4,8 +4,10 @@ description: >
   Create or refresh `CLAUDE.md` guidance — Claude Code's native project-memory file — so Claude can
   navigate a repository safely. Adds nested `CLAUDE.md` overlays or path-scoped `.claude/rules/`
   only where a subtree or file pattern genuinely differs. Trigger it when project guidance is
-  missing, stale, or needs local overrides, especially for first-time setup or monorepos.
-argument-hint: "[generate|refresh]"
+  missing, stale, or needs local overrides, especially for first-time setup or monorepos. Also
+  owns `.specflow/CLAUDE.md` via a fast `initialize` mode, meant to be run once as part of setting
+  up SpecFlow in a project.
+argument-hint: "[generate|refresh|initialize]"
 context: fork
 ---
 
@@ -32,23 +34,78 @@ while staying compatible with any cross-agent file the repo already maintains.
 
 ---
 
+## `.specflow/CLAUDE.md`
+
+If the repo has a `.specflow/` directory (SpecFlow's generated project memory: `context/`,
+`docs/`, `features/<F-ID>-<slug>/`), it gets its own nested `CLAUDE.md`. Its main job is the
+**feature isolation rule**: each `features/` folder is a point-in-time snapshot of exactly one
+feature, and Claude must not read or draw context from a sibling feature folder unless the user
+explicitly asks. This matters because `.specflow/features/` accumulates many sibling folders over
+a project's life, and nothing else in the repo states this boundary.
+
+Standard content (see `./examples/specflow-CLAUDE.md`):
+
+```markdown
+# .specflow/ Directory Guide
+
+This folder holds SpecFlow's generated project memory. See root `CLAUDE.md` for repo-wide guidance.
+
+- `context/` — reusable domain knowledge (e.g. `domain-knowledge.md`). Safe to read across any work.
+- `docs/` — project-level design docs (`D01`-`D11`: architecture, data model, UI, etc.). Read the
+  docs relevant to the task at hand.
+- `features/<F-ID>-<slug>/` — one folder per feature (`overview.md`, `specs.feature`,
+  `implementation.md`), each a point-in-time snapshot.
+
+## Feature Isolation Rule
+
+Each `features/` folder belongs to exactly one feature. When working on a feature, read and write
+only inside that feature's own folder. Do not open, read, or draw context from a different
+feature's folder unless the user explicitly asks you to compare or reference it — sibling features
+may be stale, superseded, or simply irrelevant to the one in progress.
+```
+
+**`initialize` mode** — a separate, fast path meant to be run once, by the user, as part of setting
+up SpecFlow in a project (right after installing the skills, before the first feature is created):
+
+- Check whether `.specflow/CLAUDE.md` exists.
+- If it exists, do nothing.
+- If it does not, write the standard content above verbatim. No repo research, no `@explore`
+  delegation, no other file changes.
+
+This mode does not touch the project-root `CLAUDE.md` or run any of Steps 1-9 below. No other
+SpecFlow skill calls it automatically — running it is a one-time setup step, not a per-feature
+check, to avoid spending tokens re-checking on every feature.
+
+**In `generate`/`refresh` mode**, Step 6 below also covers `.specflow/CLAUDE.md`: ensure it exists
+with at least the standard content, and — since this mode is already researching the repo — feel
+free to enrich it with a short, current list of what's actually present (e.g. which `D`-docs exist,
+which feature folders exist), as long as the feature isolation rule and folder descriptions stay
+intact and the file stays short.
+
+---
+
 ## Required Inputs
 
 Before proceeding, confirm:
 
-1. **Operation mode** — generate or refresh
+1. **Operation mode** — generate, refresh, or initialize
 2. **Scope policy** — root file only, nested `CLAUDE.md` overlays, or `.claude/rules/` where
-   justified
+   justified (not applicable to `initialize` mode)
 3. **Excluded paths** — directories that must not be analyzed or updated
 4. **Project-specific constraints** — sensitive areas, forbidden commands, or deployment-critical
    paths not obvious from the repo
 
-If scope policy is unclear, ask. Otherwise, default to refresh-if-present, root-only unless
-overlays are clearly justified, and no extra exclusions beyond generated/dependency directories.
+If operation mode is `initialize`, skip straight to the `.specflow/CLAUDE.md` steps above — none
+of the other Required Inputs apply. Otherwise, if scope policy is unclear, ask. Default to
+refresh-if-present, root-only unless overlays are clearly justified, and no extra exclusions beyond
+generated/dependency directories.
 
 ---
 
 ## Steps
+
+These steps apply to `generate`/`refresh` mode. See above for `initialize` mode, which is
+self-contained and does not use this list.
 
 - [ ] **Step 1: Validate inputs and target files.** Check whether root or nested `CLAUDE.md` /
   `CLAUDE.local.md` files already exist, whether `.claude/rules/` is in use, and whether an
@@ -110,6 +167,8 @@ overlays are clearly justified, and no extra exclusions beyond generated/depende
   subdirectory, so it must not repeat root content. Each `.claude/rules/*.md` should cover one
   topic, use a descriptive filename, and carry `paths:` frontmatter when it should only load for
   matching files.
+  - If `.specflow/` exists, this includes `.specflow/CLAUDE.md` — see the dedicated section above.
+    Write or refresh it even if no other nested overlays are justified.
 
 - [ ] **Step 7: Use the general agent only for substantial markdown synthesis.** If the repo has
   many overlapping docs and the output requires real synthesis, delegate the drafting pass with a

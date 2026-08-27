@@ -142,8 +142,11 @@ The third bucket is mandatory. Do not force every failure into "test bug" or "so
 - [ ] **Step 11: Record rationale and risks.** Summarize why the failure was classified the way it
   was, what evidence supported that call, and any residual fragility that remains. If this run was
   triggered by an existing `.specflow/docs/D11-exploratory-defects.md` entry (`DEF-###`), append a
-  triage note to that entry recording the classification and outcome — never create a new `DEF-###`
-  entry; only a `902` run may do that.
+  triage note to that entry recording the classification and outcome. Never create a new `DEF-###`
+  entry (only a `501-browser-qa-analyst` run may do that) and never change the entry's status
+  yourself — when this run was dispatched by `502-defect-resolution`, it owns applying this
+  classification and outcome to the entry's status; a directly-triggered `402` run leaves status to
+  whoever reads the triage note.
 
 - [ ] **Step 12: Summarize.** Report:
   - failing test scope
@@ -171,4 +174,6 @@ The third bucket is mandatory. Do not force every failure into "test bug" or "so
 8. Never "fix" a test by deleting meaningful coverage or replacing business assertions with weaker
    implementation-detail checks.
 9. If this run was triggered by an existing `D11-exploratory-defects.md` entry, append a triage note
-   to that entry — never create a new `DEF-###` entry; only a `902` run may do that.
+   to that entry — never create a new `DEF-###` entry (only a `501-browser-qa-analyst` run may do
+   that), and never change its status yourself (that's `502-defect-resolution`'s job when it was the
+   caller).

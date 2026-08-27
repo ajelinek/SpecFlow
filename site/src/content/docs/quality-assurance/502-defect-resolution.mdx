@@ -1,0 +1,89 @@
+---
+title: 502 Defect Resolution
+description: Work through the D11 exploratory defect backlog by dispatching entries to 402-test-correction for reproduction and a real fix, updating status from the outcome, and compacting the resolved history.
+sidebar:
+  order: 2
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`502-defect-resolution` works an existing exploratory defect backlog toward resolution. For each targeted entry in `.specflow/docs/D11-exploratory-defects.md`'s **Active Defects** section, it dispatches the entry to `402-test-correction` — which already accepts a `DEF-###` id as its failure anchor — to reproduce, classify, and (when justified) fix it. It then updates the entry's status from what `402` found, commits the change, and moves to the next entry. It finishes by compacting eligible **Resolved Defects** entries down to their permanent one/two-line form.
+
+This skill never opens a browser and never invents a fix on its own — `402` does the actual investigation and correction; `502` is the loop that feeds it entries, applies the status-mapping rules below, and keeps the backlog file itself in good shape.
+
+**Output**: Corrected source/test files (via `402`, one commit per resolved entry) and an updated `.specflow/docs/D11-exploratory-defects.md`. Never creates a new `DEF-###` entry — that's `501-browser-qa-analyst`'s job.
+
+## When to use it
+
+- After a `501-browser-qa-analyst` run has logged new or reopened defects, to work through them
+- To resolve specific `DEF-###` entries by id rather than the whole backlog
+- On its own, in compact-only mode, to reformat an already-resolved backlog without dispatching anything to `402`
+
+## When NOT to use it
+
+- When there's no existing D11 backlog to work — run `501` first
+- When you want to review `402`'s reasoning before any code changes land — this skill lets `402` run to completion, including applying its fix, for every dispatched entry
+- For a defect that isn't in the D11 backlog at all — go straight to `402-test-correction` or `301-spec-implementation`
+
+## Modes
+
+`502` runs in one of two modes:
+
+- **Resolution** (default) — dispatches targeted Active entries to `402`, applies the status mapping below, commits per resolved entry, then compacts.
+- **Compact-only** — triggered by "502 compact", "compact the defect backlog", or similar. Skips the `402` dispatch loop entirely and reformats the backlog only.
+
+## How a 402 outcome maps to a status
+
+`402` itself never touches an entry's status — it only appends a triage note recording its classification and outcome. `502` always applies the status change:
+
+- **`402` applied a real fix** (source and/or test changed) → `Fixed`, regardless of whether the entry was rubric- or judgment-detected. A real code change is equally verifiable evidence either way.
+- **`402` concluded the behavior is intentional, no fix applied**:
+  - **Rubric**-detected (console error, failed request, broken link, dead control) → auto-set `Not a Defect`, using `402`'s classification as the entry's rationale, reported in the run summary.
+  - **Judgment**-detected (a subjective UX call) → never auto-set. Left `Open`/`In Progress` with a note summarizing `402`'s finding, surfaced to the user for a decision — a UX call needs a human even when the code is technically working as intended.
+- **`402` returns a blocking/ambiguous decision**, or **can't reproduce the failure at all** → the entry is left as-is with a note, surfaced in the summary. Never a silent status change.
+
+<Callout tone="core" title="Won't Fix always stays manual">
+  `502` never sets `Won't Fix` on its own — that status means a confirmed real defect was deliberately deprioritized, which is a human prioritization call this skill has no basis to make.
+</Callout>
+
+## What it produces
+
+- Corrected source and/or test files for every entry `402` was able to fix, one commit per resolved entry
+- Updated `D11-exploratory-defects.md` statuses, reflecting exactly one status-mapping branch per processed entry
+- A compacted **Resolved Defects** section (one/two-line entries) at the end of every run, or as the sole output of compact-only mode
+- A run summary: per-entry classification and outcome, entries auto-closed as `Not a Defect`, entries surfaced for a human UX call, entries left open on a blocking question or failed reproduction, and the remaining Active backlog size
+
+## Required inputs
+
+**Resolution mode:**
+
+1. **Target entries** *(optional)* — specific `DEF-###` id(s) to work. If omitted, targets every entry currently in **Active Defects**.
+
+**Compact-only mode:** no target entries needed — only the existing D11 file.
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 502-defect-resolution to work through the open D11 backlog.`} />
+
+<PromptBlock title="Prompt" text={`Use 502 to resolve DEF-003 and DEF-007 only.`} />
+
+<PromptBlock title="Prompt" text={`502 compact — the resolved section is getting long.`} />
+
+## Practical guidance
+
+- Processes targeted entries strictly one at a time, in ascending `DEF-###` order — never in parallel, since `402` may edit source/test files and concurrent entries could conflict
+- Commits per resolved entry, scoped to exactly that entry's changes — a batch run of ten entries produces ten reviewable commits, not one large diff
+- Compact-only mode makes no `402` calls and touches no source or test files — it only reformats the D11 file, exactly like the standalone cleanup pass this replaced from the old combined skill
+
+## Common mistakes
+
+- Expecting `502` to ask before letting `402` apply a fix — invoking `502` is itself the go-ahead; it lets `402` run to completion by design
+- Assuming a `Judgment`-detected entry can be auto-closed the same way a `Rubric`-detected one can — UX calls always go back to the user
+- Running `502` before `501` has ever populated the backlog — there's nothing to resolve yet
+
+<Callout tone="tip" title="Why 402 doesn't set status itself">
+  `402-test-correction` is also invoked directly by humans on ordinary failing tests with no D11 entry involved at all — it has no reason to know about D11's status vocabulary. Keeping status-mapping in `502` keeps `402` simple and reusable, and keeps the rubric/judgment split — a `502`-specific policy — out of a skill that isn't otherwise D11-aware.
+</Callout>

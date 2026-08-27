@@ -59,7 +59,8 @@ the research pass is reported as an open question rather than asked about mid-ru
   - differentiation questions to answer
   - explicit exclusions or constraints
 
-- [ ] **Step 4: Research with `deep-research`.** This step is required unless the user explicitly
+- [ ] **Step 4: Run the live research pass.** Use Claude's built-in research and web search to find,
+  compare, and synthesize multiple current sources. This step is required unless the user explicitly
   asks for a lightweight draft from known context only. Direct the research toward:
   - market context and current framing
   - user roles and real workflows
@@ -98,7 +99,8 @@ the research pass is reported as an open question rather than asked about mid-ru
 ## Rules
 
 1. Use live research for non-trivial domain claims unless the user explicitly asks for a draft.
-2. Treat `deep-research` as the default path for this workflow.
+2. Treat a real, multi-source web research pass as the default path for this workflow — prefer
+   current primary sources over model memory, and cite what you use.
 3. Separate facts, interpretation, and recommendation.
 4. Prefer user workflows and decision-shaping constraints over generic market trivia.
 5. Keep the document business-level and decision-relevant.

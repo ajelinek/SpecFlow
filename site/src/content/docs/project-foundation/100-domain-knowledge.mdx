@@ -53,7 +53,7 @@ This is not a product spec and not a business plan. It is the external context d
 ## Common prompts
 
 <Callout tone="tip" title="Live internet research">
-  This skill uses `deep-research` to fetch live content from the internet. It makes real web requests to research your domain, competitors, users, and market context — so the output is grounded in current sources rather than model memory alone.
+  This skill uses Claude's built-in research and web search to fetch live content from the internet. It makes real web requests to research your domain, competitors, users, and market context — so the output is grounded in current sources rather than model memory alone.
 </Callout>
 
 <Callout tone="tip" title="Voice to text works great here">
@@ -80,9 +80,9 @@ This is not a product spec and not a business plan. It is the external context d
 
 <PromptBlock title="Prompt" text={`Run 100. I know the domain reasonably well but I need sharper differentiation analysis. The main competitors we're watching are [list competitors]. Help me understand where we can actually win and what we must match even if we don't lead on it.`} />
 
-**Lightweight draft without deep research**
+**Lightweight draft without live research**
 
-<PromptBlock title="Prompt" text={`Run 100-domain-knowledge but skip the deep-research step — I just need a draft structured from the context I'm providing now. I'll validate it against live research separately.\n\nContext: [your domain description, user roles, known constraints, and differentiation ideas]`} />
+<PromptBlock title="Prompt" text={`Run 100-domain-knowledge but skip the live research step — I just need a draft structured from the context I'm providing now. I'll validate it against live research separately.\n\nContext: [your domain description, user roles, known constraints, and differentiation ideas]`} />
 
 ## What usually comes next
 
@@ -90,7 +90,7 @@ This is not a product spec and not a business plan. It is the external context d
 
 ## Practical guidance
 
-- `100` normally delegates live web research to `deep-research`. The output is only as good as the research performed.
+- `100` normally does a real live web research pass. The output is only as good as the research performed.
 - Direct the research to answer the questions that will actually change design decisions — not generic background reading.
 - If the project has an existing product overview, read it first so the research aligns with current framing rather than contradicting it.
 - Treat the output as a living reference: update it when the domain understanding changes, not just at project start.

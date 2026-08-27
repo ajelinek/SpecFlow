@@ -1,0 +1,74 @@
+---
+title: 501 Browser QA Analyst
+description: Explore a live site with a real, visible Chrome browser and log defects the way a QA analyst would, feeding a running backlog that 502-defect-resolution works toward resolution.
+sidebar:
+  order: 1
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`501-browser-qa-analyst` drives a real, visible Chrome browser through a live site the way a QA analyst would: click through every reachable page and flow, judge each one against a baseline rubric (console errors, failed network requests, broken links, dead controls, failed submits) and against open judgment about what a reasonable user would expect given the feature's evident intent, and log anything that fails either check as a defect with exact repro steps.
+
+This skill only explores and logs. It never writes Gherkin scenarios and never fixes anything — once the defect backlog has entries, turning them into fixes is a separate, later pass through `502-defect-resolution` (which dispatches entries to `402-test-correction`) or `202-spec-design`/`301-spec-implementation`, run manually when someone is ready for that phase.
+
+**Output**: `.specflow/docs/D11-exploratory-defects.md` — one running defect backlog, updated in place across every run. This skill creates no other artifacts and never invokes `202`, `301`, `402`, or `502` itself.
+
+<Callout tone="core" title="Not a general-purpose defect log">
+  `D11-exploratory-defects.md` is meant for what a `501` run itself discovers. A defect surfaced outside a run — a direct user report, or something noticed incidentally mid-feature-work — should be fixed and documented in the commit/PR, not appended here.
+</Callout>
+
+## When to use it
+
+- For a live, click-driven exploratory test pass on a real site or staging environment, rather than authoring test cases directly
+- To build up a defect backlog before `502-defect-resolution` turns findings into fixes
+- To periodically re-check a site's behavior and reconcile new findings against previously logged, fixed, or dismissed defects
+
+## When NOT to use it
+
+- When you already know the fix you want and just need to build it — go straight to `301-spec-implementation` or `401-cleanup`
+- Against a production environment where destructive actions (real submits, completed flows) are unsafe — this skill assumes a safe/staging target with no destructive-action restrictions
+- When you want Gherkin scenarios authored directly — that is `202-spec-design`'s job, downstream of this skill's findings
+
+## What it produces
+
+- One running defect backlog at `.specflow/docs/D11-exploratory-defects.md`, split into an **Active Defects** section (`Open`, `In Progress`, `Reopened`) and a **Resolved Defects** section (`Fixed`, `Won't Fix`, `Not a Defect`), each in ascending `DEF-###` order
+- Every defect entry carries an id, status, severity (`Critical`/`High`/`Medium`/`Low`), detection mode (rubric or judgment), exact repro steps, and expected-vs-actual behavior
+- A run summary: pages/flows covered, new defects logged, entries reopened, and — whenever this run logged or reopened anything — an offer to run `502-defect-resolution` next
+
+## Required inputs
+
+1. **Starting URL** — where exploration begins. Asked for if missing.
+2. **Test credentials** *(optional)* — for sites behind a login wall. If a login wall is hit mid-run with no credentials given, the skill asks once rather than guessing or silently skipping the authenticated surface.
+3. **Priority features/flows** *(optional)* — pages or flows to check first. This only biases exploration order, it never caps overall coverage.
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Use 501 to explore https://staging.example.com for bugs. Test credentials: qa@example.com / <password>.`} />
+
+<PromptBlock title="Prompt" text={`Run a browser QA analyst pass on the staging site, prioritize the checkout and account-settings flows.`} />
+
+## What usually comes next
+
+Once the backlog has entries, `502-defect-resolution` dispatches Active entries to `402-test-correction` to reproduce and fix them, or a separate `202-spec-design` pass turns select defects into Gherkin scenarios first. `501` never invokes either itself.
+
+## Practical guidance
+
+- Runs directly in this skill's own context, forked — it never delegates exploration to a generic subagent, since the value is live, watchable judgment as it happens
+- Always drives a real, visible Chrome window via `claude-in-chrome` — never a headless or scripted browser driver
+- Stays within the starting URL's domain; an outbound third-party link (payment processor, external auth, social share) is noted but never followed
+- Reconciles this run's findings against the existing backlog once, at the end of the run — never mid-exploration, and never by pre-filtering what to explore based on what's already logged
+- A recurring finding that matches a `Not a Defect` entry's recorded rationale is left suppressed, not reflagged — it's only reopened when this run's finding diverges from what the rationale actually covers
+- Correctly tagging each finding's detection mode (rubric vs. judgment) matters beyond this run — `502` uses it later to decide how much autonomy it has when triaging a `402` outcome for that entry
+
+## Common mistakes
+
+- Treating `D11-exploratory-defects.md` as a general defect log for issues noticed outside a `501` run
+- Expecting this skill to write test cases or apply fixes directly — that's always a separate, later, manually triggered step
+- Assuming a re-explored flow that now behaves correctly should be marked `Fixed` automatically — exploratory judgment isn't the same guarantee as a passing regression test, so the skill only notes it as "appears resolved, needs confirmation"
+
+<Callout tone="tip" title="Two moods that sound alike">
+  `Won't Fix` confirms the behavior *is* a real defect but a decision was made not to address it. `Not a Defect` means investigation concluded the behavior was never a defect at all. Don't use `Not a Defect` as a softer way to say "low priority" — that's what `Won't Fix` plus `Low` severity is for.
+</Callout>

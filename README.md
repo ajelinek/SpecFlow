@@ -248,7 +248,12 @@ Project agent guidance goes in:
 
 - `CLAUDE.md`
 
-Nested `CLAUDE.md` files should only be added when a subtree genuinely needs local overrides.
+Nested `CLAUDE.md` files should only be added when a subtree genuinely needs local overrides. The
+exception is `.specflow/CLAUDE.md` itself: run `context-manager` in `initialize` mode once, as part
+of setting up SpecFlow in a project, to create it. It describes the `context/`/`docs`/`features/`
+layout and states the feature isolation rule: each `.specflow/features/<F-ID>-<slug>/` folder is a
+point-in-time snapshot, and Claude should not read another feature's folder unless explicitly asked
+to.
 
 ## Example Prompts
 
@@ -261,8 +266,9 @@ Run 301-spec-implementation for the account recovery feature.
 Run 302-test-implementation for the billing retry scenarios.
 Run 401-cleanup on the staged source changes.
 Run 402-test-correction for the failing checkout confirmation test.
+Use 501-browser-qa-analyst to explore https://staging.example.com for bugs.
+Run 502-defect-resolution to work through the open D11 backlog.
 Refresh CLAUDE.md for this repo using context-manager.
-Do deep research on the latest remote browser automation options for coding agents.
 ```
 
 ## Worker Agents
@@ -282,15 +288,14 @@ These are support workers, not the main user-facing interface. The main interfac
 These are useful support skills, but they are not part of the core SpecFlow feature workflow.
 
 - `context-manager`: create or refresh `CLAUDE.md` files based on the actual repo
-- `deep-research`: do real web research when current external information matters
 
-These two, like the rest of the numbered catalog, can trigger from a matching prompt — you do not
+Like the rest of the numbered catalog, it can trigger from a matching prompt — you do not
 need to type an exact slash command.
 
 ## Support Skills
 
 These are meant to be referenced by name from inside other skills' steps, the same way
-`100-domain-knowledge` references `deep-research`, rather than reached for on their own.
+`101-project-overview` references `gap-check`, rather than reached for on their own.
 
 - `gap-check`: resolve a workflow's declared Required Inputs from existing context first, then ask
   about only what's left, one question at a time with a recommended answer. Used during input
@@ -300,19 +305,33 @@ These are meant to be referenced by name from inside other skills' steps, the sa
 `gap-check` runs in its caller's context — it has to reach the user to ask, so it is never dispatched
 to a forked or background subagent.
 
+## Quality Assurance Skills
+
+These explore a live, running system and work its findings toward resolution — a different kind of
+pass from the numbered pipeline phases above, since they operate on a whole running site rather
+than a bounded, already-changed scope. Both are user-invoked.
+
+- `501-browser-qa-analyst`: drive a real, visible Chrome browser through a live site as a QA
+  analyst would, judging each flow against a rubric and against what a reasonable user would
+  expect, and logging anything broken or unintuitive to a running defect backlog
+  (`D11-exploratory-defects.md`)
+- `502-defect-resolution`: work through that backlog — dispatch each targeted entry to
+  `402-test-correction` to reproduce, classify, and (when justified) fix it, update its status
+  from the outcome, commit per entry, and compact the resolved history
+
+`502` auto-resolves `Rubric`-detected entries (`Fixed` when `402` applies a real fix, `Not a
+Defect` when `402` confirms the behavior is intentional) but always surfaces `Judgment`-detected
+entries — subjective UX calls — back to the user rather than closing them out on its own.
+
 ## Orchestration Skills
 
-These extend the core workflow into larger runs or specialized passes. All three are user-invoked.
+These extend the core workflow into larger runs. Both are user-invoked.
 
 - `900-feedback-loop`: run a bounded review/apply-fix convergence cycle around work that already
   happened, using isolated subagent contexts for each role
 - `901-feature-loop`: run one feature end-to-end through `201` -> `202` -> per-scenario `301`/`401`
   build-out -> cleanup -> an optional expanded-coverage round -> merge, on its own branch, with
   `900-feedback-loop` reviewing every design artifact and cleanup pass along the way
-- `902-browser-qa-analyst`: drive a real, visible Chrome browser through a live site as a QA
-  analyst would, judging each flow against a rubric and against what a reasonable user would
-  expect, and logging anything broken or unintuitive to a running defect backlog
-  (`D11-exploratory-defects.md`) for a later `202`/`301`/`402` pass to fix
 
 `901-feature-loop` is heavy by design — on the order of a hundred or more subagent invocations for a
 feature with several scenarios across two coverage rounds. Use it when a feature genuinely

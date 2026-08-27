@@ -112,6 +112,7 @@ describe('skills', () => {
     'Project Definition',
     'Feature Design',
     'Implementation and Cleanup',
+    'Quality Assurance',
     'Bonus Skills',
     'Orchestration Skills',
   ];
@@ -148,6 +149,7 @@ describe('getSkillsByCategory', () => {
       'Project Definition',
       'Feature Design',
       'Implementation and Cleanup',
+      'Quality Assurance',
       'Bonus Skills',
       'Orchestration Skills',
     ]);
@@ -293,18 +295,20 @@ describe('100-domain-knowledge skill entry', () => {
   });
 });
 
-describe('deep-research skill entry', () => {
-  const skill = skills.find((s) => s.slug === 'deep-research');
+// ---------------------------------------------------------------------------
+// deep-research removal — Claude has built-in deep research, so SpecFlow no
+// longer ships a skill that duplicates it. Neither the catalog nor the sidebar
+// may reference it.
+// ---------------------------------------------------------------------------
 
-  it('exists in the catalog', () => {
-    expect(skill).toBeDefined();
+describe('deep-research removal', () => {
+  it('is not in the skill catalog', () => {
+    expect(skills.find((s) => s.slug === 'deep-research')).toBeUndefined();
   });
 
-  it('whenToUse states it can be used any time web search or research is needed (not only when freshness matters)', () => {
-    const whenToUse = skill!.whenToUse.toLowerCase();
-    // Must explicitly say "any time", "anytime", or "whenever" to convey broad applicability.
-    // Phrases like "when freshness matters" are too narrow and should not be the only signal.
-    expect(whenToUse).toMatch(/any time|anytime|whenever/);
+  it('is not linked anywhere in the sidebar', () => {
+    const serialized = JSON.stringify(starlightSidebar);
+    expect(serialized).not.toMatch(/deep-research/);
   });
 });
 

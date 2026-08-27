@@ -10,6 +10,7 @@ export type SkillCategory =
   | 'Project Definition'
   | 'Feature Design'
   | 'Implementation and Cleanup'
+  | 'Quality Assurance'
   | 'Bonus Skills'
   | 'Orchestration Skills';
 
@@ -166,6 +167,11 @@ export const skillSeries: SkillSeries[] = [
     range: '400 Series',
     title: 'Correction and cleanup',
     description: 'Triage failing tests when the right fix path is unclear, or run a deliberate cleanup pass over an already-changed scope.',
+  },
+  {
+    range: '500 Series',
+    title: 'Quality Assurance',
+    description: 'Explore a live, running site for defects with a real browser, then work that backlog toward resolution by dispatching entries to 402 for reproduction and a fix.',
   },
   {
     range: '900 Series',
@@ -363,18 +369,26 @@ export const skills: Skill[] = [
     category: 'Implementation and Cleanup',
   },
   {
+    slug: '501-browser-qa-analyst',
+    label: '501-browser-qa-analyst',
+    purpose: 'Drive a real, visible Chrome browser through a live site as a QA analyst would, judging each flow against a rubric and against what a reasonable user would expect, and logging anything broken or unintuitive to a running defect backlog.',
+    whenToUse: 'Use it for a live, click-driven exploratory test pass — "browser QA", "explore this site for bugs" — when you want defects found and logged, not test cases authored directly.',
+    tier: 'optional',
+    category: 'Quality Assurance',
+  },
+  {
+    slug: '502-defect-resolution',
+    label: '502-defect-resolution',
+    purpose: 'Work through the D11 exploratory defect backlog by dispatching each targeted entry to 402-test-correction for reproduction, classification, and a real fix, updating its status from the outcome, committing per entry, and compacting the resolved history.',
+    whenToUse: 'Use it after a 501 run has logged defects and you want to work the backlog toward resolution, or on its own compact-only mode to reformat an already-resolved history.',
+    tier: 'optional',
+    category: 'Quality Assurance',
+  },
+  {
     slug: 'context-manager',
     label: 'context-manager',
     purpose: 'Refresh root CLAUDE.md guidance, with nested overlays or path-scoped rules only where subtrees materially differ.',
     whenToUse: 'Use it when repo guidance is missing, stale, or needs local subtree overrides.',
-    tier: 'bonus',
-    category: 'Bonus Skills',
-  },
-  {
-    slug: 'deep-research',
-    label: 'deep-research',
-    purpose: 'Do multi-source live web research with citations when current external information materially affects the answer.',
-    whenToUse: 'Use it any time web search or web research is needed, especially when freshness matters and a strong answer needs more than a single URL summary.',
     tier: 'bonus',
     category: 'Bonus Skills',
   },
@@ -465,11 +479,18 @@ export const starlightSidebar = [
     ],
   },
   {
+    label: 'Quality Assurance (500s)',
+    items: [
+      { slug: 'quality-assurance', label: 'Overview' },
+      'quality-assurance/501-browser-qa-analyst',
+      'quality-assurance/502-defect-resolution',
+    ],
+  },
+  {
     label: 'Bonus Skills',
     items: [
       { slug: 'support-skills', label: 'Overview' },
       'support-skills/context-manager',
-      'support-skills/deep-research',
       'support-skills/gap-check',
     ],
   },
@@ -501,6 +522,7 @@ export function getSkillsByCategory() {
     'Project Definition',
     'Feature Design',
     'Implementation and Cleanup',
+    'Quality Assurance',
     'Bonus Skills',
     'Orchestration Skills',
   ];

@@ -121,8 +121,8 @@ as the checklist.
 **Do not use this skill:**
 
 - "Stress-test my plan for migrating the auth system." Use `grilling`.
-- A workflow step that needs open-ended research rather than a fixed input list. Use
-  `deep-research`.
+- A workflow step that needs open-ended research rather than a fixed input list. Use Claude's
+  built-in research and web search instead.
 
 ---
 

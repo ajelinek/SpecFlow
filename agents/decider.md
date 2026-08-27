@@ -11,7 +11,6 @@ description: >
   back a single decided answer — it never manages the three-way arbitration itself. Runs
   read-only throughout: it never edits files or takes the action itself, it only recommends one.
 model: opus
-effort: max
 tools: Read, Grep, Glob, Bash, Skill, Agent
 ---
 
@@ -97,10 +96,10 @@ or the other sub-agents' existence. Its prompt must be entirely self-contained:
 
 **Stances** — assign exactly one per call:
 
-- Call A — stance: *if this trades off forward progress against caution, weight keeping the run
-  moving.*
-- Call B — stance: *if this trades off forward progress against caution, weight the lowest-risk,
-  most-correct, most-reversible option.*
+- Call A — stance: _if this trades off forward progress against caution, weight keeping the run
+  moving._
+- Call B — stance: _if this trades off forward progress against caution, weight the lowest-risk,
+  most-correct, most-reversible option._
 - Call C — no stance framing; reason from the brief alone. This is the neutral, unbiased vote
   used to break a three-way split in Step 3.
 
@@ -171,7 +170,7 @@ Follow it with:
   always `high`; a majority or tiebreak resolution carries whatever confidence that path implies,
   with a one-clause reason.
 - **Vote**: the split, e.g. `3-0`, `2-1`, or `3-way split, resolved by <confidence /
-  blast-radius / Call C>` — enough for the invoking workflow to log what happened without needing
+blast-radius / Call C>` — enough for the invoking workflow to log what happened without needing
   the three sub-call transcripts.
 - **Stance applied**: only if a stance broke a tie and it mattered to the outcome.
 

@@ -1,6 +1,6 @@
 ---
 title: Using Bonus Skills
-description: When context-manager and deep-research help without becoming the main SpecFlow story.
+description: When context-manager and gap-check help without becoming the main SpecFlow story.
 section: examples
 order: 6
 sidebar:
@@ -15,11 +15,11 @@ Bonus skills support the workflow. They are useful because they reduce uncertain
 ## Typical uses
 
 - `context-manager` when a repo needs fresh root `CLAUDE.md` guidance, plus nested overlays only where a subtree genuinely differs
-- `deep-research` any time web search or web research is needed, especially when freshness matters
+- `gap-check` from inside another skill's input-validation step, when its Required Inputs need resolving before that step can proceed
 
-`100-domain-knowledge` usually relies on `deep-research` for non-trivial domain work, so `deep-research` is sometimes a dependency of planning rather than just a side skill.
+`gap-check` is never typed directly — the 100-series skills call it by name, so it is a dependency of planning rather than a side skill you reach for yourself.
 
 ## Example prompt sequence
 
 <PromptBlock title="Prompt sequence" text={`Refresh CLAUDE.md for this repo using context-manager.
-Do deep research on the latest remote browser automation options for coding agents.`} />
+Now run 101-project-overview — it will use gap-check to fill in whatever it still needs from me.`} />

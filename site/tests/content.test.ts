@@ -53,13 +53,9 @@ describe('using-bonus-skills.mdx', () => {
     expect(content).not.toMatch(/Keep them in proportion/i);
   });
 
-  it('deep-research guidance says it can be used any time web search or research is needed', () => {
-    // The current copy says "when current external information materially affects a decision"
-    // which is too narrow. The guidance should reflect broad applicability: any time web
-    // search or research is needed.
-    const deepResearchSection = content.match(/deep.research[\s\S]{0,600}/i);
-    expect(deepResearchSection, 'deep-research section not found in using-bonus-skills.mdx').not.toBeNull();
-    expect(deepResearchSection![0].toLowerCase()).toMatch(/any time|anytime|whenever.*web|web.*search|web.*research/);
+  it('does not reference the removed deep-research skill', () => {
+    // Claude has built-in deep research; SpecFlow no longer ships a skill for it.
+    expect(content).not.toMatch(/deep.research/i);
   });
 });
 

@@ -7,18 +7,17 @@ sidebar:
 
 import Callout from '../../components/Callout.astro';
 
-Three skills sit outside the main SpecFlow lifecycle but support it directly. `context-manager` and `deep-research` can be used at any point in a project. `gap-check` is different — it has model invocation disabled and is never typed directly; it only runs when another skill's step calls it by name.
+Two skills sit outside the main SpecFlow lifecycle but support it directly. `context-manager` can be used at any point in a project. `gap-check` is different — it has model invocation disabled and is never typed directly; it only runs when another skill's step calls it by name.
 
 ## The bonus skills
 
 | Skill | What it does |
 |---|---|
 | `context-manager` | Creates or refreshes `CLAUDE.md` guidance so Claude Code can navigate the repo accurately |
-| `deep-research` | Performs multi-source live web research when current external information materially affects a decision |
 | `gap-check` | Resolves a workflow's declared Required Inputs from existing context first, then asks about only what's left, one question at a time with a recommended answer |
 
 <Callout tone="bonus" title="Bonus does not mean optional">
-  `deep-research` is listed as a bonus skill, but `100-domain-knowledge` normally relies on it for live research. `context-manager` sits outside the feature loop but can become important early when a repo needs trustworthy `CLAUDE.md` guidance for the first time.
+  `context-manager` sits outside the feature loop but can become important early when a repo needs trustworthy `CLAUDE.md` guidance for the first time.
 </Callout>
 
 <Callout tone="tip" title="gap-check is invoked by name, not typed directly">
@@ -28,5 +27,4 @@ Three skills sit outside the main SpecFlow lifecycle but support it directly. `c
 ## Skills in this section
 
 - **[Context Manager](./context-manager/)** — create or refresh CLAUDE.md guidance
-- **[Deep Research](./deep-research/)** — multi-source web research with citations
 - **[Gap Check](./gap-check/)** — resolve a workflow's Required Inputs with minimum friction

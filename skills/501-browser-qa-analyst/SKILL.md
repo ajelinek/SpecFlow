@@ -1,21 +1,19 @@
 ---
-name: 902-browser-qa-analyst
+name: 501-browser-qa-analyst
 description: >
-  Use `902` to explore a live site with a real, visible Chrome browser and log defects the way a
+  Use `501` to explore a live site with a real, visible Chrome browser and log defects the way a
   QA analyst would: click through flows, judge what happens against what a reasonable user would
   expect, and record anything broken or unintuitive with clear repro steps. Trigger it for prompts
-  like "902", "browser QA", "QA analyst pass", "explore this site for bugs", or "find defects on
+  like "501", "browser QA", "QA analyst pass", "explore this site for bugs", or "find defects on
   this site" when the next step is a live, click-driven exploratory test pass rather than authoring
   test cases directly. Produces `.specflow/docs/D11-exploratory-defects.md`, a running defect
-  backlog meant to feed `202-spec-design` and `301`/`402` once someone is ready to turn findings
-  into fixes. Also has a cleanup mode — trigger it with "902 cleanup", "clean up D11", or "compact
-  the defect backlog" — that reorganizes and compacts the backlog's resolved history without
-  opening a browser.
-argument-hint: "[starting-url] [credentials?] [priority-features?] | cleanup"
+  backlog meant to feed `502-defect-resolution` (reproduction and fix dispatch via `402`) or
+  `202-spec-design` once someone is ready to turn findings into fixes.
+argument-hint: "[starting-url] [credentials?] [priority-features?]"
 context: fork
 ---
 
-# 902 - Browser QA Analyst
+# 501 - Browser QA Analyst
 
 Drive a real, visible Chrome browser through a live site the way a QA analyst would: click through
 every reachable page and flow, judge each one against a baseline rubric (console errors, failed
@@ -24,36 +22,22 @@ what a reasonable user would expect given the feature's evident intent, and log 
 fails either check as a defect with exact repro steps.
 
 This skill only explores and logs. It never writes Gherkin scenarios and never fixes anything —
-once `.specflow/docs/D11-exploratory-defects.md` has entries, turning them into test cases and
-fixes is a separate, later pass through `202-spec-design` and `301-spec-implementation` /
-`402-test-correction`, run manually when someone is ready for that phase.
+once `.specflow/docs/D11-exploratory-defects.md` has entries, turning them into fixes is a
+separate, later pass through `502-defect-resolution` (which dispatches entries to
+`402-test-correction` for reproduction and correction) or `202-spec-design` /
+`301-spec-implementation`, run manually when someone is ready for that phase.
 
 **Output**: `.specflow/docs/D11-exploratory-defects.md` — one running defect backlog, updated in
-place across every run. This skill creates no other artifacts and never invokes `202`, `301`, or
-`402` itself.
+place across every run. This skill creates no other artifacts and never invokes `202`, `301`,
+`402`, or `502` itself.
 
 This file is not a general-purpose defect log for implementation sessions — a defect surfaced
-outside a `902` run (direct user report, incidental discovery mid-feature-work) should be fixed and
+outside a `501` run (direct user report, incidental discovery mid-feature-work) should be fixed and
 documented in the commit/PR, not appended here.
 
 ---
 
-## Modes
-
-`902` runs in one of two modes:
-
-- **Exploration** (default) — the full click-driven QA pass in **Steps 1-9** below. Triggered by a
-  starting URL, "902", "browser QA", etc.
-- **Cleanup** — reorganizes and compacts `.specflow/docs/D11-exploratory-defects.md` without
-  opening a browser. Triggered explicitly by phrases like "902 cleanup", "clean up D11", or
-  "compact the defect backlog", or by accepting the offer a normal run makes at Step 9 once the
-  backlog has grown large. See **Cleanup Steps** below instead of Steps 1-9.
-
----
-
 ## Required Inputs
-
-**Exploration mode:**
 
 1. **Starting URL** — where exploration begins. If missing, ask for it before proceeding.
 2. **Test credentials** *(optional)* — username/password (or equivalent) for sites that require
@@ -64,9 +48,6 @@ documented in the commit/PR, not appended here.
 
 Assume the target is a safe/staging environment. There are no destructive-action restrictions —
 submit forms, complete flows, and interact with the site the way a real user would.
-
-**Cleanup mode:** no starting URL, credentials, or priority list needed — only the existing D11
-file.
 
 ---
 
@@ -116,8 +97,9 @@ file.
 
 - [ ] **Step 5: Capture a raw finding for anything that fails either check.** For each: the
   page/flow and exact repro steps, expected vs. actual behavior, a severity estimate
-  (`Critical`/`High`/`Medium`/`Low`), and whether it was caught by the rubric or by judgment. Hold
-  these as this run's working set — do not write to or reconcile against
+  (`Critical`/`High`/`Medium`/`Low`), and whether it was caught by the rubric or by judgment
+  (`502-defect-resolution` uses this detection mode later to decide how much autonomy it has when
+  triaging the entry). Hold these as this run's working set — do not write to or reconcile against
   `D11-exploratory-defects.md` yet; that happens once, at the end (Step 7).
 
 - [ ] **Step 6: Continue until the discovered surface is covered.** Keep exploring until every
@@ -164,49 +146,9 @@ file.
 - [ ] **Step 9: Summarize.** Report: pages/flows covered, new defects logged (with ids and
   severities), any entries reopened (split out ones reopened because a `Not a Defect` rationale no
   longer matched), any `Not a Defect` entries that recurred but were left suppressed as still
-  matching their rationale, the current total open/in-progress backlog size, and that turning
-  entries into test cases and fixes is a separate next step through `202-spec-design` and
-  `301-spec-implementation`/`402-test-correction`. If **Resolved Defects** now holds more than 15
-  entries, or the file exceeds roughly 400 lines, say so and offer to run a cleanup pass (see
-  **Cleanup Steps**) — don't run it automatically as part of this pass.
-
----
-
-## Cleanup Steps
-
-Runs instead of Steps 1-9 above when cleanup mode is triggered explicitly, or when offered and
-accepted at the end of a normal run. No browser session opens.
-
-- [ ] **Cleanup Step 1: Read the file.** Read `.specflow/docs/D11-exploratory-defects.md`. If it
-  doesn't exist, or **Resolved Defects** has no entries to compact, report there's nothing to clean
-  up and stop.
-
-- [ ] **Cleanup Step 2: Repair structure first.** Before compacting anything, confirm every entry
-  lives in the right section and order: `Open`/`In Progress`/`Reopened` in **Active Defects**,
-  everything else in **Resolved Defects**, both in ascending `DEF-###` order. Fix any entry that
-  drifted from this (e.g. a manual status edit that never moved the entry) without changing its id,
-  status, or content yet.
-
-- [ ] **Cleanup Step 3: Compact eligible Resolved entries.** For every entry in **Resolved
-  Defects**:
-  - `Fixed` or `Won't Fix` → collapse the full block to one line: id, status, severity, a short
-    flow + failure description, and a one-line resolution note (drawn from the entry's `Notes`
-    field if present). Discard the detailed Steps to reproduce / Expected / Actual — the one-line
-    summary is the permanent record from here on.
-  - `Not a Defect` → collapse to two lines: the same one-line id/status/severity/flow+failure
-    summary, plus the entry's **Rationale** kept verbatim on its own line. Never shorten or drop
-    the Rationale — Step 7's reconciliation reads it verbatim on every future run to decide whether
-    a recurrence still matches or needs reopening.
-  - Leave entries already in compact form (from a prior cleanup run) untouched.
-  - Never touch **Active Defects** — `Open`, `In Progress`, and `Reopened` entries keep full detail
-    regardless of age; they aren't resolved yet.
-
-- [ ] **Cleanup Step 4: Write the file.** Preserve every id and status exactly. This is a
-  reformatting pass only — no entry is deleted, renumbered, or reclassified.
-
-- [ ] **Cleanup Step 5: Summarize.** Report: entries compacted (with ids), entries left untouched
-  and why (already compact, or still Active), any structural drift repaired in Cleanup Step 2, and
-  the file's size before/after (line count, resolved-entry count).
+  matching their rationale, and the current total open/in-progress backlog size. If this run logged
+  any new or reopened entries, say so explicitly and offer to run `502-defect-resolution` next to
+  attempt reproduction and resolution — don't run it automatically as part of this pass.
 
 ---
 
@@ -219,30 +161,24 @@ accepted at the end of a normal run. No browser session opens.
    exploration.
 4. Reconcile against the existing backlog once, at the end of the run (Step 7) — never mid-
    exploration, and never by pre-filtering what to explore based on what's already logged.
-5. This skill never invokes `202-spec-design`, `301-spec-implementation`, or `402-test-correction`
-   itself. Converting defects into test cases and fixes is always a separate, later, manually
-   triggered step.
+5. This skill never invokes `202-spec-design`, `301-spec-implementation`, `402-test-correction`, or
+   `502-defect-resolution` itself. Converting defects into fixes is always a separate, later,
+   manually triggered step.
 6. Every defect entry, as originally logged (Step 8) or reopened, carries an id, status, severity,
-   detection mode (rubric/judgment), repro steps, and expected-vs-actual — no partial entries. A
-   later cleanup pass compacting a resolved entry (Cleanup Step 3) is the one documented exception.
+   detection mode (rubric/judgment), repro steps, and expected-vs-actual — no partial entries.
 7. Only Step 7's reconciliation logic changes status on an existing entry. A run never marks
    something `Fixed` on its own — only `Open` (new), `Reopened` (recurrence), or an explicit
    "appears resolved, needs confirmation" note.
-8. `Not a Defect` is a manual triage status, like `Fixed`/`Won't Fix` — a run never sets it. Every
-   entry in that status must carry a **Rationale** explaining why the behavior is expected; an
-   entry missing one is incomplete and should be flagged as such rather than silently treated as
-   resolved.
+8. `Not a Defect` is a manual or `502`-investigated triage status — a `501` run never sets it on
+   its own. Every entry in that status must carry a **Rationale** explaining why the behavior is
+   expected; an entry missing one is incomplete and should be flagged as such rather than silently
+   treated as resolved.
 9. A recurring finding that matches a `Not a Defect` entry's rationale is left suppressed, not
    reflagged — that's the entire point of recording the rationale. It's only reopened when this
    run's finding diverges from what the rationale actually covers (Step 7).
 10. Terminal-status entries (`Fixed`, `Won't Fix`, `Not a Defect`) belong in the **Resolved
     Defects** section, not mixed into **Active Defects** — move an entry the moment its status
     becomes terminal, and move it back if it's later reopened (Step 8).
-11. Cleanup mode never changes an id, status, or which section an entry belongs in beyond fixing
-    structural drift (Cleanup Step 2) — it only shortens already-resolved entries' detail level.
-12. A `Not a Defect` entry's **Rationale** is never shortened or dropped during cleanup, compacted
-    or not — it's the only thing that lets a later run tell a suppressed recurrence from a genuine
-    reopen.
 
 ## Additional Guidance
 
@@ -251,7 +187,8 @@ accepted at the end of a normal run. No browser session opens.
 without much editorializing. A judgment call ("this flow is technically working but confusing") is
 inherently more subjective — write the expected-vs-actual pair precisely enough that someone
 reading it cold, without having watched the run, can see why it's a real problem and not just a
-matter of taste.
+matter of taste. `502-defect-resolution` treats these two modes differently when it triages a
+`402` outcome, so getting the detection mode right here matters downstream, not just for this run.
 
 **On "business perspective"**: There's no separate research step. As each page or flow is reached,
 form a quick read of what it's evidently for — a checkout flow's job is to get someone to a

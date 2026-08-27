@@ -40,7 +40,15 @@ If you want the supporting `coder`, `validator`, `designer`, `reviewer`, and `de
   The bundled workers are the intended support structure for full `301`, `302`, `401`, and `402` runs. You can start without them, but stronger orchestration comes from installing them.
 </Callout>
 
-## 3. Run the lean default
+## 3. Initialize `.specflow/` guidance
+
+Run this once, right after installing the skills and before creating your first feature:
+
+<PromptBlock title="Run this" text={`Run context-manager in initialize mode.`} />
+
+This creates `.specflow/CLAUDE.md`, a short guidance file that tells Claude how `.specflow/context/`, `.specflow/docs/`, and `.specflow/features/` are organized, and states the feature isolation rule: each `.specflow/features/<F-ID>-<slug>/` folder is a point-in-time snapshot, and Claude should not read a sibling feature's folder unless you explicitly ask it to. It's a one-time setup step — no other skill runs it for you, so it does not add overhead to every feature.
+
+## 4. Run the lean default
 
 If the repo already has enough context, the lean path is the fastest clean start. You can use the skill numbers as a shorthand in your prompts (e.g., saying "Run 301" instead of the full name):
 
@@ -54,7 +62,7 @@ Run 401 on the changed source files.`}
 
 Run `401-cleanup` again later for changed test files if you want a separate test cleanup pass too.
 
-## 4. Pick the right path when the lean flow is not enough
+## 5. Pick the right path when the lean flow is not enough
 
 - Read **[Project Foundation](../project-foundation/)** for the larger lifecycle, groupings, and why the `100` series helps on both new and existing projects.
 - Use the homepage flow visualization when you want to compare the full, conservative, lean, and implementation-first paths side by side.

@@ -10,8 +10,7 @@ description: >
   docs exist and a brief conflicts with them, flags the conflict as a proposed doc change rather
   than silently overriding. Asks clarifying questions when brand intent, audience, or constraints
   are ambiguous; the invoking skill answers from its loaded context or escalates to the user.
-model: sonnet
-effort: xhigh
+model: opus
 tools: Read, WebFetch, Skill
 ---
 
@@ -218,6 +217,6 @@ was considered and why it was set aside.
 Load any of the following skills if installed in this project. Skip silently if not present.
 
 | Skill name      | When to load                                    |
-| --------------- | ------------------------------------------------ |
+| --------------- | ----------------------------------------------- |
 | `frontend-ui`   | Always — governs component and styling patterns |
 | `accessibility` | Always — governs contrast and WCAG requirements |

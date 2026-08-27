@@ -1,0 +1,36 @@
+---
+title: Quality Assurance (500 Series)
+description: Explore a live, running site for defects with a real browser, then work that backlog toward resolution.
+sidebar:
+  order: 8
+---
+
+import Callout from '../../components/Callout.astro';
+
+The `500` series is different from the `100`-`400` series: it doesn't operate on a bounded, already-changed scope like a diff or a single failing test. It explores a whole live, running site breadth-first, then works whatever it finds toward resolution. Both are user-invoked.
+
+## The split
+
+- `501-browser-qa-analyst`: drives a real, visible Chrome browser through a live site the way a QA analyst would, judging each flow against a rubric and against what a reasonable user would expect, and logging anything broken or unintuitive to a running defect backlog (`D11-exploratory-defects.md`)
+- `502-defect-resolution`: works that backlog toward resolution — dispatches each targeted entry to `402-test-correction` (which already accepts a `DEF-###` id as its failure anchor) to reproduce, classify, and fix it, updates the entry's status from the outcome, commits per entry, and compacts the resolved history
+
+<Callout tone="core" title="502 doesn't investigate on its own">
+  All the actual reproduction and correction work happens inside `402-test-correction`. `502` is the loop that feeds it entries, applies the status-mapping rules below to whatever `402` finds, and keeps the backlog file itself in shape — it never opens a browser and never invents a fix.
+</Callout>
+
+## How 502 maps a 402 outcome to a status
+
+- `402` applies a real fix → `Fixed`, whether the entry was rubric- or judgment-detected.
+- `402` concludes the behavior is intentional, no fix needed:
+  - **Rubric**-detected (console error, failed request, broken link, dead control) → auto-set `Not a Defect`, using `402`'s classification as the rationale.
+  - **Judgment**-detected (a subjective UX call) → never auto-set — surfaced to the user instead, since a UX call needs a human even when the code is technically working as intended.
+- `402` returns a blocking/ambiguous decision, or can't reproduce the failure at all → the entry is left as-is with a note, surfaced in the summary. Never a silent status change.
+
+<Callout tone="tip" title="Won't Fix always stays manual">
+  `502` can reach `Fixed` and, for rubric-detected entries, `Not a Defect` on its own. It never sets `Won't Fix` — that status means a confirmed real defect was deliberately deprioritized, which is a human call this skill has no basis to make.
+</Callout>
+
+## Skills in this series
+
+- **[501 Browser QA Analyst](./501-browser-qa-analyst/)** — explore a live site with a real browser and log defects like a QA analyst would
+- **[502 Defect Resolution](./502-defect-resolution/)** — work the defect backlog toward resolution via `402`, or run a standalone compaction pass

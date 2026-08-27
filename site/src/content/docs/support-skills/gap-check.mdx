@@ -28,7 +28,7 @@ It is referenced by name from other skills' input-validation steps — most of S
 
 - To interrogate a plan the user hasn't asked to have stress-tested — that is [`grilling`](https://github.com/mattpocock/skills)'s job, not this one
 - Inside a workflow's input-validation step if what is actually needed is an exhaustive, open-ended interview — `grilling` over-asks and stalls a bounded validation step
-- When a step needs open-ended research rather than a fixed input list — use `deep-research`
+- When a step needs open-ended research rather than a fixed input list — use Claude's built-in research and web search instead
 
 <Callout tone="bonus" title="gap-check vs grilling">
   Both skills share the same one-question-at-a-time, recommend-an-answer interview style. The difference is scope: `gap-check` stops as soon as a fixed checklist is satisfied; `grilling` keeps walking every branch of a decision tree until the whole plan holds up. Use the bounded one inside a workflow step, and the open-ended one when the user actually asks to be grilled.
