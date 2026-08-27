@@ -25,6 +25,7 @@ When agents, developers, and reviewers all share the same written context — do
 | `101-project-overview` | `.specflow/docs/D01-project-overview.md` | Product definition, user goals, success metrics |
 | `102-system-architecture` | `.specflow/docs/D02-system-architecture.md` | Stack, components, deployment, testing strategy |
 | `103-common-data-model` | `.specflow/docs/D03-common-data-model.md` | Entities, relationships, business rules |
+| `103.5-common-data-model` | `.specflow/docs/D03-common-data-model/` | Same as `103`, as GraphQL SDL — plus access rules and field-level validation |
 | `104-backend-architecture` | `.specflow/docs/D04-backend-architecture.md` | API design, service layering, auth, security |
 | `105-frontend-architecture` | `.specflow/docs/D05-frontend-architecture.md` | Component structure, state, routing, styling |
 | `106-ui-design` | `.specflow/docs/D06-ui-design.md` | Design system, color, typography, visual philosophy |
@@ -42,12 +43,17 @@ Run these in order when starting fresh. On existing projects, run only what is m
 
 Each document references the ones before it. Running out of order is possible but produces weaker results.
 
+<Callout tone="warning" title="103 has an alternative engine">
+  `103.5-common-data-model` fills the same D03 slot as `103-common-data-model`, authored as GraphQL SDL instead of markdown tables so it's parseable and visualizable. A project uses one or the other, not both — swap `103` for `103.5` in the sequence above if the team wants that.
+</Callout>
+
 ## Skills in this series
 
 - **[100 Domain Knowledge](./100-domain-knowledge/)** — research the domain before planning
 - **[101 Project Overview](./101-project-overview/)** — define the product
 - **[102 System Architecture](./102-system-architecture/)** — record the stack and structure
 - **[103 Common Data Model](./103-common-data-model/)** — map the entities and rules
+- **[103.5 Common Data Model (GraphQL)](./103-5-common-data-model/)** — same model, as parseable, visualizable GraphQL SDL
 - **[104 Backend Architecture](./104-backend-architecture/)** — specify the server-side patterns
 - **[105 Frontend Architecture](./105-frontend-architecture/)** — specify the client-side patterns
 - **[106 UI Design](./106-ui-design/)** — establish the visual design system

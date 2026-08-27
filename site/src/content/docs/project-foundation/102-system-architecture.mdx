@@ -46,15 +46,16 @@ import PromptBlock from "../../../components/PromptBlock.astro";
 
 ## Required inputs
 
-1. Frontend framework and rendering approach
-2. Backend runtime and API style
-3. Database and storage choices
-4. Deployment target and hosting model
-5. Testing approach and key tooling
+1. Application components — the major system parts
+2. Traffic and scale — expected traffic and peak load
+3. Deployment environment — cloud, on-prem, hybrid, or similar
+4. Architecture drivers — constraints or goals such as team size, cost, compliance, or time
+
+Specific stack choices (frontend framework, backend runtime, database, deployment target, testing tooling) are resolved separately, after these four, via the auto-detection order below — not asked upfront as part of this checklist.
 
 <Callout tone="tip" title="Tech stack auto-detection">
-  Before asking for any of the above, `102` will attempt to infer your stack
-  automatically — first from installed skills (e.g. `react`, `solid.js`,
+  For each stack concern, `102` will attempt to infer the choice automatically
+  — first from installed skills (e.g. `react`, `solid.js`,
   `astro.js`, `typescript-engineering`), then from existing project
   documentation, then from the codebase itself. Detected choices are presented
   for confirmation rather than asked from scratch. If no skills are installed
@@ -81,7 +82,7 @@ import PromptBlock from "../../../components/PromptBlock.astro";
 ## Practical guidance
 
 - Include the rationale for key technology choices. Downstream work benefits from knowing _why_ decisions were made, not just _what_ was decided.
-- If the project already has code, tell it to run 102 on the exsisting code base and it will create the documenation for you.
+- If the project already has code, tell it to run 102 on the existing codebase and it will create the documentation for you.
 - Reference D01 for user goals and business requirements — D02 should not re-state what D01 already captured.
 
 ## Common mistakes

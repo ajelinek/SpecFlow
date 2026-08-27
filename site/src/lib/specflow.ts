@@ -257,6 +257,14 @@ export const skills: Skill[] = [
     category: 'Project Definition',
   },
   {
+    slug: '103.5-common-data-model',
+    label: '103.5-common-data-model',
+    purpose: 'Define the same conceptual data model as GraphQL SDL — entities, relationships, business rules, access rules, and field-level validation — in a documentation-only schema that also drives an interactive visualizer.',
+    whenToUse: 'Use it instead of (never alongside) 103-common-data-model when the team wants the data model to be parseable and visualizable, not just prose.',
+    tier: 'optional',
+    category: 'Project Definition',
+  },
+  {
     slug: '104-backend-architecture',
     label: '104-backend-architecture',
     purpose: 'Specify API structure, service layering, data access, and backend security patterns.',
@@ -444,6 +452,7 @@ export const starlightSidebar = [
       'project-foundation/101-project-overview',
       'project-foundation/102-system-architecture',
       'project-foundation/103-common-data-model',
+      'project-foundation/103-5-common-data-model',
       'project-foundation/104-backend-architecture',
       'project-foundation/105-frontend-architecture',
       'project-foundation/106-ui-design',

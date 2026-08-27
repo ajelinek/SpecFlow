@@ -1,0 +1,74 @@
+---
+title: 103.5 Common Data Model (GraphQL)
+description: Define the same conceptual data model as 103, but as GraphQL SDL — parseable, diffable, and visualizable, not just prose.
+sidebar:
+  order: 4.5
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`103.5-common-data-model` produces the same conceptual data model as [`103-common-data-model`](../103-common-data-model/) — every entity, its relationships, and the business rules that constrain it — but authors it as GraphQL SDL instead of markdown tables. The schema is documentation-only: it is never deployed as an executable API. In exchange for the extra syntax, it also captures two things markdown tables express poorly — role-based access rules and field-level validation constraints — in a format with mature parsing, diffing, and visualization tooling already built for it.
+
+It is implementation-independent, same as `103`: not a database schema, ORM design, API contract, or frontend state model. The physical implementation (relational, NoSQL, event-based) is a downstream decision this schema informs, never dictates.
+
+<Callout tone="warning" title="An alternative engine, not an addition">
+  `103.5` fills the same D03 slot in the pipeline as `103-common-data-model`. A project uses one or the other, not both. Downstream skills that reference "D03" generically keep working either way.
+</Callout>
+
+**Output path**: `.specflow/docs/D03-common-data-model/` — a folder, not a single file: `_directives.graphql`, one `OVERVIEW.md` and `schema.graphql` per domain, and a `.gitignore`.
+
+## When to use it
+
+- When the team wants the common data model to be parseable and visualizable, not just prose
+- When role-based access rules or field-level validation constraints matter enough to want a structured, typed home for them
+- Same triggers as `103` otherwise — before `104-backend-architecture`, which needs entities to specify how the API handles them
+
+## When NOT to use it
+
+- When a D03 already exists in the markdown form from `103` and the team has no reason to switch formats
+- When the data model is trivial (one or two obvious entities with no complex relationships)
+- When the project is purely frontend with no meaningful data model to document
+
+## What it produces
+
+- `.specflow/docs/D03-common-data-model/` covering, per domain:
+  - `schema.graphql` — entities as GraphQL types, relationships (including explicit join types for many-to-many), required-ness via `!`, access rules via `@access`, and field-level constraints via `@validate`
+  - `OVERVIEW.md` — the domain summary and cross-field/cross-entity business rules that `schema.graphql` can't express on its own
+  - `_directives.graphql` — the fixed `@access`/`@validate` directive vocabulary plus the project's own `Role` enum values
+  - `.gitignore` — covers the generated visualizer build output
+
+## Required inputs
+
+1. Core domain entities
+2. Entity relationships, including cardinality where known
+3. Key attributes (required-ness comes from GraphQL's own `!`, not a separate field)
+4. Business rules
+5. Sensitive data — PII, financial data, or similar
+6. Access roles — the actual actors that read or write this data, used to populate the `Role` enum
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run 103.5-common-data-model. The core entities are Project, Expense, Receipt, Approver, and Budget.`} />
+
+<PromptBlock title="Prompt" text={`Switch our data model from 103 to 103.5 so it's visualizable — translate the existing D03 into GraphQL SDL.`} />
+
+## What usually comes next
+
+`104-backend-architecture` — specify how the API serves these entities, or `105-frontend-architecture` if the backend is already established.
+
+## Practical guidance
+
+- Prefer entity-level `@access` over field-level; drop to field-level only for genuine exceptions like PII on an otherwise-normal type.
+- Give every many-to-many relationship an explicit join type instead of a bare list on each side — otherwise the relationship is invisible.
+- Use `"""..."""` descriptions, not `#` comments, for anything meant to be read in the generated visualizer — only descriptions survive introspection.
+- Regenerate the visualization from the skill's own `scripts/` folder (`node generate-voyager.mjs <path-to-D03-folder>`) as part of the skill's own quality check, and again any time the schema changes.
+
+## Common mistakes
+
+- Running both `103` and `103.5` and leaving two D03 forms in the project at once
+- Adding a one-off `@validate` argument or directive without documenting it at its declaration
+- Writing a rule that spans multiple entities as a field-level directive instead of putting it in `OVERVIEW.md`
+- Treating `id` presence as a stylistic choice rather than the entity-vs-value-object signal it is

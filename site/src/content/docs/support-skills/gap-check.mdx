@@ -51,7 +51,7 @@ A compact "Resolved Inputs" list handed back to the invoking workflow — one li
 
 ## Common prompts
 
-`gap-check` has model invocation disabled, so it is not meant to be typed directly — it runs when a workflow step calls it by name. That call usually looks like this inside a skill's own steps:
+`gap-check` is not meant to be typed directly — it runs when a workflow step calls it by name. That call usually looks like this inside a skill's own steps:
 
 <PromptBlock title="Invoked from another skill's step" text={`Run gap-check against the Required Inputs above. Make sure the product, domain, users, and major constraints are defined well enough to research before moving on.`} />
 
