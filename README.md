@@ -305,6 +305,11 @@ These are meant to be referenced by name from inside other skills' steps, the sa
 `gap-check` runs in its caller's context — it has to reach the user to ask, so it is never dispatched
 to a forked or background subagent.
 
+- `engineering-principles`: SpecFlow's shared engineering principles. The primary principle is reuse
+  over creation, applied through a reuse ladder (no change, configure, delete, reuse, extend,
+  compose, platform, installed dependency, new code, new dependency), followed by a short list of
+  supporting principles. Loaded by `203`, `204`, `301`, `302`, `401`, `402`, and `@coder`.
+
 ## Quality Assurance Skills
 
 These explore a live, running system and work its findings toward resolution — a different kind of

@@ -170,7 +170,8 @@ The third bucket is mandatory. Do not force every failure into "test bug" or "so
 4. Do not assume every selector or UI-structure mismatch means the test should be updated.
 5. A still-broken business capability is not a harmless test defect.
 6. If the disagreement is really about intended functionality, stop and ask.
-7. Prefer the smallest correct fix once classification is clear.
+7. Prefer the smallest correct fix once classification is clear. Source fixes follow
+   `engineering-principles`: reuse or extend existing code before adding new code.
 8. Never "fix" a test by deleting meaningful coverage or replacing business assertions with weaker
    implementation-detail checks.
 9. If this run was triggered by an existing `D11-exploratory-defects.md` entry, append a triage note

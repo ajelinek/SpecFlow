@@ -1,0 +1,46 @@
+---
+title: Engineering Principles
+description: SpecFlow's shared engineering principles, led by reuse over creation — prefer no change, reuse, and extension of existing code over new code and new dependencies.
+sidebar:
+  order: 4
+---
+
+import Callout from '../../../components/Callout.astro';
+
+## What this skill is for
+
+`engineering-principles` is the single place SpecFlow defines how much code a change should add and where it should go. Its primary principle is **reuse over creation**: the least code that correctly delivers the behavior wins. Stack-specific standards skills and project architecture docs still govern how the code is written.
+
+It is loaded by name from `203-implementation-design`, `204-feature-validation`, `301-spec-implementation`, `302-test-implementation`, `401-cleanup`, `402-test-correction`, and the `@coder` agent, so the same rules apply from design through cleanup.
+
+## The reuse ladder
+
+Work down the list and stop at the first rung that correctly delivers the behavior:
+
+1. No change
+2. Configure
+3. Delete
+4. Reuse as-is
+5. Extend
+6. Compose
+7. Platform (language, framework, standard library)
+8. Installed dependency
+9. New code
+10. New dependency (only with explicit approval)
+
+<Callout tone="tip" title="Every new thing names what it could not reuse">
+  Each new file, exported function, component, type, or dependency must name the existing candidate it could not use and why. Implementation passes report files created versus extended, new dependencies, and lines added versus removed.
+</Callout>
+
+## Supporting principles
+
+KISS, YAGNI, DRY for knowledge, Single Responsibility, separation of concerns, Open/Closed, composition over inheritance, high cohesion and loose coupling, consistency over preference, least astonishment, explicit over implicit, make illegal states unrepresentable, validate at the boundaries and fail fast, secure by default, readability over cleverness, make it work then right then fast, test behavior not implementation, small reversible changes, and leave it better within scope.
+
+When principles conflict, correctness and security win first, then reuse over creation.
+
+## Common mistakes
+
+- Writing a new helper without searching for an existing one first
+- Copying a component and adding a flag instead of extending the original
+- Adding an extension point or abstraction for a requirement that does not exist yet
+- Adding a third-party package the implementation plan did not name

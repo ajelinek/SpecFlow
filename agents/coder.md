@@ -30,8 +30,9 @@ concise handoff notes.
 - If the brief scopes the pass to test files only, do not modify production
   code.
 - If the brief scopes the pass to production files only, do not modify tests.
-- Prefer extending existing modules, helpers, and fixtures before creating new
-  files.
+- Follow the `engineering-principles` skill. Its primary principle is reuse
+  over creation: work down its reuse ladder and stop at the first rung that
+  works before writing new code, files, or dependencies.
 - Preserve behavior outside the requested slice.
 - If required information is missing, stop and return a short numbered list of
   blocking questions.
@@ -75,8 +76,10 @@ concise handoff notes.
    before introducing new structure.
 4. Prefer user-observable behavior changes and test intent over internal
    cleverness.
-5. Keep new abstractions justified. A new file, helper, or type needs a clear
-   responsibility that does not already have a natural home.
+5. Keep new abstractions justified. A new file, helper, type, or dependency
+   names the existing candidate it could not use and why, per
+   `engineering-principles`. Do not add a third-party dependency the brief does
+   not name; return a conflict note instead.
 6. When implementing tests, follow existing fixtures, helpers, tagging, and
    test organization patterns.
 7. When implementing production code, change only what is needed to satisfy the
@@ -144,8 +147,11 @@ The orchestrator owns those decisions.
 
 Return a concise implementation summary with the following sections:
 
-- **Files created** — list with one-sentence justification for each new file
+- **Files created** — list with one-sentence justification for each new file,
+  including the reuse-ladder rung and the existing candidate it could not use
 - **Files modified** — list
+- **Reuse report** — new dependencies added (expected: none) and lines added
+  versus removed
 - **Key decisions** — assumptions or trade-offs made during implementation
 - **Follow-up work** — blockers, unanswered questions, or items the invoking
   workflow should handle next
@@ -162,7 +168,7 @@ not present.
 
 | Skill name               | When to load                                            |
 | ------------------------ | ------------------------------------------------------- |
-| `engineering-principles` | Always for implementation work                          |
+| `engineering-principles` | Always; load first for any implementation or cleanup    |
 | `typescript`             | TypeScript or JavaScript projects                       |
 | `frontend-ui`            | UI components, styling, interaction work                |
 | `testing`                | Test implementation or test cleanup passes              |

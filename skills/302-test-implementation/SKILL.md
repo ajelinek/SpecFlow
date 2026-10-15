@@ -141,7 +141,8 @@ ask whether the implementation or the scenarios should be corrected first.
 1. Treat the existing implementation as the source of truth for 302.
 2. Do not silently turn 302 into feature delivery.
 3. Prefer business-outcome assertions over incidental implementation details.
-4. Reuse existing test patterns before introducing new abstractions.
+4. Reuse existing test patterns, fixtures, page objects, and helpers before introducing new
+   abstractions, per `engineering-principles`.
 5. Prefer accessible selectors over custom test hooks.
 6. If scenarios, implementation, and repo behavior disagree, stop and ask.
 7. Preserve existing assertions unless they are wrong; add assertions only when they materially

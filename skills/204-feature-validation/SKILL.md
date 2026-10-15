@@ -137,6 +137,8 @@ terms for the rest of the validation.
 2. Prefer evidence over taste.
 3. Keep the report lean and delta-focused.
 4. Judge `203` at its selected detail level.
+5. Judge reuse against the `engineering-principles` reuse ladder: flag any `New` file, export, or
+   dependency that a lower rung could have satisfied.
 
 ## Additional Guidance
 

@@ -83,6 +83,8 @@ Before any coding pass, create and maintain these compact artifacts for the run:
 - **Architecture ledger** — decisions, invariants, touched modules, and boundaries
 - **Context map** — likely production files, likely test files, helpers, dependencies, reference
   patterns
+- **Reuse inventory** — existing modules, helpers, components, fixtures, and installed libraries
+  that the change should reuse or extend, checked against the current code
 - **Standards index** — relevant conventions, config files, and short applicability notes
 - **Task packet template** — the required fields every coding pass receives
 
@@ -106,6 +108,7 @@ Every coding subagent invocation should include only:
 - relevant design or architecture excerpt
 - relevant UI direction excerpt when the change touches UI
 - applicable standards excerpt
+- reuse candidates from the reuse inventory that apply to this pass
 - allowed reference files for just-in-time reading
 - explicit out-of-scope boundaries
 - concrete success criteria
@@ -133,9 +136,13 @@ Do not pass the full conversation, every feature artifact, or every standards fi
   3. `203-implementation-design`
   4. `204-feature-validation`
 
-- [ ] **Step 3: Build the working model.** Record the intended outcome, touched modules,
-  architectural boundaries, likely test files, likely production files, and relevant conventions.
-  For UI work, also maintain a UI direction brief grounded in D06/D07/D08.
+- [ ] **Step 3: Build the working model.** Load `engineering-principles`; its primary principle,
+  reuse over creation, governs every coding pass in this run. Record the intended outcome, touched
+  modules, architectural boundaries, likely test files, likely production files, and relevant
+  conventions. Build the reuse inventory with `@explore`: confirm the reuse assessment in
+  `implementation.md` still matches the current code, and list the existing pieces each scenario
+  should reuse or extend. For UI work, also maintain a UI direction brief grounded in D06/D07/D08,
+  and give `@designer` the existing components from the reuse inventory.
 
 - [ ] **Step 4: Route UI changes through `@designer` when available.** If the scope changes layout,
   interaction flow, navigation, visible state handling, or other user-facing behavior:
@@ -186,8 +193,13 @@ Do not pass the full conversation, every feature artifact, or every standards fi
   - any approved UI direction brief
   - explicit no-touch test scope
 
-  Instruction: implement only what is needed to make the failing tests pass. Prefer extending
-  existing modules. No cleanup or extra scope in this pass.
+  Instruction: implement only what is needed to make the failing tests pass. Work down the
+  `engineering-principles` reuse ladder and use the reuse candidates in the packet before writing
+  new code. No cleanup or extra scope in this pass.
+
+  Before advancing, check the coder's output: every new file, export, or dependency must be in the
+  implementation plan or carry a reuse-ladder justification. Treat an unplanned new dependency as
+  a conflict to resolve with the user, not a finished pass.
 
 - [ ] **Step 10: Verify the tests pass.** Run `@validator` with `mode: test`. Confirm the
   targeted scenarios now pass and previously passing tests still pass.
@@ -202,9 +214,11 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 
 ### Phase 4 - Clean Up Production Code
 
-- [ ] **Step 13: Run the production-cleanup pass.** Use `@coder` with phase
-  `production-cleanup-only` and only the production files changed in Phase 2. Improve clarity,
-  naming, structure, and deduplication without changing behavior.
+- [ ] **Step 13: Run the production-cleanup pass.** First, check the Phase 2 changes against the
+  codebase for logic that duplicates existing modules. Then use `@coder` with phase
+  `production-cleanup-only`, the production files changed in Phase 2, and any existing owner files
+  named for consolidation. Improve clarity, naming, structure, and deduplication without changing
+  behavior, folding duplicated logic into its existing owner.
 
 - [ ] **Step 14: Verify tests still pass.** Run `@validator` with `mode: test`.
 
@@ -230,6 +244,7 @@ Do not pass the full conversation, every feature artifact, or every standards fi
   - scenarios implemented
   - production files changed
   - test files changed
+  - reuse report: files created versus extended, new dependencies, lines added versus removed
   - any internally generated artifacts
   - whether `@designer` was used and which UI docs mattered
   - baseline issues discovered before implementation
@@ -245,7 +260,8 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 3. Production cleanup never edits test files.
 4. Previously passing tests are part of the acceptance bar.
 5. The change is not done until tests, lint, and build are clean.
-6. Extend before creating new modules.
+6. Reuse over creation, as defined by `engineering-principles`: no change, reuse, or extension
+   before new code, and no new dependency without approval.
 7. If scenarios need to be created or materially revised, route that through `202-spec-design`.
 8. Keep task packets tight; do not dump full conversation state into subagents.
 9. For UI changes, follow resolved D06/D07/D08 guidance rather than inventing new patterns in code.

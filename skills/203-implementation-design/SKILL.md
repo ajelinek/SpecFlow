@@ -14,8 +14,8 @@ Produce `.specflow/features/<fid>-<feature-slug>/implementation.md`: a standalon
 plan that tells an engineer what files should change, why they change, and how the feature should
 fit the existing codebase.
 
-The core rule is reuse-first: prefer extending existing modules over creating new files. A new file
-needs explicit justification.
+The core rule is reuse-first, as defined by the `engineering-principles` skill: prefer extending
+existing modules over creating new files. A new file needs explicit justification.
 
 **Output path**: `.specflow/features/<fid>-<feature-slug>/implementation.md`
 
@@ -97,13 +97,15 @@ conflict and ask instead of silently choosing.
   Load any relevant skills before moving on. From this point forward, describe the design in the
   concrete language of the project stack.
 
-- [ ] **Step 4: Do the reuse-first assessment.** Explicitly list:
+- [ ] **Step 4: Do the reuse-first assessment.** Load `engineering-principles` and apply its reuse
+  ladder. Explicitly list:
   - requirements satisfied by existing code with no change
   - requirements satisfied by small extensions to existing modules
   - requirements that genuinely need a new file
 
   The default answer to “should I create a new file?” is no. Justify every `New` file against
-  concrete reuse candidates found in Step 3.
+  concrete reuse candidates found in Step 3. Name any new third-party dependency explicitly; an
+  unnamed dependency is not approved for implementation.
 
 - [ ] **Step 5: Evaluate implementation approaches.** Identify 2-3 plausible structural approaches
   for the remaining decisions. For each, note:
@@ -176,7 +178,7 @@ conflict and ask instead of silently choosing.
 
 ## Design Rules
 
-1. Extend before creating.
+1. Extend before creating. `engineering-principles` is the governing reference.
 2. Prefer the smallest additive change that still reads clearly.
 3. A small rearchitecture is acceptable when it simplifies the overall result.
 4. Do not introduce new abstraction layers unless they remove meaningful duplication.

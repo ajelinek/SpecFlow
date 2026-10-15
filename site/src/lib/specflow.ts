@@ -409,6 +409,14 @@ export const skills: Skill[] = [
     category: 'Bonus Skills',
   },
   {
+    slug: 'engineering-principles',
+    label: 'engineering-principles',
+    purpose: 'Define SpecFlow\'s shared engineering principles, led by reuse over creation: prefer no change, reuse, and extension of existing code over new code and new dependencies.',
+    whenToUse: 'Not invoked directly by users — loaded by name from 203, 204, 301, 302, 401, 402, and the @coder agent before planning, writing, or reviewing code.',
+    tier: 'bonus',
+    category: 'Bonus Skills',
+  },
+  {
     slug: '900-feedback-loop',
     label: '900-feedback-loop',
     purpose: 'Run a bounded review/apply-fix convergence cycle around work that already happened, using isolated subagent contexts for the review and apply-fix roles.',
@@ -501,6 +509,7 @@ export const starlightSidebar = [
       { slug: 'support-skills', label: 'Overview' },
       'support-skills/context-manager',
       'support-skills/gap-check',
+      'support-skills/engineering-principles',
     ],
   },
   {

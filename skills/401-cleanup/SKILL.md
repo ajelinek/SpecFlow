@@ -103,7 +103,8 @@ default.
   Require exactly one target type. If the selected scope includes both source and test files, stop
   and ask the user to choose one side before continuing.
 
-- [ ] **Step 2: Load conventions and project context.** Use loaded standards as the starting point.
+- [ ] **Step 2: Load conventions and project context.** Load `engineering-principles`, then use
+  loaded standards as the starting point.
   Load any relevant skills if they materially affect the selected target type. Read only the repo
   docs, config, or guidance needed to judge the files in scope well.
 
@@ -195,7 +196,9 @@ default.
 3. Mixed changed sets require a blocking user choice before editing.
 4. Do not turn cleanup into feature work, bug-fix delivery, or additive test coverage.
 5. Ask before editing outside the initial changed set.
-6. Prefer reducing complexity in existing modules over adding new abstraction layers.
+6. Prefer reducing complexity in existing modules over adding new abstraction layers, per
+   `engineering-principles`. Fold duplicated code into its existing owner; if that owner is
+   outside the changed set, rule 5 applies.
 7. Fix obvious in-scope correctness risks when intent is clear, but do not hide speculative
    redesign as cleanup.
 8. Validation feedback outranks model opinion when judging whether the cleanup stayed safe.
