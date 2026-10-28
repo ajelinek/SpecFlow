@@ -10,143 +10,93 @@ context: fork
 
 # 302 - Test-Only Implementation
 
-Implement automated tests for behavior that already exists in the codebase. This workflow is for
-coverage gaps after implementation is complete, not for delivering new behavior.
+Add automated tests for behavior that already exists — coverage gaps, not new behavior. The existing
+implementation is the source of truth; never silently turn this into feature delivery.
 
-Default rule: change tests, not production code. The only routine exception is a minimal UI
-testability adjustment such as an accessible label, accessible name, role, or stable selector that
-does not change user-visible behavior.
+Change tests, not production code. The only routine exception is a minimal UI testability hook — an
+accessible label, accessible name, role, or stable selector that doesn't change user-visible behavior.
 
-**Output**: No new `.specflow/` artifact. Update test files in the project and, if present, the
-feature `overview.md` status.
+**Output**: Updated test files and, if present, the feature `overview.md` status. No new `.specflow/`
+artifact.
 
 ---
 
 ## Required Inputs
 
-Before proceeding, confirm:
-
-1. **Test scope** — feature name, `.feature` file, `@TS###` / `TSM###`, scenario titles, or a
-   precise behavior description
-2. **Implementation status** — the behavior already exists
+1. **Test scope** — feature name, `.feature` file, `@TS###` / `TSM###`, scenario titles, or a precise
+   behavior description
+2. **Implementation status** — the behavior already exists; if not, reroute to
+   `301-spec-implementation`
 3. **Test surface** — UI, API, integration, unit, or mixed
-4. **Code-touch boundary** — production code is off-limits except the minimal UI testability hook
-   exception
+4. **Code-touch boundary** — production code is off-limits except the UI testability exception
 
-If the scope is too vague, ask one blocking question. If the behavior is not implemented yet,
-reroute to `301-spec-implementation`. If requested scenarios and actual behavior disagree, stop and
-ask whether the implementation or the scenarios should be corrected first.
+**Blocking questions.** This skill runs in a forked context and can't reach the user. When the scope
+is too vague, or requested scenarios, implementation, and repo behavior disagree (which side to
+correct first?), stop and return the question to the caller with options and a recommendation.
 
 ---
 
 ## Execution Protocol
 
-- You are the orchestrator.
-- Code changes go through `@coder`.
-- Validation goes through `@validator`.
-- Use `@explore` only for focused discovery of implementation and test patterns.
-- Keep a compact working model: scope, touched test files, allowed read-only references,
-  touch-boundary exceptions, and reusable helpers/patterns.
+You are the orchestrator. Code changes go through `@coder`, validation through `@validator`, and
+`@explore` only for focused discovery of implementation and test patterns. Keep a compact working
+model: scope, touched test files, read-only references, touch-boundary exceptions, reusable helpers.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Resolve scope and confirm workflow fit.** Anchor the scope to the smallest usable
-  unit. If the request references a `.feature` file, scope it to a single `@TS###`, single `TSM###`,
-  or the full file.
+- [ ] **Step 1: Resolve scope and workflow fit.** Anchor to the smallest usable unit; for a `.feature`
+  file, a single `@TS###`, single `TSM###`, or the full file.
 
-- [ ] **Step 2: Load feature and architecture context.** Read relevant existing artifacts when they
-  exist, such as feature `overview.md`, `specs.feature`, `implementation.md`, and D02/D04/D05/D06/D07.
-  Use them to understand intended coverage, but do not invent new scenarios here.
+- [ ] **Step 2: Load context.** The feature's `overview.md`, `specs.feature`, `implementation.md`, and
+  D02/D04/D05/D06/D07 when present — to understand intended coverage, not to invent scenarios.
 
-- [ ] **Step 3: Research implementation and test patterns.** Use `@explore` when needed to:
-  - read the production files that implement the scoped behavior
-  - find 2-3 similar tests
-  - identify reusable page objects, fixtures, helpers, selectors, and setup utilities
-  - identify existing accessibility hooks, test IDs, or selector conventions already used in
-    similar tests
-  - flag behavior or implementation smells relevant to testability
+- [ ] **Step 3: Research patterns** with `@explore` as needed: the production files implementing the
+  behavior; 2-3 similar tests; reusable page objects, fixtures, helpers, selectors, and setup
+  utilities; existing accessibility hooks, test IDs, or selector conventions; testability smells.
+  Reuse these before introducing new abstractions, per `engineering-principles`.
 
-- [ ] **Step 4: Freeze the touch boundary.** Build a task packet that names:
-  - exact scenarios in scope
-  - exact test files to create or modify
-  - production files allowed as read-only references
-  - explicit no-touch production boundaries
-  - any UI files that may receive a minimal accessibility/testability hook only if required
+- [ ] **Step 4: Freeze the touch boundary** in a task packet: exact scenarios, exact test files to
+  create or modify, read-only production references, explicit no-touch production boundaries, and any
+  UI files that may receive a hook only if required. Never change business logic, routing, data flow,
+  or visual design; never touch frontend code for backend/API-only test work.
 
-  Under 302:
-  - do not change business logic, routing, data flow, or visual design
-  - do not touch frontend code for backend-only or API-only test work
-  - preserve existing assertions unless they are wrong
+- [ ] **Step 5: Baseline.** `@validator` for the relevant test/lint/build checks before editing.
+  Record pre-existing failures; return them as a blocking question if they undermine confidence.
 
-- [ ] **Step 5: Establish the baseline.** Run `@validator` for the relevant test/lint/build
-  checks before editing. Record pre-existing failures and surface them if they block confidence.
+- [ ] **Step 6: Test-only pass.** `@coder` implements only the missing tests and directly supporting
+  helpers, fixtures, page objects, or setup, following repo patterns: business-outcome assertions over
+  implementation details; accessible selectors over custom hooks; typed, intentional helper inputs
+  with no dead branches or unused setup; existing assertions preserved unless wrong, and new ones
+  added only when they materially strengthen intended coverage.
 
-- [ ] **Step 6: Run the test-only coding pass.** Use `@coder` to implement only the missing tests
-  and directly supporting test helpers, fixtures, page objects, or setup code. Follow existing repo
-  patterns.
+- [ ] **Step 7: Validate** as narrowly as the repo allows: new tests are discovered and nothing
+  regresses. If a failure shows the behavior isn't actually implemented, stop and escalate — never
+  write workaround assertions.
 
-- [ ] **Step 7: Validate the test changes.** Run `@validator` as narrowly as the repo allows.
-  Confirm the new tests are discovered and that regressions are not introduced.
+- [ ] **Step 8: Record smells.** If tests pass but the behavior seems awkward, fragile, inconsistent,
+  or misleading, record it for the summary rather than normalizing it silently, and don't broaden
+  scope to fix it. Typical smells: awkward action sequences for common outcomes; weak labeling,
+  affordance, or feedback; API contracts or setup inconsistent with nearby endpoints; inconsistent
+  validation, loading, or error states; brittle timing workarounds or hidden state dependencies;
+  unnecessary coupling or odd state transitions.
 
-  If failure shows the behavior is not actually implemented, stop and escalate instead of writing
-  workaround assertions.
+- [ ] **Step 9: UI testability exception, only if necessary.** If a UI test can't be made reliable
+  without a product hook, a narrowly scoped `@coder` pass adds the smallest accessible label, name,
+  role, or stable selector. Never for API, backend, or business-logic gaps.
 
-- [ ] **Step 8: Record non-blocking smells.** If the tests pass but the exercised behavior seems
-  awkward, fragile, inconsistent, or misleading, record it as a smell for the summary. Do not
-  broaden scope to fix it unless the change stays within the allowed UI testability exception.
+- [ ] **Step 10: Test cleanup if needed** — changed test files and approved shared helpers only;
+  improve clarity and deduplication without reducing coverage.
 
-  Typical smells include:
-  - awkward or surprising user action sequences for a common outcome
-  - weak labeling, affordance, or feedback on otherwise operable controls
-  - inconsistent API contracts or unnatural test setup compared with nearby endpoints
-  - inconsistent validation, loading, or error states across similar flows
-  - brittle timing workarounds or hidden state dependencies
-  - unnecessary coupling or odd state transitions that make tests harder to express clearly
+- [ ] **Step 11: Post-change validation** — the targeted tests, any broader related suite needed to
+  catch regressions, and lint/build where they apply. On failure, a focused `@coder` repair of only
+  the reported failure or approved hook, then rerun; stop if repairs stop converging.
 
-- [ ] **Step 9: Use the UI testability exception only when necessary.** If a UI test cannot be made
-  reliable without a product hook, run a narrowly scoped `@coder` pass limited to the smallest
-  accessible label, accessible name, role, or stable selector needed. Do not use this exception for
-  API, backend, or business-logic gaps.
+- [ ] **Step 12: Update feature status** if `overview.md` exists: `todo` → `implementing` at start,
+  → `done` after validation passes.
 
-- [ ] **Step 10: Run test cleanup if needed.** Limit this to the changed test files and approved
-  shared test helpers. Improve clarity and deduplication without reducing coverage.
-
-- [ ] **Step 11: Run post-change validation.** Execute the strongest normal validation the repo
-  supports for this test surface: the targeted tests, any broader related suite needed to catch
-  regressions, plus lint/build when those checks apply. If validation fails, run a focused repair
-  pass through `@coder`, repair only the reported test failure or approved UI hook, rerun
-  validation, and stop if repair loops stop converging.
-
-- [ ] **Step 12: Update feature status if applicable.** If `overview.md` exists, change `status`
-  from `todo` to `implementing` when work starts and to `done` after validation passes.
-
-- [ ] **Step 13: Summarize.** Report:
-  - implemented test scope
-  - scenarios covered
-  - test files changed
-  - helpers, fixtures, or page objects added or updated
-  - whether the UI testability exception was used
-  - behavior or implementation smells found, including whether each is primarily a UX smell, API
-    smell, validation smell, state-transition smell, or test fragility smell
-  - baseline failures, if any
-  - final validation result
-  - any mismatch between requested scenarios and actual implemented behavior
-
----
-
-## Rules
-
-1. Treat the existing implementation as the source of truth for 302.
-2. Do not silently turn 302 into feature delivery.
-3. Prefer business-outcome assertions over incidental implementation details.
-4. Reuse existing test patterns, fixtures, page objects, and helpers before introducing new
-   abstractions, per `engineering-principles`.
-5. Prefer accessible selectors over custom test hooks.
-6. If scenarios, implementation, and repo behavior disagree, stop and ask.
-7. Preserve existing assertions unless they are wrong; add assertions only when they materially
-   strengthen intended coverage.
-8. Keep helper inputs typed and intentional; remove dead branches and unused setup.
-9. If the tested behavior works but seems awkward or fragile, surface that smell rather than
-   normalizing it silently.
+- [ ] **Step 13: Summarize.** Test scope and scenarios covered; test files changed; helpers, fixtures,
+  or page objects added or updated; whether the UI exception was used; smells found, each typed as UX,
+  API, validation, state-transition, or test-fragility; baseline failures; final validation result;
+  any mismatch between requested scenarios and actual behavior.

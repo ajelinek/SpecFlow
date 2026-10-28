@@ -34,9 +34,9 @@
 | `Open` | Logged, not yet triaged into a fix |
 | `In Progress` | A fix is underway (e.g. via `502-defect-resolution` / `402`, or `202-spec-design` + `301`) |
 | `Fixed` | Verified resolved |
-| `Won't Fix` | Triaged, confirmed as a real defect, and intentionally not addressed |
-| `Not a Defect` | Investigated and determined to not be a real defect — requires a **Rationale** |
-| `Reopened` | Previously `Fixed`/`Not a Defect`, recurred in a later run in a way that no longer matches prior triage |
+| `Won't Fix` | Triaged, confirmed as a real defect, and intentionally not addressed — a human prioritization call |
+| `Not a Defect` | Investigated and determined never to have been a defect (expected, intentional, or a correct response to the input) — requires a **Rationale**. Not a softer "low priority"; that's `Won't Fix` + `Low` |
+| `Reopened` | Previously `Fixed`/`Won't Fix`/`Not a Defect`, recurred in a later run in a way that no longer matches prior triage |
 
 ## Severity legend
 

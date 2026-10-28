@@ -10,15 +10,8 @@ argument-hint: "[feature-name]"
 
 # 201 - High-Level Design
 
-Produce `.specflow/features/<fid>-<feature-slug>/overview.md`: a short document that explains what
-a feature does and how its primary user journey flows.
-
-This document should cover only:
-
-1. business scope
-2. user journey
-
-No test detail and no implementation design.
+Produce a short document covering only a feature's business scope and primary user journey — no test
+detail, no implementation design.
 
 **Output path**: `.specflow/features/<fid>-<feature-slug>/overview.md`
 
@@ -26,129 +19,65 @@ No test detail and no implementation design.
 
 ## Required Inputs
 
-Before proceeding, confirm:
-
 1. **Feature description** — a name plus enough context to identify the primary user action and
-   outcome
+   outcome. If too vague, ask one clarifying question.
 
-If the request is too vague, ask one clarifying question.
+This skill runs in its caller's context so that question reaches the user. When invoked with no user
+in the loop (e.g. `901-feature-loop` dispatching it into a subagent), the invocation should carry the
+resolved feature identity; if the description is still too vague, return the question to the caller
+unanswered instead of guessing.
 
-This skill runs in its caller's context so that question actually reaches the user. When another
-workflow invokes it with no user in the loop — `901-feature-loop` dispatching it into a subagent —
-the invocation is expected to carry the resolved feature identity. If the description is still too
-vague, return the question to the caller unanswered instead of guessing.
+---
+
+## Feature Folder Rule
+
+Every feature artifact (`overview.md`, `specs.feature`, `implementation.md`, …) lives in one stable
+folder: `.specflow/features/<fid>-<feature-slug>/`. `fid` (e.g. `F013`) and `feature-slug` are
+separate required values; the slug alone is never an acceptable folder name, even temporarily.
+
+- `feature-slug`: the feature name in lowercase kebab-case, filler punctuation removed.
+- The document heading keeps the human-readable title; the folder and front matter `feature` field
+  use the slug.
+- Example: `Expense Approval` + `F013` → `.specflow/features/F013-expense-approval/`
 
 ---
 
 ## Steps
 
 - [ ] **Step 1: Resolve feature identity.** Read `.specflow/docs/D10-feature-overview.md` if it
-  exists.
-  - If the feature is in D10, use its `F-ID` and behavior bullets as the scope anchor.
-  - Resolve two separate values before writing anything:
-    - `fid`: the assigned `F-ID` such as `F013`
-    - `feature-slug`: a lowercase kebab-case slug derived from the feature name, such as
-      `expense-approval`
-  - Build one canonical folder value: `<fid>-<feature-slug>`.
-  - Use that exact folder string for every feature artifact path in this workflow.
-  - If it is not in D10, ask whether to add it there first or explicitly assign an `F-ID` before
-    continuing. Do not create the feature folder without an `F-ID`.
-  - Never write to `.specflow/features/<feature-slug>/...` or any folder that omits the `F-ID`,
-    even temporarily.
+  exists. If the feature is there, use its `F-ID` and behavior bullets as the scope anchor. If not,
+  ask whether to add it to D10 first or explicitly assign an `F-ID` — never create the folder without
+  one. Build the folder per the Feature Folder Rule and use that exact string for every path.
 
-- [ ] **Step 2: Load context.** Read relevant existing docs when they exist:
-  - D01
-  - D02
-  - D07
-  - `domain-knowledge.md`
-  - existing feature `overview.md` draft
+- [ ] **Step 2: Load context.** Read D01, D02, D07, `domain-knowledge.md`, and any existing
+  `overview.md` draft when present. Note missing context.
 
-  Note missing context.
+- [ ] **Step 3: Draft the Feature Overview.** A 1-2 sentence summary for a non-technical reader; an
+  **In Scope** list of 3-6 boundary statements; an **Out of Scope** list of explicit exclusions. In
+  Scope bullets must trace to D10's behavior list or the user's stated scope; if new scope surfaces,
+  flag it to the user rather than adding it silently. D10 need not be updated for every scope change —
+  it's a planning artifact, not a maintained source of truth.
 
-- [ ] **Step 3: Draft the Feature Overview section.** Include:
-  - a 1-2 sentence summary for a non-technical reader
-  - an **In Scope** list of 3-6 boundary statements
-  - an **Out of Scope** list with explicit exclusions
+- [ ] **Step 4: Draft Acceptance Criteria and Key Constraints.** In Scope says what is built;
+  Acceptance Criteria say how we know it works correctly. A criterion satisfied the moment the
+  capability exists is a scope bullet in disguise — good criteria describe correct behavior under
+  real conditions: timing, sequencing, error states, cross-feature interactions. Include 3-5 when they
+  add value. Add **Key Constraints** only when non-obvious constraints matter.
 
-- [ ] **Step 4: Draft Acceptance Criteria and Key Constraints.**
-  - Acceptance Criteria are verifiable outcomes, not restated scope bullets.
-  - If a statement would be true the moment the capability exists at all, it belongs in scope,
-    not in Acceptance Criteria.
-  - Include 3-5 when they add real value.
-  - Include **Key Constraints** only when non-obvious constraints matter.
+- [ ] **Step 5: Draft the User Journey** — the most valuable part for engineers and reviewers. Write
+  the happy path as plain bullets; no error or edge branches.
+  - Top-level bullets are user-visible steps, from the user's perspective; a reviewer reading only
+    those should understand the experience. Sub-bullets are what the system does.
+  - Detail signals ownership: 2-4 sub-bullets where this feature changes behavior; at most one brief
+    sub-bullet for unchanged systems (e.g. "Backend persists the record via the existing expense
+    API") — never narrate internals this feature doesn't change.
 
-- [ ] **Step 5: Draft the User Journey.** Write the happy path as a plain bullet sequence.
-  - top-level bullets should reflect meaningful user-visible steps
-  - sub-bullets should add detail only where this feature introduces change
-  - parts this feature directly changes should usually get 2-4 sub-bullets; unchanged systems should
-    get at most one brief sub-bullet
-  - unchanged systems should be summarized briefly
-  - keep error and edge branches out of this document
+- [ ] **Step 6: Quality check.** Scope is clear without engineering context; acceptance criteria are
+  real outcomes, not renamed scope bullets; out-of-scope lists explicit exclusions; the journey leads
+  with user-visible flow and stays on the primary path.
 
-- [ ] **Step 6: Quality check.** Confirm:
-  - scope is clear without engineering context
-  - acceptance criteria are real outcomes, not renamed scope bullets
-  - out-of-scope includes explicit exclusions
-  - the user journey leads with user-visible flow and stays focused on the primary path
-
-- [ ] **Step 7: Write the file and summarize.** Use `./templates/overview.md`. Set front matter:
-  - `feature`: feature slug
-  - `fid`: assigned `F-ID`
-  - `status`: `todo`
-  - Compute the output directory first as `.specflow/features/<fid>-<feature-slug>/`.
-  - Write the file to `.specflow/features/<fid>-<feature-slug>/overview.md`.
-  - In the final response, report both the resolved `fid`, the resolved `feature-slug`, and the
-    exact output path written.
-
-  The `status` field is the feature lifecycle source of truth: `todo`, `implementing`, `done`.
-  Update status in place as work progresses; do not move the feature file between directories when
-  status changes.
-
-  Report the output path, missing context that may affect accuracy, and suggest
-  `202-spec-design` next.
-
----
-
-## Rules
-
-1. In Scope says what is built; Acceptance Criteria says how we know it works correctly.
-2. The feature folder name must start with the assigned `F-ID`: `<fid>-<feature-slug>`.
-3. Treat `fid` and `feature-slug` as separate required values. Do not infer that the slug alone is
-   an acceptable folder name.
-4. The front matter `status` field is the feature lifecycle source of truth: `todo`,
-   `implementing`, `done`, and the file path stays stable across status changes.
-5. The user journey should show where this feature changes behavior and stay brief elsewhere.
-
-## Slug Rules
-
-- Convert the feature name to lowercase kebab-case for `feature-slug`.
-- Remove filler punctuation rather than encoding it in the folder name.
-- Keep the human-readable title in the document heading, but keep the folder and front matter
-  `feature` field slug-based.
-- Example:
-  - feature name: `Expense Approval`
-  - `fid`: `F013`
-  - folder: `.specflow/features/F013-expense-approval/`
-
-## Additional Guidance
-
-**On scope vs. acceptance criteria**: In Scope answers "what are we building?" Acceptance Criteria
-answers "how do we know it works correctly?" A criterion that would be satisfied the moment the
-capability exists is a scope bullet in disguise. Good criteria describe correct behavior under real
-conditions: timing, sequencing, error states, cross-feature interactions.
-
-**On scope discipline**: The In Scope bullets must trace to either D10's behavior list or the
-user's stated scope for this feature. If new scope surfaces during drafting, flag it to the user
-rather than silently adding it. D10 does not need to be updated to reflect every scope change — it
-is a planning artifact, not a maintained source of truth.
-
-**On the user journey**: The bullet list is the most valuable part of this document for engineers
-and reviewers. Lead every step from the user's perspective when possible. A reviewer should be
-able to read the top-level bullets and understand what the user experiences; sub-bullets are for
-what the system does internally. Treat detail as a signal of ownership — high detail where this
-feature introduces change, low detail where it merely passes through existing behavior.
-
-**On unchanged systems**: If the feature calls an existing API, sends to an existing queue, or
-reads from an existing table without modifying that behavior, one sub-bullet is enough: "Backend
-persists the record via the existing expense API." Do not narrate the internals of systems this
-feature does not change.
+- [ ] **Step 7: Write and summarize.** Use `./templates/overview.md` with front matter `feature`
+  (slug), `fid`, and `status: todo`. `status` is the feature lifecycle source of truth (`todo` →
+  `implementing` → `done`), updated in place; the file never moves between directories. Report the
+  resolved `fid`, `feature-slug`, exact output path, missing context that may affect accuracy, and
+  suggest `202-spec-design` next.

@@ -1,6 +1,6 @@
 # .specflow/ Directory Guide
 
-This folder holds SpecFlow's generated project memory. See root `CLAUDE.md` for repo-wide guidance.
+This folder holds SpecFlow's generated project memory. See root `AGENTS.md` for repo-wide guidance.
 
 - `context/` — reusable domain knowledge (e.g. `domain-knowledge.md`). Safe to read across any work.
 - `docs/` — project-level design docs (`D01`-`D11`: architecture, data model, UI, etc.). Read the

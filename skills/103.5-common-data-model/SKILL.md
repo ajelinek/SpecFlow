@@ -1,186 +1,124 @@
 ---
 name: 103.5-common-data-model
 description: >
-  Use `103.5` to define the conceptual data model as GraphQL SDL instead of markdown
-  tables — entities, relationships, business rules, access rules, and data quality
-  rules captured in a documentation-only schema that doubles as diagram source for an
-  interactive visualizer. Trigger it for prompts like "103.5", "graphql data model",
-  "graphql cdm", or when the team wants the common data model to be parseable and
-  visualizable, not just prose. This is an alternative to 103-common-data-model for
-  the same D03 slot in the pipeline — a project uses one or the other, not both.
+  Use `103.5` to define the conceptual data model as documentation-only GraphQL SDL (entities,
+  relationships, business, access, and data-quality rules) that doubles as source for an
+  interactive diagram. Trigger it for "103.5", "graphql data model", "graphql cdm", or when the
+  model should be parseable and visualizable. Alternative to `103` for the same D03 slot — use one,
+  not both.
 ---
 
 # 103.5 - Common Data Model (GraphQL)
 
-Produce the conceptual data model for a project as GraphQL SDL: a documentation-only
-schema that is never deployed as an API. It captures the same domain knowledge as
-`103-common-data-model` (entities, relationships, business rules) plus two things
-markdown tables express poorly — role-based access rules and field-level validation
-constraints — in a format with mature parsing, diffing, and visualization tooling
-already built for it.
+Produce the conceptual data model as GraphQL SDL: a documentation-only schema, never deployed as an
+API. It captures what `103-common-data-model` does (entities, relationships, business rules) plus
+role-based access rules and field-level validation constraints, in a format with mature parsing,
+diffing, and visualization tooling.
 
-It is implementation-independent, same as `103`: not a database schema, ORM design,
-API contract, or frontend state model. The physical implementation (relational,
-NoSQL, event-based) is a downstream decision informed by, not dictated by, this
-schema.
+Like `103`, it describes the domain, not the implementation: not a database schema, ORM design, API
+contract, or frontend state model. Physical shape (relational vs. NoSQL, indexes, partitioning) is a
+downstream decision the schema informs, never dictates. Rules a domain expert would recognize are
+business rules ("a project must have at least one owner"); "project_id NOT NULL" is not.
 
-**This is an alternative engine for the same D03 slot as `103-common-data-model`, not
-an addition to it.** A project uses one or the other. Downstream skills that reference
-"D03" generically keep working either way.
+**This is an alternative engine for the same D03 slot as `103`, not an addition.** Downstream skills
+that reference "D03" generically work either way.
 
-**Output path**: `.specflow/docs/D03-common-data-model/` — a folder, not a single
-file (see Step 5).
+**Output path**: `.specflow/docs/D03-common-data-model/` — a folder (see Step 5).
 
 ---
 
 ## Required Inputs
 
-Before proceeding, confirm:
-
 1. **Core domain entities**
 2. **Entity relationships** — including cardinality where known
-3. **Key attributes** — required-ness is expressed with GraphQL's own `!` marker, not
-   tracked separately
+3. **Key attributes** — required-ness is GraphQL's own `!`, not tracked separately
 4. **Business rules**
 5. **Sensitive data** — PII, financial data, or similar
-6. **Access roles** — the actual actors that read or write this data (e.g. admin,
-   member, viewer). These populate the `Role` enum in `_directives.graphql`; don't
-   default to generic "admin/user" unless that's genuinely what the project has.
+6. **Access roles** — the actual actors that read or write this data (e.g. admin, member, viewer).
+   These populate the `Role` enum; don't default to generic "admin/user" unless that's genuinely
+   what the project has.
 
-Optional but useful: lifecycle states, whether the project has real bounded contexts
-(multiple domains) or is a single domain, audit/history requirements, compliance
-constraints.
-
-Resolve these with `gap-check`: it tries to answer them from existing context before
-asking, then asks about anything still open one question at a time with a recommended
-answer.
+Optional: lifecycle states, whether the project has real bounded contexts (multiple domains),
+audit/history requirements, compliance constraints.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Run `gap-check` against the Required Inputs above.
-  Do not proceed with undefined entities, vague relationships, or unresolved roles.
+- [ ] **Step 1: Validate inputs.** Resolve the Required Inputs with `gap-check`. Do not proceed with
+  undefined entities, vague relationships, or unresolved roles.
 
-- [ ] **Step 2: Load existing context.** Check `.specflow/docs/` for an existing D03
-  in *either* format:
-  - If `.specflow/docs/D03-common-data-model.md` (the markdown form from `103`)
-    exists, this is a switch from one CDM engine to the other. Confirm that's
-    intentional with the user, then treat its content as source material to translate
-    into GraphQL — don't discard it and don't leave both forms in place afterward.
-  - If `.specflow/docs/D03-common-data-model/` (this skill's own folder form)
-    already exists, treat it as a draft to update.
-  Read D01 and D02 when present.
+- [ ] **Step 2: Load existing context.** Check `.specflow/docs/` for D03 in either format:
+  - `D03-common-data-model.md` (`103`'s markdown form) → this is an engine switch. Confirm it's
+    intentional with the user, then translate its content into GraphQL — don't discard it, and
+    don't leave both forms in place afterward.
+  - `D03-common-data-model/` (this skill's folder) → treat as a draft to update.
 
-- [ ] **Step 3: Explore existing code if needed.** Use `@explore` to find existing
-  models, schemas, domain objects, type definitions, or a real GraphQL API already in
-  the repo when the project already exists. Use these as evidence, not as
-  implementation detail to copy in — a live API's resolvers, N+1 concerns, or
-  pagination implementation are not domain facts.
+  Read D01 and D02 when present. For an existing repo, use `@explore` to find models, schemas, type
+  definitions, or a real GraphQL API — as evidence only. A live API's resolvers, N+1 concerns, or
+  pagination are not domain facts.
 
-- [ ] **Step 4: Identify and classify entities, and resolve structure.** For each
-  entity, determine:
-  - its domain purpose, attributes and types, required vs. optional fields
-    (`!` vs. no `!`)
-  - relationships and cardinality
-  - whether it's a first-class entity (gets an `id`) or a value object (no `id`,
-    embeds with its parent) — see the nesting/identity test in Additional Guidance
-  - whether any plural cross-entity relationship is really many-to-many and needs an
-    explicit join type
+- [ ] **Step 3: Identify and classify entities, and resolve structure.** For each entity: domain
+  purpose, attributes and types, required (`!`) vs optional, relationships and cardinality,
+  entity-vs-value-object status (see the identity test below), and whether any plural cross-entity
+  relationship is really many-to-many and needs a join type. Also decide:
+  - **Domain split** — default to a single domain named after the project. Split into domain
+    subfolders only on a clear signal: distinct services, distinct team ownership, or the user
+    describing separate bounded contexts. Don't ask by default.
+  - **Roles** — finalize the `Role` enum's values from Required Input 6.
 
-  Also decide:
-  - **Domain split**: default to a single domain named after the project. Only split
-    into multiple domain subfolders on a clear signal — distinct services, distinct
-    team ownership, or the user explicitly describing separate bounded contexts. Don't
-    ask by default; only raise it if a real signal is present.
-  - **Roles**: finalize the `Role` enum's values from Required Input 6.
-
-- [ ] **Step 5: Draft the files.** Use the templates in `./templates/`:
-  - `_directives.graphql` (from `T03-directives.template.graphql`) — copy as-is
-    except filling in the project's actual `Role` enum values. Everything else in
-    this file is fixed boilerplate; see Additional Guidance for why.
-  - One `OVERVIEW.md` per domain (from `T03-OVERVIEW.template.md`) — single-domain
-    projects get one at the D03 root; multi-domain projects get a root index plus one
-    per domain subfolder. Captures only what `schema.graphql` can't express on its
-    own: the domain summary and cross-field/cross-entity business rules. Entity,
-    relationship, access-rule, and field-constraint detail all live in
-    `schema.graphql` only, to avoid drift.
-  - One `schema.graphql` per domain (from `T03-schema.template.graphql`) — replace
-    the example entities with the project's real ones, following the directive
-    vocabulary and schema-level conventions in Additional Guidance.
-  - `.gitignore` (from `T03-gitignore`) — copy once to the D03 root as-is.
-
-  Folder shape (single-domain projects omit the domain subfolder and put
-  `OVERVIEW.md`/`schema.graphql` directly under the D03 root):
+- [ ] **Step 4: Draft the files** from `./templates/`:
+  - `_directives.graphql` (from `T03-directives.template.graphql`) — copy as-is except the `Role`
+    enum values. Everything else (`@access`, `@validate`, `AccessLevel`, `AccessRule`, placeholder
+    `Query`/`Mutation` roots) is fixed boilerplate; don't hand-edit it per domain except to extend
+    the vocabulary (below).
+  - One `OVERVIEW.md` per domain (from `T03-OVERVIEW.template.md`) — at the D03 root for a single
+    domain; a root index plus one per domain subfolder otherwise. Holds only what the schema can't:
+    the domain summary and cross-field/cross-entity business rules. Entity, relationship, access, and
+    field-constraint detail live only in `schema.graphql`, to avoid drift.
+  - One `schema.graphql` per domain (from `T03-schema.template.graphql`) — replace the example
+    entities with the project's real ones, following the conventions below.
+  - `.gitignore` (from `T03-gitignore`) — copy once to the D03 root.
 
   ```
   .specflow/docs/D03-common-data-model/
     .gitignore
     _directives.graphql
     OVERVIEW.md
-    <domain>/
+    <domain>/          # omitted for single-domain projects
       OVERVIEW.md
       schema.graphql
   ```
 
-- [ ] **Step 6: Quality check.** Confirm:
-  - each entity is defined once, with an unambiguous entity-vs-value-object status
+- [ ] **Step 5: Quality check.** Confirm:
+  - each entity is defined once, with unambiguous entity-vs-value-object status
   - every important relationship is present, including many-to-many join types
   - business rules are domain rules, not implementation constraints
   - sensitive attributes carry `@validate(sensitivity: ...)`
-  - any project-specific `@validate` argument or new directive added to
-    `_directives.graphql` is documented at its declaration (see "On extending the
-    directive vocabulary for project-specific needs")
-  - every type/field that needs explanation uses a `"""..."""` description, not a `#`
-    comment (only descriptions survive into the visualizer)
-  - mutations use `extend type Mutation` against the placeholder root, never
-    `type Mutation`
-  - open questions are called out explicitly
-  - **the schema actually parses**: run the Step 5 files through the generator (see
-    Visualizing in Additional Guidance) — a build failure here is a real defect in
-    the authored SDL, not just a missed visualization, and must be fixed before this
-    step is done
+  - any project-specific `@validate` argument or new directive is documented at its declaration
+  - everything meant to be read in the visualizer uses `"""..."""` descriptions; `#` comments are
+    author-only and invisible to introspection
+  - mutations use `extend type Mutation`, never `type Mutation`
+  - unclear rules, relationships, or roles are named as open questions, not guessed
+  - **the schema parses**: run the generator (see Visualizing). A build failure is a real defect in
+    the authored SDL and must be fixed before this step is done.
 
-- [ ] **Step 7: Write the files and summarize.** Write the full
-  `.specflow/docs/D03-common-data-model/` folder, list the entities documented per
-  domain, call out open questions, note the command to regenerate the visualization,
-  and suggest `104-backend-architecture` next.
+- [ ] **Step 6: Write and summarize.** Write the folder, list entities per domain, call out open
+  questions, give the command to regenerate the visualization, and suggest
+  `104-backend-architecture` next.
 
 ---
 
-## Rules
+## Schema Conventions
 
-1. Documentation only — this schema is never deployed as an executable API.
-2. Describe the domain, not the implementation. Physical shape (relational vs. NoSQL,
-   indexes, partitioning) is a downstream decision the schema implies, never dictates.
-3. The default directive vocabulary is exactly two directives: `@access` and
-   `@validate`. Only decorate a type or field when it deviates from a sensible
-   default — a plain field or type with nothing special to say stays bare. Extend
-   this vocabulary only per "On extending the directive vocabulary for
-   project-specific needs" below — never invent a one-off directive or argument
-   without checking there first.
-4. Entity-vs-value-object status is signaled purely by the presence or absence of an
-   `id` field — never by a directive.
-5. Required-ness is signaled purely by GraphQL's `!` — never duplicated as a
-   `@validate` argument.
-6. Use `"""..."""` descriptions for anything meant to be read in the visualizer. `#`
-   comments are author-only asides, invisible to introspection.
-7. Mutations always attach via `extend type Mutation { ... }` against the placeholder
-   root in `_directives.graphql` — never declare `type Mutation` in a domain file.
-8. If a rule, relationship, or role is unclear, name it as an open question instead of
-   guessing.
+**Directive vocabulary.** Exactly two directives, both declared in `_directives.graphql`, whose
+inline descriptions are the full argument reference. Decorate a type or field only when it deviates
+from a sensible default; a plain field stays bare.
 
-## Additional Guidance
-
-**On the directive vocabulary.** There are exactly two directives, both declared once
-in `_directives.graphql`:
-
-- `@access(rules: [AccessRule!]!)` — usable on a type (sets the default for all its
-  fields) or a field (overrides the type's default; field-level always wins when
-  present, same logic as CSS specificity). `AccessRule` pairs a `Role` (project-specific
-  enum, filled in at Step 4) with an `AccessLevel` (`READ_WRITE` / `READ_ONLY` /
-  `NONE`, fixed). Prefer entity-level `@access` wherever possible; only drop to
-  field-level for genuine exceptions (e.g. PII on an otherwise-normal type).
+- `@access(rules: [AccessRule!]!)` — on a type (default for all its fields) or a field (overrides
+  the type; field-level always wins). `AccessRule` pairs a `Role` with an `AccessLevel`
+  (`READ_WRITE` / `READ_ONLY` / `NONE`). Prefer entity-level; drop to field-level only for genuine
+  exceptions such as PII on an otherwise-normal type.
 
   ```graphql
   type Customer @access(rules: [{ role: ADMIN, level: READ_WRITE }, { role: USER, level: READ_ONLY }]) {
@@ -189,93 +127,49 @@ in `_directives.graphql`:
   }
   ```
 
-- `@validate(...)` — field-level typed constraints. Only include the arguments that
-  actually apply to a field — a string field never gets `min`/`max`. Full reference
-  (also documented inline on the directive declaration in `_directives.graphql`):
-
-  | Argument | Applies to | Meaning |
-  |----------|-----------|---------|
-  | `minLength` | `String` | Minimum length, inclusive |
-  | `maxLength` | `String` | Maximum length, inclusive |
-  | `pattern` | `String` | Regular expression (ECMAScript flavor) the value must match |
-  | `format` | `String` | Named format: `"email"`, `"url"`, `"uuid"`, `"date"` (YYYY-MM-DD), `"date-time"` (ISO 8601), `"phone"` |
-  | `startsWith` / `endsWith` | `String` | Value must start/end with this literal substring |
-  | `contains` / `notContains` | `String` | Value must (not) contain this literal substring |
-  | `min` / `max` | `Int`/`Float` | Minimum/maximum value, inclusive |
-  | `exclusiveMin` / `exclusiveMax` | `Int`/`Float` | Minimum/maximum value, exclusive |
-  | `multipleOf` | `Int`/`Float` | Value must be an exact multiple of this number |
-  | `minItems` / `maxItems` | list fields | Minimum/maximum item count, inclusive |
-  | `sensitivity` | any field | `"pii"` / `"financial"` / `"confidential"` (freeform fallback) — drives downstream handling, not a format/range constraint |
+- `@validate(...)` — field-level typed constraints (string length/pattern/format/substring, numeric
+  ranges and `multipleOf`, list item counts, and `sensitivity`). Include only arguments that apply to
+  the field's type.
 
   ```graphql
   email: String! @validate(format: "email", sensitivity: "pii")
   quantity: Int! @validate(min: 1)
   ```
 
-  There is no `@entity` directive, and `@validate` has no `required` argument —
-  domain (folder location) and required-ness (`!`) are both already expressed
-  natively by the schema's own structure. A directive that just repeats what the
-  schema already says is noise that can drift out of sync with the thing it's
-  repeating.
+  There is no `@entity` directive and no `required` argument: domain (folder location) and
+  required-ness (`!`) are already expressed natively, and a directive repeating the schema can drift
+  from it. Likewise, entity-vs-value-object status is never a directive.
 
-**On extending the directive vocabulary for project-specific needs.** The
-two-directive baseline covers the general case; a specific project can still need
-something it doesn't. Pick the right extension point instead of forcing the fit:
+**Extending the vocabulary.** Never invent a one-off directive or argument; pick the right extension
+point, edit the project's own `_directives.graphql` (never this skill's template), and document the
+addition at its declaration — an undocumented argument is worse than none.
 
-- **A new single-field constraint that's still "is this input valid?"** — add a new
-  argument to `@validate` in the project's own `_directives.graphql`, typed and
-  scoped the same way the existing arguments are (e.g. `equals: String` for exact
-  match, `oneOf: [String!]` for a fixed set too small to warrant an enum,
-  `divisibleBy: Int`). Document what it means and which field types it applies to
-  right on the new argument, in the directive declaration — same as the built-in
-  arguments in the reference table above. An undocumented argument is worse than no
-  argument at all.
-
-- **A genuinely new semantic category — not a constraint on input at all** — add a
-  new directive instead of stretching `@validate` to cover it. The canonical example
-  is a computed/derived field: its value is never written directly and isn't being
-  validated, so `@validate` is the wrong place for it.
+- **New single-field "is this input valid?" constraint** → add a typed argument to `@validate`
+  (e.g. `equals: String`, `oneOf: [String!]` for a set too small for an enum, `divisibleBy: Int`),
+  stating its meaning and applicable field types.
+- **New semantic category that isn't an input constraint** → add a new directive, but only if the
+  category recurs across fields or entities; a one-off note goes in the field's `"""..."""`
+  description. Canonical example, a derived field:
 
   ```graphql
-  """Marks a field as derived from other fields on the same type rather than stored
-  directly. `from` names the sibling fields the computation reads; `description`
-  states the derivation itself (the formula or logic) — distinct from the field's
-  own top-level description, which states what the value means, not how it's
-  produced."""
+  """Marks a field as derived from sibling fields rather than stored. `from` names the fields read;
+  `description` states the derivation (distinct from the field's own description of what it means)."""
   directive @computed(from: [String!]!, description: String!) on FIELD_DEFINITION
-  ```
 
-  ```graphql
   type Order {
     id: ID!
     lineItems: [LineItem!]!
     """Grand total across every line item."""
-    totalCents: Int!
-      @computed(
-        from: ["lineItems"]
-        description: "Sum of unitPriceCents * quantity across all lineItems."
-      )
+    totalCents: Int! @computed(from: ["lineItems"], description: "Sum of unitPriceCents * quantity across all lineItems.")
   }
   ```
 
-  Add a directive like this only when it names a category that recurs across
-  multiple fields or entities in the project — a one-off note belongs in the
-  field's own `"""..."""` description instead, not a new directive.
+- **Rule spanning multiple fields or entities** (e.g. "an order must have at least one line item")
+  → `OVERVIEW.md`'s Business Rules, not a directive.
 
-- **A rule that doesn't attach to a single field at all** — spans multiple fields or
-  entities (e.g. "an order must have at least one line item"). Neither extension
-  point above fits; it belongs in `OVERVIEW.md`'s Business Rules section, not a
-  directive.
-
-Whichever extension point applies, edit the project's own `_directives.graphql` —
-never this skill's template — and confirm the new argument or directive is
-documented at its declaration as part of Step 6's quality check.
-
-**On the nesting/identity test.** A nested type with its own `id` field is a
-first-class entity — independently meaningful, an own-table/collection candidate. A
-nested type with no `id` is a value object that embeds with its parent — a
-document/JSON-blob candidate. No directive needed; the presence of `id` *is* the
-signal:
+**Identity test.** A nested type with its own `id` is a first-class entity (own table/collection
+candidate); without `id` it is a value object that embeds with its parent (document/JSON-blob
+candidate). The presence of `id` is the only signal.
 
 ```graphql
 """No independent identity — embeds with its parent."""
@@ -285,15 +179,14 @@ type Address { line1: String! city: String! }
 type LineItem { id: ID! sku: String! }
 ```
 
-**On many-to-many relationships.** Give them an explicit join type (its own entity,
-with an `id`) instead of a bare `[OtherEntity!]!` list on each side — otherwise the
-relationship is invisible:
+**Many-to-many.** Give it an explicit join type with its own `id` instead of bare lists on each
+side, which hide the relationship:
 
 ```graphql
 type CustomerTag { id: ID! customer: Customer! tag: Tag! assignedAt: String! }
 ```
 
-**On mutations.** Single input object in, single payload object out, always:
+**Mutations.** Single input object in, single payload out, always attached with `extend`:
 
 ```graphql
 input UpdateCustomerInput { id: ID! email: String }
@@ -301,29 +194,20 @@ type UpdateCustomerPayload { customer: Customer errors: [String!] }
 extend type Mutation { updateCustomer(input: UpdateCustomerInput!): UpdateCustomerPayload! }
 ```
 
-**On other schema-level conventions** (established GraphQL practice, doubling as
-signals for physical modeling later):
-- Type names are singular (`Customer`, not `Customers`).
-- Enum values are `SCREAMING_SNAKE_CASE` — an enum signals a bounded set of values
-  enforced somewhere, a check constraint or lookup table downstream.
-- List fields with pagination arguments (`first`, `after`) signal a high-volume
-  access pattern — an indexing candidate (relational) or its own top-level collection
-  (NoSQL).
+**Other conventions** (also signals for later physical modeling): singular type names (`Customer`);
+`SCREAMING_SNAKE_CASE` enum values (a bounded set → check constraint or lookup table); list fields
+with pagination arguments (`first`, `after`) signal a high-volume access pattern → index candidate
+(relational) or own top-level collection (NoSQL).
 
-**On cross-domain references.** If an entity in one domain references a type defined
-in another domain's `schema.graphql`, just reference it by name with a
-`# defined in ../<domain>/schema.graphql` comment — no stub type needed. Neither file
-is valid SDL in isolation, and that's fine: the generator concatenates every `*.graphql`
-file under the D03 folder before validating, so the reference resolves at generation
-time even though no single file resolves it alone.
+**Cross-domain references.** Reference a type from another domain by name with a
+`# defined in ../<domain>/schema.graphql` comment — no stub type. No single file is valid SDL alone,
+which is fine: the generator concatenates every `*.graphql` under the D03 folder before validating.
 
-**On `_directives.graphql`.** With the enum-based `@access` design, this file is
-almost entirely fixed boilerplate — `@access`, `@validate`, `AccessLevel`,
-`AccessRule`, and the placeholder `Query`/`Mutation` roots never change between
-projects. The only project-specific line is the `Role` enum's values. Copy the
-template as-is and fill those in; don't otherwise hand-edit this file per domain.
+---
 
-**Visualizing.** From this skill's own `scripts/` folder:
+## Visualizing
+
+From this skill's `scripts/` folder:
 
 ```
 cd <path-to-this-skill>/scripts
@@ -331,23 +215,9 @@ npm install
 node generate-voyager.mjs <path-to-the-project's-D03-common-data-model-folder>
 ```
 
-This writes `build/introspection.json` and `build/voyager.html` inside the project's
-D03 folder (gitignored by the `.gitignore` dropped there in Step 5). `npm install`
-only writes into this skill's own `scripts/` folder — never into the project — and
-only needs to run once; rerunning it is fast and harmless. Open `build/voyager.html`
-in a browser. There is no real root query in a documentation-only CDM, so the
-generator does not default Voyager to the placeholder `Query` type — that would
-render as an empty `Query { _: Boolean }` box with no visible cue that anything else
-exists, which is exactly the confusing state a first-time viewer hits if this isn't
-handled. Instead the generator auto-picks the first first-class entity declared in
-the schema (first object type, in file order, with its own `id` field) as the
-initial root, and logs which one it picked to the console. The rendered page also
-gets a hint bar reminding you that the dropdown at the bottom of the page jumps to
-any other entity — confirmed by actually driving the rendered output in a browser,
-not just read off Voyager's docs, since the dropdown's existence and behavior aren't
-obvious from the API surface alone.
-
-**On implementation independence and business rules.** Same guidance as `103`: write
-rules a domain expert would recognize as true regardless of how the system is built.
-"A project must have at least one owner" is a business rule; "project_id NOT NULL" is
-not. If a rule is unclear, name it as an open question rather than guessing.
+This writes `build/introspection.json` and `build/voyager.html` in the project's D03 folder
+(gitignored by Step 4's `.gitignore`). `npm install` writes only into this skill's `scripts/` folder,
+needs to run once, and is harmless to rerun. Open `build/voyager.html` in a browser. Because the
+placeholder `Query` root would render as an empty box, the generator starts Voyager at the first
+first-class entity (first object type with an `id`, in file order) and logs which one; a hint bar
+points to the dropdown at the bottom of the page for jumping to any other entity.

@@ -11,12 +11,11 @@ context: fork
 
 # 100 - Domain Knowledge
 
-Produce the domain knowledge document for a project. This document captures the external context
-the team needs before making product, architecture, UX, or implementation decisions: users,
-workflows, terminology, constraints, market expectations, and differentiation.
-
-It is not a product spec or business plan. It is a research-backed reference for downstream
-SpecFlow workflows.
+Produce a research-backed reference of the external context the team needs before product,
+architecture, UX, or implementation decisions: users, workflows, terminology, constraints, market
+expectations, and differentiation. Not a product spec or business plan. Keep it business-level and
+decision-relevant: favor user workflows and decision-shaping constraints over market trivia, and
+separate facts, interpretation, and recommendation.
 
 **Output path**: `.specflow/context/domain-knowledge.md`
 
@@ -24,103 +23,59 @@ SpecFlow workflows.
 
 ## Required Inputs
 
-Before proceeding, confirm:
-
 1. **Product concept**
 2. **Target domain or industry**
 3. **Target users**
 4. **Known constraints** — regulatory, geographic, compliance, budget, timeline, or similar
 
-Optional but useful: named competitors, seed URLs, existing customer research, assumptions, or a
-draft project overview.
+Optional: named competitors, seed URLs, existing customer research, assumptions, a draft project
+overview.
 
-Resolve these from existing context — D01, prior domain knowledge, the invocation itself, repo
-exploration — in that order. Unlike the rest of the 100-series, this workflow runs in its own forked
-context and cannot reach the user, so it does not use `gap-check`. Anything still unresolved after
-the research pass is reported as an open question rather than asked about mid-run.
+Resolve these from existing context — D01, prior domain knowledge, the invocation, repo exploration
+— in that order. This workflow runs in a forked context and cannot reach the user, so it does not use
+`gap-check`; anything unresolved after research is reported as an open question.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Resolve the Required Inputs above from the invocation and
-  existing context. Make sure the product, domain, users, and major constraints are defined well
-  enough to research before moving on. If the product concept or domain is too thin to research at
-  all, stop and return that as the result — don't research a guess.
+- [ ] **Step 1: Validate inputs.** Product, domain, users, and major constraints must be defined well
+  enough to research. If the concept or domain is too thin to research at all, stop and return that
+  as the result — don't research a guess.
 
-- [ ] **Step 2: Load existing project context.** If `.specflow/context/domain-knowledge.md` exists,
-  treat it as a draft to update. Read D01 and D10 when present. If the repo already exists and you
-  need product context, use `@explore` for a concise summary of high-signal files only.
+- [ ] **Step 2: Load existing context.** If `domain-knowledge.md` exists, treat it as a draft to
+  update. Read D01 and D10 when present. For an existing repo, use `@explore` for a concise summary
+  of high-signal files only.
 
-- [ ] **Step 3: Define the research brief.** Narrow the run to:
-  - the domain to understand
-  - the users or buyers that matter most
-  - the product decisions this research should inform
-  - differentiation questions to answer
-  - explicit exclusions or constraints
+- [ ] **Step 3: Define the research brief.** The domain to understand, the users or buyers that
+  matter most, the product decisions this research should inform, differentiation questions, and
+  explicit exclusions.
 
-- [ ] **Step 4: Run the live research pass.** Use Claude's built-in research and web search to find,
-  compare, and synthesize multiple current sources. This step is required unless the user explicitly
-  asks for a lightweight draft from known context only. Direct the research toward:
-  - market context and current framing
-  - user roles and real workflows
-  - competitor and substitute patterns
-  - regulatory or operational constraints
-  - differentiation opportunities
-  - terminology and domain concepts
+- [ ] **Step 4: Run the live research pass.** Required unless the user explicitly asked for a
+  lightweight draft from known context. Use built-in research and web search across multiple current
+  sources, preferring primary sources over model memory. Cover market context, user roles and real
+  workflows, competitors and substitutes, regulatory/operational constraints, differentiation
+  opportunities, and terminology. Produce an evidence-backed summary with citations and explicit
+  uncertainty.
 
-  Ask for a concise, evidence-backed summary with citations and explicit uncertainty.
+- [ ] **Step 5: Draft the document.** Use `./templates/T00 - Domain Knowledge.md`. Each section must
+  be concrete and research-grounded:
+  - **Domain Overview** — the market in plain language and the forces shaping it now
+  - **User Landscape** — primary users or buyers, what they're trying to accomplish, what makes
+    their environment difficult
+  - **Domain Workflows & Decision Points** — real-world processes the product must fit or improve
+  - **Market Expectations & Differentiation** — what users already expect, where this product can
+    win, and what is risky or unproven
+  - **Regulatory / Operational Constraints** — only those that materially affect product shape or
+    delivery
+  - **Domain Vocabulary & Concepts** — terms, entities, and distinctions later docs must use
+    consistently
+  - **Implications For This Project** — concrete guidance for D01 onward: what to prioritize, what
+    not to copy blindly, which expectations must still be met
 
-- [ ] **Step 5: Synthesize the domain reference.** Convert the research into concrete guidance for
-  downstream workflows:
-  - what the domain is and how it is changing
-  - who the important users or buyers are
-  - what workflows, decisions, and constraints shape their world
-  - what makes a credible solution in this market
-  - what appears differentiated, risky, or unproven about this project's direction
-  - what terms, entities, and assumptions later docs must preserve
+- [ ] **Step 6: Quality check.** Grounded in live research (unless a draft was requested); important
+  claims cited; workflows reflect how users actually operate; differentiation covers opportunity and
+  uncertainty; unknowns stated explicitly.
 
-- [ ] **Step 6: Draft the document.** Use `./templates/T00 - Domain Knowledge.md` and fill all
-  sections with concrete, research-grounded content.
-
-- [ ] **Step 7: Quality check.** Confirm:
-  - the document is grounded in live research unless the user explicitly asked for a draft
-  - important claims are supported by cited sources
-  - workflows reflect how users actually operate
-  - differentiation covers both opportunity and uncertainty
-  - unknowns are stated explicitly
-
-- [ ] **Step 8: Write the file and summarize.** Write
-  `.specflow/context/domain-knowledge.md`, then report the main market/user insights, weak evidence
-  or open questions, and suggest `101-project-overview` next.
-
----
-
-## Rules
-
-1. Use live research for non-trivial domain claims unless the user explicitly asks for a draft.
-2. Treat a real, multi-source web research pass as the default path for this workflow — prefer
-   current primary sources over model memory, and cite what you use.
-3. Separate facts, interpretation, and recommendation.
-4. Prefer user workflows and decision-shaping constraints over generic market trivia.
-5. Keep the document business-level and decision-relevant.
-
-## Additional Guidance
-
-**On per-section quality expectations**: Each section in the domain knowledge document must contain
-concrete, research-grounded content:
-- **Domain Overview**: explains the market or industry in plain language and names the forces
-  shaping it now
-- **User Landscape**: identifies primary users or buyers, what they are trying to accomplish, and
-  what makes their environment difficult
-- **Domain Workflows & Decision Points**: describes real-world processes the product must fit into
-  or improve
-- **Market Expectations & Differentiation**: names what users already expect and where this product
-  can win or must be careful
-- **Regulatory / Operational Constraints**: includes only constraints that materially affect product
-  shape or delivery
-- **Domain Vocabulary & Concepts**: defines terms and distinctions later documents must use
-  consistently
-- **Implications For This Project**: translates research into concrete guidance for D01 and later
-  workflows — this section should tell the team what to prioritize, what to avoid copying blindly,
-  and what expectations must still be met
+- [ ] **Step 7: Write and summarize.** Write the file, report the main market/user insights, weak
+  evidence or open questions, and suggest `101-project-overview` next.

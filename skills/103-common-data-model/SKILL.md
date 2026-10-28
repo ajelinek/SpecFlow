@@ -8,11 +8,10 @@ description: >
 
 # 103 - Common Data Model
 
-Produce the conceptual data model document for a project. This document defines the application's
-domain entities, their attributes, relationships, lifecycle states, and domain rules.
-
-It is implementation-independent: not a database schema, ORM design, API contract, or frontend
-state model.
+Produce the conceptual data model: domain entities, attributes, relationships, lifecycle states, and
+domain rules. Describe the domain, not the implementation — not a database schema, ORM design, API
+contract, or frontend state model. Whether `User` is a Postgres table, a Firestore document, or a
+Redux slice is irrelevant here; `104`/`105` map this model to implementation.
 
 **Output path**: `.specflow/docs/D03-common-data-model.md`
 
@@ -20,95 +19,46 @@ state model.
 
 ## Required Inputs
 
-Before proceeding, confirm:
-
 1. **Core domain entities**
 2. **Entity relationships** — including cardinality where known
 3. **Key attributes**
 4. **Business rules**
 5. **Sensitive data** — PII, financial data, or similar
 
-Optional but useful: lifecycle states, audit/history requirements, and compliance constraints.
-
-Resolve these with `gap-check`: it tries to answer them from existing context before asking, then
-asks about anything still open one question at a time with a recommended answer.
+Optional: lifecycle states, audit/history requirements, compliance constraints.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Run `gap-check` against the Required Inputs above. Do not proceed
-  with undefined entities or vague relationships.
+- [ ] **Step 1: Validate inputs.** Resolve the Required Inputs with `gap-check`. Do not proceed with
+  undefined entities or vague relationships.
 
-- [ ] **Step 2: Load existing context.** If D03 already exists, treat it as a draft to update. Read
-  D01 and D02 when present.
+- [ ] **Step 2: Load existing context.** If D03 exists, treat it as a draft to update. Read D01 and
+  D02 when present. For an existing repo, use `@explore` to find models, schemas, domain objects, or
+  type definitions — as evidence, not implementation detail to copy in.
 
-- [ ] **Step 3: Explore existing code if needed.** Use `@explore` to find existing models, schemas,
-  domain objects, or type definitions when the repo already exists. Use them as evidence, not as a
-  source of implementation detail to copy into the document.
+- [ ] **Step 3: Identify and classify entities.** For each: domain purpose, attributes and types,
+  required vs optional, relationships and cardinality, lifecycle states, and whether it is a
+  first-class entity or a supporting concept. Label supporting concepts — they matter for downstream
+  modeling: an `Address` on a `Customer` may be a value object with no identity; a `Status` may be an
+  enum or lookup.
 
-- [ ] **Step 4: Identify and classify entities.** For each entity, determine:
-  - its domain purpose
-  - attributes and types
-  - required vs optional fields
-  - relationships and cardinality
-  - lifecycle states
-  - whether it is a first-class entity or a supporting concept such as a value object, enum, or
-    lookup
+- [ ] **Step 4: Draft the document.** Use `./templates/T03 - Common Data Model.md`. Per entity: purpose
+  in one sentence, attributes with type and required/optional, sensitive attributes flagged,
+  lifecycle states when relevant. Include an ERD of all entities and relationships focused on
+  structure, not repeated attributes.
+  - **Storage context is a one-line annotation, never the organizing structure.** Note client-only
+    (e.g. a UI session object) or server-only (e.g. an audit log) on the entity itself; splitting the
+    document by storage tier loses the relationships between entities.
+  - **Business rules are domain rules.** Write what a domain expert would recognize regardless of how
+    the system is built: "a project must have at least one owner" is a rule; "project_id is not
+    null" is an implementation constraint and is excluded unless it directly expresses a domain rule.
+    If a rule is unclear, name it as an open question instead of guessing.
 
-  If storage context matters, note it as an attribute of the entity rather than reorganizing the
-  document by storage tier.
+- [ ] **Step 5: Quality check.** Each entity defined once; all important relationships present and
+  labeled; rules are domain rules; sensitive attributes flagged; no implementation detail; open
+  questions explicit.
 
-- [ ] **Step 5: Draft the document.** Use `./templates/T03 - Common Data Model.md`. For each entity:
-  - state purpose in one sentence
-  - list attributes with type and required/optional status
-  - flag sensitive attributes
-  - note lifecycle states when relevant
-  - include storage context only when it is meaningful
-
-  Include an ERD with all entities and relationships, but keep it focused on structure, not full
-  attribute repetition.
-
-- [ ] **Step 6: Quality check.** Confirm:
-  - each entity is defined once
-  - all important relationships are present and labeled
-  - business rules are domain rules, not implementation constraints
-  - sensitive attributes are flagged
-  - implementation details are absent
-  - open questions are called out explicitly
-
-- [ ] **Step 7: Write the file and summarize.** Write
-  `.specflow/docs/D03-common-data-model.md`, list the entities documented, call out open questions,
-  and suggest `104-backend-architecture` next.
-
----
-
-## Rules
-
-1. Describe the domain, not the implementation.
-2. Storage context is an annotation, not the organizing structure.
-3. Supporting concepts should be labeled as such.
-4. If a rule is unclear, name it as an open question instead of guessing.
-
-## Additional Guidance
-
-**On implementation independence**: This document describes the domain, not the implementation.
-Whether `User` is a Postgres table, a Firestore document, a Redux slice, or all three is not
-relevant here. A downstream document (`104-backend-architecture`, `105-frontend-architecture`)
-maps the conceptual model to its implementation. Keep those concerns separate.
-
-**On storage context as an annotation**: If an entity is client-only (e.g., a UI session object
-that is never sent to a server) or server-only (e.g., an audit log the client never reads), note
-this as a one-line storage annotation on the entity. Do not split the document into storage-tier
-sections — that organization loses the relationships between entities and forces readers to jump
-between sections to understand the domain.
-
-**On supporting concepts**: Not everything is a first-class entity. An `Address` attached to a
-`Customer` may be a value object with no independent identity. A `Status` may be an enum. Label
-these distinctions — they matter for how engineers model them downstream.
-
-**On business rules**: Write rules that a domain expert would recognize as true regardless of how
-the system is built. "A project must have at least one owner" is a business rule. "project_id is
-not null" is an implementation constraint — do not include implementation constraints unless they
-directly express a domain rule. If a rule is unclear, name it as an open question rather than
-guessing.
+- [ ] **Step 6: Write and summarize.** Write the file, list the entities documented and open
+  questions, and suggest `104-backend-architecture` next.

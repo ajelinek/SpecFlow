@@ -8,11 +8,14 @@ description: >
 
 # 105 - Frontend Architecture
 
-Produce the frontend architecture document for a project. This document turns D02 and D04 into
-concrete frontend structure: framework conventions, directory layout, component boundaries, state
-rules, API integration patterns, styling approach, and test strategy.
+Turn D02 and D04 into concrete frontend structure: framework conventions, directory layout,
+component boundaries, state rules, API integration, styling, and test strategy. Reference D01-D04;
+add only frontend-specific decisions. Once the framework is known, use its real vocabulary.
 
-Do not repeat D01-D04. Reference them and add frontend-specific decisions only.
+Specificity is the bar. "Use React hooks for state" is not architecture. "Local ephemeral state uses
+`useState`; shared UI state uses Zustand stores in `src/store/`; server state is SWR with a
+30-second revalidation window; components never call API endpoints directly — all API access goes
+through service hooks in `src/services/`" is.
 
 **Output path**: `.specflow/docs/D05-frontend-architecture.md`
 
@@ -20,100 +23,55 @@ Do not repeat D01-D04. Reference them and add frontend-specific decisions only.
 
 ## Required Inputs
 
-Before drafting, confirm:
-
 1. **Frontend framework** — React, Astro, SolidJS, Vue, etc.
 2. **Deployment model** — static, SSR, hybrid, CDN-hosted, etc.
 3. **API integration** — REST, GraphQL, Firebase, or mixed
-4. **State management approach** — confirm a specific tool or pattern for each category:
-   - **Component state** — local ephemeral UI state within a component. Confirm the primitive or
-     pattern in scope and any off-limits patterns.
-   - **URL / navigation state** — shareable or bookmarkable state encoded in query params, path
-     segments, or similar. Confirm what belongs in the URL, what does not, and what manages it.
-   - **Global / application state** — state shared across routes or unrelated components. Confirm
-     the library or pattern, what qualifies as global state, and what is explicitly kept out.
-   - **Server / remote state** — backend-fetched data, caching, and revalidation. Confirm the
-     library or pattern, caching approach, and where query or mutation definitions live.
+4. **State management approach** — a specific tool or pattern for each category:
+   - **Component state** — local ephemeral UI state; the primitive in scope and off-limits patterns
+   - **URL / navigation state** — shareable/bookmarkable state; what belongs in the URL, what
+     doesn't, and what manages it
+   - **Global / application state** — state shared across routes or unrelated components; the
+     library, what qualifies, and what is kept out
+   - **Server / remote state** — fetching, caching, revalidation; the library, caching approach,
+     and where query/mutation definitions live
 5. **Real-time requirements** — WebSockets, SSE, polling, or none
 6. **Audience and reach** — public vs internal, SEO needs, single-language vs i18n
 
-Optional but useful: design system or component library, accessibility target, performance goals,
-mobile-first requirements, frontend auth constraints.
-
-Resolve these with `gap-check`: it tries to answer them from existing context (D01, D02, D04, repo
-exploration) before asking, then asks about anything still open — including any unresolved state
-category — one question at a time with a recommended answer.
+Optional: design system or component library, accessibility target, performance goals, mobile-first
+requirements, frontend auth constraints.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Run `gap-check` against all six inputs above, especially the four
-  state categories. Do not assume default libraries or patterns.
+- [ ] **Step 1: Validate inputs.** Resolve all six inputs with `gap-check` (context: D01, D02, D04,
+  repo), especially each of the four state categories. Do not assume default libraries or patterns.
 
-- [ ] **Step 2: Load existing context.** If D05 already exists, treat it as a draft to update. Read
-  D01, D02, D04, and any other directly relevant docs. Reference them; do not re-describe them.
+- [ ] **Step 2: Load existing context.** If D05 exists, treat it as a draft to update. Read D01, D02,
+  D04, and other directly relevant docs. For existing frontend code, use `@explore` to identify the
+  top-level `src/` structure, component organization, state setup, styling approach, and shared
+  utilities and types. Prefer documenting an established pattern over inventing a replacement; call
+  out any divergence from explicit project requirements.
 
-- [ ] **Step 3: Explore the existing frontend if needed.** If the project already has frontend code,
-  use `@explore` to identify:
-  - top-level directory structure under `src/`
-  - component organization patterns
-  - current state setup
-  - styling approach
-  - shared utilities and types
+- [ ] **Step 3: Decide which optional sections apply** — real-time, i18n, SEO, mobile/PWA,
+  frontend-owned security patterns, third-party integrations. Every section must earn its place:
+  omit irrelevant ones entirely, and when in doubt leave it out with a one-line note under open
+  questions if the decision is pending.
 
-  Follow established patterns unless they conflict with explicit project requirements.
-
-- [ ] **Step 4: Decide which optional sections apply.** Include only sections that the project
-  actually needs, such as:
-  - real-time features
-  - internationalization
-  - SEO
-  - mobile/PWA concerns
-  - security patterns the frontend owns
-  - third-party integrations
-
-  Omit irrelevant sections entirely.
-
-- [ ] **Step 5: Draft the document.** Use `./templates/T05 - Frontend Architecture.md` and cover:
-  - **Core stack** — framework, build tooling, key libraries, and each library's role
+- [ ] **Step 4: Draft the document.** Use `./templates/T05 - Frontend Architecture.md`:
+  - **Core stack** — framework, build tooling, key libraries and each one's role
   - **Directory structure** — annotated tree showing where new code belongs
   - **Component architecture** — component levels, ownership boundaries, naming/file conventions
-  - **State management** — for all four state categories, name the tool/pattern, what belongs in
-    it, what is excluded, and how the boundary is enforced
-  - **API integration** — client/service layer, auth attachment, error handling, caching strategy
+  - **State management** — for all four categories: the tool/pattern, what belongs, what is
+    excluded, and how the boundary is enforced
+  - **API integration** — client/service layer, auth attachment, error handling, caching
   - **Styling approach** — CSS methodology, token usage, theming, accessibility baseline
   - **Testing strategy** — what is tested at each level and with which tools
-  - **Optional sections** — only those approved in Step 4
+  - **Optional sections** — only those approved in Step 3
 
-- [ ] **Step 6: Quality check.** Confirm:
-  - every decision traces to D01, D02, D04, existing codebase evidence, or explicit user input
-  - all four state categories are documented with specific tools or patterns
-  - API integration matches D04
-  - no placeholder or duplicate sections remain
-  - the document is scannable and uses concrete framework terms
+- [ ] **Step 5: Quality check.** Every decision traces to D01, D02, D04, codebase evidence, or
+  explicit user input; all four state categories name specific tools or patterns; API integration
+  matches D04; no placeholder or duplicate sections; scannable, concrete framework terms.
 
-- [ ] **Step 7: Write the file and summarize.** Write
-  `.specflow/docs/D05-frontend-architecture.md` and report key decisions, open questions, omitted
-  sections, and the most natural next step.
-
----
-
-## Guidance
-
-- D05 must use the real stack vocabulary once the framework is known.
-- "Use hooks for state" is not architecture; name the actual boundary and tool for each state type.
-- If an existing codebase already establishes a pattern, prefer documenting that pattern over
-  inventing a replacement without calling out the divergence.
-
-## Additional Guidance
-
-**On optional sections**: Every section in D05 must earn its place. A real-time section for an app
-with no real-time requirements, or an i18n section for a single-language internal tool, adds noise
-and makes the document harder to use. When in doubt, leave the section out and add a one-line note
-under "open questions" if the decision is still pending.
-
-**On specificity**: "Use React hooks for state" is not architecture. "Local ephemeral state uses
-`useState`; shared UI state uses Zustand stores in `src/store/`; server state is managed by SWR
-with a 30-second revalidation window; components never call API endpoints directly — all API access
-goes through service hooks in `src/services/`" is architecture.
+- [ ] **Step 6: Write and summarize.** Write the file and report key decisions, open questions,
+  omitted sections, and the most natural next step.

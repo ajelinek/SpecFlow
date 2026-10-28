@@ -10,10 +10,10 @@ argument-hint: "[feature-name] [coverage-level]"
 
 # 202 - Test Scenario Design
 
-Produce `.specflow/features/<fid>-<feature-slug>/specs.feature`: a Gherkin file containing
-numbered scenarios grouped into `TSM#` modules and tagged for path and status tracking.
-
-`overview.md` remains the canonical feature definition. If it exists, do not duplicate it here.
+Produce a Gherkin file of numbered scenarios grouped into `TSM#` modules and tagged for path and
+status tracking. `overview.md` defines feature scope; `specs.feature` defines behavior coverage —
+don't duplicate the overview here. The file lives in the feature folder defined by
+`201-high-level-design` (`<fid>-<feature-slug>`).
 
 **Output path**: `.specflow/features/<fid>-<feature-slug>/specs.feature`
 
@@ -21,131 +21,63 @@ numbered scenarios grouped into `TSM#` modules and tagged for path and status tr
 
 ## Required Inputs
 
-Before writing scenarios, confirm:
-
 1. **Feature name**
-2. **Coverage level** — one of:
-   - **Happy Path Only**
-   - **Balanced**
-   - **Comprehensive**
+2. **Coverage level** — **Happy Path Only**, **Balanced**, or **Comprehensive**. Never assume one;
+   "core flow only" or similar means Happy Path Only.
 
-If either is missing, ask. Do not assume a coverage level. If the user says “core flow only” or
-similar, treat it as **Happy Path Only**.
-
-This skill runs in its caller's context so those questions actually reach the user. When another
-workflow invokes it with no user in the loop — `301-spec-implementation` routing a spec revision
-here, or `901-feature-loop` dispatching it into a subagent — the invocation is expected to carry
-both inputs. If one is still missing, return the question to the caller unanswered instead of
-guessing or stalling.
+If either is missing, ask. This skill runs in its caller's context so the question reaches the user.
+When invoked with no user in the loop (`301-spec-implementation` routing a spec revision here, or
+`901-feature-loop` dispatching it into a subagent), the invocation should carry both inputs; if one is
+still missing, return the question to the caller unanswered.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Load feature context.** Read these files if they exist:
-  - `.specflow/features/<fid>-<feature-slug>/overview.md`
-  - `.specflow/docs/D01-project-overview.md`
-  - `.specflow/docs/D07-ui-experience.md`
-  - `.specflow/context/domain-knowledge.md`
+- [ ] **Step 1: Load feature context.** Read the feature's `overview.md`, D01, D07, and
+  `domain-knowledge.md` when present. If `overview.md` is missing, ask for a short feature summary and
+  primary user outcome as fallback context.
 
-  If `overview.md` is missing, ask for a short feature summary and primary user outcome, then use
-  that as fallback context.
-  Derive the feature folder as `<fid>-<feature-slug>` and keep all feature artifacts in that same
-  folder.
+- [ ] **Step 2: Review existing specs.** If `specs.feature` exists, continue its `TS#`/`TSM#`
+  numbering (never renumber). Otherwise start at `TS001` and `TSM001`.
 
-- [ ] **Step 2: Review existing specs first.** Read `.specflow/features/<fid>-<feature-slug>/specs.feature`
-  if it exists.
-
-  If it exists:
-  - continue the existing `TS#` and `TSM#` numbering
-  - prefer updating an existing scenario when the new coverage belongs to the same workflow,
-    outcome, or `Scenario Outline`
-  - create a new scenario only when the behavior is materially distinct and should fail
-    independently
-
-  If it does not exist, start at `TS001` and `TSM001`.
-
-- [ ] **Step 3: Plan coverage before writing.** For each coverage item, decide whether to:
-  - **Update existing scenario** — name the `TS#` and what assertion/example rows to add
-  - **Add new scenario** — explain briefly why it needs a separate workflow or path
-
-  For every new scenario, also assign its `TSM#` module as part of this same decision: an existing
-  module when it shares that module's business context, or a new module when it doesn't. Never
-  leave a scenario unassigned to a module.
+- [ ] **Step 3: Plan coverage before writing.** Don't default to a new scenario per coverage item.
+  For each item decide:
+  - **Update existing scenario** — when it already exercises the same workflow, outcome, or
+    `Scenario Outline`; name the `TS#` and the assertions/example rows to add. This keeps the spec
+    compact.
+  - **Add new scenario** — only when the behavior deserves its own setup, action, path tag, or
+    failure signal; say why. Assign its `TSM#` module now — an existing one sharing its business
+    context, or a new one. No scenario is ever ungrouped.
 
   Coverage expectations:
-  - **Happy Path Only**: primary success workflows only; no error or edge scenarios
-  - **Balanced**: happy paths plus the most important error states and 1-2 meaningful edge cases
-  - **Comprehensive**: balanced coverage plus lower-probability edge cases, boundary conditions,
-    and other important path variations
+  - **Happy Path Only** — primary success workflows; no error or edge scenarios
+  - **Balanced** — happy paths plus the most important error states and 1-2 meaningful edge cases
+  - **Comprehensive** — balanced plus lower-probability edge cases, boundary conditions, and other
+    important path variations
 
-- [ ] **Step 4: Write the Gherkin file.** Use `./templates/specs.feature` and follow these rules:
-  - keep the `Feature:` header minimal
-  - if `overview.md` exists, do not restate its summary, scope, or journey
-  - if `overview.md` is missing, include only a short fallback summary
-  - scenarios should validate complete user workflows and business outcomes, not implementation
-    details
-  - each scenario must be independently runnable
-  - prefer adding assertions to an existing scenario over creating near-duplicates
-  - use `Scenario Outline` when the same flow varies only by data
-  - every new scenario must include at least one path tag: `@happyPath`, `@errorPath`, or `@edgePath`
-  - use `Given` for preconditions, `When` for the primary user action, and `Then`/`And` for
-    observable outcomes
-  - step text must describe behavior, not implementation details
-  - preserve `TSM#` grouping, `TS#` numbering, path tags, and status tags exactly as the template
-    requires
+- [ ] **Step 4: Write the Gherkin file** from `./templates/specs.feature`, preserving its `TSM#`
+  grouping, `TS#` numbering, path tags, and status tags exactly:
+  - minimal `Feature:` header; restate nothing from `overview.md` (only a short fallback summary when
+    it's missing)
+  - **Prefer longer business-outcome scenarios over many narrow ones.** Submitting a form through to
+    receiving the confirmation email beats three scenarios for validation, storage, and dispatch.
+    Split only when a scenario gets so long failures become hard to diagnose.
+  - each scenario independently runnable; `Scenario Outline` when a flow varies only by data
+  - every new scenario has a path tag (`@happyPath`, `@errorPath`, `@edgePath`) and `@status_pending`;
+    status tags track lifecycle in place: `@status_pending` → `@status_implementing` → `@status_done`
+  - `Given` preconditions, `When` the primary user action, `Then`/`And` observable outcomes
+  - **steps describe behavior, not implementation**: "The user sees a confirmation message" is valid;
+    "The component re-renders with success state" is not
+  - **`TSM#` modules group by business context, not technical layer**: "TSM002: Expense Submission —
+    Error Handling", not "TSM002: API Error Responses"
 
-- [ ] **Step 5: Quality check.** Confirm:
-  - every scenario validates a user-observable outcome
-  - existing scenarios were extended where that was the cleaner choice
-  - `TS#` numbering has no gaps or duplicates beyond what already existed
-  - all new scenarios use `@status_pending`
-  - coverage level is reflected in the kinds of scenarios present
-  - Gherkin syntax is valid
-  - every scenario sits inside a `TSM#` module — no scenario left ungrouped
+- [ ] **Step 5: Quality check.** Every scenario validates a user-observable outcome; existing
+  scenarios were extended where cleaner; no new `TS#` gaps or duplicates; all new scenarios are
+  `@status_pending`; scenario kinds match the coverage level; valid Gherkin; every scenario sits in a
+  `TSM#` module.
 
-- [ ] **Step 6: Write the file and summarize.** If the file exists, update scenarios in place first
-  and append only truly new modules/scenarios after that. Do not renumber existing `TS#` tags.
-
-  Report:
-  - output file path
-  - existing `TS#` scenarios updated
-  - total new scenarios and their `TS#` range
-  - coverage level used
-  - missing context that may affect coverage
-  - if coverage was **Happy Path Only**, suggest a second pass later
-  - suggest running `203-implementation-design` next
-
----
-
-## Rules
-
-1. `overview.md` defines feature scope; `specs.feature` defines behavior coverage.
-2. The feature folder name must stay stable across the feature lifecycle: `<fid>-<feature-slug>`.
-3. Longer business-outcome scenarios are preferred over many narrow, unit-style scenarios.
-4. `TSM#` modules group by business context, not technical layer.
-5. Steps describe behavior, not implementation details.
-6. Status tags track lifecycle in place: `@status_pending`, `@status_implementing`, `@status_done`.
-
-## Additional Guidance
-
-**On scenario length**: Longer scenarios that prove end-to-end business value are preferred over
-many short scenarios that test individual steps. A scenario that takes a user from submitting a
-form through to receiving a confirmation email is more valuable than three separate scenarios that
-check form validation, submission storage, and email dispatch separately. Balance confidence with
-maintenance burden — if a scenario becomes so long that failures are impossible to diagnose, split
-it.
-
-**On updating existing specs**: Do not default to creating new scenarios for every new coverage
-request. If an existing scenario already exercises the same workflow, it is often better to add
-assertions there so the spec stays compact and easier to maintain. Create a new scenario only when
-the behavior deserves its own setup, action, path tag, or failure signal.
-
-**On step language**: Steps describe behavior, not implementation. "The user sees a confirmation
-message" is a valid assertion. "The component re-renders with success state" is not — it is an
-implementation detail that would need rewriting if the UI framework changes.
-
-**On test modules (TSM#)**: Modules group scenarios by business context, not by technical layer.
-"TSM002: Expense Submission — Error Handling" is correct. "TSM002: API Error Responses" is not —
-it groups by implementation layer rather than user experience. Every scenario belongs to a module —
-assign an existing one or open a new one; never leave a scenario ungrouped.
+- [ ] **Step 6: Write and summarize.** Update existing scenarios in place, then append truly new
+  modules/scenarios. Report the path, `TS#` scenarios updated, new scenarios and their `TS#` range,
+  coverage level, missing context that may affect coverage, a suggested later pass if coverage was
+  Happy Path Only, and suggest `203-implementation-design` next.

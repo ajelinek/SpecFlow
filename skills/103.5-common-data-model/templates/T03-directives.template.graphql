@@ -2,7 +2,7 @@
 #
 # This file is boilerplate — @access, @validate, AccessLevel, and AccessRule never
 # change between projects. The only project-specific part is the Role enum's values,
-# filled in once the project's actual access roles are known (see 103.5's Step 4).
+# filled in once the project's actual access roles are known (see 103.5's Step 3).
 #
 # This schema is documentation only. It is never deployed as a live GraphQL API.
 
@@ -33,8 +33,8 @@ directive @access(rules: [AccessRule!]!) on OBJECT | FIELD_DEFINITION
 argument here — it's expressed natively by GraphQL's `!` on the field's type. Only
 include the specific constraint arguments that actually apply to a field; a plain
 field with nothing to say stays undecorated. Need a constraint not listed here? See
-103.5's SKILL.md, "On extending the directive vocabulary for project-specific
-needs" — add a new argument below and document it the same way as the others."""
+103.5's SKILL.md, "Extending the vocabulary" — add a new argument below and
+document it the same way as the others."""
 directive @validate(
   """String fields only. Minimum length, inclusive."""
   minLength: Int

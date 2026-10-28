@@ -9,11 +9,9 @@ description: >
 
 # 107 - UI Experience Overview
 
-Produce the UX experience overview for a project. This document defines how users move through the
-product: navigation model, cross-platform interaction patterns, accessibility commitments, error
-handling approach, and a complete page inventory with routes and role access.
-
-It is the UX architecture for the product, not a per-page layout spec.
+Define how users move through the product: navigation model, cross-platform interaction patterns,
+accessibility commitments, error handling, and a complete page inventory with routes and role
+access. The product's UX architecture, not a per-page layout spec.
 
 **Output path**: `.specflow/docs/D07-ui-experience.md`
 
@@ -21,102 +19,53 @@ It is the UX architecture for the product, not a per-page layout spec.
 
 ## Required Inputs
 
-Before generating directions or writing output, confirm:
-
 1. **User roles** — including whether roles need different navigation structures or access scopes
-2. **Device targets** — platforms and form factors to support
-3. **Initial page inventory** — rough list is enough
+2. **Device targets** — platforms and form factors
+3. **Initial page inventory** — a rough list is enough
 4. **Accessibility requirements** — anything beyond WCAG 2.1 AA
 5. **Navigation constraints** — routing, deep-linking, or structural constraints from prior docs
 
-Optional but useful: existing research, competitor navigation patterns, onboarding needs, and UI
-conventions already fixed in D06.
-
-Resolve these with `gap-check`: it tries to answer them from existing context before asking, then
-asks about anything still open — especially user roles or device targets — one question at a time
-with a recommended answer.
+Optional: existing research, competitor navigation patterns, onboarding needs, UI conventions fixed
+in D06.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Run `gap-check` against all five required inputs.
+- [ ] **Step 1: Validate inputs.** Resolve all five with `gap-check`, especially roles and device
+  targets.
 
-- [ ] **Step 2: Load existing context.** If D07 already exists, treat it as a draft to update. Read
-  D01, D02, D05, D06, and `.specflow/context/domain-knowledge.md` when present. If helpful,
-  delegate file retrieval to `@explore` to keep the main context tight.
+- [ ] **Step 2: Load existing context.** If D07 exists, treat it as a draft to update. Read D01, D02,
+  D05, D06, and `domain-knowledge.md` when present; delegate retrieval to `@explore` if it keeps
+  context tight. Domain conventions can eliminate bad directions early.
 
-- [ ] **Step 3: Generate three UX directions.** Use `@designer` when available. Spawn three
-  parallel calls in a single message (foreground, `run_in_background: false`, so all three return
-  before you continue) — each call is a fresh, independent `@designer` invocation with no
-  visibility into the other two. Pass every call the same relevant context:
-  - user roles and workflows from Step 1 and D01
-  - device targets and form-factor constraints
-  - routing and structural constraints from D02/D05
-  - visual conventions from D06
-  - domain user mental models when they materially affect navigation
+- [ ] **Step 3: Generate three UX directions** (required). Spawn three `@designer` calls in parallel
+  in one message (foreground), each independent and assigned one seed bet: role-segmented
+  navigation, a unified single structure, a task-first workflow structure. Give each the same
+  context: roles and workflows (Step 1, D01), device/form-factor constraints, routing constraints
+  from D02/D05, D06 visual conventions, and domain mental models that affect navigation.
+  - Answer `@designer` clarifying questions from loaded context; ask the user only when it can't.
+  - If a call flags a conflict with D06 or another established doc, present it and the proposed doc
+    change to the user — never override silently. On approval, update the governing doc first so
+    later page work inherits one source of truth; on rejection, adjust the brief and re-invoke.
+  - If `@designer` is unavailable, use `@explore` to research three plausible navigation approaches
+    for the product type and evaluate those.
 
-  Assign each call exactly one seed bet so the three diverge structurally: a role-segmented
-  navigation structure, a unified single structure, and a task-first workflow structure. Each call
-  returns exactly one direction.
+- [ ] **Step 4: Evaluate the directions** against user-goal alignment, role differentiation, device
+  feasibility, technical feasibility within D05, accessibility, and cognitive load. Recommend one and
+  note what to keep from the runner-up. If two are too close to call, pass the two closest cards to
+  one more `@designer` call framed as a judgment brief.
 
-  Handling rules:
-  - answer `@designer` clarifying questions from loaded context first
-  - ask the user only when the context cannot answer them
-  - surface conflicts with D06 or other established docs instead of overriding silently
-  - if the user approves a conflicting direction, update the governing doc first before treating
-    that direction as resolved
-  - if `@designer` is unavailable, use `@explore` to research three plausible UX/navigation
-    approaches for the product type and evaluate those instead
+- [ ] **Step 5: Build the page inventory.** For each page: name, route path, one-line purpose and
+  primary action, roles with access. A page is a distinct route-level view — never a modal, drawer,
+  inline toggle, or other component state. Cover every D01 workflow.
 
-- [ ] **Step 4: Evaluate the directions.** Score the three returned candidates against:
-  - user-goal alignment
-  - role differentiation
-  - device feasibility
-  - technical feasibility within D05
-  - accessibility
-  - cognitive load
+- [ ] **Step 6: Draft the document.** Use `./templates/T07 - UI Experience Overview.md`:
+  **Navigation & Interaction Patterns**, **Page Summary**, **Alternatives Considered**.
 
-  Choose one direction as the recommendation. If the runner-up has elements worth preserving, note
-  them. If two candidates are too close to call confidently on these criteria alone, get a second
-  opinion: pass the two closest cards to one more `@designer` call framed as a judgment brief
-  between them, rather than guessing or defaulting to a generic pick.
+- [ ] **Step 7: Quality check.** Navigation decisions trace to inputs, prior docs, or explicit
+  UX/accessibility principles; the model is concrete enough to implement; the inventory covers D01
+  workflows; consistent with D05 and D06; no filler.
 
-- [ ] **Step 5: Build the page inventory.** Using the selected direction and known workflows,
-  produce a complete page inventory with:
-  - page/view name
-  - route path
-  - one-line purpose and primary action
-  - user roles with access
-
-  Do not list component states such as modals or drawers as pages.
-
-- [ ] **Step 6: Draft the document.** Use `./templates/T07 - UI Experience Overview.md` and fill
-  in:
-  - **Navigation & Interaction Patterns**
-  - **Page Summary**
-  - **Alternatives Considered**
-
-- [ ] **Step 7: Quality check.** Confirm:
-  - navigation decisions trace to confirmed inputs, prior docs, or explicit UX/accessibility
-    principles
-  - the navigation model is concrete enough to implement
-  - the page inventory covers the workflows in D01
-  - the result stays consistent with D06 and D05
-  - no placeholder or filler text remains
-
-- [ ] **Step 8: Write the file and summarize.** Write `.specflow/docs/D07-ui-experience.md`, report
-  the selected direction, why the others lost, any deferred questions, and suggest
-  `108-ui-page-design` next.
-
----
-
-## Guidance
-
-- Three directions are required.
-- Domain conventions can eliminate bad UX directions early; use them.
-- A page is a distinct view with its own route — not a component state, modal, drawer, or inline
-  toggle. The page inventory should reflect route-level views only. Keep transient component states
-  out of it.
-- If an approved UX direction conflicts with an existing doc, reconcile that governing doc first so
-  later page work inherits one source of truth.
+- [ ] **Step 8: Write and summarize.** Write the file, report the selected direction, why the others
+  lost, deferred questions, and suggest `108-ui-page-design` next.

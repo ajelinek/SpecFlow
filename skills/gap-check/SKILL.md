@@ -11,126 +11,62 @@ argument-hint: "[required inputs checklist]"
 
 # Gap Check
 
-Close every gap on a fixed, invoking-skill-provided checklist of required inputs, with minimum
-friction for the user. Try to answer everything from context first; ask only about genuine gaps.
+Close every gap on a fixed checklist of required inputs provided by the invoking skill, with minimum
+friction: answer from context first, ask only about genuine gaps, and hand back a resolved answer set
+— nothing more.
 
-This is not an open-ended interview. The invoking skill hands `gap-check` a specific, bounded list
-of required inputs — the job here is to resolve every item on that list and hand back a resolved
-answer set, nothing more.
-
-This skill runs in the invoking workflow's own context on purpose — it has to reach the user
-directly to ask, and it needs whatever context that workflow already loaded. Never run it in a
-forked or background subagent: the questions would have no one to answer them.
+Run in the invoking workflow's own context, never in a forked or background subagent: it must reach
+the user directly and needs whatever context the workflow already loaded.
 
 ---
 
 ## When To Use vs `grilling`
 
-- **`gap-check`** — a workflow has a short, known list of Required Inputs (for example: pain point,
-  differentiation, target users) and needs them resolved before it can proceed. Bounded,
-  checklist-driven, stops as soon as the list is satisfied.
-- **`grilling`** — the user wants a plan, decision, or idea stress-tested end to end. Open-ended,
-  exhaustive, walks every branch of a decision tree deliberately, keeps pushing even when an answer
-  sounds plausible.
+- **`gap-check`** — a workflow has a short, known list of Required Inputs (e.g. pain point,
+  differentiation, target users) to resolve before proceeding. Bounded; stops once the list is
+  satisfied. Example: `101` needs pain point, differentiation, users, scenarios, and metrics before
+  drafting.
+- **`grilling`** — the user wants a plan, decision, or idea stress-tested end to end: open-ended,
+  walks every branch, keeps pushing on plausible answers. Example: "Stress-test my plan for migrating
+  the auth system."
 
-Do not use `gap-check` to interrogate a plan the user hasn't asked to have stress-tested. Do not use
-`grilling` inside a workflow's input-validation step — it will over-ask and stall the workflow.
+Never use `gap-check` to interrogate a plan the user didn't ask to have stress-tested, and never use
+`grilling` inside an input-validation step — it over-asks and stalls the workflow. For open-ended
+research rather than a fixed input list, use built-in research and web search.
 
 ---
 
 ## Inputs
 
-The invoking skill provides:
-
-1. The Required Inputs checklist — each item's name and what it needs to capture.
-2. Whatever project context it already has or knows how to load (prior docs, domain knowledge,
-   repo state).
-
-If invoked without an explicit checklist, treat the invoking skill's own "Required Inputs" section
-as the checklist.
+1. The Required Inputs checklist — each item's name and what it must capture. If none is passed
+   explicitly, use the invoking skill's own "Required Inputs" section.
+2. Whatever project context the invoking skill has or can load (prior docs, domain knowledge, repo
+   state).
 
 ---
 
-## Core Rules
+## Steps
 
-1. **Resolve from context first.** Before asking about any input, check whatever the invoking skill
-   already loaded or can load (prior docs, `.specflow/context/domain-knowledge.md`, repo
-   exploration) for an answer. Only put an input on the "to ask" list if it is genuinely
-   undetermined from available context — not just unstated so far in the conversation.
-2. **Ask every question through the question tool.** Use `AskUserQuestion` for every gap, never
-   plain prose text — even for open-ended ones. It always offers an "Other" choice, so free-text
-   answers stay available.
-3. **One question at a time.** Each `AskUserQuestion` call carries exactly one question. Wait for
-   the user's answer before asking the next. Do not batch remaining gaps into one call or one
-   message.
-4. **Recommend, don't just ask.** Put the recommended answer first, with "(Recommended)" appended
-   to its label, and use that option's `description` to state the reasoning — grounded in whatever
-   context is available. Cover the realistic alternatives with the remaining options; "Other"
-   catches anything not listed.
-5. **Stop at the checklist boundary.** Resolve exactly the declared Required Inputs. Do not expand
-   into an exhaustive interview or chase tangents the checklist didn't name — that is `grilling`'s
-   job, not this one.
-6. **Follow dependencies within the checklist.** If two inputs are related, resolve the one that
-   constrains the other first, and re-check whether a later answer makes an already-resolved item
-   stale before moving on.
-7. **Don't let the workflow proceed with an open gap.** Every required input must be either resolved
-   from context or confirmed by the user before handing control back to the invoking workflow.
+- [ ] **Step 1: Resolve from context.** Check everything the invoking skill loaded or can load (prior
+  docs, `.specflow/context/domain-knowledge.md`, repo exploration). Mark each input resolved (with
+  its source) or unresolved. An input is unresolved only if genuinely undetermined from available
+  context — not merely unstated so far in the conversation. Never ask what context could answer.
 
----
+- [ ] **Step 2: Ask about each unresolved input** in checklist order:
+  - Use `AskUserQuestion` for every gap, never plain prose — even open-ended ones (its "Other" choice
+    keeps free text available).
+  - Exactly one question per call; wait for the answer before the next. Never batch gaps.
+  - Put what's missing and why it matters for this document in the question text.
+  - Lead with a recommended option labeled "(Recommended)", its `description` giving the reasoning
+    from available context (even partial); cover realistic alternatives with the other options.
+  - Resolve an input that constrains another first. If an answer makes an already-resolved input
+    stale, re-resolve it before continuing.
+  - Stay within the checklist — no tangents or exhaustive interviewing.
 
-## Workflow
-
-- [ ] **Step 1: Load the checklist.** Take the Required Inputs list from the invoking skill, or its
-  "Required Inputs" section if no explicit list was passed.
-
-- [ ] **Step 2: Attempt to resolve every input from context.** Read whatever prior docs, domain
-  knowledge, or repo state the invoking skill has access to. Mark each input resolved (with its
-  source) or unresolved.
-
-- [ ] **Step 3: Ask about unresolved inputs, one `AskUserQuestion` call at a time.** For each
-  unresolved input, in checklist order (respecting dependencies from Rule 6):
-  - put what's still missing and why it matters for this document in the question text
-  - lead with a recommended option when one can be reasoned out from context, even partial context
-  - wait for the user's reply before moving to the next unresolved input
-  - if an answer changes a previously resolved input, re-resolve that input before continuing
-
-- [ ] **Step 4: Hand back the resolved set.** Once every input is resolved, return a compact list —
-  each input, its resolved value, and its source — so the invoking workflow can proceed.
-
----
-
-## Output
+- [ ] **Step 3: Hand back the resolved set** only once every input is resolved from context or
+  confirmed by the user — never let the workflow proceed with an open or silently assumed gap.
 
 ```markdown
 ## Resolved Inputs
 - **<Input name>**: <value> — _source: <doc/context, or "confirmed by user">_
-- **<Input name>**: <value> — _source: ..._
 ```
-
----
-
-## Examples
-
-**Use this skill:**
-
-- `101-project-overview` Step 1 needs pain point, differentiation, target users, key scenarios, and
-  success metrics resolved before drafting.
-- `106-ui-design` Step 1 needs brand personality, audience, device support, theme support, and
-  differentiation resolved before generating design directions.
-
-**Do not use this skill:**
-
-- "Stress-test my plan for migrating the auth system." Use `grilling`.
-- A workflow step that needs open-ended research rather than a fixed input list. Use Claude's
-  built-in research and web search instead.
-
----
-
-## Final Checks
-
-- Every checklist item is either resolved from context or confirmed by the user — none are silently
-  assumed.
-- No question was asked that available context could have answered.
-- Every question went through `AskUserQuestion`, one per call, with a recommended option first.
-- No two questions were batched together.
-- The invoking workflow was not allowed to proceed with a gap still open.

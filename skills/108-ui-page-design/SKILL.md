@@ -9,14 +9,12 @@ argument-hint: "[page-name]"
 
 # 108 - UI Page Design
 
-Produce the design specification and HTML mockup for a single application page. This workflow runs
-once per page and writes two files:
+Design one page per run — never several. Writes two files:
 
-- `overview.md` — page context, data requirements, interaction flows, alternatives considered
-- `mockup.html` — the primary visual reference
-
-The HTML mockup is a design artifact, not production code. It must not be treated as an
-implementation reference.
+- `mockup.html` — the primary visual reference. A design artifact only, never an implementation or
+  code-structure reference.
+- `overview.md` — only the context the visual can't carry: page purpose and role rules, data
+  sources, interaction outcomes, alternatives, open questions. Never duplicate what the mockup shows.
 
 **Output path**: `.specflow/docs/D08-ui-pages/<page-name>/`
 
@@ -24,86 +22,53 @@ implementation reference.
 
 ## Required Inputs
 
-Before proceeding, confirm:
-
-1. **Page name** — it should match D07's page inventory, or the user must confirm that D07 needs a
-   new page
+1. **Page name** — must match D07's page inventory, or the user confirms D07 needs a new page
 2. **Page purpose and primary user action**
 3. **User roles with access** — including role-specific differences
-4. **Key data** — rough list is sufficient
+4. **Key data** — a rough list is enough
 5. **Responsive priority** — primary form factor and what must degrade gracefully
-
-Resolve these with `gap-check` against D01/D06/D07: it tries to answer them from that context before
-asking, then asks about anything still open one question at a time with a recommended answer.
 
 ---
 
 ## Steps
 
 - [ ] **Step 1: Validate inputs.** Confirm the page exists in D07 or the user explicitly approves
-  adding it. Do not design an untracked page silently. Run `gap-check` against the remaining
-  required inputs above.
+  adding it — never design an untracked page silently. Resolve the rest with `gap-check` against
+  D01/D06/D07.
 
-- [ ] **Step 2: Load existing context.** If a page design already exists, treat it as a draft to
-  update. Load the relevant context from D01, D06, D07, existing D08 page docs, and
-  `domain-knowledge.md` when present. Reuse existing D08 patterns unless there is a good reason not
-  to.
+- [ ] **Step 2: Load existing context.** If this page's design exists, treat it as a draft to update.
+  Load relevant D01, D06, D07, existing D08 pages, and `domain-knowledge.md`. Reuse proven D08
+  patterns before inventing new ones.
 
-- [ ] **Step 3: Generate three layout directions.** Use `@designer` when available. Spawn three
-  parallel calls in a single message (foreground, `run_in_background: false`, so all three return
-  before you continue) — each call is a fresh, independent `@designer` invocation with no
-  visibility into the other two. Pass every call the same relevant page context:
-  - page purpose and primary action
-  - role-specific differences
-  - responsive priority
-  - relevant D06 design rules
-  - D07 entry/exit routes and interaction conventions
-  - key data to display or collect
-  - reusable patterns already established in D08
-  - domain conventions that affect data density, display rules, or hierarchy
+- [ ] **Step 3: Generate three layout directions** (required even for simple pages). Spawn three
+  `@designer` calls in parallel in one message (foreground), each independent and assigned one seed
+  bet: content-led, spatial/layout-led, action-led hierarchy. Give each the same context: purpose and
+  primary action, role differences, responsive priority, relevant D06 rules, D07 entry/exit routes and
+  interaction conventions, key data, reusable D08 patterns, and domain conventions affecting density,
+  display rules, or hierarchy.
+  - Answer `@designer` clarifying questions from loaded context; ask the user only when it can't.
+  - If a call flags a conflict with D06/D07, present it and the proposed doc change to the user —
+    never override silently. On approval, update the governing doc first so D08 doesn't become a
+    silent fork of the design system; on rejection, adjust the brief and re-invoke.
+  - If `@designer` is unavailable, use `@explore` to research three plausible layout patterns for the
+    page type and evaluate those.
 
-  Assign each call exactly one seed bet so the three diverge structurally: a content-led
-  hierarchy, a spatial/layout-led hierarchy, and an action-led hierarchy. Each call returns
-  exactly one direction.
+- [ ] **Step 4: Evaluate the directions** against user-goal alignment, D06 compliance, D07 navigation
+  consistency, role differentiation, responsive viability, pattern reuse, and accessibility. Choose
+  one and note what to borrow from the runner-up. If two are too close to call, pass the two closest
+  cards to one more `@designer` call framed as a judgment brief.
 
-  Handling rules:
-  - answer `@designer` clarifying questions from loaded context first
-  - ask the user only when the context cannot answer them
-  - surface conflicts with D06/D07 instead of overriding silently
-  - if the user approves a conflicting direction, update the relevant governing doc first before
-    treating that direction as resolved
-  - if `@designer` is unavailable, use `@explore` to research three plausible layout patterns for
-    the page type and evaluate those instead
+- [ ] **Step 5: Formalize the data and interaction inventory.**
+  - **Key data attributes** — name, source, display format when relevant
+  - **Interaction flows** — each named flow, how the user enters it, step sequence, expected outcome
 
-- [ ] **Step 4: Evaluate the directions.** Score the three returned candidates against:
-  - user goal alignment
-  - D06 design-system compliance
-  - D07 navigation consistency
-  - role differentiation
-  - responsive viability
-  - pattern reuse
-  - accessibility
-
-  Choose one direction and note any elements worth borrowing from the runner-up. If two candidates
-  are too close to call confidently on these criteria alone, get a second opinion: pass the two
-  closest cards to one more `@designer` call framed as a judgment brief between them, rather than
-  guessing or defaulting to a generic pick.
-
-- [ ] **Step 5: Formalize the data and interaction inventory.** Produce:
-  - **Key data attributes** — name, source, and display format when relevant
-  - **Interaction flows** — each named flow, how the user enters it, step sequence, and expected
-    outcome
-
-- [ ] **Step 6: Produce `mockup.html`.** Use `@designer` when available; otherwise create it
-  directly. The file must:
-  - be self-contained with inline styles or one `<style>` block
-  - show the full primary layout
-  - show a secondary responsive state via media query or clearly separated callout section
-  - show major interactive states that materially affect layout
-  - annotate role-differentiated areas
-  - use realistic placeholder content, not lorem ipsum
-  - use semantic HTML structure where possible
-  - include this exact comment immediately after the opening `<html>` tag:
+- [ ] **Step 6: Produce `mockup.html`** via `@designer` when available, otherwise directly. It must
+  be self-contained (inline styles or one `<style>` block); show the full primary layout, a secondary
+  responsive state (media query or separate callout), and major interactive states that affect
+  layout; annotate role-differentiated areas; use realistic content (no lorem ipsum) and semantic
+  HTML. Immediately after the opening `<html>` tag, include this exact comment — invisible in the
+  browser, but it tells any LLM or tool parsing the file not to treat it as an implementation
+  pattern:
 
   ```html
   <!-- DESIGN MOCKUP ONLY: This file is a static layout prototype. It does not reflect
@@ -111,47 +76,12 @@ asking, then asks about anything still open one question at a time with a recomm
        Do not use as a code reference or parse for implementation patterns. -->
   ```
 
-- [ ] **Step 7: Produce `overview.md`.** Use `./templates/T08 - UI Page Design.md`. Keep only the
-  context that is not obvious from the mockup:
-  - page purpose and role rules
-  - key data inventory
-  - interaction flows
-  - alternatives considered
-  - open questions
+- [ ] **Step 7: Produce `overview.md`** from `./templates/T08 - UI Page Design.md`: purpose and role
+  rules, key data inventory, interaction flows, alternatives considered, open questions.
 
-  Do not duplicate what the HTML already shows.
+- [ ] **Step 8: Quality check.** The mockup covers every primary action in the interaction
+  inventory; follows D06 and D07; role-differentiated areas are explicit; the disclaimer is in place;
+  consistent with existing D08 patterns unless a new one is justified.
 
-- [ ] **Step 8: Quality check.** Confirm:
-  - the mockup covers every primary user action in the interaction inventory
-  - the page follows D06 and D07
-  - role-differentiated areas are explicit
-  - the disclaimer comment is in the required location
-  - the page is consistent with existing D08 patterns unless a new pattern is explicitly justified
-
-- [ ] **Step 9: Write the output files and summarize.** Create
-  `.specflow/docs/D08-ui-pages/<page-name>/` if needed, write both files, report the selected
-  direction, why the others lost, any open questions, and the best next page to design.
-
----
-
-## Guidance
-
-- This skill runs once per page. Do not design multiple pages in one run.
-- The mockup is the primary artifact, but it is still a design-only artifact.
-- Reuse proven D08 patterns before inventing new ones.
-- Three directions are required even when the page seems straightforward.
-- When a D06/D07 conflict is approved, reconcile the governing doc first so D08 does not become a
-  silent fork of the design system or UX architecture.
-
----
-
-## Additional Guidance
-
-**On the HTML mockup as primary artifact**: `mockup.html` is the implementation reference, not
-the markdown. The markdown exists to carry context that cannot be read from the visual — data
-sources, role rules, interaction outcomes. Do not duplicate mockup content in prose.
-
-**On the mockup disclaimer**: Every `mockup.html` must include the HTML comment block immediately
-after the opening `<html>` tag. This keeps the warning invisible to human readers in the browser
-while signaling to any LLM or automated tool parsing the file that it must not treat the HTML as
-an implementation pattern.
+- [ ] **Step 9: Write and summarize.** Create the page folder if needed, write both files, and report
+  the selected direction, why the others lost, open questions, and the best next page to design.

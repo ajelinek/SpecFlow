@@ -11,109 +11,52 @@ context: fork
 
 # 301 - Spec-Driven System Implementation
 
-Implement a substantial change with this strict phase order:
+Implement a substantial change in strict phase order: prepare context → failing tests → minimum
+production code → test cleanup → production cleanup → full validation. Never mix test and production
+cleanup in one pass. Reuse over creation, per `engineering-principles`, governs every coding pass.
 
-1. Prepare or refresh feature context
-2. Write failing tests
-3. Implement the minimum production code to pass
-4. Clean up tests
-5. Clean up production code
-6. Run full validation
-
-Do not mix test and production cleanup in the same pass.
-
-**Output**: Update source and test files in the project. If
-`.specflow/features/<fid>-<feature-slug>/overview.md` exists, change `status` from `todo` to
-`implementing` when work starts and to `done` only after full validation passes. If 201/202/203/204
-artifacts had to be synthesized for this run, keep them in working memory unless the user explicitly
-asks to persist them.
+**Output**: Updated source and test files. Feature `overview.md` `status` (if the file exists) goes
+`todo` → `implementing` at start and → `done` only after full validation passes. Design artifacts
+synthesized for this run stay in memory unless the user asks to persist them.
 
 ---
 
 ## Required Inputs
 
-Before proceeding, confirm:
-
 1. **Change request or spec reference** — a `.feature` path, scenario title, design/plan reference,
    or plain-language change request
-2. **Scope**
-   - If the user provided a `.feature` file, scope must be exactly one of: a single `@TS###`, a
-     single `TSM###`, or the full file.
-   - If the file is provided but the scope is not, ask one blocking question.
-   - If no `.feature` file is provided, derive a working scenario set from the request.
-3. **Workflow fit** — use 301 only for substantial planned implementation work, not one-file
-   maintenance or isolated cleanup
+2. **Scope** — for a `.feature` file, exactly one of: a single `@TS###`, a single `TSM###`, or the
+   full file. Without a `.feature` file, derive a working scenario set from the request.
+3. **Workflow fit** — substantial planned implementation only; not one-file maintenance or isolated
+   cleanup
 
-If the request is too vague to identify the behavior, ask one blocking question about the primary
-action and expected outcome.
+**Blocking questions.** This skill runs in a forked context and can't reach the user. Wherever this
+workflow needs a decision (missing scope for a given file, a request too vague to identify the
+primary action and expected outcome, a design conflict, baseline failures, non-converging repairs),
+stop and return the question to the caller with the options and a recommendation.
 
 ---
 
 ## Operating Model
 
-This workflow uses an orchestrator-worker model specialized for software delivery. The lead agent
-plans and controls phase progression, coding subagents execute tightly scoped changes, `@designer`
-serves as the UI direction worker when the change affects user-facing surfaces, and
-`@validator` serves as the primary evaluator by reporting environment-grounded test, lint,
-and build results.
+You are the orchestrator: you own scope, architecture, touched modules, phase state, and validation
+status. All code changes go through a coding subagent (`@coder`, else the general agent); all test,
+lint, and build execution goes through `@validator`, whose results are the ground truth for
+advancing. UI changes go through `@designer` first when available.
 
-1. **You are the orchestrator.** Own the change model for the run: scope, architecture, touched
-   modules, phase state, and validation status.
-2. **All code changes go through a coding subagent.** Use `@coder` when available; otherwise use
-   the general agent as the fallback.
-3. **UI changes go through `@designer` first when available.** If the change materially affects UI
-   structure, interaction flow, visual hierarchy, navigation behavior, component usage, or page
-   layout, invoke `@designer` before coding. Ground the brief in D06, D07, and relevant D08 page
-   docs; ask it to keep those documents consistent and to return implementation-facing UI direction
-   rather than broad creative exploration.
-4. **All execution goes through `@validator`.** Test, lint, and build results are the ground
-   truth for whether the workflow may advance.
-5. **Keep context tight.** Maintain a compact lead-agent working model. Give coding subagents only
-   the relevant excerpt for the current task, not the full conversation or full artifact set.
-6. **Use phase-isolated task packets.** Every coding pass must clearly name the phase, allowed
-   files, forbidden files, relevant scenarios, relevant design excerpts, and success criteria.
+**Working state.** Before any coding pass, keep a compact, current bundle: working feature brief
+(outcome, scope, key behavior); architecture ledger (decisions, invariants, touched modules,
+boundaries); context map (likely production/test files, helpers, dependencies, reference patterns);
+reuse inventory (existing modules, helpers, components, fixtures, and installed libraries to reuse or
+extend, checked against current code); standards index (conventions, config files, applicability
+notes); and for UI work a UI direction brief (applicable D06/D07/D08 constraints, proposed doc
+updates, unresolved conflicts, `@designer`'s implementation guidance).
 
----
-
-## Lead-Agent Working State
-
-Before any coding pass, create and maintain these compact artifacts for the run:
-
-- **Working feature brief** — intended outcome, scope, and key behavior
-- **Architecture ledger** — decisions, invariants, touched modules, and boundaries
-- **Context map** — likely production files, likely test files, helpers, dependencies, reference
-  patterns
-- **Reuse inventory** — existing modules, helpers, components, fixtures, and installed libraries
-  that the change should reuse or extend, checked against the current code
-- **Standards index** — relevant conventions, config files, and short applicability notes
-- **Task packet template** — the required fields every coding pass receives
-
-Keep these concise and current. The lead agent owns the full bundle; subagents receive only the
-current slice.
-
-When the change touches UI, also maintain a **UI direction brief**: the applicable D06/D07/D08
-constraints, any proposed design-doc updates, unresolved design conflicts, and the concrete UI
-implementation guidance returned by `@designer`.
-
----
-
-## Task Packet Template
-
-Every coding subagent invocation should include only:
-
-- implementation objective
-- current phase
-- exact files or modules in scope
-- relevant scenario text
-- relevant design or architecture excerpt
-- relevant UI direction excerpt when the change touches UI
-- applicable standards excerpt
-- reuse candidates from the reuse inventory that apply to this pass
-- allowed reference files for just-in-time reading
-- explicit out-of-scope boundaries
-- concrete success criteria
-
-Do not pass the full conversation, every feature artifact, or every standards file by default.
+**Task packet.** Each coding pass receives only its slice: objective, phase, exact files in scope,
+relevant scenario text, relevant design/architecture excerpt, UI direction excerpt if relevant,
+standards excerpt, applicable reuse candidates, allowed just-in-time reference files, explicit
+out-of-scope boundaries, and concrete success criteria. Never the full conversation, every artifact,
+or every standards file.
 
 ---
 
@@ -121,152 +64,82 @@ Do not pass the full conversation, every feature artifact, or every standards fi
 
 ### Phase 0 - Prepare Feature Context
 
-- [ ] **Step 1: Resolve feature and scope.** Determine the feature `F-ID`, feature slug, feature
-  folder `<fid>-<feature-slug>`, and working scope. If the request points to an existing `.feature`
-  file, require a single `@TS###`, single `TSM###`, or the full file.
+- [ ] **Step 1: Resolve feature and scope.** Determine the `F-ID`, slug, feature folder
+  `<fid>-<feature-slug>`, and working scope.
 
-- [ ] **Step 2: Load or synthesize feature artifacts.** Check for:
-  - `overview.md`
-  - `specs.feature`
-  - `implementation.md`
+- [ ] **Step 2: Load or synthesize feature artifacts.** Check for `overview.md`, `specs.feature`,
+  `implementation.md`. Synthesize any missing ones in order via `201`, `202`, `203`, `204`. Any
+  scenario creation or material revision routes through `202-spec-design`.
 
-  If any are missing, synthesize them in this order and keep them in memory for this run:
-  1. `201-high-level-design`
-  2. `202-spec-design`
-  3. `203-implementation-design`
-  4. `204-feature-validation`
+- [ ] **Step 3: Build the working state.** Load `engineering-principles`. Build the reuse inventory
+  with `@explore`: confirm `implementation.md`'s reuse assessment still matches the code and list what
+  each scenario should reuse or extend.
 
-- [ ] **Step 3: Build the working model.** Load `engineering-principles`; its primary principle,
-  reuse over creation, governs every coding pass in this run. Record the intended outcome, touched
-  modules, architectural boundaries, likely test files, likely production files, and relevant
-  conventions. Build the reuse inventory with `@explore`: confirm the reuse assessment in
-  `implementation.md` still matches the current code, and list the existing pieces each scenario
-  should reuse or extend. For UI work, also maintain a UI direction brief grounded in D06/D07/D08,
-  and give `@designer` the existing components from the reuse inventory.
+- [ ] **Step 4: Route UI changes through `@designer`.** If the scope changes layout, interaction flow,
+  navigation, visible state handling, visual hierarchy, component usage, or other user-facing
+  behavior: load the relevant D06/D07/D08 docs, pass `@designer` only that context plus the reuse
+  inventory's existing components, and ask for the governing UI rules, doc conflicts, minimal doc
+  updates, and a concise implementation-facing direction brief — not broad creative exploration.
+  Code must follow resolved D06/D07/D08 guidance rather than invent patterns. An unresolved conflict
+  is a blocking question before coding; an approved one updates the governing doc first or is
+  carried explicitly in the UI direction brief.
 
-- [ ] **Step 4: Route UI changes through `@designer` when available.** If the scope changes layout,
-  interaction flow, navigation, visible state handling, or other user-facing behavior:
-  - load the relevant D06/D07/D08 docs first
-  - pass only the relevant context to `@designer`
-  - ask for governing UI rules, any doc conflicts, minimal doc updates, and a concise
-    implementation-facing UI direction brief
+- [ ] **Step 5: Update feature status** `todo` → `implementing`.
 
-  If `@designer` finds a conflict with existing UI docs and the resolution is not already explicit,
-  stop and surface it before coding. If the user approves a conflicting direction, update the
-  governing doc first or carry the approved resolution explicitly in the UI direction brief.
-
-- [ ] **Step 5: Update feature status.** If `overview.md` exists and its `status` is `todo`, change
-  it to `implementing`.
-
-- [ ] **Step 6: Establish the baseline.** Run `@validator` for:
-  1. `mode: test`
-  2. `mode: lint`
-  3. `mode: build`
-
-  Record baseline results. If there are pre-existing failures, surface them and ask whether to
-  proceed.
+- [ ] **Step 6: Establish the baseline.** `@validator` `mode: test`, `mode: lint`, `mode: build`.
+  Record results; pre-existing failures are a blocking question (proceed or not). Previously passing
+  tests are part of the acceptance bar from here on.
 
 ### Phase 1 - Write Failing Tests
 
-- [ ] **Step 7: Run the test-only coding pass.** Use `@coder` with:
-  - phase: `test-only`
-  - the selected scope
-  - only the relevant scenario text
-  - exact test files to create or modify
-  - production files allowed only as references
-  - explicit no-touch production scope
+- [ ] **Step 7: Test-only pass.** `@coder`, phase `test-only`: selected scope, relevant scenario text,
+  exact test files to create or modify, production files as reference only, explicit no-touch
+  production scope. Write only the tests; they must fail cleanly because the behavior doesn't exist.
+  No production code is written before failing tests define the target.
 
-  Instruction: write only the tests for the selected scope. The tests must fail cleanly because the
-  behavior is not implemented yet.
-
-- [ ] **Step 8: Verify the tests fail for the right reason.** Run `@validator` with
-  `mode: test` scoped to the new tests. Confirm they are discovered and fail, not error, while
-  previously passing tests remain green.
+- [ ] **Step 8: Verify the right failure.** `@validator` `mode: test` scoped to the new tests: they
+  are discovered and fail (not error), and previously passing tests stay green.
 
 ### Phase 2 - Implement Minimum Production Code
 
-- [ ] **Step 9: Run the production-only coding pass.** Use `@coder` with:
-  - phase: `production-only`
-  - the failing test output
-  - exact production files/modules in scope
-  - relevant implementation-plan and architecture excerpts
-  - any approved UI direction brief
-  - explicit no-touch test scope
+- [ ] **Step 9: Production-only pass.** `@coder`, phase `production-only`: failing test output, exact
+  production files in scope, implementation-plan and architecture excerpts, any approved UI direction
+  brief, explicit no-touch test scope. Implement only what makes the tests pass, working down the
+  reuse ladder with the packet's reuse candidates first. No cleanup or extra scope. Before advancing,
+  every new file, export, or dependency must be in the plan or carry a reuse-ladder justification; an
+  unplanned new dependency is a blocking question, not a finished pass.
 
-  Instruction: implement only what is needed to make the failing tests pass. Work down the
-  `engineering-principles` reuse ladder and use the reuse candidates in the packet before writing
-  new code. No cleanup or extra scope in this pass.
-
-  Before advancing, check the coder's output: every new file, export, or dependency must be in the
-  implementation plan or carry a reuse-ladder justification. Treat an unplanned new dependency as
-  a conflict to resolve with the user, not a finished pass.
-
-- [ ] **Step 10: Verify the tests pass.** Run `@validator` with `mode: test`. Confirm the
-  targeted scenarios now pass and previously passing tests still pass.
+- [ ] **Step 10: Verify.** `@validator` `mode: test`: targeted scenarios pass, nothing regressed.
 
 ### Phase 3 - Clean Up Tests
 
-- [ ] **Step 11: Run the test-cleanup pass.** Use `@coder` with phase `test-cleanup-only` and exact
-  test files in scope. Improve clarity, naming, and deduplication without changing coverage or
+- [ ] **Step 11: Test-cleanup pass.** `@coder`, phase `test-cleanup-only`, exact test files only —
+  never production files. Improve clarity, naming, and deduplication without changing coverage or
   assertions.
 
-- [ ] **Step 12: Verify tests still pass.** Run `@validator` with `mode: test`.
+- [ ] **Step 12: Verify.** `@validator` `mode: test`.
 
 ### Phase 4 - Clean Up Production Code
 
-- [ ] **Step 13: Run the production-cleanup pass.** First, check the Phase 2 changes against the
-  codebase for logic that duplicates existing modules. Then use `@coder` with phase
-  `production-cleanup-only`, the production files changed in Phase 2, and any existing owner files
-  named for consolidation. Improve clarity, naming, structure, and deduplication without changing
-  behavior, folding duplicated logic into its existing owner.
+- [ ] **Step 13: Production-cleanup pass.** First check Phase 2's changes for logic duplicating
+  existing modules. Then `@coder`, phase `production-cleanup-only`, with the Phase 2 production files
+  and any existing owner files named for consolidation — never test files. Improve clarity, naming,
+  and structure without changing behavior, folding duplicated logic into its existing owner.
 
-- [ ] **Step 14: Verify tests still pass.** Run `@validator` with `mode: test`.
+- [ ] **Step 14: Verify.** `@validator` `mode: test`.
 
 ### Phase 5 - Final Validation
 
-- [ ] **Step 15: Run full validation.** Execute, in order:
-  1. `mode: test`
-  2. `mode: lint`
-  3. `mode: build`
+- [ ] **Step 15: Full validation** — `mode: test`, `mode: lint`, `mode: build`. The change isn't done
+  until all three are clean. On failure, a focused `@coder` repair pass fixes only the reported
+  failure, then rerun all three. If repairs stop converging, stop and return the blocker.
 
-  If any mode fails, run a focused repair pass through `@coder`, fix only the reported failure, and
-  rerun all three modes. If repair loops stop converging, stop and surface the blocker.
+- [ ] **Step 16: Flag high-risk changes.** Clean validation isn't enough for changes to architecture,
+  public interfaces, data boundaries, or other high-impact behavior — recommend human review.
 
-- [ ] **Step 16: Request human review when risk is high.** Recommend human review after validation
-  if the change affects architecture, public interfaces, data boundaries, or other high-impact
-  behavior.
+- [ ] **Step 17: Update feature status** `implementing` → `done`.
 
-- [ ] **Step 17: Update feature status.** If `overview.md` exists and `status` is `implementing`,
-  change it to `done` after full validation passes.
-
-- [ ] **Step 18: Summarize.** Report:
-  - implemented scope
-  - scenarios implemented
-  - production files changed
-  - test files changed
-  - reuse report: files created versus extended, new dependencies, lines added versus removed
-  - any internally generated artifacts
-  - whether `@designer` was used and which UI docs mattered
-  - baseline issues discovered before implementation
-  - final validation result
-  - key design or architecture decisions that shaped the implementation
-
----
-
-## Non-Negotiables
-
-1. No production code before failing tests define the target behavior.
-2. Test cleanup never edits production files.
-3. Production cleanup never edits test files.
-4. Previously passing tests are part of the acceptance bar.
-5. The change is not done until tests, lint, and build are clean.
-6. Reuse over creation, as defined by `engineering-principles`: no change, reuse, or extension
-   before new code, and no new dependency without approval.
-7. If scenarios need to be created or materially revised, route that through `202-spec-design`.
-8. Keep task packets tight; do not dump full conversation state into subagents.
-9. For UI changes, follow resolved D06/D07/D08 guidance rather than inventing new patterns in code.
-10. Code edits go through a coding subagent; validation goes through `@validator`.
-11. Missing design artifacts stay in memory unless the user asks to persist them.
-12. Stop and escalate when repair loops stop converging.
-13. Clean validation is necessary, but human review still matters for high-risk architectural or
-    public-behavior changes.
+- [ ] **Step 18: Summarize.** Implemented scope and scenarios; production and test files changed;
+  reuse report (files created vs extended, new dependencies, lines added vs removed); internally
+  generated artifacts; whether `@designer` was used and which UI docs mattered; baseline issues;
+  final validation result; key design or architecture decisions.

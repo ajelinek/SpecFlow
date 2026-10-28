@@ -11,170 +11,109 @@ context: fork
 
 # 402 - Test Correction
 
-Start from a failing automated test and determine the correct correction path before editing
-anything.
+Start from a failing test, classify why it fails, explain why, and only then apply the smallest
+correct fix. A red test doesn't say whether the problem is a stale test, a real source defect, or an
+intentional behavior change — never assume every red test means broken product code, or that every
+selector or UI-structure mismatch means the test should change.
 
-This workflow exists for the cases where a red test does not immediately tell you whether the defect
-is:
-
-1. a broken or stale test
-2. a real source-code defect
-3. an intentional product behavior change that now conflicts with the old test
-
-The job of `402` is to classify the failure, explain why, and only then apply the smallest correct
-fix.
-
-**Output**: Corrected test files, corrected source files, or a blocking user decision when the
-failing test exposes an intended behavior change or product-capability ambiguity.
+**Output**: Corrected test and/or source files, or a blocking decision when the failure exposes an
+intended behavior change or product-capability ambiguity.
 
 ---
 
 ## Required Inputs
 
-Before proceeding, confirm:
-
-1. **Failure anchor** — failing test name, file, command, stack trace, CI link, screenshot of the
-   failure, or an existing `.specflow/docs/D11-exploratory-defects.md` entry (`DEF-###`)
+1. **Failure anchor** — failing test name, file, command, stack trace, CI link, failure screenshot,
+   or an existing `.specflow/docs/D11-exploratory-defects.md` entry (`DEF-###`)
 2. **Execution surface** — UI, API, integration, unit, or mixed
-3. **Change window** — the recent commits, diff range, PR, or changed files most likely related to
-   the failure
-4. **Decision boundary** — whether this run may correct only tests, may correct only source, or may
-   correct either once the failure is classified
+3. **Change window** — recent commits, diff range, PR, or changed files likely related
+4. **Decision boundary** — tests only, source only, or either once classified
 
-If the failing scope is too vague, ask one blocking question.
+**Blocking questions.** This skill runs in a forked context and can't reach the user. When the
+failing scope is too vague, or the failure is a behavior-intent question (Step 7), stop and return
+the question to the caller.
 
 ---
 
 ## Execution Protocol
 
-- You are the orchestrator.
-- Use `@explore` for focused discovery of failing-test context, similar patterns, and recent code
-  movement.
-- Use `@validator` to reproduce failures and validate the chosen fix.
-- Use `@coder` only after the failure classification is strong enough to justify a specific edit
-  path.
-- Keep a compact working model: failure anchor, suspected affected files, recent changes, current
-  classification, allowed edit boundary, and decision rationale.
+You are the orchestrator. `@explore` for focused discovery of test context, similar patterns, and
+recent code movement; `@validator` to reproduce and validate; `@coder` only once the classification
+justifies a specific edit path. Keep a compact working model: failure anchor, suspected files, recent
+changes, current classification, allowed edit boundary, rationale.
 
 ---
 
 ## Classification Model
 
-Every `402` run must classify the failure into one of these buckets before broad editing begins:
+Classify before any broad editing:
 
-- **Test defect** — the product behavior is still correct, but the test assertion, setup, timing,
-  fixture, selector, or expectation is wrong or stale
-- **Source defect** — the failing test is exposing a real regression or missing guard in production
-  behavior
-- **Behavior change / ambiguous intent** — the observed behavior changed in a way that may be
-  intentional, or the failure represents a business-capability question rather than a clear defect
+- **Test defect** — product behavior is still correct; the assertion, setup, timing, fixture,
+  selector, or expectation is wrong or stale
+- **Source defect** — the test exposes a real regression or missing guard
+- **Behavior change / ambiguous intent** — behavior changed in a possibly intentional way, or the
+  failure is a business-capability question rather than a clear defect
 
-The third bucket is mandatory. Do not force every failure into "test bug" or "source bug".
+The third bucket is mandatory — don't force every failure into "test bug" or "source bug".
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Anchor the exact failing signal.** Identify the smallest reproducible failing unit:
-  single test, scenario, spec block, or command. Capture the exact failure text and where it occurs.
+- [ ] **Step 1: Anchor the failing signal** — the smallest reproducible unit (single test, scenario,
+  spec block, or command), with the exact failure text and location.
 
-- [ ] **Step 2: Establish baseline reproduction with `@validator`.** Re-run the narrowest
-  useful command first. Confirm the failure is current, reproducible, and not already superseded by
-  unrelated repo breakage. Record any pre-existing failures that weaken confidence.
+- [ ] **Step 2: Reproduce with `@validator`** using the narrowest useful command, whenever feasible
+  before changing code. Confirm the failure is current and not superseded by unrelated breakage;
+  record pre-existing failures that weaken confidence.
 
-- [ ] **Step 3: Load local intent sources.** Read the closest intent-defining artifacts that exist:
-  test name and body, `.feature` file, feature `overview.md`, implementation doc, inline comments,
-  nearby assertions, and adjacent tests. Use these to understand what the failing test is trying to
-  protect.
+- [ ] **Step 3: Load intent sources** — the test name and body, `.feature` file, feature
+  `overview.md`, implementation doc, inline comments, nearby assertions, adjacent tests — to
+  understand what the test protects.
 
-- [ ] **Step 4: Inspect recent code movement.** Review the relevant recent commits and changed files
-  around the failing area. Identify what changed in the test, selectors, contracts, UX copy,
-  rendering structure, validation rules, state transitions, and business logic. Use history to build
-  a plausible explanation for why the test started failing.
+- [ ] **Step 4: Inspect recent code movement** — required before deciding the fix path. Review recent
+  commits and changed files around the area: changes to the test, selectors, contracts, UX copy,
+  rendering structure, validation rules, state transitions, business logic. Build a plausible
+  explanation of why it started failing.
 
-- [ ] **Step 5: Compare against similar tests and patterns.** Find 2-3 nearby tests or helpers that
-  cover similar behavior. Check whether the failing test drifted from established patterns or whether
-  the implementation drifted away from the surrounding feature family.
+- [ ] **Step 5: Compare against 2-3 similar tests or helpers** — did the test drift from established
+  patterns, or did the implementation drift from its feature family?
 
-- [ ] **Step 6: Classify the failure.** Decide which of the three buckets is most supported by the
-  evidence.
-
-  Use these decision rules:
-  - selector drift alone is not automatically a product defect if the same user capability still
-    works and the behavior contract did not change
+- [ ] **Step 6: Classify the failure** by the evidence:
+  - selector drift alone isn't a product defect if the same capability still works and the behavior
+    contract didn't change
   - a changed business outcome, validation rule, state transition, or user-visible capability is not
-    just a "test fix"; treat it as a likely source defect or behavior-change question
-  - if the implementation and the test both look reasonable but disagree about intended behavior,
-    stop and ask instead of guessing
+    just a "test fix" — a still-broken capability is never a harmless test defect; treat it as a
+    likely source defect or behavior-change question
+  - if test and implementation both look reasonable but disagree on intended behavior, go to Step 7
 
-- [ ] **Step 7: Stop for ambiguous business-intent changes.** If the failure appears to come from a
-  real functionality change, a product decision, or unclear intended behavior, do not silently patch
-  either side. Present the user with:
-  - what changed
-  - why it looks intentional or ambiguous
-  - why this is not just a selector or harness issue
-  - the two plausible correction paths
+- [ ] **Step 7: Stop on business-intent questions.** If the failure comes from a real functionality
+  change, a product decision, or unclear intent, patch neither side. Return: what changed, why it
+  looks intentional or ambiguous, why it isn't just a selector or harness issue, and the two plausible
+  correction paths.
 
-- [ ] **Step 8: Freeze the correction boundary.** Build a task packet that states:
-  - chosen classification
-  - exact files allowed to change
-  - exact files that are read-only references
-  - forbidden edits outside the selected correction path
-  - the evidence that justifies this path
+- [ ] **Step 8: Freeze the correction boundary** in a task packet: classification, files allowed to
+  change, read-only references, forbidden edits, and the justifying evidence.
 
-- [ ] **Step 9: Run the minimal correction pass with `@coder`.**
+- [ ] **Step 9: Minimal correction with `@coder`.**
+  - **Test defect**: smallest fix to setup, assertions, fixtures, selectors, waits, or helpers;
+    preserve the business assertion. Never weaken the test, delete meaningful coverage, or swap
+    business assertions for implementation-detail checks just to pass.
+  - **Source defect**: smallest production fix that satisfies the existing intended assertion,
+    reusing or extending existing code per `engineering-principles`. Change tests only when the fix
+    legitimately changes observable output or setup. Never reinterpret a regression as a test issue to
+    avoid touching source.
 
-  Under **test defect**:
-  - prefer the smallest fix to setup, assertions, fixtures, selectors, waits, or helpers
-  - preserve the business assertion when the behavior still exists
-  - do not weaken the test just to make it pass
+- [ ] **Step 10: Validate with `@validator`** — the failing test first, then the strongest nearby
+  surface. If the fix doesn't converge, reassess the classification rather than iterating blindly.
 
-  Under **source defect**:
-  - fix the smallest production behavior needed to satisfy the existing intended assertion
-  - change tests only when the source fix legitimately changes observable output or supporting test
-    setup
-  - do not reinterpret a regression as a test issue to avoid touching source
+- [ ] **Step 11: Record rationale.** Why this classification, the supporting evidence, and residual
+  fragility. If triggered by a D11 `DEF-###` entry, append a triage note (classification and outcome)
+  to it. Never create a `DEF-###` entry (only `501-browser-qa-analyst` does) and never change its
+  status — `502-defect-resolution` applies status when it dispatched this run; otherwise status is
+  left to whoever reads the note.
 
-- [ ] **Step 10: Validate the chosen fix with `@validator`.** Run the failing test first, then
-  the strongest nearby validation surface the repo supports. If the fix path fails to converge,
-  reassess the classification rather than blindly iterating.
-
-- [ ] **Step 11: Record rationale and risks.** Summarize why the failure was classified the way it
-  was, what evidence supported that call, and any residual fragility that remains. If this run was
-  triggered by an existing `.specflow/docs/D11-exploratory-defects.md` entry (`DEF-###`), append a
-  triage note to that entry recording the classification and outcome. Never create a new `DEF-###`
-  entry (only a `501-browser-qa-analyst` run may do that) and never change the entry's status
-  yourself — when this run was dispatched by `502-defect-resolution`, it owns applying this
-  classification and outcome to the entry's status; a directly-triggered `402` run leaves status to
-  whoever reads the triage note.
-
-- [ ] **Step 12: Summarize.** Report:
-  - failing test scope
-  - reproduction command
-  - recent commits or changed files reviewed
-  - final classification: `test defect`, `source defect`, or `behavior change / ambiguous intent`
-  - why that classification won
-  - exact files changed
-  - whether the fix changed tests, source, or both
-  - final validation result
-  - any user decision that was required before continuing
-  - if triggered by a D11 entry, confirmation that a triage note was appended to it
-
----
-
-## Non-Negotiables
-
-1. Reproduce the failure before changing code whenever feasible.
-2. Review recent commits or changed files relevant to the failure before deciding the fix path.
-3. Do not assume every red test means broken product code.
-4. Do not assume every selector or UI-structure mismatch means the test should be updated.
-5. A still-broken business capability is not a harmless test defect.
-6. If the disagreement is really about intended functionality, stop and ask.
-7. Prefer the smallest correct fix once classification is clear. Source fixes follow
-   `engineering-principles`: reuse or extend existing code before adding new code.
-8. Never "fix" a test by deleting meaningful coverage or replacing business assertions with weaker
-   implementation-detail checks.
-9. If this run was triggered by an existing `D11-exploratory-defects.md` entry, append a triage note
-   to that entry — never create a new `DEF-###` entry (only a `501-browser-qa-analyst` run may do
-   that), and never change its status yourself (that's `502-defect-resolution`'s job when it was the
-   caller).
+- [ ] **Step 12: Summarize.** Failing test scope; reproduction command; commits or files reviewed;
+  classification (`test defect`, `source defect`, or `behavior change / ambiguous intent`) and why it
+  won; files changed and whether tests, source, or both; final validation result; any decision that
+  was required; if D11-triggered, confirmation the triage note was appended.

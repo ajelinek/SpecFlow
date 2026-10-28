@@ -9,9 +9,10 @@ description: >
 
 # 101 - Project Overview
 
-Produce the foundational product document for a project. This document captures business purpose,
-target users, differentiation, key scenarios, and success criteria. It is the main product-level
-reference for downstream SpecFlow workflows.
+Produce the foundational product document: business purpose, target users, differentiation, key
+scenarios, and success criteria. It is the main product-level reference for downstream SpecFlow
+workflows. Focus on product framing, not implementation, and write for non-technical stakeholders
+as well as engineers.
 
 **Output path**: `.specflow/docs/D01-project-overview.md`
 
@@ -19,64 +20,37 @@ reference for downstream SpecFlow workflows.
 
 ## Required Inputs
 
-Before proceeding, confirm:
+1. **Pain point** — what specific problem this solves that existing solutions do not address well
+2. **Differentiation** — direct competitors (or solution categories) and how this stands apart
+3. **Target users** — primary user types and their main goals
+4. **Key scenarios** — the 3-5 user journeys that represent the core value
+5. **Success metrics** — how you'll know it's succeeding; quantifiable signals preferred
 
-1. **Pain point** — What specific problem does this application solve that existing solutions do not
-   address well?
-2. **Differentiation** — Who are the direct competitors (or solution categories) and how will this
-   application stand apart?
-3. **Target users** — Who are the primary user types and what are their main goals when using the
-   product?
-4. **Key scenarios** — What are the 3-5 most important user journeys that represent the core value
-   of the product?
-5. **Success metrics** — How will you know the product is succeeding? Quantifiable signals
-   preferred.
-
-Optional but useful: technology constraints, compliance/regulatory requirements, and scale
-expectations.
-
-Resolve these with `gap-check`: it tries to answer them from existing context before asking, then
-asks about anything still open one question at a time with a recommended answer.
+Optional: technology constraints, compliance/regulatory requirements, scale expectations.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Run `gap-check` against the Required Inputs above. Do not proceed
-  on vague product framing.
+- [ ] **Step 1: Validate inputs.** Resolve the Required Inputs with `gap-check`. Do not proceed on
+  vague product framing.
 
-- [ ] **Step 2: Load existing context.** If D01 already exists, treat it as a draft to update. Read
-  `domain-knowledge.md` when present so the overview uses the right terminology and user framing.
+- [ ] **Step 2: Load existing context.** If D01 exists, treat it as a draft to update. Read
+  `domain-knowledge.md` when present for terminology and user framing. Use `@explore` for a concise
+  summary of existing docs or repo shape when that helps ground the framing.
 
-- [ ] **Step 3: Explore existing repo context if needed.** Use `@explore` for a concise summary of
-  existing docs or repo shape when that helps ground the product framing.
-
-- [ ] **Step 4: Draft the document.** Use `./templates/T01 - Project Overview.md` and fill:
+- [ ] **Step 3: Draft the document.** Use `./templates/T01 - Project Overview.md` and fill:
   - **Purpose & Value Proposition** — one to two sentences: problem + unique solution + who
     benefits. No buzzwords.
-  - **Target Users & Goals** — name each user type with a specific, measurable goal, not just a
-    role label.
-  - **Key Business Scenarios** — 3-5 user journeys. Each names the user, what they are trying to
+  - **Target Users & Goals** — each user type with a specific, measurable goal, not just a role label.
+  - **Key Business Scenarios** — 3-5 journeys, each naming the user, what they're trying to
     accomplish, and what a successful outcome looks like.
   - **Technology Constraints** — only what is real and known.
-  - **High-Level Feature Categories** — major functional domains; avoid listing individual features.
+  - **High-Level Feature Categories** — major functional domains, not individual features.
 
-- [ ] **Step 5: Quality check.** Confirm:
-  - the value proposition is specific to this product
-  - user goals are measurable or concrete
-  - scenarios are clear enough to guide prioritization
-  - language stays business-level
-  - open questions are named explicitly
+- [ ] **Step 4: Quality check.** Value proposition is specific to this product; user goals are
+  measurable or concrete; scenarios are clear enough to guide prioritization; language stays
+  business-level; unknowns are named explicitly instead of filled with guesses.
 
-- [ ] **Step 6: Write the file and summarize.** Write
-  `.specflow/docs/D01-project-overview.md`, report what was written, call out any unresolved
+- [ ] **Step 5: Write and summarize.** Write the file, report what was written and unresolved
   questions, and suggest `102-system-architecture` next.
-
----
-
-## Rules
-
-1. Focus on product framing, not implementation.
-2. Write for non-technical stakeholders as well as engineers.
-3. Keep scenarios concrete and user-centered.
-4. Name unknowns explicitly instead of filling gaps with guesses.

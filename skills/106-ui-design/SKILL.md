@@ -9,11 +9,10 @@ description: >
 
 # 106 - UI Design
 
-Produce the UI design document for a project. This document records the visual decisions that later
-UI work should inherit: brand tone, color semantics, typography strategy, spacing and layout
-philosophy, component visual language, and motion stance.
-
-It is a decision record, not an implementation spec.
+Record the visual decisions later UI work inherits: brand tone, color semantics, typography
+strategy, spacing and layout philosophy, component visual language, and motion stance. A decision
+record, not an implementation spec — but concrete enough to derive tokens, type scales, and
+component styling rules later. "Clean and professional" is too vague.
 
 **Output path**: `.specflow/docs/D06-ui-design.md`
 
@@ -21,104 +20,50 @@ It is a decision record, not an implementation spec.
 
 ## Required Inputs
 
-Before generating directions or writing output, confirm:
-
 1. **Brand personality** — emotional tone and visual identity
-2. **Target audience** — including any accessibility needs beyond WCAG 2.1 AA
+2. **Target audience** — including accessibility needs beyond WCAG 2.1 AA
 3. **Device support** — mobile-first, desktop-first, or responsive
 4. **Theme support** — light, dark, or both
 5. **Competitive differentiation** — what the design should stand apart from
 
-Optional but useful: brand assets, chosen component library, performance constraints that affect
-font choices.
-
-Resolve these with `gap-check`: it tries to answer them from existing context before asking, then
-asks about anything still open — especially brand personality or audience — one question at a time
-with a recommended answer.
+Optional: brand assets, chosen component library, performance constraints that affect font choices.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Run `gap-check` against all five required inputs.
+- [ ] **Step 1: Validate inputs.** Resolve all five with `gap-check`, especially brand personality
+  and audience.
 
-- [ ] **Step 2: Load existing context.** If D06 already exists, treat it as a draft to update. Read
-  D01, D05, and `.specflow/context/domain-knowledge.md` when present. Reference these docs; do not
-  restate them.
+- [ ] **Step 2: Load existing context.** If D06 exists, treat it as a draft to update. Read D01, D05,
+  and `domain-knowledge.md` when present; reference them, don't restate them. Domain conventions can
+  rule out whole directions early.
 
-- [ ] **Step 3: Generate three design directions.** Use `@designer` when available. Spawn three
-  parallel calls in a single message (foreground, `run_in_background: false`, so all three return
-  before you continue) — each call is a fresh, independent `@designer` invocation with no
-  visibility into the other two. Pass every call the same relevant context:
-  - confirmed inputs from Step 1
-  - relevant excerpts from D01
-  - styling and implementation constraints from D05
-  - domain conventions from `domain-knowledge.md` when they materially affect design
+- [ ] **Step 3: Generate three design directions.** Required even when the direction seems obvious —
+  comparison exposes hidden assumptions and often surfaces a clearly better approach. Spawn three
+  `@designer` calls in parallel in one message (foreground), each independent and assigned one seed
+  bet: restrained/functional, expressive/characterful, dense/information-forward. Give each the same
+  context: confirmed inputs, relevant D01 excerpts, D05 styling/implementation constraints, and
+  domain conventions that materially affect design.
+  - Answer `@designer` clarifying questions from loaded context; ask the user only when it can't.
+  - If a call flags a conflict with D06/D07, present the conflict and its proposed doc change to the
+    user — never override silently. On approval, update the governing doc first, then continue; on
+    rejection, adjust the brief and re-invoke.
+  - If `@designer` is unavailable, generate the three directions yourself from the same context.
 
-  Assign each call exactly one seed bet so the three diverge structurally: restrained/functional,
-  expressive/characterful, dense/information-forward. Each call returns exactly one direction.
+- [ ] **Step 4: Evaluate the directions** against brand alignment, audience fit, differentiation
+  from named competitors, technical feasibility within D05, and accessibility without special
+  workarounds. Recommend one and note exactly what to borrow from the runner-up. If two are too close
+  to call, pass the two closest cards to one more `@designer` call framed as a judgment brief rather
+  than defaulting to a generic pick.
 
-  Handling rules:
-  - answer `@designer` clarifying questions from loaded context first
-  - ask the user only when the context cannot answer them
-  - if any call flags a conflict with existing D06/D07 decisions, surface it instead of overriding
-    silently
-  - if the user approves a conflicting direction, update the governing doc first before treating
-    that direction as resolved
-  - if `@designer` is unavailable, generate the three directions yourself from the same context
+- [ ] **Step 5: Draft the document.** Use `./templates/T06 - UI Design.md`: **Design Strategy &
+  Brand Foundation**, **Color Strategy**, **Typography Strategy**, **Layout & Component Strategy**,
+  and **Alternatives Considered** (rejected directions, briefly, so the decision is traceable).
 
-- [ ] **Step 4: Evaluate the directions.** Score the three returned candidates against:
-  - brand alignment
-  - audience fit and accessibility
-  - differentiation from named competitors
-  - technical feasibility within D05 constraints
-  - accessibility feasibility without special workarounds
+- [ ] **Step 6: Quality check.** Every decision traces to confirmed inputs, prior docs, or explicit
+  accessibility/performance principles; color and typography are specific enough to derive real
+  tokens; the direction is feasible within technical and performance constraints; no filler.
 
-  Choose one direction as the recommendation. If the runner-up has elements worth keeping, note
-  exactly what to borrow. If two candidates are too close to call confidently on these criteria
-  alone, get a second opinion: pass the two closest cards to one more `@designer` call framed as a
-  judgment brief between them, rather than guessing or defaulting to a generic pick.
-
-- [ ] **Step 5: Draft the document.** Use `./templates/T06 - UI Design.md` and fill in:
-  - **Design Strategy & Brand Foundation**
-  - **Color Strategy**
-  - **Typography Strategy**
-  - **Layout & Component Strategy**
-  - **Alternatives Considered**
-
-- [ ] **Step 6: Quality check.** Confirm:
-  - every decision traces to confirmed inputs, prior docs, or explicit accessibility/performance
-    principles
-  - color and typography guidance is specific enough to derive real tokens/values later
-  - the chosen direction is feasible within the project's technical and performance constraints
-  - the document contains no filler or placeholder language
-
-- [ ] **Step 7: Write the file and summarize.** Write `.specflow/docs/D06-ui-design.md`, report the
-  selected direction, why the others lost, any deferred questions, and the best next UI workflow.
-
----
-
-## Guidance
-
-- Three directions are required. The comparison is part of the workflow, not optional polish.
-- Domain conventions can rule out entire directions early; use them.
-- "Clean and professional" is too vague. Make choices concrete enough that later docs can turn them
-  into tokens, type scales, and component styling rules.
-- If an approved direction conflicts with an existing D06 or D07 decision, reconcile the governing
-  doc first so later workflows do not inherit a silent fork.
-
----
-
-## Additional Guidance
-
-**On multi-direction exploration**: The three-direction exercise in Step 3 is not optional even
-if the brand direction seems obvious. Comparing directions exposes hidden assumptions and often
-surfaces a clearly superior approach that would not have been reached by drafting directly.
-Document the rejected directions briefly in the output under an "Alternatives Considered" section
-so the decision is traceable.
-
-**On D06/D07 conflicts**: If `@designer` flags a conflict between the brief and an existing
-decision in D06 or D07, do not override the existing decision silently. Present the conflict and
-`@designer`'s proposed doc change to the user. If the user approves the change, update the
-relevant document first, then ask `@designer` to continue. If the user rejects the change, adjust
-the brief accordingly and re-invoke `@designer`.
+- [ ] **Step 7: Write and summarize.** Write the file, report the selected direction, why the others
+  lost, deferred questions, and the best next UI workflow.
