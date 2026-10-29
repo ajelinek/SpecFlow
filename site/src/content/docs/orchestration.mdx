@@ -12,14 +12,14 @@ The `900` series is different from the `100`-`400` series: it is not a pipeline 
 ## The split
 
 - `900-feedback-loop`: a bounded review/apply-fix convergence cycle around work that already happened, using isolated subagent contexts for the review and apply-fix roles
-- `901-feature-loop`: runs one feature end-to-end, headless, through a green four-layer baseline gate, `201` -> `202` -> per-scenario `301`/`401` build-out -> cleanup -> an optional expanded-coverage round -> final validation -> merge, on its own branch, with `900-feedback-loop` reviewing every design artifact and cleanup pass and a single-`@decider`-call Decision Consult — the agent runs its own three-way stance-framed arbitration internally — resolving every fork in the road along the way
+- `901-feature-loop`: runs one feature end-to-end, headless, through a green four-layer baseline gate, `201` -> `202` -> per-scenario `301` build-out -> aggregate `401` cleanup -> an optional expanded-coverage round -> final validation -> merge, on its own branch. `900-feedback-loop` reviews design/spec artifacts and aggregate cleanup passes. A single-`@decider`-call Decision Consult resolves eligible decisions, but cannot bypass `301` readiness or reset its design repair cap.
 
 <Callout tone="core" title="901 is built on 900">
-  `901-feature-loop` does not reimplement review-and-converge logic — every design/spec artifact and every aggregate end-of-round cleanup pass in a `901` run is checked by a `900-feedback-loop` call before the run advances.
+  Every persisted design/spec artifact and every aggregate end-of-round cleanup pass in a `901` run is checked by `900-feedback-loop` before the run advances. `301` owns its separate in-memory design and readiness gate. Resuming a pending `301` rebuilds and reviews that context; an exhausted design repair cap is terminal and logged, not consulted away or merged unresolved.
 </Callout>
 
 <Callout tone="optional" title="901 is heavy by design">
-  A feature with several scenarios across two coverage rounds can involve on the order of a hundred or more subagent invocations. Use `901-feature-loop` when a feature genuinely warrants full BDD rigor and branch-level traceability; route small, isolated changes to `301` or `401` directly instead.
+  A feature with several scenarios across two coverage rounds can involve on the order of a hundred or more subagent invocations. Use `901-feature-loop` when a feature genuinely warrants full BDD rigor and branch-level traceability. Use `301` for substantial feature chunks, `401` for already-changed cleanup scopes, and direct edits for quick fixes.
 </Callout>
 
 ## Skills in this series

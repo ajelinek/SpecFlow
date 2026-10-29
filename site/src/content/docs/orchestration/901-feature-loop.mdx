@@ -1,6 +1,6 @@
 ---
 title: 901 Feature Loop
-description: Run one feature end-to-end through SpecFlow's full pipeline as a single headless, git-tracked run, with a four-layer validation gate, 900-feedback-loop reviewing every design and cleanup pass, and a Decision Consult resolving every fork in the road.
+description: Run a feature headlessly on its own branch, with validation gates, reviewed artifacts and cleanup, and bounded implementation readiness checks.
 sidebar:
   order: 2
 ---
@@ -13,9 +13,15 @@ export const featureLoopHref = withBase('/FeatureLoop/', import.meta.env.BASE_UR
 
 ## What this skill is for
 
-`901-feature-loop` runs one feature end-to-end on its own branch, headless: a green four-layer baseline gate, then `201` -> `202` (Happy Path) -> per-scenario `301` grouped by `TSM#` module (each scenario still gets its own `301` pass and `specs.feature` status-tag update, but the module — not the individual scenario — is the unit that gets a lightweight Module Check and a commit) -> end-of-round cleanup and a round close-out green check -> an optional expanded-coverage round of the same shape -> final validation -> merge. `900-feedback-loop` reviews every design/spec artifact and every aggregate cleanup pass before the run advances past it. The full four-layer Green Check — unit, integration/e2e, lint, and build as four separate `@validator` calls — runs at the baseline, each round's close-out, and merge revalidation; the lighter two-layer Module Check runs once per module instead. Nothing in this run blocks on a user question: every fork in the road routes through the **Decision Consult**, a single `@decider` call per fork — `@decider` itself runs a three-way stance-framed arbitration internally and hands back one decided answer, so the orchestrator never manages that arbitration directly. Every step, consult, and feedback pass appends to a durable audit trail — see **Audit trail** below.
+`901-feature-loop` runs one feature end-to-end on its own branch, headless: a green four-layer baseline gate, then `201` -> `202` (Happy Path) -> per-scenario `301` grouped by `TSM#` module -> aggregate `401` cleanup and a round close-out green check -> an optional expanded-coverage round -> final validation -> merge. Each scenario gets its own `301` pass and `specs.feature` status-tag update; the module gets the lightweight Module Check and commit.
+
+`900-feedback-loop` reviews the persisted overview, specs, and aggregate cleanup passes. Each `301` separately owns its in-memory implementation design, two independent readiness reviews, tests-first build, fresh-coder refinement, and final validator. Its required readiness criteria and two-repair-round cap remain binding inside `901`.
+
+The full four-layer Green Check (unit, integration/e2e, lint, and build as four separate `@validator` calls) runs at the baseline, each round's close-out, and merge revalidation. The lighter two-layer Module Check runs once per module. Eligible decisions use the **Decision Consult**, not a user question. A failed `301` readiness gate cannot be bypassed by consult or merge. Every step, consult, and feedback pass appends to a durable audit trail.
 
 **Output**: Updates project source/test files and `.specflow/features/<fid>-<feature-slug>/` artifacts, including its own `implementation-log.jsonl` audit trail. Creates a feature branch, commits throughout, and merges it back. No new artifact type of its own.
+
+`901` owns whole-feature completion: per-scenario `301` successes report scope complete and leave the overview `implementing`. Only the final whole-feature gate permits Step 20 to mark it `done`.
 
 <Callout tone="core" title="See the full run, visually">
   Every phase, all 22 steps, every skill and agent call, and the audit trail behind it — laid out as an interactive walkthrough at <a href={featureLoopHref}>SpecFlow/FeatureLoop</a>.
@@ -25,42 +31,47 @@ export const featureLoopHref = withBase('/FeatureLoop/', import.meta.env.BASE_UR
 
 - For a whole feature that justifies full BDD rigor and branch-level traceability, end to end, with no manual orchestration and no pauses for input
 - When you want every design/spec artifact and every aggregate cleanup pass reviewed and converged automatically before the run advances
-- When commit-level traceability across every stage — baseline, design, each scenario, cleanup, merge — matters more than moving fast
+- When commit-level traceability across design, each module, cleanup, and merge matters more than moving fast
 
 ## When NOT to use it
 
-- For an isolated fix or small maintenance change — reroute to `301-spec-implementation` or `401-cleanup` directly instead
+- For a quick fix or small maintenance change — edit directly; use `301` for substantial feature chunks or `401` for already-changed cleanup scopes
 - When you want to review or steer individual stages by hand rather than letting the loop run to completion unattended
 - When you need a human to weigh in on ambiguous calls as they happen — this workflow never stops to ask; see the Decision Consult below
 
 <Callout tone="core" title="Heavy by design">
-  A feature with several scenarios across two coverage rounds can involve on the order of a hundred or more subagent invocations. Use `901-feature-loop` when a feature genuinely warrants full BDD rigor and branch-level traceability; route small, isolated changes to `301` or `401` directly instead.
+  A feature with several scenarios across two coverage rounds can involve on the order of a hundred or more subagent invocations. Use `901-feature-loop` when a feature genuinely warrants full BDD rigor and branch-level traceability. Use `301` for substantial feature chunks, not quick fixes, and `401` for already-changed cleanup scopes.
 </Callout>
 
 ## The Decision Consult
 
-This workflow never pauses mid-run to ask the user a question. Every point that would otherwise be a blocking question — feature identity, an existing branch, a dirty working tree, a merge conflict, a repair loop that stops converging — instead runs this consult, and the run acts on the result immediately:
+This workflow never pauses mid-run to ask the user a question. Eligible decisions about feature identity, an existing branch, a dirty working tree, merge conflicts, or non-convergent repair loops use this consult. `301` design readiness is an exception: exhausting its repair cap or encountering an unresolvable material design blocker ends the run, without consult-driven retries or a cap reset.
 
 1. **Frame it** — a short, self-contained brief: the specific question, the concrete option set (including that step's documented default, if any), and the state needed to reason about it.
 2. **Call `@decider` once** with that brief. `@decider` is a purpose-built worker — the strongest model setup in the run, since these are calls nothing else double-checks in a headless run — and it owns the entire arbitration internally: it verifies load-bearing facts once, then spawns three independent stance-framed sub-agent calls in parallel over the same verified brief (one weighted toward keeping the run moving, one weighted toward the lowest-risk/most-reversible option, one neutral), and resolves them by majority — unanimous or 2-1 agreement wins outright; a genuine three-way split falls back to the highest-confidence pick, then smaller blast radius, then the neutral call as tiebreaker. The orchestrator never manages that three-way arbitration itself — it just gets back one decided option, a rationale, and a confidence level.
-3. **Act on it.** If `@decider` reports the brief genuinely unanswerable, the run falls back to that step's documented default — or, at the baseline gate or final validation only, ends with a terminal report.
+3. **Act on it.** If `@decider` reports the brief genuinely unanswerable, use that step's documented default; if none exists, end with a terminal report. Consults cannot waive required readiness or authorize an unresolved merge.
 4. **Log it** — the brief and `@decider`'s returned decision feed into the final summary so it's clear what was decided and why.
 
-<Callout tone="optional" title="Only two ways to end without a merge">
-  The baseline gate (before any feature work starts) and final validation (right before merge) are the only two checkpoints where consult-driven retries running out ends the run with a terminal status report instead of a suspended question. Everywhere else, the Decision Consult always produces a way forward.
+<Callout tone="warning" title="Readiness failure is terminal too">
+  Baseline and final-validation retries can end with a terminal report. So can a `301` design gate that still fails after at most two repair rounds, or an unresolvable material design blocker. After log initialization, record terminal outcomes and retain the branch and evidence. Do not implement the blocked scope or merge unresolved work. A Decision Consult cannot waive or reset this cap.
 </Callout>
 
 ## Audit trail
 
 Every run keeps its own durable, append-only ledger: `.specflow/features/<fid>-<feature-slug>/implementation-log.jsonl`, one JSON object per line, written starting the moment the feature branch is created. It exists so a stuck or interrupted run leaves a mechanical trail behind instead of losing everything with the context that produced it — resuming reads back the last recorded step instead of guessing, and the final summary is composed by reading the file in full rather than from carried-forward context.
 
-Seven event types cover the whole run: `run_init` (once, at branch creation), `step_complete` (after every top-level step), `decision_consult` (every Decision Consult call), `feedback_pass` (every `900-feedback-loop` cycle), `resume` (when picking a prior run back up), `terminal` (a non-convergent end at the baseline gate or final validation), and `run_complete` (once, at the end). See it rendered as a live log at <a href={featureLoopHref}>SpecFlow/FeatureLoop</a>.
+Seven event types cover the logged run: `run_init` (once, at branch creation), `step_complete` (after every top-level step), `decision_consult` (every Decision Consult call), `feedback_pass` (every `900-feedback-loop` cycle), `resume` (when picking a prior run back up), `terminal` (any terminal failure after log initialization, including a blocked `301` design gate), and `run_complete` (once, at the end). A baseline failure predates the log and returns a terminal report without a log entry. See the ledger rendered at <a href={featureLoopHref}>SpecFlow/FeatureLoop</a>.
+
+Step 3 checks the existing ledger before treating an overview's `done` status as completed work or assigning a new F-ID. An incomplete run retains its feature identity even if the overview is stale. A `301` terminal outcome still ends the run without retry, consult bypass, or a reset under a new F-ID.
+
+When resuming a pending `301`, rebuild its complete brief and in-memory design from current artifacts and code, then rerun the two independent readiness reviews before implementation continues. Do not rely on lost reviewer memory or an old approval. Preserve the repair history; stop if it cannot be recovered. Resuming does not reset an exhausted cap or turn a terminal gate into a fresh retry budget.
 
 ## What it produces
 
 - A dedicated `feature/<fid>-<feature-slug>` branch, created from the current branch, with a commit after every stage
 - A green four-layer baseline (`@validator`: unit, integration/e2e, lint, build) confirmed before any branch or design work starts
 - Every design/spec artifact (`201` overview, `202` specs) reviewed and refined by `900-feedback-loop` before the run advances
+- Each `301`'s in-memory design reviewed for readiness independently, with terminal failures logged rather than bypassed
 - Round 1 (Happy Path Only, always runs) and an optional Round 2 (`none` / `balanced` / `comprehensive` coverage, default `balanced`) — Round 2 only builds out the newly added scenarios, not Round 1 again
 - Aggregate source and test cleanup passes at the end of each round, each reviewed by `900-feedback-loop`
 - A four-layer final validation pass and a `--no-ff` merge back into the base branch — the feature branch is kept afterward, never deleted, and nothing is ever pushed to a remote
@@ -71,7 +82,7 @@ Seven event types cover the whole run: `run_init` (once, at branch creation), `s
 
 - **Feature identity** — a name and/or `F-ID`, resolved the same way `201` resolves it; ambiguity here routes through the Decision Consult rather than blocking
 - **Round 2 coverage** — one of `none`, `balanced`, `comprehensive` (defaults to `balanced` if unstated)
-- **Workflow fit** — confirmation this is genuinely a whole-feature run, not an isolated fix better served by `301` or `401` directly
+- **Workflow fit** — confirmation this is genuinely a whole-feature run, not a quick fix, a substantial chunk suited to `301`, or an already-changed scope suited to `401`
 
 ## Common prompts
 
@@ -85,19 +96,21 @@ Once the loop merges back into the base branch, the feature branch is kept (not 
 
 ## Practical guidance
 
-- Per-scenario build steps run as direct sequential `301` calls, never wrapped in `900-feedback-loop` — `301`'s own internal phase validation is the guardrail at that granularity; only the module-wide Module Check and the commit batch to the module
+- Per-scenario build steps run as direct sequential `301` calls, never wrapped in `900-feedback-loop`. `301` owns its in-memory design/readiness gate and bounded refinement. The Module Check and commit apply to the whole module
 - Only design/spec artifacts and aggregate end-of-round cleanup get the `900-feedback-loop` treatment
 - The full four-layer Green Check runs only at the baseline, each round's close-out, and merge revalidation, as four separate `@validator` calls; the per-module Module Check is a lighter two-layer pass (lint plus that module's own spec tests) run once after every scenario in the module has its own `301` pass. Failing tests route to `402-test-correction`, lint/build failures to a focused `@coder` repair pass
 - Scope-expansion authorization for aggregate `401` cleanup applies only to whichever round actually runs last
 - All git operations run directly in the orchestrating context, never delegated to a subagent
+- Keep aggregate `401` cleanup and `900` review separate from `301`'s own design reviews and fresh-coder refinement
 
 ## Common mistakes
 
-- Running it for a small, isolated change that `301` or `401` alone would have handled with far less overhead
+- Running it for a quick fix or a bounded change that does not warrant a whole-feature loop
 - Starting the next module's build cycle before the current one — including every scenario's status-tag update and that module's Module Check — is committed
 - Expecting round 2 to re-run round-1 scenarios or round-1 modules — it only builds out the newly added `@TS###` scenarios inside the modules Round 2 touched
 - Treating a merge conflict resolution as a substitute for revalidation — the final four-layer check always reruns after a conflict is resolved
+- Resetting an exhausted `301` design cap on resume, routing it through Decision Consult, or merging unresolved readiness findings
 
 <Callout tone="tip" title="Decides rather than asks">
-  `901-feature-loop` never stops mid-run to ask the user a question. Feature identity, round-2 coverage ambiguity, a dirty working tree, an existing branch of the same name, and a repair/feedback loop that stops converging all route through the Decision Consult instead, and the run acts on the result immediately.
+  `901-feature-loop` never stops mid-run to ask the user a question. Eligible decisions route through the Decision Consult, and the run acts on the result. An exhausted `301` design gate instead produces a logged terminal outcome with no implementation or unresolved merge.
 </Callout>

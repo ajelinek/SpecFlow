@@ -1,7 +1,7 @@
 # Project Guide
 
 > Scope: Repository root. These instructions apply across the project unless a deeper `AGENTS.md`
-> overrides local implementation details. See @README.md for project overview.
+> overrides local implementation details. See [README.md](README.md) for project overview.
 
 ## Collaboration Rules
 
@@ -47,6 +47,5 @@
 - Summarize what changed, affected files, and any remaining risks.
 - Keep follow-up recommendations short and only include them when they are useful.
 
-<!-- If the repo needs Claude-only instructions (plan-mode triggers, subagent usage, permissions),
-     keep them in a separate CLAUDE.md that imports this file with @AGENTS.md instead of
-     duplicating content. -->
+<!-- Link to any nested AGENTS.md guides here so agents can find subtree-specific guidance
+     without relying on automatic discovery. -->

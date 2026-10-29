@@ -2,7 +2,7 @@
 name: context-manager
 description: >
   Create or refresh `AGENTS.md` project guidance from repo evidence, adding nested `AGENTS.md`
-  overlays or path-scoped `.claude/rules/` only where a subtree or file pattern genuinely differs.
+  overlays only where a subtree genuinely differs.
   Trigger it when project guidance is missing, stale, or needs local overrides (first-time setup,
   monorepos). `initialize` mode writes `.specflow/AGENTS.md` once during SpecFlow setup.
 argument-hint: "[generate|refresh|initialize]"
@@ -14,16 +14,19 @@ context: fork
 Create or refresh `AGENTS.md` guidance from actual repository evidence: a concise, trustworthy map of
 structure, real commands, important boundaries, and justified local overrides.
 
-**Output**: Root `AGENTS.md` (at `./AGENTS.md` or `./.claude/AGENTS.md`), plus nested
-`<subtree>/AGENTS.md` or path-scoped `.claude/rules/*.md` only where conventions materially differ.
+**Output**: Root `./AGENTS.md`, plus nested `<subtree>/AGENTS.md` only where conventions materially
+differ. Do not put the root guide under `.claude/` or generate `.claude/rules/` by default.
 
-**Why `AGENTS.md`:** Claude Code reads `AGENTS.md` every session, and so do the other agents
-(Codex, Cursor, Windsurf, etc.) — one tool-agnostic file serves every coding agent, so there is a
-single source of truth. The filename is always `AGENTS.md`; write a `CLAUDE.md` only if the user
-explicitly asks for Claude-only extras (plan-mode triggers, subagent usage, permission notes). If a
-legacy `CLAUDE.md` already exists, fold its unique content into `AGENTS.md` and leave `CLAUDE.md`
-behind only as an `@AGENTS.md` import plus those Claude-specific extras (or delete it if the user
-prefers) — never maintain two diverging copies.
+**Why `AGENTS.md`:** Keep shared project guidance in one tool-agnostic source of truth. The filename
+is always `AGENTS.md`; support for automatic discovery and nested scope varies by agent. Do not
+assume Claude Code or every other agent loads it automatically. Create or update a Claude-specific
+compatibility file only when the user explicitly requests it.
+
+If a legacy `CLAUDE.md` already exists, carry its applicable project guidance into `AGENTS.md` at
+the same scope. Resolve conflicts rather than copying contradictory instructions. Leave legacy
+files unchanged unless the user authorizes migration cleanup; then replace shared content with an
+`@AGENTS.md` import (relative to that file) or remove the file as agreed. Keep Claude-only extras
+separate from shared guidance, and report any legacy copies that remain.
 
 ---
 
@@ -32,7 +35,7 @@ prefers) — never maintain two diverging copies.
 If the repo has `.specflow/` (SpecFlow's generated project memory: `context/`, `docs/`,
 `features/<F-ID>-<slug>/`), it gets its own nested `AGENTS.md` with the standard content in
 `./examples/specflow-AGENTS.md`. Its key job is the **feature isolation rule**: each feature folder is
-a point-in-time snapshot of one feature, and Claude must not read or draw context from a sibling
+a point-in-time snapshot of one feature, and agents must not read or draw context from a sibling
 feature folder unless the user explicitly asks — `features/` accumulates many siblings over time, and
 nothing else in the repo states this boundary.
 
@@ -50,7 +53,7 @@ feature folders) as long as the isolation rule and folder descriptions stay inta
 ## Required Inputs
 
 1. **Operation mode** — generate, refresh, or initialize
-2. **Scope policy** — root only, nested `AGENTS.md` overlays, or `.claude/rules/` where justified
+2. **Scope policy** — root only or nested `AGENTS.md` overlays where justified
 3. **Excluded paths** — directories that must not be analyzed or updated
 4. **Project-specific constraints** — sensitive areas, forbidden commands, or deployment-critical
    paths not obvious from the repo
@@ -76,51 +79,53 @@ to the caller.
   and whether each has its own owners/conventions; verified setup, test, lint, build, and run
   commands; docs worth referencing instead of copying; generated/vendor paths that get no guidance
   files; directories whose tooling truly differs (overlay candidates); file-pattern conventions (e.g.
-  `**/migrations/**`) better suited to `.claude/rules/`.
+  `**/migrations/**`) that should be stated with explicit scope in the nearest common `AGENTS.md`.
 
 - [ ] **Step 4: Decide the file plan.** The root file is `AGENTS.md`. With a legacy `CLAUDE.md`,
-  merge its unique content into `AGENTS.md` first, then leave `CLAUDE.md` as `@AGENTS.md` plus any
-  Claude-only extras (or drop it when the user agrees) — don't re-derive or keep two copies. Otherwise
-  draft `AGENTS.md` directly. Default to root-only; add **nested `AGENTS.md`** when a directory's
-  owners maintain their own conventions that should version with that code, or
-  **`.claude/rules/*.md`** (with `paths:` frontmatter) when a rule spans scattered paths or the team
-  wants conventions governed in one place.
+  carry its applicable project guidance into `AGENTS.md` at the same scope. Do not rewrite or remove
+  the legacy file without authorization. Otherwise draft `AGENTS.md` directly. Default to root-only;
+  add **nested `AGENTS.md`** when a directory's owners maintain their own conventions that should
+  version with that code. For rules spanning scattered paths, state the matching paths explicitly in
+  their nearest common `AGENTS.md`. Tool-specific rules or compatibility files require an explicit
+  user request and must not duplicate shared guidance.
 
 - [ ] **Step 5: Draft the root file** with only repo-evidenced, specific, testable guidance ("run
   `npm test` before committing", not "write clean code"): what the project is and how it's organized;
   which directories matter most; commands agents can't guess (verified, executable as written); deeper
-  docs pulled in with `@path/to/doc` imports instead of pasted; repo-wide boundaries, invariants, and
+  docs referenced with relative Markdown links instead of pasted or tool-specific imports;
+  repo-wide boundaries, invariants, and
   generated-file rules; collaboration and response-formatting rules (these stay in the root unless a
-  local exception is required). Keep it well under ~200 lines — it loads in full every session, and
-  longer files measurably reduce adherence. Filter every line:
+  local exception is required). Keep it well under ~200 lines so agents can load it without crowding
+  out task context. Filter every line:
 
   | Include | Exclude |
   |---|---|
   | Commands agents can't guess | Anything derivable by reading the code |
   | Conventions that differ from language/framework defaults | Standard conventions agents already know |
-  | Testing instructions and preferred test runners | Detailed API docs (link/import instead) |
+  | Testing instructions and preferred test runners | Detailed API docs (link instead) |
   | Repo etiquette (branch naming, PR conventions) | Information that changes frequently |
   | Architectural decisions specific to this project | Long explanations or tutorials |
   | Non-obvious gotchas and quirks | File-by-file codebase descriptions |
   | Env vars or local setup quirks | Self-evident advice like "write clean code" |
 
-- [ ] **Step 6: Draft overlays or rules only where justified.** A nested `AGENTS.md` loads
-  automatically once Claude reads a file in that subtree, so it holds only local scope, commands,
-  constraints, and integration points that differ from the root — never repeated root content. Each
-  `.claude/rules/*.md` covers one topic, has a descriptive filename, and carries `paths:` frontmatter
-  when it should load only for matching files. Include `.specflow/AGENTS.md` when `.specflow/` exists,
-  even if nothing else is justified.
+- [ ] **Step 6: Draft overlays only where justified.** A nested `AGENTS.md` holds only local scope,
+  commands, constraints, and integration points that differ from the root, never repeated root
+  content. State its subtree scope explicitly and link to it from the root guide so agents can find
+  it even without automatic discovery. Include `.specflow/AGENTS.md` when `.specflow/` exists, even
+  if nothing else is justified.
 
 - [ ] **Step 7: Delegate only substantial synthesis.** If many overlapping docs need real synthesis,
   hand the drafting to the general agent with a narrow markdown brief — never for simple discovery or
   file listing.
 
-- [ ] **Step 8: Review.** Every file is named `AGENTS.md` (no unrequested `CLAUDE.md`) and stays well
-  under ~200 lines; an existing `CLAUDE.md` is merged, not duplicated; root guidance is broad and
-  nested/rule guidance local; commands are real and verified; nothing conflicts across files; nothing
+- [ ] **Step 8: Review.** Every generated guide is named `AGENTS.md` and stays well under ~200 lines;
+  the root guide is at `./AGENTS.md`; no unrequested `CLAUDE.md`, `CLAUDE.local.md`, or
+  `.claude/rules/` files were created or changed; applicable legacy guidance is preserved at its
+  original scope; root guidance is broad and nested guidance local; commands are real and verified;
+  nothing conflicts across active guides; nothing
   large is copied from docs, legacy `CLAUDE.md`, or general standards; unknowns are stated explicitly
   rather than filled with assumptions.
 
 - [ ] **Step 9: Write and summarize.** Files created or updated, whether a legacy `CLAUDE.md` was
-  merged or left as an `@AGENTS.md` import, why overlays were nested `AGENTS.md` vs `.claude/rules/`
-  (or skipped), the evidence behind them, and low-confidence areas.
+  used as migration input or changed with authorization, any remaining duplicate guidance, why nested
+  `AGENTS.md` overlays were added (or skipped), the evidence behind them, and low-confidence areas.

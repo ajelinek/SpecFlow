@@ -26,7 +26,7 @@ The `400` series handles two adjacent kinds of follow-up work:
 This constraint keeps cleanup small, reviewable, and safe to roll back. When you want both source and test cleanup, run `401` twice — once for each.
 
 <Callout tone="core" title="Cleanup is not always necessary">
-  `301-spec-implementation` already includes internal test and production cleanup phases before its final validation. Use `401` when you want an additional explicit cleanup pass, or when the internal cleanup was not sufficient for a particularly complex change.
+  `301-spec-implementation` already includes independent review and bounded refinement of the feature diff before final validation. Use `401` when the changed set warrants a deeper, separately scoped source or test cleanup pass.
 </Callout>
 
 <Callout tone="tip" title="402 is the red-test triage path">

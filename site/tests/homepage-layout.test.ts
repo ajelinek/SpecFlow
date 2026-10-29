@@ -31,6 +31,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { workflowPaths } from '../src/lib/specflow';
+import { featureLoopPhases } from '../src/lib/feature-loop-steps';
 
 // ---------------------------------------------------------------------------
 // Helpers — read source files as plain text for structural assertions
@@ -48,7 +49,7 @@ function readSource(relativePath: string): string {
 
 describe('homepage default path', () => {
   it('index.astro sets defaultPathId to "lean", not "conservative"', () => {
-    // The merged path hub should open on the minimal path (201 -> 202 -> 301 -> 401)
+    // The merged path hub should open on the minimal path (201 -> 202 -> 301)
     // so users see the simplest flow first.
     const source = readSource('pages/index.astro');
     expect(
@@ -64,6 +65,75 @@ describe('homepage default path', () => {
       'index.astro must not default to the conservative path',
     ).not.toContain("defaultPathId = 'conservative'");
   });
+});
+
+it('uses the same tested card selection and badge helpers for SSR and client updates', () => {
+  const source = readSource('pages/index.astro');
+  const [frontmatter, template] = source.split('---').slice(1);
+  const client = template.slice(template.indexOf('<script>'));
+  expect(frontmatter).toMatch(/import \{[^}]*getVisibleCards[^}]*getCardBadges[^}]*\} from '..\/lib\/flow-viz'/);
+  expect(client).toMatch(/import \{[^}]*getVisibleCards[^}]*getCardBadges[^}]*\} from '..\/lib\/flow-viz'/);
+  expect(frontmatter).toContain('getVisibleCards(defaultPath.sequence, flowRows)');
+  expect(frontmatter).not.toMatch(/(?:const|function) getVisibleCards|orderedKeys|splice\(/);
+  expect(client).toContain('getVisibleCards(activeSequence, flowRows)');
+  expect(client).not.toMatch(/(?:const|function) getCardBadges|orderedKeys|splice\(/);
+  expect(template).toContain('getCardBadges(card.key)');
+  expect(client).toContain('getCardBadges(card.key)');
+});
+
+it('explains 301 phases concisely with the existing implementation-page link', () => {
+  const source = readSource('pages/index.astro');
+  const summary = source.match(/<p class="home-path-selection__note"[^>]*>[\s\S]*?<\/p>/g)?.find((paragraph) => paragraph.includes('301'));
+  expect(summary).toMatch(/in-memory design/i);
+  expect(summary).toMatch(/walkthrough.*adversarial/i);
+  expect(summary).toMatch(/tests-first/i);
+  expect(summary).toMatch(/fresh.*review.*bounded refinement.*final validation/i);
+  expect(summary).toContain('/implementation/301-spec-implementation/');
+});
+
+it('introduces readable templates and room for AI judgment before workflow selection', () => {
+  const source = readSource('pages/index.astro');
+  const hero = source.slice(source.indexOf('<section class="home-hero'), source.indexOf('<section class="home-path-selection'));
+  expect(hero).toMatch(/just enough structure/i);
+  expect(hero).toMatch(/consistent, skimmable templates/i);
+  expect(hero).toMatch(/context and constraints to guide AI/i);
+  expect(hero).toMatch(/room for judgment/i);
+});
+
+it('keeps native radio interaction, visible focus, and concise polite announcements', () => {
+  const source = readSource('pages/index.astro');
+  expect(source).toMatch(/type="radio"[\s\S]*?name="workflow-path"/);
+  expect(source).toContain("control.addEventListener('change'");
+  expect(source).not.toMatch(/addEventListener\('keydown'/);
+  expect(source).toMatch(/aria-live="polite"[^>]*data-path-status/);
+  expect(source).toMatch(/status\.textContent\s*=.*selected/);
+  expect(readSource('styles/global.css')).toMatch(/\.home-path-selection__radio-label:has\(input:focus-visible\)\s*\{[^}]*outline:/);
+});
+
+it('updates board metadata without targeting matching radio data attributes', () => {
+  const source = readSource('pages/index.astro');
+  expect(source).toContain("board?.querySelector<HTMLElement>('[data-path-description]')");
+  expect(source).toContain("board?.querySelector<HTMLElement>('[data-path-note]')");
+  expect(source).toContain("board?.querySelector<HTMLAnchorElement>('[data-path-action]')");
+});
+
+it('explains full 301 design and reviews in the feature loop without removing aggregate cleanup', () => {
+  const steps = featureLoopPhases.flatMap((phase) => phase.steps);
+  const implementation = steps.find((step) => step.num === 10);
+  expect(implementation?.description).toMatch(/in-memory design/i);
+  expect(implementation?.description).toMatch(/walkthrough.*adversarial/i);
+  expect(implementation?.description).toMatch(/tests-first.*fresh.*review.*bounded refinement.*final validation/i);
+  expect(implementation?.techNote).toMatch(/no separate 401/i);
+  expect(implementation?.techNote).not.toMatch(/skips its own cleanup/i);
+  expect(steps.find((step) => step.num === 16)?.description).toContain('Step 10');
+  expect(steps.filter((step) => [11, 12, 17, 18].includes(step.num)).map((step) => step.skills.map((skill) => skill.id)))
+    .toEqual(Array.from({ length: 4 }, () => ['900-feedback-loop', '401-cleanup']));
+});
+
+it('keeps the feature-loop visualization aligned with terminal 301 design blockers', () => {
+  const steps = featureLoopPhases.flatMap((phase) => phase.steps);
+  expect(steps.find((step) => step.num === 10)?.description).toMatch(/design blocker.*unmerged/i);
+  expect(JSON.stringify(steps)).not.toMatch(/only two (checkpoints|points)/i);
 });
 
 // ---------------------------------------------------------------------------

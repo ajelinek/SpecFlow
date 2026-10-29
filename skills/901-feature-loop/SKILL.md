@@ -21,6 +21,12 @@ unit that gets a Module Check and a commit. Every design/spec artifact and aggre
 a Feedback Pass (`900-feedback-loop`, under tighter caps than its default) before the run advances.
 Every stage lands its own commit.
 
+Each `301` pass includes code-grounded design and two independent design reviews before its
+tests-first implementation, fresh diff review/refinement, and final validation. These are internal
+gates, not extra persisted design artifacts or `900` Feedback Passes.
+`901` owns whole-feature completion at its final gate, not the per-scenario `301` calls; they report
+scope complete and leave the overview `implementing` until Step 20.
+
 **Output**: Project source/test files; `.specflow/features/<fid>-<feature-slug>/` artifacts; this
 feature's `.specflow/docs/D10-feature-overview.md` entry when tracked there; a feature branch with
 commits, merged back; and `implementation-log.jsonl` in the feature folder (see **Implementation
@@ -35,7 +41,8 @@ Log**).
 2. **Round 2 coverage** — `none`, `balanced`, or `comprehensive`; default `balanced`, stated in the
    final summary. Round 1 is always Happy Path Only and always runs.
 3. **Workflow fit** — a whole feature justifying full BDD rigor and branch-level traceability. For an
-   isolated fix or small maintenance change, reroute to `301-spec-implementation` or `401-cleanup`.
+   isolated fix or small maintenance change, use a focused fix or `401-cleanup`; reserve
+   `301-spec-implementation` for substantial features or implementation chunks.
 
 ---
 
@@ -44,7 +51,13 @@ Log**).
 - You are the orchestrator, and the run is headless: no step ever asks the user. Every blocking
   decision — including any blocking question a called skill returns — goes through the **Decision
   Consult**, and the run acts on the result immediately (re-invoking the skill with the decision when
-  needed). "Ask whether…" and "stop and confirm…" always mean "run the consult, then continue."
+  needed), except for the terminal design gate below. "Ask whether…" and "stop and confirm…" otherwise
+  mean "run the consult, then continue."
+- **`301` terminal exception:** cap exhaustion or an unresolved material design blocker ends this run.
+  Append a `terminal` log line with the stage, scenario/module, brief revision, repair rounds, and
+  outstanding findings/evidence; leave the branch unmerged and return a terminal report. Never consult
+  for a waiver or re-invoke `301` to reset its review cap. This overrides Decision Consult, per-module
+  retry, cleanup, and merge fallbacks.
 - All git operations (branch, commit, merge) run here via Bash, never in a subagent. Never push to a
   remote. Merge is always `--no-ff`; the feature branch is kept afterward.
 - One commit per top-level step, skipped only when a step changed no files. Its log lines are staged
@@ -72,7 +85,7 @@ artifact). Here there is no human and no room for their full context, so run eac
 - an instruction to make no git commits
 - what to return: the artifact path, a short summary, and any blocking question, unanswered
 
-Read the artifact back from disk when a later step needs it. `301`, `302`, `401`, `402`, and `204`
+Read the artifact back from disk when a later step needs it. `301`, `302`, `401`, and `402`
 fork on their own; call them directly.
 
 ---
@@ -83,7 +96,7 @@ fork on their own; call them directly.
    default), and the needed state — feature identity, current stage, what triggered it.
 2. **Call `@decider` once.** It returns one option, a rationale, and a confidence level.
 3. **Act on it immediately.** On `UNANSWERABLE`, use the step's documented default; a step with none
-   ends the run with a terminal report — possible only at Step 2 or Step 19. Append a
+   ends the run with a terminal report. The `301` terminal exception never enters this consult. Append a
    `decision_consult` log line.
 
 ---
@@ -117,10 +130,10 @@ full `301` pass. Two `@validator` calls in parallel: `mode: lint`, and `mode: te
 this module's spec file(s) — not the full e2e suite, which runs once at the round's Green Check.
 Repair as in Green Check, for these two layers only.
 
-**Per-module fallback** (Steps 10, 16): any non-convergence gets one consult — retry `301` for the
-implicated `@TS###` with a revised approach; revert the module's uncommitted changes and retry the
-whole module; or terminal report naming the stuck module (and `@TS###`, if isolated). Default:
-revised-approach retry, then from-scratch retry, then terminal.
+**Per-module fallback** (Steps 10, 16): non-convergence outside the `301` terminal exception gets one
+consult — retry `301` for the implicated `@TS###` with a revised approach; revert the module's
+uncommitted changes and retry the whole module; or terminal report naming the stuck module (and
+`@TS###`, if isolated). Default: revised-approach retry, then from-scratch retry, then terminal.
 
 ### Feedback Pass
 
@@ -152,14 +165,19 @@ entries). Each line has a `type` and `ts` (ISO 8601):
 | `decision_consult` | every Decision Consult | `step`, `question`, `decision`, `confidence` |
 | `feedback_pass` | every Feedback Pass | `step`, `flavor`, `iterations`, `converged` |
 | `resume` | Step 3, when resuming | `step`, `phase`, `found` |
-| `terminal` | Step 19 non-convergence | `step`, `reason` |
+| `terminal` | terminal failure after log initialization, including the `301` design gate | `step`, `reason` |
 | `run_complete` | Step 22, once | `step: 22` |
 
 - **Initialize** at Step 4 after the branch exists: create the feature folder if needed and append
   `run_init`; skip if the file already exists from a resumed run.
 - **On resume**: read backward for the last `step_complete` or `resume` line to get the current
-  step/phase — don't guess or parse the whole file — then append a `resume` line.
-- **On terminal** (Step 19 only; Step 2 predates the log): append `terminal` before ending.
+  step/phase and check for a later `terminal` line — don't guess — then append a `resume` line.
+  A terminal design blocker is not an automatic retry point; report it rather than restart its cap.
+  For any pending `301`, rebuild and re-review its in-memory design brief against current code before
+  more implementation; the prior ledger is not design approval. Carry forward consumed repair rounds;
+  if that state cannot be recovered, stop rather than silently resetting the cap.
+- **On terminal** (any stage after initialization; Step 2 predates the log): append `terminal` before
+  ending.
 - **On completion**: append `run_complete`, then read the full file for the final report.
 
 ---
@@ -176,14 +194,22 @@ entries). Each line has a `type` and `ts` (ISO 8601):
       a terminal report — no feature work has started. Don't create the branch or begin Phase 1
       until it's green.
 
-- [ ] **Step 3: Resolve feature identity** per `201`'s rule (check `D10` for an `F-ID`):
+- [ ] **Step 3: Resolve feature identity** per `201`'s rule (check `D10` for an `F-ID`). Inspect any
+      existing feature `implementation-log.jsonl` before interpreting `overview.md` `status: done`
+      as a completed feature or considering a new `F-ID`:
+      - A `301` terminal outcome overrides stale overview status: report the terminal blocker and
+        leave the branch unmerged. Never consult for a retry or use a new `F-ID` to reset the cap.
+      - An incomplete ledger (no `run_complete` for this run, including pending stages) overrides
+        `status: done` for routing. Keep the existing `F-ID`; consult — resume from its last
+        `step_complete`, or restart from Phase 1; default: resume. Follow the Implementation Log resume
+        protocol and append a `resume` line. Consumed repair rounds are carried forward, not reset by
+        a restart or branch change; unrecoverable repair history blocks further implementation.
+
+      Apply the remaining cases only when no pending or `301` terminal ledger state exists:
       - No entry → consult — assign the next `F-ID` and add the `D10` entry now, or treat the name as
         a near-match of an existing entry; default: assign new.
       - `overview.md` has `status: done` → consult — new run under a new `F-ID` for follow-on work, or
         end with a terminal report; default: new run.
-      - `status: implementing` with `implementation-log.jsonl` → consult — resume from its last
-        `step_complete`, or restart from Phase 1; default: resume (preserves work, reversible). Append
-        a `resume` line.
       - `status: implementing` without the log → consult — restart from Phase 1, or infer a resume
         point from the branch's commits; default: restart (no trustworthy resume state).
 
@@ -212,8 +238,9 @@ entries). Each line has a `type` and `ts` (ISO 8601):
 
 - [ ] **Step 10: Build each happy-path module.** For each `TSM#` in order:
   1. For each `@TS###` in it, in order: run `301-spec-implementation` scoped to exactly that
-     scenario (its full tests-first discipline), then set its tag in `specs.feature` to
-     `@status_done`.
+     scenario as a chunk of this substantial feature, including its full design/review and tests-first
+     discipline. On success only, set its tag in `specs.feature` to `@status_done`; a terminal design
+     blocker ends the run immediately under the exception above.
   2. Run one Module Check with the per-module fallback; regressions are repaired on the spot.
   3. Commit once for the module: `test cycle: <TSM###> implement + status`.
 
@@ -256,10 +283,12 @@ entries). Each line has a `type` and `ts` (ISO 8601):
 
 - [ ] **Step 19: Final Green Check** (standard fallback; failing tests repaired via `402` before
       anything counts as non-convergent). Never merge on red: if retries don't converge, append
-      `terminal` and end with a terminal report. Only Steps 2 and 19 can end the run without a merge.
+      `terminal` and end with a terminal report. The `301` terminal exception also ends the run without
+      a merge at whichever stage detects it.
 
-- [ ] **Step 20: Update feature status** — `status: done` in `overview.md`, and 🟢 Done on the `D10`
-      entry when D10 tracks this `F-ID`.
+- [ ] **Step 20: Update feature status.** Only after Step 19 confirms the whole feature passes its
+      required acceptance gates, set `status: done` in `overview.md`, and 🟢 Done on the `D10` entry
+      when D10 tracks this `F-ID`. Scenario-scoped `301` successes cannot make this update.
 
 - [ ] **Step 21: Merge back.** `git merge --no-ff feature/<fid>-<feature-slug>` into the base branch.
       On conflict, consult — resolve the hunks directly (favoring the feature branch) or abort with a

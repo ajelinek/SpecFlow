@@ -16,6 +16,11 @@ export interface FlowCard {
   description: string;
 }
 
+export type FlowCardBadge = {
+  label: string;
+  tone: 'loop';
+};
+
 /** A row is an ordered list of cards (preserving snake ordering). */
 export type FlowRow = FlowCard[];
 
@@ -31,17 +36,33 @@ export type VisibleRows = FlowRow[];
  *
  * Rules:
  * - Matching is exact: "10" does NOT match "100".
- * - "302" is considered included whenever "301" appears (test-only sub-path).
+ * - Only explicitly named steps are included; 301 never implies 302 or 401.
  */
 export function pathIncludes(sequence: string, key: string): boolean {
-  if (key === '302') {
-    // 302 inherits its inclusion from 301's presence.
-    return sequence.split('->').some((s) => s.trim() === '301' || s.trim().startsWith('301 '));
-  }
-
   return sequence
     .split('->')
     .some((s) => s.trim() === key || s.trim().startsWith(key + ' '));
+}
+
+/** Select existing cards in path sequence order, shared by SSR and client updates. */
+export function getVisibleCards(sequence: string, flowRows: FlowRow[]): FlowCard[] {
+  const cardMap = new Map(flowRows.flat().map((card) => [card.key, card]));
+
+  return sequence
+    .split('->')
+    .map((step) => cardMap.get(step.trim().split(/\s+/)[0]))
+    .filter((card): card is FlowCard => card !== undefined);
+}
+
+/** Loop boundaries are the same in the initial board and after path switches. */
+export function getCardBadges(key: string): FlowCardBadge[] {
+  const badges: FlowCardBadge[] = [];
+
+  if (key === '108') badges.push({ label: 'Page Loop', tone: 'loop' });
+  if (key === '201') badges.push({ label: 'Spec Loop Start', tone: 'loop' });
+  if (key === '301') badges.push({ label: 'Spec Loop End', tone: 'loop' });
+
+  return badges;
 }
 
 // ---------------------------------------------------------------------------

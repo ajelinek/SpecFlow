@@ -1,6 +1,6 @@
 ---
 title: 301 Spec Implementation
-description: Implement substantial changes through a tests-first, phase-isolated workflow with preparation, internal cleanup, and final validation.
+description: Design and review substantial changes in memory, implement tests-first, independently refine the diff, and validate.
 sidebar:
   order: 1
 ---
@@ -10,13 +10,13 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What this skill is for
 
-`301-spec-implementation` is the main implementation workflow for substantial changes. It prepares missing design context if needed, writes failing tests, implements the minimum production code, runs a test-cleanup pass, runs a production-cleanup pass, and ends with full validation.
+`301-spec-implementation` is the main implementation workflow for substantial features or feature chunks. It prepares feature context, builds a compact implementation design in memory, and requires two independent reviews before coding. One coder implements tests-first, a fresh coder reviews and refines the actual diff, and one validator runs the final checks.
 
-**Output**: Updated source and test files in the codebase. Status updates in `overview.md` when it exists.
+**Output**: Updated source and test files in the codebase. An existing `overview.md` stays `implementing` for partial scope, which is reported as scope complete, not feature done. `301` marks it `done` only when the explicit run scope represents the whole feature and all acceptance gates pass. Under `901`, the caller owns whole-feature completion at its final gate instead.
 
 ## When to use it
 
-- When the change is bigger than a tiny isolated edit
+- For a substantial feature or implementation chunk
 - When the work should be driven by a spec rather than by ad hoc prompting
 - When you want tests, lint, and build results to be the ground truth for completion
 - As the default implementation path for most feature work
@@ -28,26 +28,73 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 - When you want to add or repair tests for already-implemented behavior
 
 <Callout tone="core" title="301 is an orchestration workflow">
-  `301` is not just a longer coding prompt. When the bundled workers are installed, coding runs go through `coder`, validation runs go through `validator`, and UI-affecting work should consult `designer` first. The phase structure keeps larger changes from collapsing into an undifferentiated coding session.
+  `301` separates design review, implementation, independent refinement, and final validation. Two fresh, read-only `reviewer` assignments assess the same complete design brief before implementation starts. The implementation coder owns baseline and red/green checks; a fresh coder owns refinement; `validator` owns final acceptance checks. UI-affecting work should consult `designer` during preparation. Checkpoints within an assignment do not require separate worker calls.
 </Callout>
 
 ## If feature artifacts are missing
 
-If `overview.md`, `specs.feature`, or `implementation.md` is missing, `301` synthesizes the missing outputs in memory and runs `204-feature-validation` before coding. Those synthesized artifacts are working context for the run — they are not written to `.specflow/` unless you explicitly ask.
+If `overview.md` or `specs.feature` is missing, `301` uses inline guided generation for the missing `201` overview or `202` scenario context. It resolves the necessary scope and behavior without writing files unless you ask. Running `201` and `202` directly still produces their normal persisted artifacts.
 
-Run `203-implementation-design` before `301` when you want a persisted, reviewable `implementation.md`.
+The implementation design stays in memory unless you explicitly ask to persist it. It is versioned working context for the run, not a required feature artifact.
+
+## The phases
+
+### Phase 0: Prepare
+
+Read the `201` overview and `202` scenarios, or generate missing context inline. Inspect the current code, project guidance, architecture, standards, and existing tests. Search for reuse candidates before choosing an approach, and record the paths checked.
+
+### Phase 1: Design in memory
+
+Build a compact, versioned design covering the approach, modules and responsibility boundaries, contracts, state and data flow, scenario-to-change/test mapping, validation checks, and assumptions. Explain alternatives only where a real choice needs resolving. Name what will be reused or extended, and justify anything new against the existing candidates.
+
+### Phase 2: Review readiness
+
+Dispatch two fresh, independent, read-only reviewers with the **same complete brief revision**, full scoped scenarios, constraints, readiness criteria, and exact source/doc/standards references. Neither relies on inherited memory or sees the other's conclusions:
+
+- **Walkthrough review** follows the scenarios end to end, checking integration, reuse, and completeness.
+- **Adversarial review** challenges assumptions and applicable risks, such as authorization, data integrity, concurrency, failure handling, compatibility, and accessibility. It skips risks that do not apply.
+
+The orchestrator resolves findings against code and scenario evidence, not by counting votes. Implementation is blocked whenever any required readiness criterion fails:
+
+- Scope, outcomes, scenarios, and design agree without missing behavior or unjustified scope.
+- Every scoped scenario has a feasible end-to-end change path and observable checks.
+- Module ownership, integration, boundaries, contracts, and state/failure handling are explicit and compatible.
+- Reuse decisions are code-grounded, project/standards/UI constraints are satisfied, and any new dependency is explicitly approved.
+- Material assumptions and questions affecting correctness, safety, or feasibility are resolved by evidence.
+
+Allow at most **two repair rounds** after the initial reviews. Recheck affected roles in fresh contexts with the complete revised brief and their own findings' resolution evidence, never sibling conclusions. Recheck both roles when shared assumptions, scope, contracts, or scenario mappings change. Retain an unaffected review only where its criteria and evidence are unchanged. Both applicable reviews must be clean and every required criterion resolved, regardless of finding severity.
+
+Keep implementation blocked throughout readiness repair. If readiness still fails after at most two repair rounds, or a material design blocker cannot be resolved, return a terminal design blocker. Do not waive or reset the cap, treat silence as approval, or code around unresolved findings.
+
+### Phase 3: Implement tests-first
+
+Assign one coder the approved design and scope. In one assignment, establish the baseline, write or extend tests, demonstrate the intended red failure, and implement the minimum source change to reach green. Keep baseline, red, and green evidence distinct.
+
+Material design discoveries during implementation, refinement, or validation repair return to the readiness gate before more implementation. They use the same repair budget, not a new cap.
+
+### Phase 4: Independently review and refine
+
+Assign a fresh coder the approved design, scoped scenarios, and actual diff. Check the implementation against the design with distinct test-quality and source-quality checkpoints. Refine within scope and rerun affected checks. Preserve assertions, coverage, intended behavior, and public contracts; never weaken a test to make the implementation pass.
+
+### Phase 5: Validate and close
+
+Use one final validator assignment for the required test, lint, and build checks, with separate results for each. Close with verification evidence, review resolutions, remaining risks, and status updates when the feature artifacts exist. A failed required check is not a completed run.
 
 ## What it produces
 
 - Updated source and test files
 - Status updates in `overview.md` (when it exists)
-- In-memory `201`, `202`, `203`, and `204` outputs when feature artifacts are missing
-- Final validation through test, lint, and build passes
+- In-memory overview and scenarios when feature context is missing
+- A versioned in-memory implementation design and two independent readiness reviews
+- Baseline and red/green evidence, plus independent review findings and refinements
+- Final validation through test, lint, and build checks in one validator assignment
 
 ## Required inputs
 
 - A change request or spec reference
 - A clear scope: one `@TS###` scenario, one `TSM###` module, a full `.feature` file, or a tightly scoped plain-language description
+
+Existing selected scenarios need no coverage-level classification. Synthesizing or materially revising scenarios requires an explicit coverage choice from the specs, request, or context. If none is supplied, `301` returns a blocking question rather than choosing a default.
 
 ## Common prompts
 
@@ -57,22 +104,26 @@ Run `203-implementation-design` before `301` when you want a persisted, reviewab
 
 ## What usually comes next
 
-Often nothing: `301` already includes internal test and production cleanup before final validation. Use `401-cleanup` afterward only when you want an additional explicit cleanup pass on an already-changed source or test scope.
+Often nothing: `301` already includes a bounded independent review and refinement of the feature diff before final validation. Use `401-cleanup` afterward only when the changed set warrants a deeper, separately scoped source or test cleanup pass.
 
 ## Practical guidance
 
 - Use `301` for substantial work, not tiny naming edits. The phase structure provides value on changes that would otherwise sprawl.
 - Let tests, lint, and build results decide whether the workflow is done — not conversation sentiment.
-- Keep cleanup isolated by target type. The internal test cleanup phase is not the same as the production cleanup phase.
-- If you want the implementation plan to be persisted and reviewable before coding, run `203` first.
+- Give the fresh coder distinct test-quality and source-quality checkpoints in one assignment. Preserve assertions, coverage, intended behavior, and public contracts.
+- Let coders run assigned development checks. Bundle final test, lint, and build checks into one validator assignment with separate results for each.
+- Keep both pre-implementation reviewers on the same complete brief revision. Resolve findings with evidence before assigning implementation.
+- On an interrupted run, rebuild the in-memory brief and design from current artifacts and code, then rerun both readiness reviews. Preserve consumed repair rounds; stop if that history cannot be recovered rather than resetting the cap.
 
 ## Common mistakes
 
 - Starting `301` without a real scope boundary — scope creep inside an implementation run is harder to reverse
 - Using `301` for test-only work that belongs in `302`
 - Trying to revise Gherkin inside `301` instead of routing that work back through `202-spec-design`
-- Treating the internal cleanup phases as a substitute for `401` on complex changes that genuinely benefit from a dedicated cleanup pass
+- Weakening tests during refinement to match the implementation
+- Starting implementation before required readiness criteria pass, or treating the two-repair-round cap as waivable
+- Treating the bounded refinement pass as a substitute for `401` on complex changes that genuinely benefit from a dedicated cleanup pass
 
-<Callout tone="warning" title="Phase isolation is intentional">
-  `301` is strict about phase order: synthesize missing context, validate, write failing tests, implement, cleanup tests, cleanup source, validate. This prevents larger changes from collapsing into undifferentiated coding sessions where tests are an afterthought.
+<Callout tone="warning" title="The independent context is intentional">
+  `301` is strict about phase order: prepare, design in memory, independently review readiness, implement tests-first, independently refine, validate and close. Keep the red-before-green checkpoint, but do not create a worker handoff for every step. Reviewers assess the complete design brief; the fresh coder checks the actual diff, not just the implementer's summary.
 </Callout>

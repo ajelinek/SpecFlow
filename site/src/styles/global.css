@@ -502,6 +502,11 @@ main {
   pointer-events: none;
 }
 
+.home-path-selection__radio-label:has(input:focus-visible) {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
 .home-path-selection__path-label {
   font-weight: 700;
 }
@@ -1695,6 +1700,10 @@ main {
   .home-hero {
     grid-template-columns: 1fr;
     padding-top: 4rem;
+  }
+
+  .home-hero::before {
+    inset-inline: -1rem;
   }
 
   .home-hero__art {

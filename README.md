@@ -10,16 +10,20 @@ SpecFlow is a lightweight, spec-driven workflow for building software with AI.
 
 It helps you define a feature, describe its expected behavior, implement it, and clean it up without turning the process into a pile of bloated planning docs.
 
+**Just enough structure.** Consistent, skimmable templates make the goal, key decisions, and expected behavior easy to review. Include only what the work needs: enough context and constraints to guide AI, with room for judgment about how to deliver it.
+
 The core idea is simple:
 
 1. Define the feature
 2. Define the expected behavior
-3. Implement it
-4. Clean it up
+3. Design, review, implement, and validate it
 
 If you only use one part of SpecFlow, use this path:
 
-`201-high-level-design` -> `202-spec-design` -> `301-spec-implementation` -> `401-cleanup`
+`201-high-level-design` -> `202-spec-design` -> `301-spec-implementation`
+
+`301` includes independent review and bounded refinement. Add `401-cleanup` when the changed set
+warrants a deeper, separately scoped source or test cleanup pass.
 
 Docs site development and deployment notes live in `site/README.md`.
 
@@ -123,15 +127,15 @@ Site-specific install notes live on the docs site.
 1. Run `201-high-level-design`
 2. Run `202-spec-design`
 3. Run `301-spec-implementation`
-4. Run `401-cleanup` for source code
-5. Run `401-cleanup` again for test code if needed
+
+For deeper cleanup afterward, run `401-cleanup` for source code or test code as separate runs.
 
 What each step does:
 
 - `201-high-level-design`: creates a short feature overview and user journey
 - `202-spec-design`: writes Gherkin scenarios for the feature's expected behavior
-- `301-spec-implementation`: implements the feature against the spec
-- `401-cleanup`: tightens the changed code after it works
+- `301-spec-implementation`: designs and reviews the approach in memory, implements tests-first, then independently refines and validates
+- `401-cleanup`: provides a deeper cleanup pass when the changed set warrants it
 
 ### Example
 
@@ -139,6 +143,11 @@ What each step does:
 Run 201-high-level-design for invoice approval.
 Use 202-spec-design for invoice approval with balanced coverage.
 Run 301-spec-implementation for the invoice approval feature.
+```
+
+If the changed set warrants deeper cleanup:
+
+```text
 Run 401-cleanup on the changed source files.
 Run 401-cleanup on the changed test files.
 ```
@@ -154,7 +163,7 @@ In practice:
 - `201` explains the feature
 - `202` explains the expected behavior
 - `301` builds it
-- `401` cleans it up
+- `401` adds a deeper, separately scoped cleanup pass when needed
 
 ## When To Use The Other Skills
 
@@ -183,8 +192,8 @@ Use these per feature.
 
 - `201-high-level-design`: create a short feature overview
 - `202-spec-design`: create the behavior spec in Gherkin
-- `203-implementation-design`: create a codebase-grounded implementation plan
-- `204-feature-validation`: review the feature artifacts before implementation begins
+
+`301` owns the codebase-grounded implementation design and independent readiness review. The design stays in memory rather than becoming another feature artifact.
 
 If SpecFlow has a center of gravity, this is it.
 
@@ -204,7 +213,9 @@ If SpecFlow has a center of gravity, this is it.
 
 Use:
 
-`201` -> `202` -> `301` -> `401`
+`201` -> `202` -> `301`
+
+Add `401` only when the changed set warrants deeper source or test cleanup.
 
 ### Existing project, unclear domain or product direction
 
@@ -232,13 +243,16 @@ Use:
 
 Project-level docs go under `.specflow/docs/`.
 
-Feature-level docs go under `.specflow/features/<feature-name>/`.
+Feature-level docs go under `.specflow/features/<fid>-<feature-slug>/`.
 
 Typical feature outputs:
 
 - `overview.md`
 - `specs.feature`
-- `implementation.md`
+
+`301` builds a compact, versioned implementation design in memory. Two fresh, independent, read-only reviewers assess the same complete brief revision before coding. Required readiness criteria must pass; after at most two repair rounds, unresolved readiness blocks implementation without a cap waiver.
+
+Missing `201` or `202` context is generated inline without writing files unless requested. Running those skills normally still produces the artifacts above.
 
 Reusable domain context goes under:
 
@@ -260,8 +274,6 @@ to.
 ```text
 Run 201-high-level-design for account recovery.
 Use 202-spec-design for account recovery with happy path coverage only.
-Run 203-implementation-design for account recovery.
-Validate the account recovery feature with 204-feature-validation.
 Run 301-spec-implementation for the account recovery feature.
 Run 302-test-implementation for the billing retry scenarios.
 Run 401-cleanup on the staged source changes.
@@ -308,7 +320,7 @@ to a forked or background subagent.
 - `engineering-principles`: SpecFlow's shared engineering principles. The primary principle is reuse
   over creation, applied through a reuse ladder (no change, configure, delete, reuse, extend,
   compose, platform, installed dependency, new code, new dependency), followed by a short list of
-  supporting principles. Loaded by `203`, `204`, `301`, `302`, `401`, `402`, and `@coder`.
+  supporting principles. Loaded by `301`, `302`, `401`, `402`, and `@coder`.
 
 ## Quality Assurance Skills
 
@@ -334,14 +346,17 @@ These extend the core workflow into larger runs. Both are user-invoked.
 
 - `900-feedback-loop`: run a bounded review/apply-fix convergence cycle around work that already
   happened, using isolated subagent contexts for each role
-- `901-feature-loop`: run one feature end-to-end through `201` -> `202` -> per-scenario `301`/`401`
+- `901-feature-loop`: run one feature end-to-end through `201` -> `202` -> per-scenario `301`
   build-out -> cleanup -> an optional expanded-coverage round -> merge, on its own branch, with
   `900-feedback-loop` reviewing every design artifact and cleanup pass along the way
 
 `901-feature-loop` is heavy by design — on the order of a hundred or more subagent invocations for a
 feature with several scenarios across two coverage rounds. Use it when a feature genuinely
-warrants full BDD rigor and branch-level traceability; route small, isolated changes to `301` or
-`401` directly instead.
+warrants full BDD rigor and branch-level traceability. Use direct edits for quick fixes, `301` for
+substantial feature chunks, or `401` for already-changed cleanup scopes instead.
+
+Resuming a pending `301` rebuilds and reviews its in-memory brief and design. Exhausting its design
+repair cap is terminal and logged; `901` cannot reset the cap, consult around it, or merge unresolved work.
 
 ## Practical Advice
 

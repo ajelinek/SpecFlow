@@ -5,8 +5,8 @@ This folder holds SpecFlow's generated project memory. See root `AGENTS.md` for 
 - `context/` — reusable domain knowledge (e.g. `domain-knowledge.md`). Safe to read across any work.
 - `docs/` — project-level design docs (`D01`-`D11`: architecture, data model, UI, etc.). Read the
   docs relevant to the task at hand.
-- `features/<F-ID>-<slug>/` — one folder per feature (`overview.md`, `specs.feature`,
-  `implementation.md`), each a point-in-time snapshot.
+- `features/<F-ID>-<slug>/` — one folder per documented feature (`overview.md`, `specs.feature`).
+  `301` keeps code-grounded design and its reviews in memory unless persistence is requested.
 
 ## Feature Isolation Rule
 

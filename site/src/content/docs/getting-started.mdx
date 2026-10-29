@@ -48,37 +48,36 @@ Run this once, right after installing the skills and before creating your first 
 
 This creates `.specflow/CLAUDE.md`, a short guidance file that tells Claude how `.specflow/context/`, `.specflow/docs/`, and `.specflow/features/` are organized, and states the feature isolation rule: each `.specflow/features/<F-ID>-<slug>/` folder is a point-in-time snapshot, and Claude should not read a sibling feature's folder unless you explicitly ask it to. It's a one-time setup step — no other skill runs it for you, so it does not add overhead to every feature.
 
-## 4. Run the lean default
+## 4. Run the minimal feature path
 
-If the repo already has enough context, the lean path is the fastest clean start. You can use the skill numbers as a shorthand in your prompts (e.g., saying "Run 301" instead of the full name):
+If the repo already has enough context, start with the minimal feature path. You can use the skill numbers as a shorthand in your prompts (e.g., saying "Run 301" instead of the full name):
 
 <PromptBlock
   title="Run this"
   text={`Run 201 for invoice approval.
 Use 202 for invoice approval with balanced coverage.
-Run 301 for the invoice approval feature.
-Run 401 on the changed source files.`}
+Run 301 for the invoice approval feature.`}
 />
 
-Run `401-cleanup` again later for changed test files if you want a separate test cleanup pass too.
+Add `401-cleanup` only when the changed set warrants deeper cleanup. Scope source and test cleanup as separate runs.
 
-## 5. Pick the right path when the lean flow is not enough
+## 5. Compare the other paths
 
 - Read **[Project Foundation](../project-foundation/)** for the larger lifecycle, groupings, and why the `100` series helps on both new and existing projects.
-- Use the homepage flow visualization when you want to compare the full, conservative, lean, and implementation-first paths side by side.
+- Use the homepage flow visualization to compare Comprehensive, Conservative, Minimal, and Lean paths side by side. Lean starts directly with `301`, synthesizing missing feature context inline.
 
 <Callout tone="tip" title="What 301 does when artifacts are missing">
-  `301` can synthesize missing `201`, `202`, and `203` outputs in memory and run `204-feature-validation` before coding. Run `203-implementation-design` yourself first when you want a persisted `.specflow/features/<fid>-<feature-slug>/implementation.md` file.
+  `301` uses inline guided generation for missing `201` overview or `202` scenario context without writing files unless requested. Those skills still produce normal persisted artifacts when run directly. Every `301` run builds a versioned implementation design in memory and sends the same complete brief to two fresh, independent, read-only reviewers before coding. Any failed readiness criterion blocks implementation immediately. If readiness remains unresolved after at most two repair rounds, the run ends with a terminal design blocker.
 </Callout>
 
 <Callout tone="tip" title="What the worker agents are for">
-  Full `301`, `302`, `401`, and `402` runs are designed around separate workers: `coder` for scoped code changes, `validator` for test/lint/build validation, and `designer` for UI-affecting design direction. The `900`/`901` orchestration loops add two more: `reviewer` for the review role in `900-feedback-loop`, and `decider` for the headless Decision Consult in `901-feature-loop`.
+  Full `301`, `302`, `401`, and `402` runs are designed around separate workers: `coder` for scoped code changes, `validator` for test/lint/build validation, and `designer` for UI-affecting design direction. `reviewer` handles independent pre-implementation review in `301` and the Review role in `900-feedback-loop`. `decider` handles the headless Decision Consult in `901-feature-loop`, but cannot waive `301`'s readiness gate or repair cap.
 </Callout>
 
 ## Next
 
 <Callout tone="core" title="You are done with setup">
-  If this ran cleanly, you have the install split and the lean default workflow.
+  You now have the install split and the minimal feature workflow.
 </Callout>
 
 - **[Project Foundation](../project-foundation/)** — the larger lifecycle docs

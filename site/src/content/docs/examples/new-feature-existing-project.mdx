@@ -31,7 +31,7 @@ If the feature is already in D10, `201` should reuse that feature's `F-ID` so th
 
 - The project already exists, so you often can skip straight to `201`, but the 100-series is still useful if domain, architecture, or UX direction is unclear.
 - The feature still deserves a short design and behavior spec before implementation.
-- `301` already includes test cleanup and production cleanup; use `401` only when you want an extra cleanup-only pass on the resulting changed set.
+- `301` already includes independent review and bounded refinement of tests and source; use `401` only when the resulting changed set warrants a deeper cleanup-only pass.
 
 <Callout tone="core" title="Good fit">
   Use this pattern when the domain and product shape are already clear enough that you do not need broad project-definition work.

@@ -19,9 +19,7 @@ const nodeMeta: Record<string, { label: string; note: string }> = {
   '110': { label: '110', note: 'Feature backlog map' },
   '201': { label: '201', note: 'Feature overview' },
   '202': { label: '202', note: 'Behavior spec' },
-  '203': { label: '203', note: 'Implementation plan' },
-  '204': { label: '204', note: 'Readiness review' },
-  '301': { label: '301', note: 'Implementation run' },
+  '301': { label: '301', note: 'Design, independent reviews, tests-first build, fresh review and refinement, validation' },
   '401': { label: '401', note: 'Cleanup pass' },
 };
 

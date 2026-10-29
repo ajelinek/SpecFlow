@@ -18,9 +18,11 @@ import {
   coreWorkflow,
   docSections,
   getSkillsByCategory,
+  lifecycleStages,
   siteMeta,
   skills,
   starlightSidebar,
+  workflowPaths,
   type SectionSlug,
   type SkillCategory,
   type SkillTier,
@@ -87,10 +89,9 @@ describe('coreWorkflow', () => {
     '201-high-level-design',
     '202-spec-design',
     '301-spec-implementation',
-    '401-cleanup',
   ];
 
-  it('contains all four core steps in order', () => {
+  it('contains exactly the three core steps in order', () => {
     expect(coreWorkflow.map((s) => s.slug)).toEqual(requiredSlugs);
   });
 
@@ -237,11 +238,9 @@ describe('starlightSidebar', () => {
 // ---------------------------------------------------------------------------
 
 describe('homepage simple path', () => {
-  it('coreWorkflow includes 401-cleanup as the fourth step (not optional)', () => {
-    // The simple path should always include 401, not present it as an add-on.
-    const slugs = coreWorkflow.map((s) => s.slug);
-    expect(slugs).toContain('401-cleanup');
-    expect(slugs.indexOf('401-cleanup')).toBe(3);
+  it('keeps cleanup available as an optional skill outside the core', () => {
+    expect(skills.find((skill) => skill.slug === '401-cleanup')?.tier).toBe('optional');
+    expect(coreWorkflow.map((step) => step.slug)).not.toContain('401-cleanup');
   });
 
   it('siteMeta has a github URL (GitHub affordance is present in site data)', () => {
@@ -444,31 +443,26 @@ describe('workflowPaths flow options', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// 401-cleanup framing in coreWorkflow — must not describe itself as optional
-// ---------------------------------------------------------------------------
+it('retires 203 and 204 from all shared navigation and metadata', () => {
+  expect(JSON.stringify({ skills, starlightSidebar, coreWorkflow, lifecycleStages, workflowPaths }))
+    .not.toMatch(/\b20[34]\b/);
+  expect(skills).toHaveLength(24);
+  expect(skills.filter((skill) => skill.tier === 'core').map((skill) => skill.slug))
+    .toEqual(coreWorkflow.map((step) => step.slug));
+  expect(skills.filter((skill) => skill.category === 'Feature Design').map((skill) => skill.slug))
+    .toEqual(['201-high-level-design', '202-spec-design']);
+  expect(skills.filter((skill) => skill.category === 'Project Definition').every((skill) => skill.tier === 'optional')).toBe(true);
+  expect(lifecycleStages.at(-1)?.steps).toEqual(coreWorkflow.map((step) => step.slug));
+});
 
-describe('coreWorkflow 401-cleanup framing', () => {
-  const step = coreWorkflow.find((s) => s.slug === '401-cleanup');
-
-  it('401-cleanup step exists', () => {
-    expect(step).toBeDefined();
-  });
-
-  it('401-cleanup title does not frame the step as optional', () => {
-    // Title like "Optional cleanup pass" contradicts the simple path framing
-    // where 401 is always the fourth step, not an add-on.
-    expect(step!.title.toLowerCase()).not.toMatch(/optional/);
-  });
-
-  it('401-cleanup description does not say "when needed"', () => {
-    // Phrases like "when needed" imply 401 is skippable.
-    // The description should present it as a standard step.
-    expect(step!.description.toLowerCase()).not.toMatch(/when needed/);
-  });
-
-  it('401-cleanup title communicates it is a cleanup/refine step', () => {
-    // The title should reflect what the step does: clean up / tighten the code.
-    expect(step!.title.toLowerCase()).toMatch(/clean|refine|tighten|polish/);
-  });
+it('keeps every named path ending at 301 without situational skills', () => {
+  expect(workflowPaths.map((path) => [path.id, path.sequence.split('->').map((step) => step.trim())])).toEqual([
+    ['full', ['100', '101', '102', '103', '104', '105', '106', '107', '108 loop', '110', '201', '202', '301']],
+    ['conservative', ['100', '101', '102', '103', '104', '105', '106', '107', '201', '202', '301']],
+    ['lean', ['201', '202', '301']],
+    ['crazy-lean', ['301']],
+  ]);
+  const lean = workflowPaths.find((path) => path.id === 'crazy-lean');
+  expect(lean?.description).toMatch(/design/i);
+  expect(lean?.description).toMatch(/review/i);
 });

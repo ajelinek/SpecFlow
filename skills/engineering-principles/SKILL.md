@@ -4,7 +4,7 @@ description: >
   SpecFlow's shared engineering principles for any design, implementation, test, or cleanup work.
   The primary principle is reuse over creation: the least code that correctly delivers the behavior
   wins, so prefer no change, reuse, and extension of existing code over new code and new
-  dependencies. Referenced by name from 203, 204, 301, 302, 401, 402, and the `@coder` agent; load
+  dependencies. Referenced by name from 301, 302, 401, 402, and the `@coder` agent; load
   it before planning, writing, or reviewing code.
 ---
 
@@ -46,8 +46,8 @@ Work down this list and stop at the first rung that correctly delivers the behav
    component behind a flag. If the original needs a new case, change the original.
 4. **Extend for today's need only.** Add a parameter, seam, or extension point when a current
    scenario needs it. Extract a shared abstraction on the second real use, not a predicted one.
-5. **New dependencies need approval.** A new third-party package must be named in the
-   implementation plan or escalated to the orchestrator or user before it is added.
+5. **New dependencies need approval.** A new third-party package must be named and explicitly approved
+   in the design brief or escalated to the orchestrator or user before it is added.
 6. **Consolidate duplication you touch.** When a change creates or exposes duplication, fold it into
    the existing owner rather than leaving two versions behind.
 7. **Deleted code is progress.** Removing dead code, redundant branches, and unused exports counts as

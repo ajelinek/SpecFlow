@@ -1,9 +1,7 @@
 /**
  * Tests for the extracted flow-visualization logic module (`src/lib/flow-viz.ts`).
  *
- * These tests define the expected API for the homepage path-visualization refactor.
- * The production module does not exist yet — every test in this file is expected
- * to FAIL with a module-not-found error until `src/lib/flow-viz.ts` is created.
+ * Tests exercise the helpers shared by the initial homepage and path switches.
  *
  * Behavior under test:
  *   - pathIncludes: given a path sequence string and a skill key, returns
@@ -23,12 +21,53 @@ import { expect, it } from 'vitest';
 import {
   buildConnectorPath,
   getVisibleRows,
+  getVisibleCards,
+  getCardBadges,
   pathIncludes,
   type FlowCard,
   type FlowRow,
   type VisibleRows,
 } from '../src/lib/flow-viz';
 import { workflowPaths } from '../src/lib/specflow';
+
+it('selects cards in exact sequence order rather than snake-row order', () => {
+  const cards = getVisibleCards(pathById('full').sequence, FLOW_ROWS);
+  expect(cards.map((card) => card.key)).toEqual([
+    '100', '101', '102', '103', '104', '105', '106', '107', '108', '110', '201', '202', '301',
+  ]);
+  expect(cards[5]).toBe(FLOW_ROWS[1][4]);
+});
+
+it('selects exactly three cards for Minimal and one for Lean without adding 302 or 401', () => {
+  expect(getVisibleCards(pathById('lean').sequence, FLOW_ROWS).map((card) => card.key))
+    .toEqual(['201', '202', '301']);
+  expect(getVisibleCards(pathById('crazy-lean').sequence, FLOW_ROWS).map((card) => card.key))
+    .toEqual(['301']);
+});
+
+it('filters unknown sequence entries without changing the order of known cards', () => {
+  expect(getVisibleCards('missing -> 108 loop -> 301 -> 202', FLOW_ROWS).map((card) => card.key))
+    .toEqual(['108', '301', '202']);
+  expect(getVisibleCards('', FLOW_ROWS)).toEqual([]);
+});
+
+it('never inherits test-only cards in row selection even when the source contains them', () => {
+  const rows = [[
+    { key: '301', title: 'Implement', description: 'Build.' },
+    { key: '302', title: 'Test only', description: 'Cover existing behavior.' },
+    { key: '401', title: 'Cleanup', description: 'Separate pass.' },
+  ]];
+  expect(getVisibleRows('301', rows, []).flat().map((card) => card.key)).toEqual(['301']);
+  expect(getVisibleCards('301', rows).map((card) => card.key)).toEqual(['301']);
+});
+
+it('marks the page loop and the spec loop ending at 301, not cleanup', () => {
+  expect(getCardBadges('108')).toEqual([{ label: 'Page Loop', tone: 'loop' }]);
+  expect(getCardBadges('201')).toEqual([{ label: 'Spec Loop Start', tone: 'loop' }]);
+  expect(getCardBadges('301')).toEqual([{ label: 'Spec Loop End', tone: 'loop' }]);
+  expect(getCardBadges('302')).toEqual([]);
+  expect(getCardBadges('401')).toEqual([]);
+});
 
 // ---------------------------------------------------------------------------
 // Shared test fixtures — mirror of index.astro flowRows (shape only, no Astro)
@@ -52,18 +91,12 @@ const FLOW_ROWS: FlowRow[] = [
   [
     { key: '201', title: 'High-Level Design', description: 'Define one feature.' },
     { key: '202', title: 'Spec Design', description: 'Write Gherkin scenarios.' },
-    { key: '203', title: 'Implementation Design', description: 'Persist the plan.' },
-    { key: '204', title: 'Feature Validation', description: 'Review artifacts.' },
-  ],
-  [
-    { key: '401', title: 'Cleanup', description: 'Refine the changed scope.' },
-    { key: '302', title: 'Test Implementation', description: 'Add or repair tests.' },
     { key: '301', title: 'Spec Implementation', description: 'Build through tests-first.' },
   ],
 ];
 
 // Keys that are optional in every path that contains them.
-const OPTIONAL_KEYS = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '110', '203', '204', '302'];
+const OPTIONAL_KEYS = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '110'];
 
 // Convenience helpers
 function pathById(id: string) {
@@ -85,19 +118,16 @@ it('pathIncludes: returns true when the key appears in the sequence', () => {
 });
 
 it('pathIncludes: returns false when the key is absent from the sequence', () => {
-  // Given the minimal/lean path sequence (201 -> 202 -> 301 -> 401)
+  // Given the minimal path sequence (201 -> 202 -> 301)
   const sequence = pathById('lean').sequence;
   // When we ask whether 100 is included
   // Then it returns false because 100 is not in the minimal sequence
   expect(pathIncludes(sequence, '100')).toBe(false);
 });
 
-it('pathIncludes: 302 is included when 301 appears in the sequence (test-only sub-path)', () => {
-  // Given any sequence that contains 301
-  const sequence = '201 -> 202 -> 301 -> 401';
-  // When we ask whether 302 is included (302 inherits from 301's presence)
-  // Then it returns true because 302 is the test-only variant of 301
-  expect(pathIncludes(sequence, '302')).toBe(true);
+it('pathIncludes: 301 never implicitly includes the situational test-only skill', () => {
+  expect(pathIncludes('201 -> 202 -> 301', '302')).toBe(false);
+  expect(pathIncludes('302', '302')).toBe(true);
 });
 
 it('pathIncludes: returns false for 302 when 301 is absent', () => {
@@ -121,7 +151,7 @@ it('pathIncludes: partial key match does not cause false positives (e.g. "10" do
 // ---------------------------------------------------------------------------
 
 it('getVisibleRows (conservative): excludes optional project-definition cards not in the conservative sequence', () => {
-  // Given the conservative path (which includes 100-107 but not 108, 110, 203, 204, 302)
+  // Given the conservative path (which includes 100-107 but not 108 or 110)
   const conservative = pathById('conservative');
   // When we compute visible rows
   const result = getVisibleRows(conservative.sequence, FLOW_ROWS, OPTIONAL_KEYS);
@@ -133,14 +163,14 @@ it('getVisibleRows (conservative): excludes optional project-definition cards no
   expect(allKeys).not.toContain('204');
 });
 
-it('getVisibleRows (conservative): includes its core steps (101-107, 201, 202, 301, 401)', () => {
-  // Given the conservative sequence: 100 -> 101 -> ... -> 107 -> 201 -> 202 -> 301 -> 401
+it('getVisibleRows (conservative): includes project context and the three core steps', () => {
+  // Given the conservative sequence: 100 -> 101 -> ... -> 107 -> 201 -> 202 -> 301
   const conservative = pathById('conservative');
   // When we compute visible rows
   const result = getVisibleRows(conservative.sequence, FLOW_ROWS, OPTIONAL_KEYS);
   const allKeys = result.flatMap((row) => row.map((c: FlowCard) => c.key));
   // Then all conservative steps are represented
-  for (const key of ['101', '102', '103', '104', '105', '106', '107', '201', '202', '301', '401']) {
+  for (const key of ['101', '102', '103', '104', '105', '106', '107', '201', '202', '301']) {
     expect(allKeys, `conservative path should include key ${key}`).toContain(key);
   }
 });
@@ -157,24 +187,16 @@ it('getVisibleRows (conservative): each row contains only its included cards (no
 });
 
 // ---------------------------------------------------------------------------
-// getVisibleRows — minimal/lean path (201, 202, 301, 401)
+// getVisibleRows — minimal path (201, 202, 301)
 // ---------------------------------------------------------------------------
 
-it('getVisibleRows (lean/minimal): includes exactly 201, 202, 301, 401 — nothing more', () => {
-  // Given the lean path sequence "201 -> 202 -> 301 -> 401"
+it('getVisibleRows (lean/minimal): includes exactly 201, 202, 301 — nothing more', () => {
+  // Given the minimal path sequence "201 -> 202 -> 301"
   const lean = pathById('lean');
   // When we compute visible rows
   const result = getVisibleRows(lean.sequence, FLOW_ROWS, OPTIONAL_KEYS);
   const allKeys = result.flatMap((row) => row.map((c: FlowCard) => c.key));
-  // Then only the four core steps plus 302 (which inherits from 301) are visible
-  const expectedKeys = new Set(['201', '202', '301', '302', '401']);
-  for (const key of allKeys) {
-    expect(expectedKeys, `lean path should not include key "${key}"`).toContain(key);
-  }
-  expect(allKeys).toContain('201');
-  expect(allKeys).toContain('202');
-  expect(allKeys).toContain('301');
-  expect(allKeys).toContain('401');
+  expect(allKeys).toEqual(['201', '202', '301']);
 });
 
 it('getVisibleRows (lean/minimal): excludes all 100-series and 200-series optional cards', () => {
@@ -199,16 +221,13 @@ it('getVisibleRows (full): includes all project-definition and feature-loop card
   // When we compute visible rows
   const result = getVisibleRows(full.sequence, FLOW_ROWS, OPTIONAL_KEYS);
   const allKeys = result.flatMap((row) => row.map((c: FlowCard) => c.key));
-  // Then all 17 skill keys are present
+  // Then all 13 active pipeline cards are present, in their source row order.
   const allExpected = [
     '100', '101', '102', '103', '104',
-    '105', '106', '107', '108', '110',
-    '201', '202', '203', '204',
-    '301', '302', '401',
+    '110', '108', '107', '106', '105',
+    '201', '202', '301',
   ];
-  for (const key of allExpected) {
-    expect(allKeys, `full path should include key ${key}`).toContain(key);
-  }
+  expect(allKeys).toEqual(allExpected);
 });
 
 it('getVisibleRows (full): card descriptions are taken from the source flowRows — not duplicated per path', () => {
@@ -317,7 +336,7 @@ it('buildConnectorPath: returns empty string or minimal path when no visible row
 
 it('buildConnectorPath: does not reference cards that are excluded from the current path', () => {
   // Given the lean path (excludes 100-series)
-  // The SVG connector must only thread through 201, 202, 301/302, 401 anchors.
+  // The SVG connector must only thread through 201, 202, 301 anchors.
   // We verify this indirectly: the path for lean has fewer coordinate waypoints
   // than the path for the full board, confirming excluded cards are not connected.
   const lean = pathById('lean');

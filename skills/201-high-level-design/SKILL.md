@@ -31,7 +31,7 @@ unanswered instead of guessing.
 
 ## Feature Folder Rule
 
-Every feature artifact (`overview.md`, `specs.feature`, `implementation.md`, …) lives in one stable
+Every feature artifact (`overview.md`, `specs.feature`, …) lives in one stable
 folder: `.specflow/features/<fid>-<feature-slug>/`. `fid` (e.g. `F013`) and `feature-slug` are
 separate required values; the slug alone is never an acceptable folder name, even temporarily.
 

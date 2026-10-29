@@ -1,6 +1,6 @@
 ---
 title: Feature Definition (200 Series)
-description: Design one feature at a time — overview, Gherkin scenarios, implementation plan, and readiness review.
+description: Define one feature at a time through a short overview and Gherkin behavior scenarios.
 sidebar:
   order: 4
 ---
@@ -9,17 +9,15 @@ import Callout from '../../components/Callout.astro';
 
 The `200` series turns a feature request into a set of reviewable, implementation-ready artifacts. Each skill in this series produces a document that guides and constrains the implementation run that follows.
 
-## The four steps
+## The two skills
 
 | Skill | Output | Required |
 |---|---|---|
 | `201-high-level-design` | `overview.md` — scope, user journey, acceptance criteria | Core |
 | `202-spec-design` | `specs.feature` — numbered Gherkin scenarios | Core |
-| `203-implementation-design` | `implementation.md` — repo-grounded implementation plan | Optional |
-| `204-feature-validation` | Chat-only readiness review across all artifacts | Optional |
 
 <Callout tone="core" title="The minimum viable design loop">
-  `201` followed by `202` is the practical minimum before a `301` implementation run. The optional steps (`203` and `204`) add a persisted implementation plan and a pre-coding readiness review — valuable on complex features, overhead on simple ones.
+  The core delivery path is `201 → 202 → 301`. These two design skills persist feature intent and behavior. `301` then builds and independently reviews a codebase-grounded implementation design in memory before coding.
 </Callout>
 
 ## All outputs go to the same path
@@ -32,12 +30,9 @@ Every skill in the `200` series writes to `.specflow/features/<fid>-<feature-slu
     F003-invoice-approval/
       overview.md          ← written by 201
       specs.feature        ← written by 202
-      implementation.md    ← written by 203 (optional)
 ```
 
 ## Skills in this series
 
 - **[201 High-Level Design](./201-high-level-design/)** — define the feature in plain language
 - **[202 Spec Design](./202-spec-design/)** — write the Gherkin behavior scenarios
-- **[203 Implementation Design](./203-implementation-design/)** — produce a codebase-grounded implementation plan
-- **[204 Feature Validation](./204-feature-validation/)** — cross-artifact readiness review before coding

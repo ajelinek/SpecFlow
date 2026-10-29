@@ -30,6 +30,13 @@ When invoked with no user in the loop (`301-spec-implementation` routing a spec 
 `901-feature-loop` dispatching it into a subagent), the invocation should carry both inputs; if one is
 still missing, return the question to the caller unanswered.
 
+**Inline handoff.** When `301` explicitly requests an inline scenario revision, use its supplied scope,
+outcomes, current scenario text/IDs, coverage, constraints, and proposed behavior change as context.
+Return revised scenarios and a concise change summary to the caller without creating a folder or
+artifact. Follow the coverage and quality checks below, but skip file-writing steps; update an existing
+`specs.feature` only when the handoff explicitly authorizes it. Missing material context is a blocking
+question, not permission to infer behavior.
+
 ---
 
 ## Steps
@@ -80,4 +87,7 @@ still missing, return the question to the caller unanswered.
 - [ ] **Step 6: Write and summarize.** Update existing scenarios in place, then append truly new
   modules/scenarios. Report the path, `TS#` scenarios updated, new scenarios and their `TS#` range,
   coverage level, missing context that may affect coverage, a suggested later pass if coverage was
-  Happy Path Only, and suggest `203-implementation-design` next.
+  Happy Path Only, and suggest `301-spec-implementation` for substantial feature delivery next.
+  That workflow owns code-grounded design and independent design reviews before coding; there is no
+  separate implementation-plan artifact to produce first. For existing behavior needing only tests,
+  suggest `302-test-implementation` instead.

@@ -26,7 +26,7 @@ artifact.
 1. **Test scope** — feature name, `.feature` file, `@TS###` / `TSM###`, scenario titles, or a precise
    behavior description
 2. **Implementation status** — the behavior already exists; if not, reroute to
-   `301-spec-implementation`
+   `301-spec-implementation` for substantial feature work, or a focused fix for small changes
 3. **Test surface** — UI, API, integration, unit, or mixed
 4. **Code-touch boundary** — production code is off-limits except the UI testability exception
 
@@ -49,8 +49,9 @@ model: scope, touched test files, read-only references, touch-boundary exception
 - [ ] **Step 1: Resolve scope and workflow fit.** Anchor to the smallest usable unit; for a `.feature`
   file, a single `@TS###`, single `TSM###`, or the full file.
 
-- [ ] **Step 2: Load context.** The feature's `overview.md`, `specs.feature`, `implementation.md`, and
-  D02/D04/D05/D06/D07 when present — to understand intended coverage, not to invent scenarios.
+- [ ] **Step 2: Load context.** The feature's `overview.md`, `specs.feature`, supplied inline scope,
+  and D02/D04/D05/D06/D07 when present — to understand intended coverage, not to invent scenarios.
+  No separate implementation-plan artifact is required; confirm actual behavior from code.
 
 - [ ] **Step 3: Research patterns** with `@explore` as needed: the production files implementing the
   behavior; 2-3 similar tests; reusable page objects, fixtures, helpers, selectors, and setup

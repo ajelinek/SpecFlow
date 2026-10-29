@@ -62,7 +62,7 @@ export const docSections: Array<{ slug: SectionSlug; label: string; summary: str
   {
     slug: 'core-workflow',
     label: 'Core Workflow',
-    summary: 'The recommended default delivery loop: define, specify, build, clean up.',
+    summary: 'The recommended default delivery loop: define, specify, implement and validate.',
   },
   {
     slug: 'skills',
@@ -98,13 +98,7 @@ export const coreWorkflow = [
     slug: '301-spec-implementation',
     label: '301-spec-implementation',
     title: 'Implement against the spec',
-    description: 'Build the feature through a tests-first workflow with internal cleanup and final validation.',
-  },
-  {
-    slug: '401-cleanup',
-    label: '401-cleanup',
-    title: 'Cleanup and refinement pass',
-    description: 'Run a separate cleanup-only pass on changed source or changed test files to reduce duplication and improve clarity.',
+    description: 'Design in memory, independently review the design twice, build tests-first, then freshly review, refine, and validate.',
   },
 ] as const;
 
@@ -113,7 +107,7 @@ export const workflowPaths: WorkflowPath[] = [
     id: 'full',
     label: 'Comprehensive',
     icon: 'comprehensive',
-    sequence: '100 -> 101 -> 102 -> 103 -> 104 -> 105 -> 106 -> 107 -> 108 loop -> 110 -> 201 -> 202 -> 203 -> 204 -> 301 -> 401',
+    sequence: '100 -> 101 -> 102 -> 103 -> 104 -> 105 -> 106 -> 107 -> 108 loop -> 110 -> 201 -> 202 -> 301',
     description: 'Use the full lifecycle when the product, architecture, UX, and feature plan all need to be made explicit before coding starts.',
     note: 'Best for greenfield work, major rewrites, and teams that want every reviewable artifact.',
     action: '/getting-started/',
@@ -122,7 +116,7 @@ export const workflowPaths: WorkflowPath[] = [
     id: 'conservative',
     label: 'Conservative',
     icon: 'conservative',
-    sequence: '100 -> 101 -> 102 -> 103 -> 104 -> 105 -> 106 -> 107 -> 201 -> 202 -> 301 -> 401',
+    sequence: '100 -> 101 -> 102 -> 103 -> 104 -> 105 -> 106 -> 107 -> 201 -> 202 -> 301',
     description: 'Do the project-definition work first, then move into the shortest steady delivery loop.',
     note: 'Recommended default when a project still needs more up-front clarity before moving into steady delivery.',
     action: '/getting-started/',
@@ -131,7 +125,7 @@ export const workflowPaths: WorkflowPath[] = [
     id: 'lean',
     label: 'Minimal',
     icon: 'minimal',
-    sequence: '201 -> 202 -> 301 -> 401',
+    sequence: '201 -> 202 -> 301',
     description: 'Skip the up-front project-definition series when the product and architecture are already clear enough.',
     note: 'Best default for normal feature work in an existing repo with solid context.',
     action: '/getting-started/',
@@ -141,8 +135,8 @@ export const workflowPaths: WorkflowPath[] = [
     label: 'Lean',
     icon: 'lean',
     sequence: '301',
-    description: 'Start directly at implementation and let 301 synthesize missing planning context in memory.',
-    note: 'Fastest path, but the least reviewable. Use it only when the scope is already obvious.',
+    description: 'Start with 301: in-memory design and two independent design reviews still happen before tests-first implementation, fresh review, refinement, and validation.',
+    note: 'Fewest persisted artifacts, not fewer design or review safeguards. Use it when the scope is already clear.',
     action: '/core-workflow/',
   },
 ];
@@ -156,12 +150,12 @@ export const skillSeries: SkillSeries[] = [
   {
     range: '200 Series',
     title: 'Feature design',
-    description: 'Define one feature, write the behavior, and optionally persist an implementation plan plus readiness review.',
+    description: 'Define one feature with 201 and specify its behavior with 202; 301 owns implementation design and reviews.',
   },
   {
     range: '300 Series',
     title: 'Implementation',
-    description: 'Build the change through the main tests-first implementation workflow or the test-only path.',
+    description: 'Design and independently review before building tests-first, then freshly review, refine, and validate — or use the test-only path for existing behavior.',
   },
   {
     range: '400 Series',
@@ -211,14 +205,11 @@ export const lifecycleStages: LifecycleStage[] = [
   {
     label: 'Development Loop',
     title: 'Repeat per feature',
-    description: 'Define the feature, write the behavior, optionally persist the implementation plan, validate readiness, build it, then clean it up.',
+    description: 'Define the feature and specify its behavior, then let 301 design, independently review, build tests-first, refine, and validate.',
     steps: [
       '201-high-level-design',
       '202-spec-design',
-      '203-implementation-design',
-      '204-feature-validation',
       '301-spec-implementation',
-      '401-cleanup',
     ],
   },
 ];
@@ -329,25 +320,9 @@ export const skills: Skill[] = [
     category: 'Feature Design',
   },
   {
-    slug: '203-implementation-design',
-    label: '203-implementation-design',
-    purpose: 'Create a repo-grounded, extend-first implementation plan with selectable detail depth before coding.',
-    whenToUse: 'Use it when the team wants a persisted implementation.md plan before coding.',
-    tier: 'optional',
-    category: 'Feature Design',
-  },
-  {
-    slug: '204-feature-validation',
-    label: '204-feature-validation',
-    purpose: 'Return a chat-only readiness review across the feature artifacts before coding.',
-    whenToUse: 'Use it after 201, 202, and 203 once implementation.md exists and you want a readiness review before coding.',
-    tier: 'optional',
-    category: 'Feature Design',
-  },
-  {
     slug: '301-spec-implementation',
     label: '301-spec-implementation',
-    purpose: 'Implement substantial changes through a tests-first, phase-isolated workflow with internal cleanup and validation.',
+    purpose: 'Design in memory, run independent walkthrough and adversarial reviews before implementation, build tests-first, then run fresh review and bounded refinement before final validation.',
     whenToUse: 'Use it for the main implementation pass when the change is larger than a tiny isolated edit.',
     tier: 'core',
     category: 'Implementation and Cleanup',
@@ -365,7 +340,7 @@ export const skills: Skill[] = [
     label: '401-cleanup',
     purpose: 'Run a separate cleanup-only pass on either changed source files or changed test files inside a strict scope.',
     whenToUse: 'Use it after implementation only when an existing changed set needs a deliberate cleanup pass.',
-    tier: 'core',
+    tier: 'optional',
     category: 'Implementation and Cleanup',
   },
   {
@@ -412,7 +387,7 @@ export const skills: Skill[] = [
     slug: 'engineering-principles',
     label: 'engineering-principles',
     purpose: 'Define SpecFlow\'s shared engineering principles, led by reuse over creation: prefer no change, reuse, and extension of existing code over new code and new dependencies.',
-    whenToUse: 'Not invoked directly by users — loaded by name from 203, 204, 301, 302, 401, 402, and the @coder agent before planning, writing, or reviewing code.',
+    whenToUse: 'Not invoked directly by users — loaded by name from 301, 302, 401, 402, and the @coder agent before planning, writing, or reviewing code.',
     tier: 'bonus',
     category: 'Bonus Skills',
   },
@@ -475,8 +450,6 @@ export const starlightSidebar = [
       { slug: 'feature-design', label: 'Overview' },
       'feature-design/201-high-level-design',
       'feature-design/202-spec-design',
-      'feature-design/203-implementation-design',
-      'feature-design/204-feature-validation',
     ],
   },
   {

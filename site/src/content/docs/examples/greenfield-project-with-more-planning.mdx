@@ -23,11 +23,11 @@ Use the 100-series when the project is still missing domain clarity, product fra
 8. `107-ui-experience`
 9. Optional page-mockup step: `108-ui-page-design` (once per route that needs a detailed layout reference)
 10. `110-feature-overview`
-11. Then move into `201 -> 202 -> 301 -> 401` for the first real feature
+11. Then move into `201 → 202 → 301` for the first real feature
 
 `110` creates the capability map and stable `F-ID`s that later feature docs can reuse for folders like `.specflow/features/F003-invoice-approval/`.
 
-For higher-risk work, add `203-implementation-design` and `204-feature-validation` between `202` and `301` so the implementation plan is written and reviewed before coding starts.
+`301` owns implementation design and independent readiness review before coding. Its compact design stays in memory; `201` and `202` remain the persisted feature artifacts. Add `401` afterward only when the changed set warrants deeper, separately scoped source or test cleanup.
 
 ## Example prompt sequence
 

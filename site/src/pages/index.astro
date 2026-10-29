@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PathIcon from '../components/PathIcon.astro';
 import { workflowPaths } from '../lib/specflow';
 import { withBase } from '../lib/docs';
+import { getVisibleCards, getCardBadges, type FlowCard } from '../lib/flow-viz';
 
 const base = import.meta.env.BASE_URL;
 
@@ -10,19 +11,8 @@ const base = import.meta.env.BASE_URL;
 const defaultPathId = 'lean';
 const defaultPath = workflowPaths.find((path) => path.id === defaultPathId) ?? workflowPaths[0];
 
-type FlowCard = {
-  key: string;
-  title: string;
-  description: string;
-};
-
-type FlowCardBadge = {
-  label: string;
-  tone: 'loop';
-};
-
 // Keys that represent optional cards that are not required by every path.
-const optionalCardKeys = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '110', '203', '204', '302'];
+const optionalCardKeys = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '110'];
 
 const flowRows: FlowCard[][] = [
   [
@@ -42,46 +32,11 @@ const flowRows: FlowCard[][] = [
   [
     { key: '201', title: 'High-Level Design', description: 'Define one feature with scope and user journey.' },
     { key: '202', title: 'Spec Design', description: 'Write the Gherkin scenarios that describe expected behavior.' },
-    { key: '203', title: 'Implementation Design', description: 'Persist the technical implementation plan when needed.' },
-    { key: '204', title: 'Feature Validation', description: 'Review the artifacts before coding starts.' },
-  ],
-  [
-    { key: '401', title: 'Cleanup', description: 'Refine the changed source or test scope in a focused pass.' },
-    { key: '302', title: 'Test Implementation', description: 'Add or repair automated tests for behavior that already exists.' },
-    { key: '301', title: 'Spec Implementation', description: 'Build through the tests-first, phase-isolated workflow.' },
+    { key: '301', title: 'Spec Implementation', description: 'Design and independently review before coding; build tests-first, then freshly review, refine, and validate.' },
   ],
 ];
 
-const flowCardMap = new Map<string, FlowCard>(flowRows.flat().map((card) => [card.key, card]));
-
-const getSequenceKey = (step: string) => step.trim().match(/^\d+/)?.[0] ?? null;
-
-const getVisibleCards = (sequence: string): FlowCard[] => {
-  const orderedKeys = sequence
-    .split('->')
-    .map(getSequenceKey)
-    .filter((key): key is string => Boolean(key));
-
-  if (orderedKeys.includes('301') && !orderedKeys.includes('302')) {
-    orderedKeys.splice(orderedKeys.indexOf('301') + 1, 0, '302');
-  }
-
-  return orderedKeys
-    .map((key) => flowCardMap.get(key))
-    .filter((card): card is FlowCard => Boolean(card));
-};
-
-const getCardBadges = (key: string): FlowCardBadge[] => {
-  const badges: FlowCardBadge[] = [];
-
-  if (key === '108') badges.push({ label: 'Page Loop', tone: 'loop' });
-  if (key === '201') badges.push({ label: 'Spec Loop Start', tone: 'loop' });
-  if (key === '401') badges.push({ label: 'Spec Loop End', tone: 'loop' });
-
-  return badges;
-};
-
-const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
+const defaultVisibleCards = getVisibleCards(defaultPath.sequence, flowRows);
 ---
 
 <BaseLayout currentPath={Astro.url.pathname} homeOnly={true}>
@@ -93,6 +48,7 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
       </div>
       <h1>Software, defined.</h1>
       <p class="home-hero__lede">A lightweight, spec-driven workflow for building with AI.</p>
+      <p><strong>Just enough structure.</strong> Consistent, skimmable templates make the goal, key decisions, and expected behavior easy to review. Include only what the work needs: enough context and constraints to guide AI, with room for judgment about how to deliver it.</p>
     </div>
 
     <div class="home-hero__art" aria-hidden="true">
@@ -174,8 +130,10 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
             );
           })}
         </div>
+        <p class="home-path-selection__note">Inside 301: in-memory design → two independent pre-implementation reviews (walkthrough + adversarial) → tests-first implementation → fresh post-implementation review and bounded refinement → final validation. <a href={withBase('/implementation/301-spec-implementation/', base)}>See the 301 phases →</a></p>
       </div>
     </div>
+    <p class="home-path-selection__steps-kicker" aria-live="polite" data-path-status></p>
   </section>
 
   <section class="home-also-available container" aria-labelledby="home-also-available-title">
@@ -202,6 +160,20 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
           <span class="home-also-available__feature-cta">See how it works →</span>
         </div>
       </a>
+
+      <div class="home-also-available__row">
+        <a class="home-also-available__card" href={withBase('/implementation/302-test-implementation/', base)}>
+          <span class="home-path-selection__card-code">302</span>
+          <h3>Test Implementation</h3>
+          <p>Add or repair automated tests when the production behavior already exists.</p>
+        </a>
+
+        <a class="home-also-available__card" href={withBase('/cleanup/401-cleanup/', base)}>
+          <span class="home-path-selection__card-code">401</span>
+          <h3>Cleanup</h3>
+          <p>Run an optional, separate cleanup pass on a defined source or test scope.</p>
+        </a>
+      </div>
 
       <div class="home-also-available__row">
         <a class="home-also-available__card" href={withBase('/orchestration/900-feedback-loop/', base)}>
@@ -234,50 +206,24 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
   </section>
 
   <script>
+    import { getVisibleCards, getCardBadges, type FlowCard } from '../lib/flow-viz';
+
     const pathSelection = document.querySelector('[data-path-selection]');
 
     if (pathSelection) {
       const controls = Array.from(pathSelection.querySelectorAll<HTMLInputElement>('[data-path-control]'));
       const board = pathSelection.querySelector<HTMLElement>('[data-path-board]');
-      const name = pathSelection.querySelector<HTMLElement>('[data-path-name]');
-      const description = pathSelection.querySelector<HTMLElement>('[data-path-description]');
-      const note = pathSelection.querySelector<HTMLElement>('[data-path-note]');
-      const cta = pathSelection.querySelector<HTMLAnchorElement>('[data-path-action]');
+      const name = board?.querySelector<HTMLElement>('[data-path-name]');
+      const description = board?.querySelector<HTMLElement>('[data-path-description]');
+      const note = board?.querySelector<HTMLElement>('[data-path-note]');
+      const cta = board?.querySelector<HTMLAnchorElement>('[data-path-action]');
       const flowRowsEl = pathSelection.querySelector<HTMLElement>('[data-flow-rows]');
+      const status = pathSelection.querySelector<HTMLElement>('[data-path-status]');
 
-      type FlowCard = { key: string; title: string; description: string };
       const flowRows: FlowCard[][] = JSON.parse(flowRowsEl?.dataset.flowRowsJson ?? '[]');
       const optionalCardKeys: string[] = JSON.parse(flowRowsEl?.dataset.optionalCardKeysJson ?? '[]');
-      const flowCardMap = new Map<string, FlowCard>(flowRows.flat().map((card) => [card.key, card]));
 
-      const getSequenceKey = (step: string): string | null => step.trim().match(/^\d+/)?.[0] ?? null;
-
-      const buildVisibleCards = (activeSequence: string): FlowCard[] => {
-        const orderedKeys = activeSequence
-          .split('->')
-          .map(getSequenceKey)
-          .filter((key): key is string => Boolean(key));
-
-        if (orderedKeys.includes('301') && !orderedKeys.includes('302')) {
-          orderedKeys.splice(orderedKeys.indexOf('301') + 1, 0, '302');
-        }
-
-        return orderedKeys
-          .map((key) => flowCardMap.get(key))
-          .filter((card): card is FlowCard => Boolean(card));
-      };
-
-      const getCardBadges = (cardKey: string): Array<{ label: string; tone: 'loop' }> => {
-        const badges: Array<{ label: string; tone: 'loop' }> = [];
-
-        if (cardKey === '108') badges.push({ label: 'Page Loop', tone: 'loop' });
-        if (cardKey === '201') badges.push({ label: 'Spec Loop Start', tone: 'loop' });
-        if (cardKey === '401') badges.push({ label: 'Spec Loop End', tone: 'loop' });
-
-        return badges;
-      };
-
-      const buildCardHTML = (card: FlowCard, index: number): string => {
+      const buildCardHTML = (card: FlowCard): string => {
         const isOptional = optionalCardKeys.includes(card.key);
         const badges = getCardBadges(card.key)
           .map((badge) => `<span class="home-path-selection__card-badge is-${badge.tone}">${badge.label}</span>`)
@@ -296,8 +242,8 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
 
       const rebuildCards = (activeSequence: string): void => {
         if (!flowRowsEl) return;
-        const visibleCards = buildVisibleCards(activeSequence);
-        flowRowsEl.innerHTML = visibleCards.map((card, index) => buildCardHTML(card, index)).join('');
+        const visibleCards = getVisibleCards(activeSequence, flowRows);
+        flowRowsEl.innerHTML = visibleCards.map(buildCardHTML).join('');
       };
 
       const setActivePath = (nextId: string): void => {
@@ -323,6 +269,7 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence);
         if (cta) cta.href = activeControl.getAttribute('data-path-action') ?? '#';
 
         rebuildCards(activeSequence);
+        if (status) status.textContent = `${activeControl.dataset.pathLabel} selected.`;
       };
 
       controls.forEach((control) => {

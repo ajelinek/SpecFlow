@@ -157,10 +157,9 @@ describe('path-selection standalone Astro page removal', () => {
 //
 // The homepage is now the full skill-flow visualization. It must:
 //   - Contain a single path-selection / flow-visualization section
-//   - Include a card for every skill in the main flow (all 17 skills)
-//   - Show all four rows in the prescribed layout
+//   - Include all 13 active pipeline cards
 //   - Include connection lines between boxes
-//   - Include loop markers for 108 and the 201-401 feature cycle
+//   - Include loop markers for 108 and the 201-301 feature cycle
 //   - Remove inactive cards from the DOM rather than fading/skipping them
 //   - Show optional step markers
 //   - Use richer card titles (not numeric-only heading as primary title)
@@ -199,14 +198,13 @@ describe('index.astro path-selection section', () => {
 });
 
 // ---------------------------------------------------------------------------
-// index.astro — all 17 skills present in flow visualization
+// index.astro — active pipeline skills present in flow visualization
 //
 // Every skill in the prescribed row layout must appear in index.astro.
 // Row 1: 100, 101, 102, 103, 104
 // Row 2: 105, 106, 107, 108, 110
-// Row 3: 201, 202, 203, 204
-// Row 4: 301, 302, 401
-// EXPECTED TO FAIL until all 17 skill cards are added to index.astro.
+// Row 3: 201, 202, 301
+// 302 and 401 are situational links, never implicit board cards.
 // ---------------------------------------------------------------------------
 
 describe('index.astro full skill set in flow visualization', () => {
@@ -216,8 +214,7 @@ describe('index.astro full skill set in flow visualization', () => {
   const allSkillKeys = [
     '100', '101', '102', '103', '104',
     '105', '106', '107', '108', '110',
-    '201', '202', '203', '204',
-    '301', '302', '401',
+    '201', '202', '301',
   ];
 
   for (const key of allSkillKeys) {
@@ -228,23 +225,25 @@ describe('index.astro full skill set in flow visualization', () => {
     });
   }
 
-  it('all 17 skill keys appear together (no omissions)', () => {
-    const missing = allSkillKeys.filter((key) => !content.match(new RegExp(`['"]${key}['"]|data-step-key="${key}"`, 'i')));
-    expect(missing, `Missing skill keys in index.astro: ${missing.join(', ')}`).toHaveLength(0);
+  it('contains exactly the active board cards and no retired or situational cards', () => {
+    const cardKeys = Array.from(content.matchAll(/\{ key: '(\d+)', title:/g), (match) => match[1]);
+    expect(cardKeys).toEqual([
+      '100', '101', '102', '103', '104', '110', '108', '107', '106', '105', '201', '202', '301',
+    ]);
+    expect(content).not.toMatch(/\b20[34]\b/);
   });
 });
 
 // ---------------------------------------------------------------------------
-// index.astro — loop markers for 108 and 201-401 feature cycle
+// flow-viz.ts — loop markers for 108 and 201-301 feature cycle
 //
 // The flow visualization must include explicit loop indicators:
 //   - a loop annotation on 108 (per-page design repeats per route)
-//   - a loop annotation on the 201-401 feature cycle
-// EXPECTED TO FAIL until loop markers are added to index.astro.
+//   - a loop annotation on the 201-301 feature cycle
 // ---------------------------------------------------------------------------
 
-describe('index.astro loop markers', () => {
-  const homePath = path.resolve(__dirname, '../src/pages/index.astro');
+describe('shared flow loop markers', () => {
+  const homePath = path.resolve(__dirname, '../src/lib/flow-viz.ts');
   const content = fs.readFileSync(homePath, 'utf8');
 
   it('includes a loop marker or annotation for 108 (per-page design loop)', () => {
@@ -253,11 +252,10 @@ describe('index.astro loop markers', () => {
     expect(content.toLowerCase()).toMatch(/108.*loop|loop.*108/);
   });
 
-  it('includes a loop marker or annotation for the 201-401 feature cycle', () => {
-    // The feature development cycle (201 through 401) must be visually indicated as a repeating loop
-    // Look for a loop annotation near the 201-401 range
-    // EXPECTED TO FAIL until the feature cycle loop is added
-    expect(content.toLowerCase()).toMatch(/201.*401.*loop|loop.*201|feature.*cycle.*loop|loop.*feature.*(cycle|dev)|201.*(loop|cycle)|feature.loop/);
+  it('includes loop annotations starting at 201 and ending at 301', () => {
+    expect(content).toMatch(/key === '201'.*Spec Loop Start/);
+    expect(content).toMatch(/key === '301'.*Spec Loop End/);
+    expect(content).not.toMatch(/key === '401'.*Spec Loop End/);
   });
 });
 
@@ -387,17 +385,15 @@ describe('index.astro homepage framing', () => {
     expect(heroCopy).not.toMatch(/<svg|<Icon/i);
   });
 
-  it('simple path section includes 401 as a non-optional step (not "when needed" only)', () => {
-    // Current content says "201 -> 202 -> 301 (+ 401 when needed)" which treats
-    // 401 as optional. The updated framing should always include 401 in the path.
-    // This test checks that the heading/copy presents the four steps as a complete path.
-    const simplePath = content.match(/201.*202.*301.*401/s);
-    expect(simplePath, 'simple path heading should include all four steps: 201 -> 202 -> 301 -> 401').not.toBeNull();
+  it('keeps 302 and 401 together as situational Also available links', () => {
+    const pairedRow = content.match(/<div class="home-also-available__row">\s*<a[^>]+302-test-implementation[\s\S]*?<\/a>\s*<a[^>]+401-cleanup[\s\S]*?<\/a>\s*<\/div>/);
+    expect(pairedRow).not.toBeNull();
+    expect(pairedRow![0]).toContain('Test Implementation');
+    expect(pairedRow![0]).toContain('Cleanup');
   });
 
-  it('simple path copy does not frame 401 as an afterthought or "when needed"', () => {
-    // The phrase "(+ 401 when needed)" frames 401 as optional. This should change.
-    expect(content).not.toMatch(/\(\+\s*401\s+when\s+needed\)/i);
+  it('labels the standalone 401 pass as optional', () => {
+    expect(content).toMatch(/optional, separate cleanup pass/i);
   });
 
   it('supporting copy does not use "make it work / make it right / make it tight" phrasing', () => {

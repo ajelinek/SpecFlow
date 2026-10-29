@@ -31,3 +31,11 @@ describe('docs links', () => {
     expect(offenders).toEqual([]);
   });
 });
+
+it('does not link to retired feature-design pages in public docs', () => {
+  const offenders = getDocFiles(docsRoot).flatMap((filePath) => {
+    const links = Array.from(readFileSync(filePath, 'utf8').matchAll(/(?:href=|\]\()[^\s>)]*20[34]-(?:implementation-design|feature-validation)[^\s>)]*/g));
+    return links.map((match) => ({ file: relative(process.cwd(), filePath), link: match[0] }));
+  });
+  expect(offenders).toEqual([]);
+});

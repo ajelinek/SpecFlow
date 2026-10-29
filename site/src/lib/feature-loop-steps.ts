@@ -164,7 +164,7 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
           { id: '@decider', when: 'standard fallback' },
         ],
         description:
-          'A Green Check before any design or code work starts. A baseline that still can’t go green after consult-driven retries ends the run here with a terminal report — one of only two checkpoints (the other is Step 19) where ending without a merge is correct.',
+          'A Green Check before any design or code work starts. A baseline that still can’t go green after consult-driven retries ends the run here with a terminal report, before a feature branch is created.',
       },
       {
         num: 3,
@@ -258,10 +258,10 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
           { id: '@decider', when: 'per-module fallback' },
         ],
         description:
-          'The module — not the individual scenario — is the unit that gets checked and committed. Each scenario still gets its own full 301 tests-first pass; only the Module Check and the commit batch to the whole module.',
+          'Each scenario gets the full 301 pass: in-memory design, independent walkthrough and adversarial reviews, tests-first implementation, fresh post-implementation review, bounded refinement, and final validation. A material design blocker or review-cap exhaustion stops the run with the branch unmerged. The Module Check and commit batch to the whole module.',
         commit: 'test cycle: <TSM###> implement + status',
         techNote:
-          'Skips its own cleanup — Steps 11/12 clean these files in aggregate at round end.',
+          'No separate 401 pass per scenario; 301 keeps its own review and bounded refinement. Steps 11/12 deliberately clean the round’s files in aggregate.',
         loop: loopStep10,
       },
       {
@@ -368,7 +368,7 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         skills: [{ id: '402-test-correction', when: 'if a test fails' }],
         agents: [{ id: '@validator' }, { id: '@coder', when: 'lint/build repair' }, { id: '@decider', when: 'standard fallback' }],
         description:
-          'Never merge on red. If consult-driven retries don’t converge, the run ends with a terminal report instead of merging — this and Step 2 are the only two points where the run ends without a merge.',
+          'Never merge on red. If consult-driven retries don’t converge, the run ends with a terminal report instead of merging. A terminal 301 design-review result also stops the run without a merge; no consult can waive that gate.',
       },
       {
         num: 20,
