@@ -8,8 +8,9 @@ description: >
 
 # 102 - System Architecture
 
-Produce the system architecture document: architectural style, major components, technology stack,
-and testing strategy. Keep it system-level; backend, frontend, and data detail belong in D03-D05.
+Record the system shape, major components, technology decisions, and testing approach in a concise,
+skimmable reference. Include only what the project needs; backend, frontend, and data detail belong
+in D03-D05.
 
 **Output path**: `.specflow/docs/D02-system-architecture.md`
 
@@ -17,50 +18,49 @@ and testing strategy. Keep it system-level; backend, frontend, and data detail b
 
 ## Required Inputs
 
-1. **Application components** — major system parts
-2. **Traffic and scale** — expected traffic and peak load
-3. **Deployment environment** — cloud, on-prem, hybrid, etc.
+1. **Application components** — known system parts and external integrations
+2. **Traffic and scale** — expected demand; use estimates or targets when known, not invented precision
+3. **Deployment environment** — where the system runs or is intended to run
 4. **Architecture drivers** — constraints or goals such as team size, cost, compliance, or time
 
-Don't ask about specific stack choices upfront; those are resolved in Step 2 via Standards
-Resolution, not through `gap-check`.
+Resolve stack choices separately through Standards Resolution; don't ask again about confirmed choices.
 
 ---
 
 ## Standards Resolution
 
-Load relevant installed skills first (via supported skill-loading tools, not filesystem discovery),
-then resolve each concern in this order: (1) loaded standards guidance, (2) existing SpecFlow or
-project docs, (3) codebase patterns confirmed via `@explore`, (4) explicit user decisions. Judge
-relevance by concern, not named technology; once a concern resolves to a technology, use its real
-terms from then on. If loaded guidance conflicts, or nothing resolves a concern, ask the user —
-never choose silently or guess. Prefer loaded standards and project evidence over generic best
-practice.
+Respect confirmed user decisions and binding project rules. Ground choices in current project docs
+and codebase evidence; load relevant installed skills through supported skill-loading tools to guide
+unresolved choices, not override project constraints. Surface conflicts rather than silently choosing
+a winner. For an undecided choice, recommend an option with its tradeoff and ask for confirmation.
+Defer non-blocking decisions to Open Questions; don't present proposals as settled choices.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate required inputs.** Resolve items 1-4 with `gap-check`.
+- [ ] **Step 1: Load project context.** If D02 exists, treat it as a draft to update. Read D01 when
+  present for business goals, constraints, and success signals. Inspect relevant packages and
+  deployment/config patterns, using `@explore` when useful. Distinguish the existing architecture
+  from proposed changes.
 
-- [ ] **Step 2: Resolve technology choices.** Apply Standards Resolution to each relevant concern:
+- [ ] **Step 2: Validate inputs.** Resolve the Required Inputs with `gap-check`, using loaded context
+  before asking questions.
+
+- [ ] **Step 3: Resolve technology choices.** Apply Standards Resolution to relevant concerns:
   language/runtime, UI/client, service/API, data/storage, testing/quality, deployment/operations,
   security/privacy. Omit concerns that don't apply.
 
-- [ ] **Step 3: Load project context.** Read D01 if it exists and align with its business goals,
-  constraints, and success metrics. For an existing repo, use `@explore` to identify packages,
-  frameworks, and deployment/config patterns.
-
 - [ ] **Step 4: Draft the document.** Use `./templates/T02 - System Architecture.md`, covering
   **Architectural Style & Patterns**, **Major System Components**, **Technology Stack**, and
-  **Testing Strategy**. Make every technology choice concrete, each with a one-line rationale tied to
-  loaded standards, project constraints, codebase evidence, or an explicit user decision.
+  **Testing Strategy**. Give key choices a brief rationale and source. Capture deployment,
+  integrations, material risks, and security safeguards where they affect the system shape. Size
+  components and testing coverage to the project, without quotas or mandatory layers. Reference
+  existing decisions rather than repeating D01 or D03-D05.
 
-- [ ] **Step 5: Quality check.** Every important choice has a traceable justification; major single
-  points of failure are identified with mitigation when relevant; security is addressed at each
-  meaningful layer; consistent with D01 success metrics and scale when D01 exists; unresolved
-  decisions are named as open questions rather than filled with assumptions; no duplication of
-  D03-D05.
+- [ ] **Step 5: Quality check.** Key choices fit the product goals, scale, and confirmed constraints;
+  material risks have safeguards or explicit open questions. Keep unresolved decisions visible.
+  Remove template instructions, placeholders, and empty optional sections before writing.
 
 - [ ] **Step 6: Write and summarize.** Write the file, report key stack decisions and their sources
   and open questions, and suggest `103-common-data-model` next.

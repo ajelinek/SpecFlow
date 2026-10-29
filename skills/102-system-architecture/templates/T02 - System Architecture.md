@@ -1,60 +1,40 @@
-# T02 — System Architecture
+<!--
+Keep this system-level and skimmable. Use only applicable bullets and rows; no fixed component
+count or mandatory technology/testing layers. Reference prior decisions rather than repeating them.
+Distinguish existing choices from proposals. Omit Open Questions when none remain.
+Remove this block and all placeholders before writing the generated document.
+-->
 
-> **Purpose**: Define the high-level structure of the system: architectural style, major components,
-> technology stack, and testing strategy. Every technology choice should include a one-line rationale.
->
-> Instructions: Replace all `[placeholder]` text with specific content. Remove this instruction block before committing.
-
----
+# D02 — System Architecture
 
 ## 1. Architectural Style & Patterns
 
-- **Primary Architecture**: [e.g., Monolithic / Microservices / Serverless / Hybrid — name the style and one sentence on why it fits this project's scale and team size]
-- **Core Patterns**: [e.g., MVC, Event-Driven, CQRS, Layered — list patterns that materially shape implementation]
-- **Communication**: [How services and layers communicate — REST, GraphQL, tRPC, message queues, event streaming]
-- **Infrastructure Highlights**: [Deployment model, scaling approach, CDN/edge, security posture summary]
-- **Key Drivers**: [The 2–3 constraints or goals that most influenced these choices — e.g., "small team favors monolith", "compliance requires on-prem database"]
-
----
+- **System shape**: [Architecture and patterns that matter, and why they fit the project.]
+- **Key drivers**: [Goals, constraints, and expected demand shaping the architecture; reference D01.]
+- **Deployment**: [Where the system runs and any material environment or scaling boundaries.]
+- **Communication & integrations**: [How components and external systems interact.]
+- **Risks & safeguards**: [Material failure points, security/privacy boundaries, and mitigations or unresolved risks.]
 
 ## 2. Major System Components
 
-[List each component with its specific responsibility. Avoid generic labels — name what it actually does.]
-
-1. **[Component Name]**: [Specific responsibility and key functions — e.g., "API Gateway: handles authentication, request routing, and rate limiting for all client requests"]
-2. **[Component Name]**: [Specific responsibility and key functions]
-3. **[Component Name]**: [Specific responsibility and key functions]
-4. **[Component Name]** *(if applicable)*: [Specific responsibility and key functions]
-5. **[Component Name]** *(if applicable)*: [Specific responsibility and key functions]
-
----
+| Component | Responsibility |
+|-----------|----------------|
+| [Named system part] | [What it owns and its boundary] |
 
 ## 3. Technology Stack
 
-[Every layer filled in. Every choice includes a one-line rationale tied to a project requirement, installed standards skill, or explicit decision.]
-
-- **Frontend**: [Framework/library + key supporting tech — rationale]
-- **Backend**: [Runtime/framework + key supporting tech — rationale]
-- **Database**: [Primary database + caching layer if applicable — rationale]
-- **API Style**: [REST / GraphQL / tRPC / other — rationale]
-- **Infrastructure**: [Deployment platform + supporting services — rationale]
-- **Development Tooling**: [Build tools, linting, testing frameworks — rationale]
-
----
+| Concern | Choice | Rationale / Source |
+|---------|--------|--------------------|
+| [Applicable concern] | [Confirmed technology or clearly labeled proposal] | [Why it fits; supporting decision, project evidence, or standard] |
 
 ## 4. Testing Strategy
 
-- **Philosophy**: [Testing approach and layer priorities — e.g., "E2E tests cover critical user paths; integration tests cover API contracts; unit tests cover complex business logic only"]
-- **Unit Testing**: [Tool + what it covers]
-- **Integration Testing**: [Tool + what it covers]
-- **End-to-End Testing**: [Tool + what it covers]
-- **Additional**: [Performance, accessibility, security scanning — if applicable]
+**Approach**: [What needs confidence most and why this testing mix fits the project's risks.]
 
----
+| Check | Tool / Method | Scope |
+|-------|---------------|-------|
+| [Relevant check] | [Chosen tool or review method] | [Behavior, boundary, or risk it verifies] |
 
 ## 5. Open Questions
 
-[List any architecture decisions that are unresolved or assumptions that need validation. Remove this section once all questions are answered.]
-
-- [ ] [Open question or unresolved technology decision]
-- [ ] [Open question or unresolved technology decision]
+- [ ] [Unresolved decision or assumption, its impact, and what would resolve it.]

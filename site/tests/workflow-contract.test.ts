@@ -47,6 +47,37 @@ it('101 names the generated document consistently and removes empty optional sec
   expect(template).toMatch(/Omit Technology Constraints & Preferences and Open Questions when they don't apply/);
 });
 
+it('102 loads project evidence before resolving technology choices and respects confirmed constraints', () => {
+  const workflow = readWorkflow('skills/102-system-architecture/SKILL.md').replace(/\s+/g, ' ');
+  expect(workflow).toMatch(/Step 1: Load project context.*Step 2: Validate inputs.*Step 3: Resolve technology choices/);
+  expect(workflow).toMatch(/Respect confirmed user decisions and binding project rules/);
+  expect(workflow).toMatch(/installed skills.*not override project constraints/);
+  expect(workflow).toMatch(/Surface conflicts/);
+  expect(workflow).toMatch(/recommend an option.*ask for confirmation/);
+  expect(workflow).toMatch(/Defer non-blocking decisions to Open Questions/);
+});
+
+it('102 sizes architecture and testing to the project instead of requiring every layer', () => {
+  const workflow = readWorkflow('skills/102-system-architecture/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/102-system-architecture/templates/T02 - System Architecture.md');
+  const docs = readWorkflow('site/src/content/docs/project-foundation/102-system-architecture.mdx');
+  expect(workflow).toMatch(/without quotas or mandatory layers/);
+  expect(template).toMatch(/only applicable bullets and rows/);
+  expect(template).not.toMatch(/Every layer filled in|\*\*(?:Frontend|Backend|Database|Unit Testing|Integration Testing|End-to-End Testing)\*\*/);
+  expect(docs).toMatch(/no fixed counts or required testing layers/);
+  expect(docs).not.toMatch(/first from installed skills/);
+});
+
+it('102 uses a consistent document title and keeps risks, testing scope, and unresolved decisions visible', () => {
+  const workflow = readWorkflow('skills/102-system-architecture/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/102-system-architecture/templates/T02 - System Architecture.md');
+  expect(template).toMatch(/^# D02 — System Architecture$/m);
+  expect(template).toMatch(/Risks & safeguards/);
+  expect(template).toMatch(/Check \| Tool \/ Method \| Scope/);
+  expect(template).toMatch(/Omit Open Questions when none remain/);
+  expect(workflow).toMatch(/Remove template instructions, placeholders, and empty optional sections before writing/);
+});
+
 it('removes retired design workflows and their template', () => {
   expect(fs.existsSync(path.join(ROOT, 'skills/203-implementation-design/SKILL.md'))).toBe(false);
   expect(fs.existsSync(path.join(ROOT, 'skills/203-implementation-design/templates/implementation.md'))).toBe(false);

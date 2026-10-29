@@ -44,23 +44,25 @@ import PromptBlock from "../../../components/PromptBlock.astro";
   - Testing strategy and tooling
   - Relevant constraints and architectural decisions
 
+The template uses the title **D02 — System Architecture**. Keep it skimmable: include only applicable
+components, technologies, and checks, with no fixed counts or required testing layers. Generated
+documents omit authoring instructions, placeholders, and empty optional sections.
+
 ## Required inputs
 
-1. Application components — the major system parts
-2. Traffic and scale — expected traffic and peak load
-3. Deployment environment — cloud, on-prem, hybrid, or similar
+1. Application components — known system parts and external integrations
+2. Traffic and scale — expected demand; estimates or targets when known
+3. Deployment environment — where the system runs or is intended to run
 4. Architecture drivers — constraints or goals such as team size, cost, compliance, or time
 
-Specific stack choices (frontend framework, backend runtime, database, deployment target, testing tooling) are resolved separately, after these four, via the auto-detection order below — not asked upfront as part of this checklist.
+Existing D02, D01, and relevant code/config are read first. Confirmed stack choices are reused rather
+than asked from scratch; unresolved choices follow the guidance below.
 
-<Callout tone="tip" title="Tech stack auto-detection">
-  For each stack concern, `102` will attempt to infer the choice automatically
-  — first from installed skills (e.g. `react`, `solid.js`,
-  `astro.js`, `typescript-engineering`), then from existing project
-  documentation, then from the codebase itself. Detected choices are presented
-  for confirmation rather than asked from scratch. If no skills are installed
-  and no code exists yet, the skill will ask targeted questions for each
-  unresolved concern instead of guessing.
+<Callout tone="tip" title="Ground stack choices in the project">
+  Confirmed user decisions and binding project rules take priority. Current docs and code provide
+  evidence; installed skills guide unresolved choices rather than override project constraints.
+  Conflicts are surfaced for resolution. New choices are recommended with a tradeoff and confirmed
+  before being recorded as settled. Non-blocking decisions can remain open questions.
 </Callout>
 
 ## Common prompts
@@ -84,8 +86,10 @@ Specific stack choices (frontend framework, backend runtime, database, deploymen
 - Include the rationale for key technology choices. Downstream work benefits from knowing _why_ decisions were made, not just _what_ was decided.
 - If the project already has code, tell it to run 102 on the existing codebase and it will create the documentation for you.
 - Reference D01 for user goals and business requirements — D02 should not re-state what D01 already captured.
+- Keep backend, frontend, and data detail in D03-D05. Record material risks and safeguards without turning D02 into an implementation plan.
 
 ## Common mistakes
 
 - Leaving the testing strategy section as "we will write tests" without specifying tooling or approach
 - Describing the ideal architecture rather than the actual one on existing projects
+- Adding a backend, database, or testing layer just to fill the template
