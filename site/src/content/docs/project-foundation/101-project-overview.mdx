@@ -35,20 +35,25 @@ This document should be tightly written and easy to scan. It is a summarized gen
 ## What it produces
 
 - `.specflow/docs/D01-project-overview.md` covering:
-  - Problem statement and market context
+  - Purpose, value proposition, and differentiation from current alternatives
   - Target users and their core needs
-  - Product scope and out-of-scope boundaries
-  - Key differentiators
-  - Success metrics and definition of done at the product level
-  - Constraints that shape all downstream decisions
+  - Key business scenarios, sized to explain the product's core value
+  - Observable success signals, with confirmed targets and timeframes when known
+  - Technology constraints and strong preferences, when applicable
+  - High-level feature categories and meaningful out-of-scope boundaries
+  - Open questions, when any remain
+
+The template uses the title **D01 — Project Overview**. Generated documents omit authoring instructions,
+placeholders, and empty optional sections. The structure makes the product framing easy to find
+without prescribing a fixed number of scenarios, users, or feature categories.
 
 ## Required inputs
 
 1. Pain point — the specific problem the product solves that existing solutions do not address well
 2. Differentiation — direct competitors or solution categories, and how this product stands apart
 3. Target users — the primary user types and their main goals when using the product
-4. Key scenarios — the 3-5 most important user journeys that represent the core value of the product
-5. Success metrics — how you'll know the product is succeeding, quantifiable signals preferred
+4. Key scenarios — the user journeys that explain the product's core value, without a fixed count
+5. Success signals — observable outcomes that show the product is succeeding; numeric targets and timeframes when known
 
 ## Common prompts
 
@@ -71,6 +76,7 @@ If you did not already run `100`, use this:
 - Keep the output concise enough that engineers and product stakeholders can both read and agree on it quickly.
 - Treat D01 as a short summary document. If the content starts reading like an essay or research report, move that material into `100-domain-knowledge` and keep only the distilled conclusions here.
 - The differentiators section is worth getting right — it shapes architectural tradeoffs and feature priority.
+- Keep success signals at the product level, not as feature acceptance tests. If a target or measurement approach is undecided, name that uncertainty rather than inventing a number.
 - If domain research (`100`) was performed, reference its outputs rather than re-stating the same context.
 - Revisit D01 when the product direction shifts materially. Downstream documents depend on it.
 
@@ -78,5 +84,6 @@ If you did not already run `100`, use this:
 
 - Writing a full product requirements document instead of a concise reference
 - Dumping raw research or long-form background into D01 instead of summarizing the general context
-- Leaving the success metrics section generic (e.g., "users are happy")
-- Treating the out-of-scope list as optional — explicit exclusions prevent scope creep downstream
+- Leaving success signals generic (e.g., "users are happy") or inventing targets to fill the template
+- Padding scenarios or feature categories to reach an arbitrary count
+- Omitting meaningful exclusions, or adding an empty out-of-scope list when none are needed

@@ -13,6 +13,40 @@ function implementationWorkflow(): string {
   return readWorkflow('skills/301-spec-implementation/SKILL.md').replace(/\s+/g, ' ');
 }
 
+it('101 carries differentiation and success signals from its workflow into the template and docs', () => {
+  const workflow = readWorkflow('skills/101-project-overview/SKILL.md');
+  const template = readWorkflow('skills/101-project-overview/templates/T01 - Project Overview.md');
+  const docs = readWorkflow('site/src/content/docs/project-foundation/101-project-overview.mdx');
+  expect(workflow).toMatch(/\*\*Differentiation\*\*/);
+  expect(workflow).toMatch(/\*\*Success Signals\*\*/);
+  expect(template).toMatch(/^### Differentiation$/m);
+  expect(template).toMatch(/^## \d+\. Success Signals$/m);
+  expect(docs).toMatch(/differentiation from current alternatives/);
+  expect(docs).toMatch(/Observable success signals/);
+});
+
+it('101 sizes scenarios to core value instead of requiring a scenario quota', () => {
+  const paths = [
+    'skills/101-project-overview/SKILL.md',
+    'skills/101-project-overview/templates/T01 - Project Overview.md',
+    'site/src/content/docs/project-foundation/101-project-overview.mdx',
+  ];
+  for (const relativePath of paths) {
+    const content = readWorkflow(relativePath);
+    expect(content, relativePath).toMatch(/no fixed|without a fixed/);
+    expect(content, relativePath).not.toMatch(/3[-–]5/);
+  }
+});
+
+it('101 names the generated document consistently and removes empty optional sections before writing', () => {
+  const workflow = readWorkflow('skills/101-project-overview/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/101-project-overview/templates/T01 - Project Overview.md');
+  expect(template).toMatch(/^# D01 — Project Overview$/m);
+  expect(template).not.toMatch(/^# T01/m);
+  expect(workflow).toMatch(/Remove template instructions, placeholders, and empty optional sections before writing/);
+  expect(template).toMatch(/Omit Technology Constraints & Preferences and Open Questions when they don't apply/);
+});
+
 it('removes retired design workflows and their template', () => {
   expect(fs.existsSync(path.join(ROOT, 'skills/203-implementation-design/SKILL.md'))).toBe(false);
   expect(fs.existsSync(path.join(ROOT, 'skills/203-implementation-design/templates/implementation.md'))).toBe(false);
