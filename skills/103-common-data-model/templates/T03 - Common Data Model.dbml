@@ -1,0 +1,82 @@
+// Authoring instructions: replace this illustrative model with the project's real schema.
+// Database, names, types, keys, and fields below are examples, not defaults.
+// Keep the whole project's relational model in this file. No imports or companion model.
+// Include only justified constraints and indexes; keep rule and sensitivity notes near their owner.
+// Group related tables under comment headings, each with a purpose/rules note.
+// Keep local enums beside their tables and global enums at the bottom.
+// Remove these instructions, example content, placeholders, and empty notes before writing.
+
+Project project_name {
+  database_type: 'PostgreSQL'
+  Note: '[Project scope and material modeling decisions.]'
+}
+
+// ============================================================================
+// Records
+// ============================================================================
+
+Note records_overview {
+  '[Purpose of this table group and rules shared by its tables.]'
+}
+
+Table parent_record {
+  parent_record_id uuid [pk]
+  name text [not null]
+  status record_status [not null]
+
+  Note: '[What this table represents.]'
+}
+
+Enum child_kind {
+  primary
+  secondary
+}
+
+Table child_record {
+  child_record_id uuid [pk]
+  parent_record_id uuid [not null, ref: > parent_record.parent_record_id]
+  kind child_kind [not null]
+
+  Note: '[What this table represents and any non-obvious rules.]'
+}
+
+// ============================================================================
+// Activity
+// ============================================================================
+
+Note activity_overview {
+  '[Purpose and shared rules of this table group.]'
+}
+
+Table record_activity {
+  record_activity_id uuid [pk]
+  parent_record_id uuid [not null, ref: > parent_record.parent_record_id]
+  status record_status [not null]
+
+  Note: '[What this table represents.]'
+}
+
+// ============================================================================
+// Project-wide notes
+// ============================================================================
+
+Note business_rules {
+  '''
+  [Cross-group rules and any enforcement that must be implemented outside DBML.]
+  '''
+}
+
+Note open_questions {
+  '''
+  [Unresolved decisions and what would resolve them. Omit when none remain.]
+  '''
+}
+
+// ============================================================================
+// Global enums
+// ============================================================================
+
+Enum record_status {
+  active
+  inactive
+}

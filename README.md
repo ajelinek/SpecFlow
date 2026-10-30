@@ -176,7 +176,7 @@ Use these when you are starting a new project, entering a new domain, or need st
 - `100-domain-knowledge`: research the business domain, user workflows, constraints, and terminology
 - `101-project-overview`: define what the product is, who it is for, and why it matters
 - `102-system-architecture`: define the major system pieces and technical shape
-- `103-common-data-model`: define the core domain entities and relationships
+- `103-common-data-model`: model relational schemas in one project-wide DBML file and non-relational data in Markdown
 - `104-backend-architecture`: define API, service, and backend structure
 - `105-frontend-architecture`: define frontend structure, state, and component patterns
 - `106-ui-design`: define the visual system

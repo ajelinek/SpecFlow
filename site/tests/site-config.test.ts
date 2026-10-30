@@ -446,13 +446,19 @@ describe('workflowPaths flow options', () => {
 it('retires 203 and 204 from all shared navigation and metadata', () => {
   expect(JSON.stringify({ skills, starlightSidebar, coreWorkflow, lifecycleStages, workflowPaths }))
     .not.toMatch(/\b20[34]\b/);
-  expect(skills).toHaveLength(24);
+  expect(skills).toHaveLength(23);
   expect(skills.filter((skill) => skill.tier === 'core').map((skill) => skill.slug))
     .toEqual(coreWorkflow.map((step) => step.slug));
   expect(skills.filter((skill) => skill.category === 'Feature Design').map((skill) => skill.slug))
     .toEqual(['201-high-level-design', '202-spec-design']);
   expect(skills.filter((skill) => skill.category === 'Project Definition').every((skill) => skill.tier === 'optional')).toBe(true);
   expect(lifecycleStages.at(-1)?.steps).toEqual(coreWorkflow.map((step) => step.slug));
+});
+
+it('offers DBML and non-relational modeling through 103', () => {
+  const model = skills.find((skill) => skill.slug === '103-common-data-model');
+  expect(model?.purpose).toMatch(/relational.*DBML/);
+  expect(model?.purpose).toMatch(/non-relational.*Markdown/);
 });
 
 it('keeps every named path ending at 301 without situational skills', () => {

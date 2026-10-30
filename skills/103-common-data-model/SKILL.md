@@ -1,64 +1,84 @@
 ---
 name: 103-common-data-model
 description: >
-  Use `103` to define the conceptual data model: entities, relationships, and business rules.
-  Trigger it for prompts like "103", "data model", "conceptual data model", "entity
-  relationships", or when the team needs a shared domain model before implementation choices.
+  Use `103` to define the project's data model: one DBML file for relational schema design,
+  Markdown for non-relational entities, or both for mixed storage. Trigger it for "103",
+  "data model", "DBML", "conceptual data model", or "entity relationships" when data structure
+  and rules need a shared reference.
 ---
 
 # 103 - Common Data Model
 
-Produce the conceptual data model: domain entities, attributes, relationships, lifecycle states, and
-domain rules. Describe the domain, not the implementation — not a database schema, ORM design, API
-contract, or frontend state model. Whether `User` is a Postgres table, a Firestore document, or a
-Redux slice is irrelevant here; `104`/`105` map this model to implementation.
+Model the project's data and the rules that govern it. Use DBML for relational schema design;
+retain domain-level Markdown modeling for non-relational data. This skill authors the model, not
+migrations, database enforcement code, ORM models, or API contracts.
 
-**Output path**: `.specflow/docs/D03-common-data-model.md`
+## Outputs
 
----
+| Data model | Default output |
+|---|---|
+| Relational | `.specflow/docs/D03-common-data-model.dbml` — one file for the whole project |
+| Non-relational | `.specflow/docs/D03-common-data-model.md` |
+| Mixed | Both files, each defining only its own data; cross-reference shared concepts |
+
+The DBML holds the schema, business-rule notes, and open questions. No companion Markdown model
+for relational data and no per-feature, per-schema, or per-domain DBML files.
 
 ## Required Inputs
 
-1. **Core domain entities**
-2. **Entity relationships** — including cardinality where known
-3. **Key attributes**
-4. **Business rules**
-5. **Sensitive data** — PII, financial data, or similar
+1. **Storage approach** — relational, non-relational, or mixed; database engine for relational data
+2. **Core entities and relationships** — including cardinality and ownership
+3. **Key attributes** — types, requiredness, and identity
+4. **Business rules** — constraints and meaningful lifecycle transitions
+5. **Sensitive data** — what needs protection and any known handling requirements
 
-Optional: lifecycle states, audit/history requirements, compliance constraints.
-
----
+Known access patterns, audit/history needs, and compliance constraints inform the model when relevant.
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Resolve the Required Inputs with `gap-check`. Do not proceed with
-  undefined entities or vague relationships.
+- [ ] **Step 1: Load existing context.** Read D01, D02, project guidance, and any existing data model
+  when present. Inspect schemas and types in an existing repo as evidence. Update an existing model
+  rather than create a competing copy. Confirm format changes or consolidation with the user before
+  replacing older Markdown, GraphQL, or split DBML models; preserve their rules and unresolved questions.
 
-- [ ] **Step 2: Load existing context.** If D03 exists, treat it as a draft to update. Read D01 and
-  D02 when present. For an existing repo, use `@explore` to find models, schemas, domain objects, or
-  type definitions — as evidence, not implementation detail to copy in.
+- [ ] **Step 2: Resolve inputs.** Use `gap-check` for gaps that block modeling. Respect confirmed
+  project choices; don't select a database engine silently. Record non-blocking uncertainties as
+  open questions rather than inventing details.
 
-- [ ] **Step 3: Identify and classify entities.** For each: domain purpose, attributes and types,
-  required vs optional, relationships and cardinality, lifecycle states, and whether it is a
-  first-class entity or a supporting concept. Label supporting concepts — they matter for downstream
-  modeling: an `Address` on a `Customer` may be a value object with no identity; a `Status` may be an
-  enum or lookup.
+- [ ] **Step 3: Shape the model.** Identify entities, value objects, and enums; clarify identity,
+  relationships, cardinality, and rules. For mixed storage, assign each definition to one file and
+  describe cross-store references without implying database-enforced foreign keys.
 
-- [ ] **Step 4: Draft the document.** Use `./templates/T03 - Common Data Model.md`. Per entity: purpose
-  in one sentence, attributes with type and required/optional, sensitive attributes flagged,
-  lifecycle states when relevant. Include an ERD of all entities and relationships focused on
-  structure, not repeated attributes.
-  - **Storage context is a one-line annotation, never the organizing structure.** Note client-only
-    (e.g. a UI session object) or server-only (e.g. an audit log) on the entity itself; splitting the
-    document by storage tier loses the relationships between entities.
-  - **Business rules are domain rules.** Write what a domain expert would recognize regardless of how
-    the system is built: "a project must have at least one owner" is a rule; "project_id is not
-    null" is an implementation constraint and is excluded unless it directly expresses a domain rule.
-    If a rule is unclear, name it as an open question instead of guessing.
+- [ ] **Step 4: Draft the applicable outputs.** Use `./templates/T03 - Common Data Model.dbml`
+  for relational data, following the guidance below. For non-relational data, use
+  `./templates/T03 - Common Data Model.md`: domain purposes, logical attributes, requiredness,
+  sensitive-data handling, relationships, a relationship-focused ERD, and business rules. Include
+  lifecycle or storage annotations only when meaningful; value objects and enums need no invented ID.
 
-- [ ] **Step 5: Quality check.** Each entity defined once; all important relationships present and
-  labeled; rules are domain rules; sensitive attributes flagged; no implementation detail; open
-  questions explicit.
+- [ ] **Step 5: Review and validate.** Check that definitions are unique, references resolve,
+  cardinality and requiredness agree, rules are preserved, and sensitive data is marked. For DBML,
+  use an available compatible parser and fix reported errors. If unavailable, review structure and
+  references manually and report that parser validation was not run. Parsing does not prove that
+  business rules are enforced. Don't install dependencies or upload the model just to validate it.
 
-- [ ] **Step 6: Write and summarize.** Write the file, list the entities documented and open
-  questions, and suggest `104-backend-architecture` next.
+- [ ] **Step 6: Write and summarize.** Remove template instructions, examples, placeholders, and
+  empty optional sections. Keep headings, notes, and tables concise and project-specific. Report
+  paths, material decisions, open questions, and validation performed; suggest `104` or `105` as needed.
+
+## Relational DBML
+
+- Use concrete types appropriate to the confirmed database, primary and foreign keys, nullability,
+  uniqueness, defaults, and checks where justified by the requirements. Model many-to-many tables
+  explicitly when designing their keys and attributes.
+- Include indexes for known access patterns, not speculative optimization. Explain non-obvious choices.
+- Keep every relational definition in the one project DBML file; don't split the model or import other DBML files.
+- Group related tables under prominent comment headings with separator lines. Start each section
+  with a group-level note explaining its purpose and shared rules; keep table-specific detail by its table.
+- Place local enums beside the tables that use them; put shared, global enums at the bottom of the file.
+- Put purpose and rule notes next to the relevant table or column. Use project-level or standalone
+  notes for cross-table rules and open questions. Mark sensitive fields and their handling requirements.
+- Distinguish representable constraints from rules needing later enforcement, such as authorization,
+  triggers, or partial indexes. Notes describe intent; they do not enforce it. Don't disguise a
+  partial index as an unconditional unique constraint or invent SQL functions to complete the model.
+- Follow project naming and modeling conventions. The template illustrates syntax, not a required
+  database, ID strategy, table count, or set of fields. No separate relational ERD is needed.

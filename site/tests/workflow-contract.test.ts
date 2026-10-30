@@ -84,6 +84,69 @@ it('removes retired design workflows and their template', () => {
   expect(fs.existsSync(path.join(ROOT, 'skills/204-feature-validation/SKILL.md'))).toBe(false);
 });
 
+it('103 selects DBML, Markdown, or both without duplicating definitions', () => {
+  const workflow = readWorkflow('skills/103-common-data-model/SKILL.md').replace(/\s+/g, ' ');
+  const docs = readWorkflow('site/src/content/docs/project-foundation/103-common-data-model.mdx');
+  expect(workflow).toContain('.specflow/docs/D03-common-data-model.dbml');
+  expect(workflow).toContain('.specflow/docs/D03-common-data-model.md');
+  expect(workflow).toMatch(/Mixed.*each defining only its own data/);
+  expect(workflow).toMatch(/Confirm format changes or consolidation.*before replacing/);
+  expect(docs).toContain('D03-common-data-model.dbml');
+  expect(docs).toContain('D03-common-data-model.md');
+  expect(docs).not.toMatch(/not a database schema/);
+});
+
+it('103 keeps relational design in one DBML with rule notes and evidence-based indexes', () => {
+  const workflow = readWorkflow('skills/103-common-data-model/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/103-common-data-model/templates/T03 - Common Data Model.dbml');
+  expect(workflow).toMatch(/one file for the whole project/);
+  expect(workflow).toMatch(/don't split the model or import other DBML files/);
+  expect(workflow).toMatch(/indexes for known access patterns, not speculative optimization/i);
+  expect(workflow).toMatch(/Notes describe intent; they do not enforce it/);
+  expect(template).toMatch(/Project project_name/);
+  expect(template).toMatch(/Note business_rules/);
+  expect(template).toMatch(/Note open_questions/);
+  expect(template).not.toMatch(/^use\s*\{/m);
+});
+
+it('103 reports validation honestly without requiring bundled tooling', () => {
+  const workflow = readWorkflow('skills/103-common-data-model/SKILL.md').replace(/\s+/g, ' ');
+  expect(workflow).toMatch(/available compatible parser/);
+  expect(workflow).toMatch(/parser validation was not run/);
+  expect(workflow).toMatch(/Don't install dependencies or upload the model/);
+  expect(workflow).toMatch(/not migrations, database enforcement code, ORM models, or API contracts/);
+});
+
+it('103 groups related tables under comment headings and notes, with local and global enums placed by scope', () => {
+  const workflow = readWorkflow('skills/103-common-data-model/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/103-common-data-model/templates/T03 - Common Data Model.dbml');
+  const records = template.slice(template.indexOf('// Records'), template.indexOf('// Activity'));
+  const activity = template.slice(template.indexOf('// Activity'), template.indexOf('// Project-wide notes'));
+  expect(workflow).toMatch(/prominent comment headings.*group-level note/);
+  expect(workflow).toMatch(/enums beside the tables.*global enums at the bottom/);
+  expect(template).toMatch(/\/\/ ={20,}\n\/\/ Records\n\/\/ ={20,}/);
+  expect(records).toContain('Note records_overview');
+  expect(records).toContain('Table parent_record');
+  expect(records).toContain('Table child_record');
+  expect(records).toMatch(/Enum child_kind[\s\S]*Table child_record/);
+  expect(activity).toContain('Note activity_overview');
+  expect(activity).toContain('Table record_activity');
+  expect(template.indexOf('// Global enums')).toBeGreaterThan(template.indexOf('Note open_questions'));
+  expect(template.lastIndexOf('Enum ')).toBe(template.indexOf('Enum record_status'));
+});
+
+it('103 retains a concise non-relational model without mandatory IDs or database-style diagrams', () => {
+  const workflow = readWorkflow('skills/103-common-data-model/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/103-common-data-model/templates/T03 - Common Data Model.md');
+  expect(template).toMatch(/^# D03 — Common Data Model$/m);
+  expect(template).toContain('## Entities');
+  expect(template).toContain('## Business Rules');
+  expect(template).toMatch(/erDiagram\s+ENTITY_A \|\|--o\{ ENTITY_B : contains/);
+  expect(template).not.toMatch(/\| `id` |\bPK\b|\bFK\b/);
+  expect(workflow).toMatch(/value objects and enums need no invented ID/);
+  expect(workflow).toMatch(/Remove template instructions, examples, placeholders, and empty optional sections/);
+});
+
 it('active workflow consumers do not require retired skills or a standard implementation artifact', () => {
   const consumers = [
     'skills/201-high-level-design/SKILL.md',
