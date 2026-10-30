@@ -179,12 +179,17 @@ Use these when you are starting a new project, entering a new domain, or need st
 - `103-common-data-model`: model relational schemas in one project-wide DBML file and non-relational data in Markdown
 - `104-backend-architecture`: define API, service, and backend structure
 - `105-frontend-architecture`: define frontend structure, state, and component patterns
-- `106-ui-design`: define the visual system
-- `107-ui-experience`: define navigation, flow, and interaction rules
+- `106-ui-design` (Visual Design): record color, typography, spacing, and component appearance
+- `107-ui-experience` (UX & Navigation): record user paths, interaction/recovery behavior, and pages/routes
 - `108-ui-page-design`: design a specific page in detail
 - `110-feature-overview`: define and prioritize the feature list
 
 These are helpful, but not required for every project.
+
+`106` and `107` are independently optional and can run in either order. Keep visual presentation in
+`106` and navigation/interaction behavior in `107`; `108` applies those decisions to a specific page.
+Both produce concise decision records, reuse established guidance, and compare alternatives only
+when a meaningful choice remains open.
 
 ### Feature Design
 

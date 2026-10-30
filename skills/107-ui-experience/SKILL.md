@@ -1,17 +1,26 @@
 ---
 name: 107-ui-experience
 description: >
-  Use `107` to define the UX architecture: navigation, interaction patterns, accessibility,
-  error handling, and the page inventory. Trigger it for prompts like "107", "user experience",
-  "navigation design", "interaction patterns", or "information architecture" before per-page
-  design work begins.
+  Use `107` to define or refresh product navigation, user flows, interaction and recovery patterns,
+  and the page/route inventory. Trigger it for prompts like "107", "user experience", "UX design",
+  "navigation design", "interaction patterns", or "information architecture" when users' paths
+  through the product need clarity. Visual presentation belongs in `106-ui-design`.
 ---
 
-# 107 - UI Experience Overview
+# 107 - UX & Navigation
 
-Define how users move through the product: navigation model, cross-platform interaction patterns,
-accessibility commitments, error handling, and a complete page inventory with routes and role
-access. The product's UX architecture, not a per-page layout spec.
+Record how users accomplish their tasks: entry points, navigation, shared interaction behavior,
+recovery, and pages/routes. Keep a short experience model and page table, not a screen-by-screen
+script or a speculative sitemap for the whole future product.
+
+D06 owns visual presentation; D05 owns routing, state, and component implementation conventions.
+D07 describes user-facing behavior and access expectations, not a security enforcement mechanism;
+reference actual access enforcement in D04/D05 where applicable. Reference the project's accessibility
+standard and record interaction-specific decisions rather than repeat its checklist. D08 applies
+these decisions to an individual page.
+
+`106` and `107` are independently optional and can run in either order. Use existing context when
+sufficient; missing upstream documents are not a reason to generate the whole planning series.
 
 **Output path**: `.specflow/docs/D07-ui-experience.md`
 
@@ -19,53 +28,64 @@ access. The product's UX architecture, not a per-page layout spec.
 
 ## Required Inputs
 
-1. **User roles** — including whether roles need different navigation structures or access scopes
-2. **Device targets** — platforms and form factors
-3. **Initial page inventory** — a rough list is enough
-4. **Accessibility requirements** — anything beyond WCAG 2.1 AA
-5. **Navigation constraints** — routing, deep-linking, or structural constraints from prior docs
+1. **Users and tasks** — primary goals, relevant roles/access expectations, and workflows in scope
+2. **Current structure** — known pages, routes, entry points, or a rough initial inventory
+3. **Constraints** — device/accessibility needs and established navigation or routing conventions
 
-Optional: existing research, competitor navigation patterns, onboarding needs, UI conventions fixed
-in D06.
+An existing product can supply these inputs directly. Research, onboarding needs, and competitor
+patterns help when relevant; they are not prerequisites or reasons to invent extra pages.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Resolve all five with `gap-check`, especially roles and device
-  targets.
+- [ ] **Step 1: Load project context.** Update an existing D07 rather than create a competing copy.
+  Read `.specflow/context/domain-knowledge.md` when present, especially user roles, real workflows,
+  decision points, friction, terminology, constraints, and implications for this project. Use these to
+  identify the core tasks and experience gaps the design should address. Load governing guidance,
+  relevant product goals, and D04/D05/D06 decisions. Inspect actual routes, navigation, and representative
+  flows in an existing product; use focused exploration when useful. Distinguish established behavior
+  from proposed changes.
 
-- [ ] **Step 2: Load existing context.** If D07 exists, treat it as a draft to update. Read D01, D02,
-  D05, D06, and `domain-knowledge.md` when present; delegate retrieval to `@explore` if it keeps
-  context tight. Domain conventions can eliminate bad directions early.
+- [ ] **Step 2: Resolve inputs.** Use domain knowledge and loaded context to answer gaps before using
+  `gap-check` for those that still block experience decisions. Don't ask again about confirmed choices.
+  Keep non-blocking uncertainties, including uncertain or outdated research, in Open Questions;
+  clarify blocking uncertainty rather than guess. Don't treat research recommendations as confirmed
+  product decisions.
 
-- [ ] **Step 3: Generate three UX directions** (required). Spawn three `@designer` calls in parallel
-  in one message (foreground), each independent and assigned one seed bet: role-segmented
-  navigation, a unified single structure, a task-first workflow structure. Give each the same
-  context: roles and workflows (Step 1, D01), device/form-factor constraints, routing constraints
-  from D02/D05, D06 visual conventions, and domain mental models that affect navigation.
-  - Answer `@designer` clarifying questions from loaded context; ask the user only when it can't.
-  - If a call flags a conflict with D06 or another established doc, present it and the proposed doc
-    change to the user — never override silently. On approval, update the governing doc first so
-    later page work inherits one source of truth; on rejection, adjust the brief and re-invoke.
-  - If `@designer` is unavailable, use `@explore` to research three plausible navigation approaches
-    for the product type and evaluate those.
+- [ ] **Step 3: Resolve the experience model.** Respect confirmed user decisions and binding project
+  rules. Compare alternatives only when there is a meaningful unresolved choice; use as many as help
+  explain the tradeoff, with no fixed count or required worker calls. Work directly or use focused
+  research/review when useful. Use the domain-informed design focus to judge task completion,
+  discoverability, role needs, device support, accessibility, and feasibility; use domain terminology
+  for navigation labels and include relevant findings in any delegated brief. Surface conflicts with
+  existing decisions to the user before changing them; recommend and confirm material unresolved
+  product choices.
 
-- [ ] **Step 4: Evaluate the directions** against user-goal alignment, role differentiation, device
-  feasibility, technical feasibility within D05, accessibility, and cognitive load. Recommend one and
-  note what to keep from the runner-up. If two are too close to call, pass the two closest cards to
-  one more `@designer` call framed as a judgment brief.
+- [ ] **Step 4: Draft the document.** Use `./templates/T07 - UI Experience Overview.md` as an adaptable,
+  skimmable structure:
+  - **Experience Model** — agreed scope, domain-grounded task priorities and experience gaps, and
+    entry-to-outcome paths. Reference relevant domain findings and detailed feature journeys rather
+    than duplicate them; keep cross-page flows short.
+  - **Navigation** — hierarchy, entry/exit relationships, role differences, responsive navigation,
+    and user-facing deep-link/back behavior where relevant. Leave router and state wiring to D05.
+  - **Interaction & Recovery** — shared action/feedback conventions, relevant loading/empty/error
+    behavior, preserving input and recovery, and keyboard/focus expectations. Describe outcomes,
+    not component appearance or a complete accessibility checklist.
+  - **Pages & Routes** — page/view name, route, purpose/primary action, and access. Cover workflows
+    in the agreed scope, not every possible future capability. Preserve known routes; label proposed
+    routes or unresolved paths instead of presenting guesses as existing behavior. Modals, drawers,
+    and inline states stay with their owning view unless they are independently navigable views.
+  - **Alternatives Considered** — only meaningful options actually evaluated, with a short decision reason.
+  - **Open Questions** — unresolved choices or checks and their impact; omit when none remain.
+  Keep unaffected inventory entries when updating an existing D07. Don't add pages, roles, or patterns
+  merely to fill the template.
 
-- [ ] **Step 5: Build the page inventory.** For each page: name, route path, one-line purpose and
-  primary action, roles with access. A page is a distinct route-level view — never a modal, drawer,
-  inline toggle, or other component state. Cover every D01 workflow.
+- [ ] **Step 5: Quality check.** Can the intended users complete the scoped tasks through the named
+  pages and transitions? Routes, navigation, and access expectations agree with confirmed requirements
+  and implementation constraints. Decisions and proposals are distinguishable; recovery paths are
+  understandable; visual rules and implementation details remain in their owning sources.
 
-- [ ] **Step 6: Draft the document.** Use `./templates/T07 - UI Experience Overview.md`:
-  **Navigation & Interaction Patterns**, **Page Summary**, **Alternatives Considered**.
-
-- [ ] **Step 7: Quality check.** Navigation decisions trace to inputs, prior docs, or explicit
-  UX/accessibility principles; the model is concrete enough to implement; the inventory covers D01
-  workflows; consistent with D05 and D06; no filler.
-
-- [ ] **Step 8: Write and summarize.** Write the file, report the selected direction, why the others
-  lost, deferred questions, and suggest `108-ui-page-design` next.
+- [ ] **Step 6: Write and summarize.** Remove template instructions, examples, placeholders, and empty
+  optional sections. Write the file; report material decisions, inventory changes, sources, and open
+  questions. Suggest `106-ui-design`, `108-ui-page-design`, or feature work only when that work is needed.

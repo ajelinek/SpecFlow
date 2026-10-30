@@ -1,21 +1,23 @@
 ---
 name: 105-frontend-architecture
 description: >
-  Use `105` to define the frontend architecture: UI structure, component boundaries, state, and
-  development patterns. Trigger it for prompts like "105", "frontend architecture", "component
-  structure", or "state management" when frontend patterns need to be specified before UI design.
+  Use `105` to define frontend architecture grounded in project conventions: folder structure,
+  core rules, rendering, component boundaries, state, and integration patterns. Trigger it for
+  prompts like "105", "frontend architecture", "component structure", or "state management"
+  when frontend patterns need to be specified before UI design.
 ---
 
 # 105 - Frontend Architecture
 
-Turn D02 and D04 into concrete frontend structure: framework conventions, directory layout,
-component boundaries, state rules, API integration, styling, and test strategy. Reference D01-D04;
-add only frontend-specific decisions. Once the framework is known, use its real vocabulary.
+Record the frontend patterns needed to place the next change correctly. Check project conventions
+for the overall frontend design before proposing structure or rules. Keep an annotated project
+folder tree and concise core rules explicit, without prescribing a framework, library, or layering
+scheme. Use the confirmed framework's vocabulary and document meaningful boundaries, not every file.
 
-Specificity is the bar. "Use React hooks for state" is not architecture. "Local ephemeral state uses
-`useState`; shared UI state uses Zustand stores in `src/store/`; server state is SWR with a
-30-second revalidation window; components never call API endpoints directly — all API access goes
-through service hooks in `src/services/`" is.
+D02 owns stack and system-level testing choices; D04 owns backend contracts and security enforcement.
+D05 explains their frontend application. D06 owns visual direction; D07 owns product navigation and
+page inventory. Reference those decisions when present rather than repeat them. Upstream documents
+are useful context, not prerequisites when the relevant decisions are already known.
 
 **Output path**: `.specflow/docs/D05-frontend-architecture.md`
 
@@ -23,55 +25,67 @@ through service hooks in `src/services/`" is.
 
 ## Required Inputs
 
-1. **Frontend framework** — React, Astro, SolidJS, Vue, etc.
-2. **Deployment model** — static, SSR, hybrid, CDN-hosted, etc.
-3. **API integration** — REST, GraphQL, Firebase, or mixed
-4. **State management approach** — a specific tool or pattern for each category:
-   - **Component state** — local ephemeral UI state; the primitive in scope and off-limits patterns
-   - **URL / navigation state** — shareable/bookmarkable state; what belongs in the URL, what
-     doesn't, and what manages it
-   - **Global / application state** — state shared across routes or unrelated components; the
-     library, what qualifies, and what is kept out
-   - **Server / remote state** — fetching, caching, revalidation; the library, caching approach,
-     and where query/mutation definitions live
-5. **Real-time requirements** — WebSockets, SSE, polling, or none
-6. **Audience and reach** — public vs internal, SEO needs, single-language vs i18n
+1. **Project conventions** — governing guidance, established folder structure, and core frontend rules
+2. **Framework and execution model** — confirmed framework, rendering approach, and deployment constraints
+3. **Data and interaction needs** — content sources, backend integration, and state that needs ownership
+4. **Audience and constraints** — access model, accessibility, device support, and known performance needs
 
-Optional: design system or component library, accessibility target, performance goals, mobile-first
-requirements, frontend auth constraints.
+Real-time updates, localization, SEO, offline support, and external integrations inform the document
+only when relevant. Inputs can come from existing project evidence; they are not a questionnaire or
+a requirement to choose new tools.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Resolve all six inputs with `gap-check` (context: D01, D02, D04,
-  repo), especially each of the four state categories. Do not assume default libraries or patterns.
+- [ ] **Step 1: Load project context.** Update an existing D05 rather than create a competing copy.
+  Read project guidance (`AGENTS.md` or equivalent), frontend conventions, D01, D02, D04, and other
+  directly relevant docs when present. Inspect actual folders, representative components, routing,
+  state/data owners, styling, package/config files, and tests; use `@explore` when useful. Distinguish
+  established conventions from incidental code patterns and proposed changes.
 
-- [ ] **Step 2: Load existing context.** If D05 exists, treat it as a draft to update. Read D01, D02,
-  D04, and other directly relevant docs. For existing frontend code, use `@explore` to identify the
-  top-level `src/` structure, component organization, state setup, styling approach, and shared
-  utilities and types. Prefer documenting an established pattern over inventing a replacement; call
-  out any divergence from explicit project requirements.
+- [ ] **Step 2: Resolve inputs.** Use `gap-check` for gaps that block architecture decisions, using
+  loaded context before asking. Don't ask again about confirmed choices. Keep non-blocking
+  uncertainties in Open Questions rather than inventing decisions.
 
-- [ ] **Step 3: Decide which optional sections apply** — real-time, i18n, SEO, mobile/PWA,
-  frontend-owned security patterns, third-party integrations. Every section must earn its place:
-  omit irrelevant ones entirely, and when in doubt leave it out with a one-line note under open
-  questions if the decision is pending.
+- [ ] **Step 3: Resolve frontend patterns.** Respect confirmed user decisions and binding project rules.
+  Use relevant installed skills to guide unresolved choices, not override project conventions.
+  Surface conflicts between guidance and code; don't silently redesign the frontend. For an undecided
+  material choice, recommend an option with its tradeoff and ask for confirmation. In a new project,
+  propose the smallest suitable structure, clearly labeled until confirmed. Don't add libraries,
+  folders, layers, or numeric policies just to fill the template.
 
-- [ ] **Step 4: Draft the document.** Use `./templates/T05 - Frontend Architecture.md`:
-  - **Core stack** — framework, build tooling, key libraries and each one's role
-  - **Directory structure** — annotated tree showing where new code belongs
-  - **Component architecture** — component levels, ownership boundaries, naming/file conventions
-  - **State management** — for all four categories: the tool/pattern, what belongs, what is
-    excluded, and how the boundary is enforced
-  - **API integration** — client/service layer, auth attachment, error handling, caching
-  - **Styling approach** — CSS methodology, token usage, theming, accessibility baseline
-  - **Testing strategy** — what is tested at each level and with which tools
-  - **Optional sections** — only those approved in Step 3
+- [ ] **Step 4: Draft the document.** Use `./templates/T05 - Frontend Architecture.md` as an adaptable,
+  skimmable structure:
+  - **Frontend Structure & Rendering** — governing convention paths, framework/hosting references,
+    static/server/client responsibilities, hydration and routing/guard ownership where applicable.
+    Include an annotated project folder tree: frontend roots and the meaningful locations for routes,
+    components, shared code, state/data, styles, and tests where they exist or are confirmed. Show where
+    new code belongs, not an exhaustive file listing or a mandatory folder scheme.
+  - **Component Boundaries & Core Rules** — responsibility boundaries and a short set of project-specific
+    rules for naming, imports, dependency direction, and reuse. Identify the shared UI owner and where
+    logic and external access belong; include important forbidden patterns and enforcement when known.
+    Reference detailed standards rather than copy their full rulebooks.
+  - **State Ownership** — Component, URL, global, and remote state are a thinking aid, not four required
+    libraries. Explain ownership, lifetime, and sharing for applicable state; native primitives,
+    framework loaders, or "not needed" are valid. Note a meaningful exclusion briefly rather than
+    inventing infrastructure.
+  - **Data & Backend Integration** — applicable data access, mutations, auth/session handling,
+    errors, loading/empty states, and caching ownership. Reference D04 where available; don't assume
+    token-based auth or a custom backend. Keep secrets and server-only work out of client code.
+  - **Styling & Accessibility** — stylesheet/token ownership, component styling, theming where needed,
+    and the confirmed accessibility target and checks; leave visual choices to D06.
+  - **Frontend Verification** — frontend-specific checks, tools, and risks covered, referencing D02
+    rather than repeating its strategy. No required testing layers or blanket coverage exclusions.
+  Add real-time, i18n, SEO, or other concerns only where they materially change these patterns; use a
+  short dedicated section if it makes them easier to find.
 
-- [ ] **Step 5: Quality check.** Every decision traces to D01, D02, D04, codebase evidence, or
-  explicit user input; all four state categories name specific tools or patterns; API integration
-  matches D04; no placeholder or duplicate sections; scannable, concrete framework terms.
+- [ ] **Step 5: Quality check.** A new engineer can follow the folder tree and core rules to place a
+  change correctly. Decisions trace to project conventions, confirmed requirements, or code evidence;
+  conflicts and proposals are visible. State and rendering boundaries are clear where relevant,
+  integration matches the actual backend, and no stack, directory tree, or policy is invented merely
+  to complete the document.
 
-- [ ] **Step 6: Write and summarize.** Write the file and report key decisions, open questions,
-  omitted sections, and the most natural next step.
+- [ ] **Step 6: Write and summarize.** Remove template instructions, examples, placeholders, and empty
+  optional sections. Write the file, report governing convention sources, material decisions, and open
+  questions, and suggest `106-ui-design` or feature work only as needed.

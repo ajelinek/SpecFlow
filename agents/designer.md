@@ -1,9 +1,9 @@
 ---
 name: designer
 description: >
-  Creative UI/UX design worker. Invoked by 106-ui-design, 107-ui-experience, 108-ui-page-design, and
-  301-spec-implementation; each call returns exactly one opinionated design direction (callers run
-  several in parallel with different seed bets and choose). Honors D06/D07, flagging conflicts as
+  Creative UI/UX design worker. Available to 106-ui-design and invoked by 108-ui-page-design and
+  301-spec-implementation; each call returns exactly one opinionated visual direction (callers may
+  compare several when useful). Honors D06/D07, flagging conflicts as
   proposed doc changes. Asks clarifying questions when the brief is ambiguous.
 model: opus
 tools: Read, WebFetch, Skill

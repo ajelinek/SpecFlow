@@ -10,7 +10,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What this skill is for
 
-`105-frontend-architecture` produces the frontend architecture document: how components are organized, how state is managed at each level, how routing works, how the frontend integrates with the backend, and what styling and accessibility conventions apply. It translates the system architecture's frontend technology choices into concrete patterns that every developer and design skill can depend on.
+`105-frontend-architecture` records the project's frontend structure and core rules so an engineer or AI can place the next change correctly. It checks project conventions before describing folder organization, rendering, component boundaries, state ownership, integration, styling, and verification. The result is a concise reference, not a preset stack or implementation plan.
 
 **Output path**: `.specflow/docs/D05-frontend-architecture.md`
 
@@ -28,30 +28,31 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 - When the frontend is a simple static site with no meaningful component or state architecture to document
 
 <Callout tone="optional" title="Optional but foundational for UI work">
-  D06, D07, and D08 all reference D05 for component conventions and styling approach. When D05 is missing, those skills produce less consistent output because they cannot ground design decisions in actual frontend patterns.
+  Check project guidance, frontend standards, and existing code before proposing the overall frontend design. D05 keeps the project folder structure and core rules explicit, while leaving room for implementation judgment. No default libraries, directory tree, or mandatory architectural layers.
 </Callout>
 
 ## What it produces
 
 - `.specflow/docs/D05-frontend-architecture.md` covering:
-  - Component organization and naming conventions
-  - State management approach for each state category (component, URL, global, server)
-  - Routing structure and navigation patterns
-  - API integration patterns and data fetching approach
-  - Styling methodology (CSS Modules, utility-first, CSS-in-JS, design tokens)
-  - Accessibility baseline and enforcement approach
-  - Build and bundling setup
-  - Real-time requirements (WebSockets, SSE, polling)
-  - Internationalization and responsive design strategy
+  - Governing convention sources and an annotated project folder tree showing responsibilities and where new code belongs
+  - Component boundaries and Core rules for naming, imports, dependency direction, reuse, and logic/data ownership
+  - Rendering and routing responsibilities, including server/client boundaries where relevant
+  - Ownership and lifetime of applicable state, using native or framework facilities when sufficient
+  - Data integration, relevant access safeguards, and loading/error handling
+  - Styling organization, token consumption, and accessibility requirements and checks
+  - Frontend-specific verification, with references to D02 rather than a repeated testing strategy
+  - Open questions and clearly labeled proposals, only when needed
+
+Real-time, localization, SEO, offline support, and other specialist concerns appear only when they materially affect the architecture.
 
 ## Required inputs
 
-1. Frontend framework — React, Astro, SolidJS, Vue, or other
-2. Deployment model — static, SSR, CDN, or hybrid
-3. API integration approach — REST with SWR/fetch, GraphQL, Firebase, or other
-4. State management decisions — for component, URL, global, and server state
-5. Real-time requirements — WebSockets, SSE, polling, or none
-6. Audience and reach — public vs internal, SEO needs, single-language vs i18n
+1. Project conventions — governing guidance, established folders, and core frontend rules
+2. Framework and execution model — confirmed framework, rendering approach, and deployment constraints
+3. Data and interaction needs — content sources, integrations, and state that needs ownership
+4. Audience and constraints — access, accessibility, device support, and known performance needs
+
+Existing guidance, documents, and code can supply these inputs. The skill asks only about unresolved choices that block the design; non-blocking uncertainty stays in Open Questions. Upstream documents are not required when the relevant decisions are already known.
 
 ## Common prompts
 
@@ -59,20 +60,25 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 <PromptBlock title="Prompt" text={`Run 105 for an Astro + SolidJS site with nano-stores for global state and Tailwind for styling.`} />
 
+<PromptBlock title="Existing project" text={`Run 105 for this frontend. Check AGENTS.md, our frontend conventions, and the existing code first. Document the project folder structure and core rules without introducing a new architecture or libraries.`} />
+
 ## What usually comes next
 
 `106-ui-design` — establish the visual design system, building on the component and styling approach documented in D05.
 
 ## Practical guidance
 
-- Be specific about which state management tool is used for each state category. "We use Zustand" is incomplete — specify what belongs in the global store and what stays local.
-- Document what is explicitly off-limits (e.g., "no direct DOM manipulation", "no fetch calls outside service modules") — these constraints help agents make correct decisions without asking.
-- If the project has an existing frontend codebase, use `@explore` to discover actual patterns before writing D05. Avoid documenting a theoretical architecture that does not match the real code.
-- Reference D02 for stack choices and D04 for API contracts. D05 should not re-state technology decisions — it specifies how to use them in the frontend.
+- Read project guidance and frontend conventions first. Respect confirmed decisions and binding rules; use relevant installed skills for unresolved choices, not to override the project. Surface conflicts between guidance and code instead of silently choosing a new design.
+- Keep the annotated folder tree focused on meaningful code locations, including tests. Preserve established paths and label proposed additions; don't reproduce every file or invent empty layers.
+- Record a short set of core rules that explains placement, naming, allowed imports, shared component reuse, and where logic and external access belong. Link to detailed standards instead of copying their full rulebooks.
+- Consider component, URL, global, and remote state without requiring four libraries. Native primitives, framework loaders, or "not needed" can be the right answer.
+- Reference D02 for stack and system-level testing decisions and D04 for backend contracts and enforcement. D05 describes their frontend application, including protection of secrets and server-only work where relevant.
+- Keep styling organization in D05, visual direction in D06, and product navigation and page inventory in D07. Technical routing ownership remains in D05.
 
 ## Common mistakes
 
-- Treating all four state categories as one ("we just use Zustand for everything")
-- Omitting the routing structure — this matters significantly for feature design
-- Leaving the styling approach vague ("we use Tailwind") without specifying how components are structured
-- Not documenting the API integration pattern — this leads to inconsistent data fetching across the codebase
+- Choosing a familiar stack or folder scheme instead of checking the project's conventions
+- Omitting the folder structure or core rules in the name of brevity
+- Adding global state, caching libraries, or service layers just to fill template sections
+- Presenting a proposed architecture as if it already exists or has been approved
+- Repeating upstream documents or leaving template examples and irrelevant sections in the output

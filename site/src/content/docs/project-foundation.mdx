@@ -27,20 +27,20 @@ When agents, developers, and reviewers all share the same written context — do
 | `103-common-data-model` | `.specflow/docs/D03-common-data-model.dbml` (relational), `.specflow/docs/D03-common-data-model.md` (non-relational) | Data structures, relationships, business rules |
 | `104-backend-architecture` | `.specflow/docs/D04-backend-architecture.md` | API design, service layering, auth, security |
 | `105-frontend-architecture` | `.specflow/docs/D05-frontend-architecture.md` | Component structure, state, routing, styling |
-| `106-ui-design` | `.specflow/docs/D06-ui-design.md` | Design system, color, typography, visual philosophy |
-| `107-ui-experience` | `.specflow/docs/D07-ui-experience.md` | Navigation, page inventory, interaction patterns |
+| `106-ui-design` | `.specflow/docs/D06-ui-design.md` | Visual direction, color, typography, component appearance |
+| `107-ui-experience` | `.specflow/docs/D07-ui-experience.md` | User paths, navigation, interaction/recovery, pages and routes |
 | `108-ui-page-design` | `.specflow/docs/D08-ui-pages/<name>/` | Per-page layout spec and HTML mockup |
 | `110-feature-overview` | `.specflow/docs/D10-feature-overview.md` | Capabilities and thin vertical feature slices |
 
 ## Recommended sequence
 
-Run these in order when starting fresh. On existing projects, run only what is missing or stale.
+Use this as a starting sequence, not a prerequisite chain. Run only what is missing or stale.
 
 ```
 100 → 101 → 102 → 103 → 104 → 105 → 106 → 107 → [108 per page] → 110
 ```
 
-Each document references the ones before it. Running out of order is possible but produces weaker results.
+Use available project evidence regardless of document order. `106` and `107` are independently optional and can run in either order: `106` sets visual presentation; `107` defines navigation and interaction behavior. `108` applies those decisions to individual pages.
 
 <Callout tone="tip" title="103 follows the storage model">
   Relational design lives in one project-wide DBML file, including rule notes and open questions. Non-relational modeling uses Markdown. Mixed projects use both without duplicating definitions.
@@ -54,7 +54,7 @@ Each document references the ones before it. Running out of order is possible bu
 - **[103 Common Data Model](./103-common-data-model/)** — map the entities and rules
 - **[104 Backend Architecture](./104-backend-architecture/)** — specify the server-side patterns
 - **[105 Frontend Architecture](./105-frontend-architecture/)** — specify the client-side patterns
-- **[106 UI Design](./106-ui-design/)** — establish the visual design system
-- **[107 UI Experience](./107-ui-experience/)** — define the UX model and page inventory
+- **[106 Visual Design](./106-ui-design/)** — record the visual direction and component appearance
+- **[107 UX & Navigation](./107-ui-experience/)** — record user paths, interaction behavior, and pages/routes
 - **[108 UI Page Design](./108-ui-page-design/)** — design one page in detail
 - **[110 Feature Overview](./110-feature-overview/)** — map the feature backlog

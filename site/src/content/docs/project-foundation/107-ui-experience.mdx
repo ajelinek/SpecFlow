@@ -1,6 +1,6 @@
 ---
-title: 107 UI Experience
-description: Define navigation patterns, interaction conventions, accessibility commitments, and the full page inventory before per-page design begins.
+title: 107 UX & Navigation
+description: Record how users complete tasks, move between pages, and recover from errors, with a scoped page/route inventory.
 sidebar:
   order: 8
 ---
@@ -10,7 +10,9 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What this skill is for
 
-`107-ui-experience` produces the UX architecture document: how users move through the product, what navigation patterns serve their goals, what interaction conventions apply across the product, what accessibility standards are committed to, and a complete page inventory with routes and purpose. It is the structural map that `108-ui-page-design` draws from when designing individual pages.
+`107-ui-experience` records how users accomplish their tasks: entry points, navigation, shared interaction behavior, recovery, and pages/routes. It produces a short experience model and page table rather than a screen-by-screen script.
+
+`107` owns user-facing behavior. `106` owns visual presentation; D05 owns routing, state, and component implementation conventions. Access expectations here describe the experience, not security enforcement. `108` applies the model to a particular page.
 
 **Output path**: `.specflow/docs/D07-ui-experience.md`
 
@@ -18,7 +20,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 - When the product needs a coherent UX model before designing specific pages
 - When navigation structure, user flows, and page boundaries need to be agreed on
-- Before running `108-ui-page-design` for any page — D07 defines the page inventory that D08 picks from
+- When a new product area changes the existing navigation or shared interaction behavior
 - On existing products where navigation and interaction patterns are implicit or inconsistent
 
 ## When NOT to use it
@@ -27,28 +29,28 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 - When the UX is already explicitly documented and current
 - For a standalone tool with no meaningful navigation structure
 
-<Callout tone="optional" title="Required by 108">
-  `108-ui-page-design` requires that the page being designed exists in D07's page inventory. If a page is not in D07, `108` will flag it rather than proceeding. Run `107` first.
+<Callout tone="optional" title="Independent of visual design">
+  `106` and `107` are independently optional and can run in either order. A visual system is useful context, not a prerequisite for deciding navigation. Reuse current project guidance rather than generate missing documents automatically.
 </Callout>
 
 ## What it produces
 
-- `.specflow/docs/D07-ui-experience.md` covering:
-  - Navigation philosophy and structural approach (top nav, sidebar, tab bar, etc.)
-  - User role differentiation and how it affects navigation
-  - Cross-platform interaction conventions and what changes by device
-  - Accessibility commitments beyond WCAG 2.1 AA (if applicable)
-  - Error handling and empty state patterns
-  - Loading and transition conventions
-  - Complete page inventory: each page's route, purpose, user roles with access, and navigation relationships
+- `.specflow/docs/D07-ui-experience.md` with applicable decisions:
+  - Experience Model — scope, primary tasks, and short entry-to-outcome paths
+  - Navigation — hierarchy, entry/exit relationships, role differences, and device/history behavior
+  - Interaction & Recovery — shared feedback, loading/empty/error behavior, and interaction accessibility
+  - Pages & Routes — named view, route, purpose/primary action, and access
+  - Alternatives Considered and Open Questions only when meaningful
+
+Cover the agreed scope, not every possible future capability. Preserve unaffected inventory entries on updates and distinguish existing routes from proposed or unresolved ones. The template supplies no default pages, navigation structure, or error patterns.
 
 ## Required inputs
 
-1. User roles — distinct user types and whether they need different navigation structures
-2. Device targets — which platforms and form factors must be supported
-3. Page inventory (initial) — the known pages or major sections of the product
-4. Accessibility requirements — beyond WCAG 2.1 AA if applicable
-5. Navigation constraints — existing routing decisions or structural constraints from D02, D04, or D05
+1. Users and tasks — primary goals, relevant roles/access expectations, and workflows in scope
+2. Current structure — known pages, routes, entry points, or a rough initial inventory
+3. Constraints — device/accessibility needs and established navigation or routing conventions
+
+Read `.specflow/context/domain-knowledge.md` when available before asking about gaps. Use its roles, real workflows, decision points, friction, terminology, and constraints to focus the experience model. Ask only about remaining blocking gaps; uncertain or outdated research is not a confirmed requirement. New research and competitor comparisons are optional.
 
 ## Common prompts
 
@@ -58,19 +60,21 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What usually comes next
 
-`108-ui-page-design` — design one page in detail, picking from the page inventory established in D07.
+Use `108-ui-page-design` when a named page needs detailed layout and interaction design, `106-ui-design` if visual decisions remain open, or move directly to feature work. `108` checks the page against D07 or asks for confirmation before adding it; a new `107` run is not required when the context is already current.
 
 ## Practical guidance
 
-- The page inventory is the most used output of D07. Make it complete and specific: route, purpose, primary user action, and which roles have access.
-- `107` calls `@designer` three times in parallel, each a fresh invocation with a different seed bet, to get genuinely divergent UX directions, then scores them itself in Step 4.
+- Keep the page inventory specific and complete for the agreed scope: route, purpose/primary action, and access.
+- Ground task priorities and experience gaps in relevant domain findings. Reference them briefly in Experience Model and use domain terminology in navigation, without copying the research or expanding confirmed scope.
+- Compare alternatives only for meaningful unresolved choices. There is no fixed direction count or required worker call.
 - Navigation philosophy should explain the structural choice (why top nav over sidebar, why tabs over a drawer) in terms of user goals and device support.
-- Error and empty state patterns belong here, not in individual page designs. Consistent handling reduces the number of decisions `108` has to make.
-- Reference D06 for design conventions already established. Navigation and interaction patterns must align with the visual system.
+- Shared interaction and recovery patterns belong here; individual page designs document their local application and exceptions.
+- Reference D06 for established appearance and the project's accessibility standard for shared requirements. Record interaction-specific decisions without duplicating those sources.
+- Surface conflicts before changing established behavior. Navigation visibility never substitutes for access enforcement.
 
 ## Common mistakes
 
 - Producing a navigation structure without explaining the reasoning behind it
-- Leaving the page inventory incomplete or imprecise — vague page names produce vague page designs
+- Inventing future pages or roles to make the inventory look complete
 - Treating accessibility as a checklist item rather than a set of specific commitments
 - Designing for desktop without specifying what degrades or changes on smaller screens

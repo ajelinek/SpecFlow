@@ -1,6 +1,6 @@
 ---
-title: 106 UI Design
-description: Establish the visual design system — color, typography, layout philosophy, and component visual language — before page design begins.
+title: 106 Visual Design
+description: Record a concise visual direction for color, typography, spacing, component appearance, and motion.
 sidebar:
   order: 7
 ---
@@ -10,47 +10,47 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What this skill is for
 
-`106-ui-design` produces the UI design document: the strategic design decisions that govern all visual output — brand personality, color system with semantic meaning, typography hierarchy, and component visual language. It explains the *why* behind design decisions so that any designer or engineer working on the product arrives at consistent visual output without negotiating each choice.
+`106-ui-design` records what the product should look and feel like. It produces a short visual decision sheet covering tone, color roles, typography, spacing, component appearance, and motion. Choices should be specific enough to apply consistently, without specifying every component.
 
-This is a decision record, not an implementation spec. Design tokens and CSS variable definitions belong in D05; D06 explains the reasoning and intent behind them.
+`106` owns visual presentation. `107` owns navigation, page inventory, and interaction behavior. D05 owns implementation conventions and token organization; D06 can name visual values or reference an existing system without reproducing its definitions. `108` applies the direction to a particular page.
 
 **Output path**: `.specflow/docs/D06-ui-design.md`
 
 ## When to use it
 
-- When the project needs a visual design foundation before UX or page-level work begins
+- When the project needs an agreed visual direction
 - When the team needs to agree on brand direction, color philosophy, and typographic hierarchy
-- Before `107-ui-experience` or `108-ui-page-design`, which apply the design system
+- When a rebrand or visual refresh changes the existing direction
 - On existing projects where design decisions have accumulated without an explicit rationale
 
 ## When NOT to use it
 
-- When an established design system (Material, Radix, Tailwind preset) is already the unambiguous visual foundation
-- For internal tools where visual consistency is not a meaningful product concern
+- When existing brand and design-system guidance already answers the relevant questions
+- For a small visual change that fits established conventions
 - When `108-ui-page-design` would be sufficient without a broader design strategy
 
-<Callout tone="optional" title="Optional but required for D07 and D08">
-  `107-ui-experience` and `108-ui-page-design` both reference D06 for color, typography, and component conventions. Without D06, those skills have to invent design decisions instead of applying established ones.
+<Callout tone="optional" title="Independent of UX and navigation">
+  `106` and `107` are independently optional and can run in either order. Use existing context when it already settles the decisions. Missing upstream documents are not a reason to generate the whole planning series.
 </Callout>
 
 ## What it produces
 
-- `.specflow/docs/D06-ui-design.md` covering:
-  - Brand personality and design philosophy
-  - Color system — primary, secondary, semantic, and surface colors with usage rules
-  - Typography hierarchy — typefaces, scale, and usage conventions
-  - Layout principles — spatial rhythm, grid approach, responsive strategy
-  - Component visual language — how components communicate state, hierarchy, and interaction
-  - Motion and animation philosophy
-  - Accessibility commitments at the visual level (contrast, focus, color independence)
+- `.specflow/docs/D06-ui-design.md` with applicable decisions:
+  - Visual Direction — tone, audience fit, and brand/design-system references
+  - Color & Typography — semantic usage, themes, typefaces, and hierarchy
+  - Layout & Component Appearance — density, spacing, hierarchy, and visual states
+  - Motion & Visual Accessibility — motion treatment, relevant visual decisions, and pending checks
+  - Alternatives Considered and Open Questions only when meaningful
+
+The template uses short prompts, not a preselected palette, type scale, layout, or device priority. Omit unused sections and reference existing guidance instead of repeating it.
 
 ## Required inputs
 
-1. Brand personality — what emotional tone and visual identity the product should project
-2. Target audience — primary users and any accessibility requirements
-3. Device support — mobile-first, desktop-first, or responsive with critical breakpoints
-4. Theme support — light only, dark only, or both
-5. Competitive differentiation — which products to stand apart from visually
+1. Audience and context — users, tasks, devices, and relevant accessibility needs
+2. Visual intent — desired tone, brand assets, or an established system to preserve
+3. Constraints — confirmed component library, theme support, and relevant technical limits
+
+Read `.specflow/context/domain-knowledge.md` when available before asking about gaps. Use its user needs, usage conditions, expectations, differentiation, and constraints to focus the visual direction. Ask only about remaining blocking gaps; uncertain or outdated research is not a confirmed requirement. Competitors and inspiration references are optional.
 
 ## Common prompts
 
@@ -60,18 +60,19 @@ This is a decision record, not an implementation spec. Design tokens and CSS var
 
 ## What usually comes next
 
-`107-ui-experience` — define the navigation model and page inventory using the visual system now established.
+Use `107-ui-experience` if navigation and interaction decisions remain open, `108-ui-page-design` for a page that needs detailed design, or move directly to feature work. None is an automatic follow-up.
 
 ## Practical guidance
 
-- `106` calls `@designer` three times in parallel, each a fresh invocation with a different seed bet, to get genuinely divergent directions, then scores them itself in Step 4 — a single-option design process tends to produce mediocre output.
+- Compare alternatives only for meaningful unresolved choices. There is no fixed direction count or required worker call; `@designer` can help with a focused visual brief when useful.
 - The color system should define semantic roles (primary action, destructive, surface, border) not just color values. Usage rules matter as much as the colors themselves.
-- Reference D01 for brand intent and user goals, and D05 for the component library already chosen. D06 must work within those constraints.
+- Ground the core design focus in relevant domain findings and reference them briefly in Visual Direction, without copying the research. Respect confirmed D01 goals, brand guidance, and D05 constraints; research informs those decisions without overriding them.
 - Every design decision should be traceable to a business goal, user need, or design principle. Avoid aesthetic choices that cannot be explained in those terms.
+- Surface conflicts before changing established decisions. Label proposals and unverified values rather than presenting them as confirmed or accessible by default.
 
 ## Common mistakes
 
 - Producing a color palette without semantic rules for how each color should be used
 - Treating typography as a font choice rather than a hierarchy and scale
-- Designing for one theme without considering how the design system translates to the other
+- Inventing additional themes, breakpoints, or component rules just to fill the template
 - Making design decisions that contradict the component library already committed to in D05

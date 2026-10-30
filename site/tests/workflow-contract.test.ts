@@ -185,6 +185,148 @@ it('104 uses a neutral, skimmable template without mandatory layers or auth defa
   expect(docs).toMatch(/No default stack, authentication scheme, or service\/repository layers/);
 });
 
+it('105 checks project conventions before resolving frontend choices', () => {
+  const workflow = readWorkflow('skills/105-frontend-architecture/SKILL.md').replace(/\s+/g, ' ');
+  expect(workflow).toMatch(/Step 1: Load project context.*Step 2: Resolve inputs.*Step 3: Resolve frontend patterns/);
+  expect(workflow).toMatch(/project guidance.*frontend conventions/i);
+  expect(workflow).toMatch(/Respect confirmed user decisions and binding project rules/);
+  expect(workflow).toMatch(/installed skills.*not override project conventions/);
+  expect(workflow).toMatch(/Surface conflicts/);
+  expect(workflow).toMatch(/recommend an option.*ask for confirmation/);
+});
+
+it('105 retains an annotated project folder structure and concise core rules across its outputs', () => {
+  const workflow = readWorkflow('skills/105-frontend-architecture/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/105-frontend-architecture/templates/T05 - Frontend Architecture.md');
+  const docs = readWorkflow('site/src/content/docs/project-foundation/105-frontend-architecture.mdx');
+  expect(workflow).toMatch(/annotated.*folder tree/);
+  expect(workflow).toMatch(/naming, imports, dependency direction, and reuse/);
+  expect(template).toMatch(/^### Project Folder Structure$/m);
+  expect(template).toMatch(/^### Core Rules$/m);
+  expect(template).toMatch(/```text\n/);
+  expect(template).toMatch(/Governing conventions/);
+  expect(docs).toMatch(/annotated project folder tree/);
+  expect(docs).toMatch(/Core rules/);
+});
+
+it('105 uses neutral prompts without prescribing libraries, folders, or state infrastructure', () => {
+  const workflow = readWorkflow('skills/105-frontend-architecture/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/105-frontend-architecture/templates/T05 - Frontend Architecture.md');
+  expect(template.match(/^# .+$/gm)).toEqual(['# D05 — Frontend Architecture']);
+  expect(template).not.toMatch(/React 18|Zustand|TanStack|React Hook Form|src\/services|JWT|max 5 retries/);
+  expect(workflow).toMatch(/Component, URL, global, and remote state.*thinking aid/);
+  expect(workflow).toMatch(/native primitives.*not needed/i);
+  expect(workflow).toMatch(/Remove template instructions, examples, placeholders, and empty optional sections/);
+});
+
+it('105 keeps upstream decisions and visual or navigation design in their owning documents', () => {
+  const workflow = readWorkflow('skills/105-frontend-architecture/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/105-frontend-architecture/templates/T05 - Frontend Architecture.md');
+  expect(workflow).toMatch(/D02 owns stack and system-level testing choices/);
+  expect(workflow).toMatch(/D06 owns visual direction.*D07 owns product navigation and page inventory/);
+  expect(template).toMatch(/Rendering & routing/);
+  expect(template).toMatch(/Check \| Tool \/ Method \| Scope/);
+  expect(template).toMatch(/Omit Open Questions when none remain/);
+});
+
+it('106 and 107 remain independently optional with stable skill identities and output paths', () => {
+  const visual = readWorkflow('skills/106-ui-design/SKILL.md');
+  const experience = readWorkflow('skills/107-ui-experience/SKILL.md');
+  expect(visual).toMatch(/^name: 106-ui-design$/m);
+  expect(experience).toMatch(/^name: 107-ui-experience$/m);
+  expect(visual).toContain('.specflow/docs/D06-ui-design.md');
+  expect(experience).toContain('.specflow/docs/D07-ui-experience.md');
+  for (const workflow of [visual, experience]) {
+    expect(workflow.replace(/\s+/g, ' ')).toMatch(/independently optional.*either order/);
+    expect(workflow).not.toMatch(/Generate three|Spawn three|runner-up/);
+    expect(workflow.replace(/\s+/g, ' ')).toMatch(/Compare alternatives only when.*meaningful unresolved choice/);
+  }
+});
+
+it('106 and 107 use project evidence first and preserve existing decisions', () => {
+  for (const skill of ['106-ui-design', '107-ui-experience']) {
+    const workflow = readWorkflow(`skills/${skill}/SKILL.md`).replace(/\s+/g, ' ');
+    expect(workflow).toMatch(/Step 1: Load project context.*Step 2: Resolve inputs/);
+    expect(workflow).toMatch(/gap-check.*block/);
+    expect(workflow).toMatch(/Surface conflicts.*user/);
+    expect(workflow).toMatch(/non-blocking.*Open Questions/);
+    expect(workflow).toMatch(/Remove template instructions, examples, placeholders, and empty optional sections/);
+  }
+});
+
+it('106 and 107 use domain knowledge to resolve gaps and guide the core design focus', () => {
+  for (const skill of ['106-ui-design', '107-ui-experience']) {
+    const workflow = readWorkflow(`skills/${skill}/SKILL.md`).replace(/\s+/g, ' ');
+    const inputs = workflow.slice(workflow.indexOf('**Step 2:'), workflow.indexOf('**Step 3:'));
+    expect(workflow).toContain('.specflow/context/domain-knowledge.md');
+    expect(inputs).toMatch(/domain knowledge.*before.*gap-check/i);
+    expect(workflow).toMatch(/domain-informed design focus/);
+    expect(inputs).toMatch(/uncertain or outdated.*Open Questions/);
+    expect(inputs).toMatch(/research recommendations.*confirmed product decisions/);
+  }
+});
+
+it('106 and 107 carry domain-grounded focus into templates and user guidance without copying research', () => {
+  const cases = [
+    { skill: '106-ui-design', file: 'T06 - UI Design.md' },
+    { skill: '107-ui-experience', file: 'T07 - UI Experience Overview.md' },
+  ];
+  for (const entry of cases) {
+    const template = readWorkflow(`skills/${entry.skill}/templates/${entry.file}`);
+    const docs = readWorkflow(`site/src/content/docs/project-foundation/${entry.skill}.mdx`);
+    expect(template).toContain('.specflow/context/domain-knowledge.md');
+    expect(template).toMatch(/domain-grounded focus/);
+    expect(template).toMatch(/reference.*rather than repeat/i);
+    expect(docs).toContain('.specflow/context/domain-knowledge.md');
+    expect(docs).toMatch(/before asking/i);
+  }
+});
+
+it('106 and 107 use concise neutral templates with matching document and section titles', () => {
+  const cases = [
+    { skill: '106-ui-design', file: 'T06 - UI Design.md', title: '# D06 — Visual Design' },
+    { skill: '107-ui-experience', file: 'T07 - UI Experience Overview.md', title: '# D07 — UX & Navigation' },
+  ];
+  for (const entry of cases) {
+    const workflow = readWorkflow(`skills/${entry.skill}/SKILL.md`);
+    const template = readWorkflow(`skills/${entry.skill}/templates/${entry.file}`);
+    expect(template.match(/^# .+$/gm)).toEqual([entry.title]);
+    expect(template).toMatch(/only applicable bullets, rows, and sections/);
+    expect(template).toMatch(/Omit Alternatives Considered and Open Questions when/);
+    expect(template).not.toMatch(/#F8F9FA|375px|1440px|300ms|5 s|\/projects|\/login|Trustworthy and efficient/);
+    for (const heading of template.matchAll(/^## \d+\. (.+)$/gm)) {
+      expect(workflow).toContain(`**${heading[1]}**`);
+    }
+  }
+});
+
+it('106 owns visual presentation while 107 owns navigation and interaction behavior', () => {
+  const visual = readWorkflow('skills/106-ui-design/SKILL.md').replace(/\s+/g, ' ');
+  const experience = readWorkflow('skills/107-ui-experience/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/107-ui-experience/templates/T07 - UI Experience Overview.md');
+  expect(visual).toMatch(/D07 owns navigation, page inventory, and interaction behavior/);
+  expect(experience).toMatch(/D06 owns visual presentation/);
+  expect(visual).toMatch(/D05.*implementation/);
+  expect(experience).toMatch(/D05.*implementation/);
+  expect(experience).toMatch(/agreed scope.*not.*future/);
+  expect(template).toMatch(/Page \/ View \| Route \| Purpose \/ Primary Action \| Access/);
+  expect(experience).toMatch(/not a security enforcement mechanism/);
+});
+
+it('106 and 107 docs explain their distinction without mandatory order or three-direction exploration', () => {
+  const visual = readWorkflow('site/src/content/docs/project-foundation/106-ui-design.mdx');
+  const experience = readWorkflow('site/src/content/docs/project-foundation/107-ui-experience.mdx');
+  expect(visual).toMatch(/^title: 106 Visual Design$/m);
+  expect(experience).toMatch(/^title: 107 UX & Navigation$/m);
+  for (const docs of [visual, experience]) {
+    expect(docs).toMatch(/independently optional/);
+    expect(docs).toMatch(/either order/);
+    expect(docs).not.toMatch(/three times|Optional but required|Required by 108|Run `107` first/);
+  }
+  expect(readWorkflow('site/src/content/docs/getting-started/custom-agents.mdx'))
+    .not.toMatch(/`106`\/`107`\/`108` call it three times/);
+});
+
 it('active workflow consumers do not require retired skills or a standard implementation artifact', () => {
   const consumers = [
     'skills/201-high-level-design/SKILL.md',
