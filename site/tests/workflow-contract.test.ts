@@ -147,6 +147,44 @@ it('103 retains a concise non-relational model without mandatory IDs or database
   expect(workflow).toMatch(/Remove template instructions, examples, placeholders, and empty optional sections/);
 });
 
+it('104 grounds backend decisions in project evidence before resolving gaps and proposals', () => {
+  const workflow = readWorkflow('skills/104-backend-architecture/SKILL.md').replace(/\s+/g, ' ');
+  expect(workflow).toMatch(/Step 1: Load project context.*Step 2: Resolve inputs.*Step 3: Resolve backend patterns/);
+  expect(workflow).toMatch(/Respect confirmed user decisions and binding project rules/);
+  expect(workflow).toMatch(/installed skills.*not override project constraints/);
+  expect(workflow).toMatch(/recommend an option.*ask for confirmation/);
+  expect(workflow).toMatch(/non-blocking.*Open Questions/);
+});
+
+it('104 keeps data definitions in D03 and makes runtime enforcement explicit', () => {
+  const workflow = readWorkflow('skills/104-backend-architecture/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/104-backend-architecture/templates/T04 - Backend Architecture.md');
+  const docs = readWorkflow('site/src/content/docs/project-foundation/104-backend-architecture.mdx');
+  expect(workflow).toContain('D03-common-data-model.dbml');
+  expect(workflow).toContain('D03-common-data-model.md');
+  expect(workflow).toMatch(/D03 owns data definitions/);
+  expect(workflow).toMatch(/where rules are enforced/);
+  expect(template).toMatch(/Rule enforcement/);
+  expect(docs).toMatch(/DBML, Markdown, or both/);
+  expect([workflow, template, docs].join('\n')).not.toContain('D09');
+});
+
+it('104 uses a neutral, skimmable template without mandatory layers or auth defaults', () => {
+  const workflow = readWorkflow('skills/104-backend-architecture/SKILL.md').replace(/\s+/g, ' ');
+  const template = readWorkflow('skills/104-backend-architecture/templates/T04 - Backend Architecture.md');
+  const docs = readWorkflow('site/src/content/docs/project-foundation/104-backend-architecture.mdx');
+  expect(template.match(/^# .+$/gm)).toEqual(['# D04 — Backend Architecture']);
+  expect(template).toMatch(/^<!--/);
+  expect(template).toMatch(/only applicable bullets and rows/);
+  expect(template).toMatch(/Omit Operations and Open Questions when they don't apply/);
+  expect(template).toContain('## 4. Security');
+  expect(template).not.toMatch(/&lt;!--|HS256|\/api\/v1\/auth|node-postgres|Do not add, remove, or rename/);
+  expect(workflow).toMatch(/No mandatory service\/repository layers/);
+  expect(workflow).toMatch(/public or unauthenticated access/);
+  expect(workflow).toMatch(/Remove template instructions, examples, placeholders, and empty optional sections/);
+  expect(docs).toMatch(/No default stack, authentication scheme, or service\/repository layers/);
+});
+
 it('active workflow consumers do not require retired skills or a standard implementation artifact', () => {
   const consumers = [
     'skills/201-high-level-design/SKILL.md',

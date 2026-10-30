@@ -1,6 +1,6 @@
 ---
 title: 104 Backend Architecture
-description: Specify API structure, service layering, data access patterns, and backend security before feature implementation begins.
+description: Record backend responsibilities, interface conventions, runtime data access, rule enforcement, and security in a concise reference.
 sidebar:
   order: 5
 ---
@@ -10,7 +10,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What this skill is for
 
-`104-backend-architecture` produces the backend architecture document: the API style and conventions, how business logic is layered, how the service layer organizes code, how data is accessed, and how security and authentication are handled. It translates the stack decisions from the system architecture and the entities from the data model into concrete backend patterns that engineers can implement directly.
+`104-backend-architecture` records the backend decisions needed to place the next change correctly: responsibilities, interface conventions, runtime data access, rule enforcement, security, and relevant operations. It builds on D01-D03 without repeating their product, stack, or data definitions. The result is a concise, skimmable reference, not an endpoint catalog or implementation plan.
 
 **Output path**: `.specflow/docs/D04-backend-architecture.md`
 
@@ -25,30 +25,33 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 - When clear, current backend documentation already exists and is trusted by the team
 - For a purely frontend project with no custom backend
-- When the backend is a third-party service that the team is not architecting
+- When all backend behavior is third-party managed and there are no team-owned integration or access decisions to document
 
-<Callout tone="optional" title="Optional but specific">
-  Where D02 says "REST API with JWT authentication," D04 specifies the URL naming convention, error envelope format, token lifecycle, and validation approach. That level of specificity is what makes feature implementation consistent across the team.
+<Callout tone="optional" title="Just enough backend structure">
+  No default stack, authentication scheme, or service/repository layers. Document the actual or confirmed backend shape, whether framework handlers, serverless functions, services, or another structure. Keep real constraints specific and leave implementation details open where consistency doesn't depend on them.
 </Callout>
 
 ## What it produces
 
 - `.specflow/docs/D04-backend-architecture.md` covering:
-  - API style and conventions (URL structure, versioning, payload format, error envelopes)
-  - Authentication method and token lifecycle
-  - Authorization model (RBAC, ABAC, ownership-based)
-  - Service layer organization and responsibility boundaries
-  - Data access patterns and repository conventions
-  - Security and compliance requirements
-  - Background jobs, rate limiting, and cross-cutting concerns
+  - Backend structure: owners, code locations, responsibilities, and dependency boundaries
+  - API and boundary conventions: applicable contracts, validation, and errors
+  - Data access and rule enforcement: runtime access patterns and where important rules are enforced
+  - Security: trust boundaries, access enforcement, secrets, and sensitive-data safeguards
+  - Operations: diagnostics, recovery, jobs, and integrations only when relevant
+  - Open questions only when unresolved decisions remain
+
+D03 may be DBML, Markdown, or both. It owns the data definitions; D04 references them and explains runtime access and enforcement. Rule notes in a model are not proof that a database or application enforces them. D04 does not require a separate future data-access document.
 
 ## Required inputs
 
-1. API style — REST, GraphQL, gRPC, or tRPC
-2. Authentication method — JWT, session-based, OAuth, API keys, or combination
-3. Authorization model — RBAC, ABAC, ownership-based, or custom
-4. Security or compliance requirements — GDPR, HIPAA, SOC 2, or similar
-5. Runtime and language — Node.js, Python, Go, Java, etc.
+1. Runtime and execution environment — language, framework, and hosting constraints from D02
+2. Interfaces — APIs, events, or other entry points and their consumers
+3. Access model — authentication and authorization needs, including public or unauthenticated access
+4. Data and rules — storage, relevant D03 definitions, and rules needing runtime enforcement
+5. Security and operational constraints — sensitive data, compliance, and known reliability or scale needs
+
+Load existing docs and code before asking questions. Use `gap-check` only for unresolved inputs that block decisions; record non-blocking uncertainty under Open Questions. Confirm material new choices rather than treating proposals as settled decisions.
 
 ## Common prompts
 
@@ -56,19 +59,24 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 <PromptBlock title="Prompt" text={`Run 104 for a Python FastAPI backend with OAuth2 and row-level security.`} />
 
+<PromptBlock title="Prompt" text={`Run 104 for our existing public serverless API. Use D02 and the D03 DBML model; preserve current patterns and don't add service or repository layers just to fill the document.`} />
+
 ## What usually comes next
 
-`105-frontend-architecture` — specify how the frontend integrates with the backend, or move to feature design if the frontend architecture is already documented.
+`105-frontend-architecture` if frontend integration decisions need clarification; otherwise move to feature design as needed.
 
 ## Practical guidance
 
-- Decisions should be specific enough that two engineers implementing the same endpoint would produce consistent code. Generic choices produce inconsistent implementations.
-- If the project has an existing backend, use `@explore` to discover actual patterns before writing D04. Document what exists, then note where it should change.
-- Reference D01 for business requirements and D02 for technology choices. D04 should not re-state those — it builds on them.
-- Cross-cutting concerns (CORS, rate limiting, request ID propagation) belong in D04, not scattered across feature designs.
+- Ground decisions in project guidance, D01-D03, and relevant code or configuration. Use `@explore` when useful, not as a mandatory extra step.
+- Respect confirmed choices and binding project rules. Use relevant installed skills for unresolved choices, surface conflicts, and label proposals separately from existing patterns.
+- Record enough ownership and convention detail for an engineer to extend the right code without prescribing every implementation.
+- Include versioning, pagination, pooling, caching, and background jobs only when applicable. Don't invent thresholds or infrastructure to fill the template.
+- Keep Security explicit even for public interfaces. Public access does not remove input, secret, or sensitive-data protections.
+- Remove template instructions, examples, placeholders, and empty optional sections from generated output.
 
 ## Common mistakes
 
-- Describing the API style without specifying the concrete conventions (naming, pagination, error format)
-- Leaving the authorization model at "we use RBAC" without explaining what roles exist and what they can do
-- Ignoring error handling — teams that skip this end up with inconsistent error responses across endpoints
+- Copying an example stack, auth scheme, or layered architecture into a project that doesn't need it
+- Repeating D03 schemas or D02 stack choices rather than documenting backend-specific usage
+- Naming a rule without identifying its enforcement owner, or claiming model notes enforce it
+- Omitting relevant validation, error handling, or access decisions while filling irrelevant sections

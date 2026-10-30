@@ -1,19 +1,20 @@
 ---
 name: 104-backend-architecture
 description: >
-  Use `104` to define the backend architecture, including API structure, service layering, data
+  Use `104` to define the backend architecture, including API conventions, code boundaries, data
   access, and security patterns. Trigger it for prompts like "104", "backend architecture", "API
   design", or "service layer" when backend patterns need to be specified before coding.
 ---
 
 # 104 - Backend Architecture
 
-Turn D01-D03 into concrete server-side patterns: API conventions, service layering, data access,
-security rules, and operational practices. D04 makes D02 concrete for backend implementation —
-specific enough that two engineers would implement similar code.
+Record the backend patterns needed to place the next change correctly: responsibilities, interface
+conventions, data access, security, and relevant operations. Keep this a concise, skimmable reference,
+not an endpoint catalog or implementation plan. Reference D01-D03 rather than repeating them.
 
-Reference D01-D03; never summarize them. If D02 chose the stack, write "per D02, the API uses
-Node.js with Express" rather than re-explaining why.
+D03 owns data definitions; D04 explains runtime access and where rules are enforced. Document the
+actual or confirmed backend shape, whether framework handlers, serverless functions, services, or
+another structure. No mandatory service/repository layers or default libraries.
 
 **Output path**: `.specflow/docs/D04-backend-architecture.md`
 
@@ -21,46 +22,54 @@ Node.js with Express" rather than re-explaining why.
 
 ## Required Inputs
 
-1. **API style** — REST, GraphQL, gRPC, tRPC, etc.
-2. **Authentication method**
-3. **Authorization model**
-4. **Security or compliance requirements**
-5. **Runtime and language**
+1. **Runtime and execution environment** — language, framework, and hosting constraints from D02
+2. **Interfaces** — API style, events, or other backend entry points and their consumers
+3. **Access model** — authentication and authorization needs, including public or unauthenticated access
+4. **Data and rules** — storage used, relevant D03 definitions, and rules requiring runtime enforcement
+5. **Security and operational constraints** — sensitive data, compliance, and known reliability or scale needs
 
-Optional: background jobs, rate limiting, latency targets, request volume, external integrations.
+Background jobs, rate limiting, caching, and external integrations inform the document only when relevant.
 
 ---
 
 ## Steps
 
-- [ ] **Step 1: Validate inputs.** Resolve the Required Inputs with `gap-check`. Do not define
-  conventions against unresolved stack choices.
+- [ ] **Step 1: Load project context.** If D04 exists, update it rather than create a competing copy.
+  Read project guidance, D01, D02, and the existing D03 model when present:
+  `D03-common-data-model.dbml`, `D03-common-data-model.md`, or both for mixed storage. Inspect relevant
+  code and configuration for entry points, ownership, auth, validation, errors, and data access,
+  using `@explore` when useful. Distinguish existing patterns from proposed changes.
 
-- [ ] **Step 2: Load context.** If D04 exists, treat it as a draft to update. Read D01, D02, and D03
-  when present. For an existing repo, use `@explore` to identify API routes, middleware, auth code,
-  service/repository patterns, validation, and error-handling utilities.
+- [ ] **Step 2: Resolve inputs.** Use `gap-check` for gaps that block architecture decisions, using
+  loaded context before asking. Don't ask again about confirmed choices. Capture non-blocking
+  uncertainties in Open Questions instead of inventing details.
 
-- [ ] **Step 3: Draft the document.** Use `./templates/T04 - Backend Architecture.md` and make
-  decisions concrete:
-  - **API layer** — conventions, versioning, payload format, error format, cross-cutting boundary
-    concerns
-  - **Service layer** — layering, ownership boundaries, dependency direction, validation, error
-    propagation
-  - **Data access** — ORM/query approach, transactions, connection handling
-  - **Security** — authentication, authorization, input security, sensitive-data handling,
-    compliance-driven rules
-  - **Operations** — logging, error tracking, background jobs if needed
+- [ ] **Step 3: Resolve backend patterns.** Respect confirmed user decisions and binding project rules.
+  Use relevant installed skills to guide unresolved choices, not override project constraints.
+  Surface conflicts; for an undecided material choice, recommend an option with its tradeoff and ask
+  for confirmation. Prefer established owners and conventions; don't introduce layers, dependencies,
+  or numeric limits merely to fill the template. Give key decisions a brief rationale and source.
 
-  If a decision is genuinely unresolved, state it as an explicit open question rather than omitting
-  the section or inventing an answer.
+- [ ] **Step 4: Draft the document.** Use `./templates/T04 - Backend Architecture.md` as an adaptable
+  structure, covering only applicable concerns:
+  - **Backend Structure** — responsibilities, code locations, dependency direction, and shared owners
+  - **API & Boundary Conventions** — interface conventions, validation, and error handling; versioning,
+    pagination, and other boundary policies only when needed
+  - **Data Access & Rule Enforcement** — runtime access, transaction ownership, and enforcement of
+    D03 rules outside the database; connection handling or caching only where relevant
+  - **Security** — trust boundaries, access enforcement, input protection, secrets, sensitive data,
+    and any compliance-driven safeguards; state explicitly when access is public
+  - **Operations** — relevant diagnostics, failure recovery, jobs, and integrations, without assuming
+    infrastructure or tools the project doesn't need
+  - **Open Questions** — unresolved decisions, their impact, and what would resolve them
 
-- [ ] **Step 4: Quality check.** Confirm:
-  - decisions trace to D01-D03 or explicit user input
-  - API conventions are concrete — "REST" alone is not enough; "REST: `GET /api/v1/users/:id`,
-    camelCase JSON, 400 + Problem+JSON envelope on validation failure" is
-  - a new engineer would know where to put new code in the service layer
-  - security decisions match stated compliance needs
-  - open questions are explicit and content duplicated from D01-D03 is removed
+- [ ] **Step 5: Quality check.** A new engineer can locate the right owner and follow the applicable
+  conventions. Decisions trace to confirmed requirements, project evidence, or relevant standards;
+  proposals remain labeled. Security and important rule enforcement have clear owners or explicit
+  open questions. A model's rule notes are not proof of database or application enforcement. Don't
+  duplicate schemas, stack decisions, or feature-specific contracts, and don't defer essential
+  architecture to an assumed future document.
 
-- [ ] **Step 5: Write and summarize.** Write the file, report key decisions and open questions, and
-  suggest `105-frontend-architecture` next.
+- [ ] **Step 6: Write and summarize.** Remove template instructions, examples, placeholders, and empty
+  optional sections. Write the file, report material decisions and their sources and open questions,
+  and suggest `105-frontend-architecture` or feature design only as needed.
