@@ -9,8 +9,11 @@ description: >
 
 # 107 - UX & Navigation
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Record how users accomplish their tasks: entry points, navigation, shared interaction behavior,
-recovery, and pages/routes. Keep a short experience model and page table, not a screen-by-screen
+recovery, and pages/routes. Keep a short experience model and labeled page entries, not a screen-by-screen
 script or a speculative sitemap for the whole future product.
 
 D06 owns visual presentation; D05 owns routing, state, and component implementation conventions.

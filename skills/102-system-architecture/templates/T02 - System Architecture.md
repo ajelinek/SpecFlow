@@ -1,5 +1,5 @@
 <!--
-Keep this system-level and skimmable. Use only applicable bullets and rows; no fixed component
+Keep this system-level and skimmable. Use only applicable bullets and sections; no fixed component
 count or mandatory technology/testing layers. Reference prior decisions rather than repeating them.
 Distinguish existing choices from proposals. Omit Open Questions when none remain.
 Remove this block and all placeholders before writing the generated document.
@@ -17,23 +17,20 @@ Remove this block and all placeholders before writing the generated document.
 
 ## 2. Major System Components
 
-| Component | Responsibility |
-|-----------|----------------|
-| [Named system part] | [What it owns and its boundary] |
+- **[Named system part]**: [What it owns and its boundary.]
 
 ## 3. Technology Stack
 
-| Concern | Choice | Rationale / Source |
-|---------|--------|--------------------|
-| [Applicable concern] | [Confirmed technology or clearly labeled proposal] | [Why it fits; supporting decision, project evidence, or standard] |
+- **[Applicable concern]**: [Confirmed technology or clearly labeled proposal.]
+  - **Rationale / source**: [Why it fits; supporting decision, project evidence, or standard.]
 
 ## 4. Testing Strategy
 
 **Approach**: [What needs confidence most and why this testing mix fits the project's risks.]
 
-| Check | Tool / Method | Scope |
-|-------|---------------|-------|
-| [Relevant check] | [Chosen tool or review method] | [Behavior, boundary, or risk it verifies] |
+- **[Relevant check]**:
+  - **Tool / method**: [Chosen tool or review method.]
+  - **Scope**: [Behavior, boundary, or risk it verifies.]
 
 ## 5. Open Questions
 

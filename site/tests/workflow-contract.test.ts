@@ -62,7 +62,7 @@ it('102 sizes architecture and testing to the project instead of requiring every
   const template = readWorkflow('skills/102-system-architecture/templates/T02 - System Architecture.md');
   const docs = readWorkflow('site/src/content/docs/project-foundation/102-system-architecture.mdx');
   expect(workflow).toMatch(/without quotas or mandatory layers/);
-  expect(template).toMatch(/only applicable bullets and rows/);
+  expect(template).toMatch(/only applicable bullets and sections/);
   expect(template).not.toMatch(/Every layer filled in|\*\*(?:Frontend|Backend|Database|Unit Testing|Integration Testing|End-to-End Testing)\*\*/);
   expect(docs).toMatch(/no fixed counts or required testing layers/);
   expect(docs).not.toMatch(/first from installed skills/);
@@ -73,7 +73,8 @@ it('102 uses a consistent document title and keeps risks, testing scope, and unr
   const template = readWorkflow('skills/102-system-architecture/templates/T02 - System Architecture.md');
   expect(template).toMatch(/^# D02 — System Architecture$/m);
   expect(template).toMatch(/Risks & safeguards/);
-  expect(template).toMatch(/Check \| Tool \/ Method \| Scope/);
+  expect(template).toMatch(/\*\*Tool \/ method\*\*/);
+  expect(template).toMatch(/\*\*Scope\*\*/);
   expect(template).toMatch(/Omit Open Questions when none remain/);
   expect(workflow).toMatch(/Remove template instructions, placeholders, and empty optional sections before writing/);
 });
@@ -175,7 +176,7 @@ it('104 uses a neutral, skimmable template without mandatory layers or auth defa
   const docs = readWorkflow('site/src/content/docs/project-foundation/104-backend-architecture.mdx');
   expect(template.match(/^# .+$/gm)).toEqual(['# D04 — Backend Architecture']);
   expect(template).toMatch(/^<!--/);
-  expect(template).toMatch(/only applicable bullets and rows/);
+  expect(template).toMatch(/only applicable bullets and sections/);
   expect(template).toMatch(/Omit Operations and Open Questions when they don't apply/);
   expect(template).toContain('## 4. Security');
   expect(template).not.toMatch(/&lt;!--|HS256|\/api\/v1\/auth|node-postgres|Do not add, remove, or rename/);
@@ -225,7 +226,8 @@ it('105 keeps upstream decisions and visual or navigation design in their owning
   expect(workflow).toMatch(/D02 owns stack and system-level testing choices/);
   expect(workflow).toMatch(/D06 owns visual direction.*D07 owns product navigation and page inventory/);
   expect(template).toMatch(/Rendering & routing/);
-  expect(template).toMatch(/Check \| Tool \/ Method \| Scope/);
+  expect(template).toMatch(/\*\*Tool \/ method\*\*/);
+  expect(template).toMatch(/\*\*Scope\*\*/);
   expect(template).toMatch(/Omit Open Questions when none remain/);
 });
 
@@ -291,7 +293,7 @@ it('106 and 107 use concise neutral templates with matching document and section
     const workflow = readWorkflow(`skills/${entry.skill}/SKILL.md`);
     const template = readWorkflow(`skills/${entry.skill}/templates/${entry.file}`);
     expect(template.match(/^# .+$/gm)).toEqual([entry.title]);
-    expect(template).toMatch(/only applicable bullets, rows, and sections/);
+    expect(template).toMatch(/only applicable bullets and sections/);
     expect(template).toMatch(/Omit Alternatives Considered and Open Questions when/);
     expect(template).not.toMatch(/#F8F9FA|375px|1440px|300ms|5 s|\/projects|\/login|Trustworthy and efficient/);
     for (const heading of template.matchAll(/^## \d+\. (.+)$/gm)) {
@@ -309,7 +311,10 @@ it('106 owns visual presentation while 107 owns navigation and interaction behav
   expect(visual).toMatch(/D05.*implementation/);
   expect(experience).toMatch(/D05.*implementation/);
   expect(experience).toMatch(/agreed scope.*not.*future/);
-  expect(template).toMatch(/Page \/ View \| Route \| Purpose \/ Primary Action \| Access/);
+  expect(template).toContain('### [Page / View]');
+  expect(template).toContain('**Route**');
+  expect(template).toContain('**Purpose / primary action**');
+  expect(template).toContain('**Access**');
   expect(experience).toMatch(/not a security enforcement mechanism/);
 });
 
@@ -421,7 +426,7 @@ it('301 distinguishes whole-feature completion from partial-scope completion', (
   const completion = content.slice(content.indexOf('**Step 19:'), content.indexOf('**Step 20:')).replace(/\s+/g, ' ');
   expect(completion).toMatch(/only when.*explicit.*whole feature.*all acceptance gates pass/);
   expect(completion).toMatch(/partial scope.*`implementing`.*scope complete/i);
-  expect(completion).toMatch(/Under `901`.*caller owns.*Step 20/);
+  expect(completion).toMatch(/Under `901`.*caller owns.*Step 22/);
 });
 
 it('reviewer preserves the strict 900 verdict contract while supporting 301 review roles', () => {
@@ -456,9 +461,60 @@ it('901 checks pending and terminal ledger state before treating an overview as 
   expect(identity).toMatch(/consumed repair rounds.*not reset/i);
 });
 
+function featureLoopStep(content: string, step: number): string {
+  return content.slice(content.indexOf(`**Step ${step}:`), content.indexOf(`**Step ${step + 1}:`)).replace(/\s+/g, ' ');
+}
+
 it('901 owns whole-feature completion only after its final gate', () => {
   const content = readWorkflow('skills/901-feature-loop/SKILL.md');
-  const completion = content.slice(content.indexOf('**Step 20:'), content.indexOf('**Step 21:')).replace(/\s+/g, ' ');
-  expect(completion).toMatch(/Only after Step 19.*whole feature.*`status: done`/);
+  expect(featureLoopStep(content, 22)).toMatch(/Only after Steps 20 and 21.*whole feature.*`status: done`/);
   expect(content.replace(/\s+/g, ' ')).toMatch(/901.*owns whole-feature completion.*not.*per-scenario `301`/);
+});
+
+it('901 rebuilds round-1 scenarios that round 2 materially changes', () => {
+  const content = readWorkflow('skills/901-feature-loop/SKILL.md');
+  const round2 = featureLoopStep(content, 16);
+  expect(round2).toMatch(/`@status_done` scenario.*changed.*back to `@status_pending`.*keeping its `TS###`/);
+  expect(round2).toMatch(/Wording-only edits keep their status/);
+});
+
+it('901 fails closed at required gates instead of skipping, waiving, or flagging', () => {
+  const content = readWorkflow('skills/901-feature-loop/SKILL.md').replace(/\s+/g, ' ');
+  expect(content).not.toMatch(/skip-and-flag/);
+  expect(content).toMatch(/never pass by consult, skip, or waiver/);
+  expect(content).toMatch(/ends the run at that gate.*keep every commit.*leave the branch unmerged/);
+  expect(content).toMatch(/fewer failing tests and layers than the last.*doesn't reduce them is non-convergence/);
+  expect(content).toMatch(/passes only when all four layers pass in the same round/);
+});
+
+it('901 carries unconverged feedback passes into a blocking whole-feature review before final validation', () => {
+  const content = readWorkflow('skills/901-feature-loop/SKILL.md');
+  const flat = content.replace(/\s+/g, ' ');
+  const review = flat.slice(flat.indexOf('### Feature Review'), flat.indexOf('## Implementation Log'));
+  expect(flat).toMatch(/Cap exhaustion doesn't end the run.*`converged: false`.*outstanding items.*Feature Review/);
+  expect(review).toMatch(/`@reviewer`.*`@coder`.*cap \*\*2\*\*/);
+  expect(review).toMatch(/acceptance criterion.*every scenario.*covered by a test.*security.*regression.*cross-scenario.*maintainability/);
+  expect(review).toMatch(/Advisories.*never block/);
+  expect(review).toMatch(/tests-first/);
+  expect(review).toMatch(/Cap exhaustion with blocking findings is terminal/);
+  expect(content.indexOf('**Step 18:')).toBeLessThan(content.indexOf('**Step 20: Feature Review'));
+  expect(content.indexOf('**Step 20: Feature Review')).toBeLessThan(content.indexOf('**Step 21: Final Green Check'));
+});
+
+it('901 syncs the base into the feature branch so the merge delivers the validated tree', () => {
+  const content = readWorkflow('skills/901-feature-loop/SKILL.md');
+  expect(featureLoopStep(content, 19)).toMatch(/Merge the current base branch into the feature branch/);
+  expect(featureLoopStep(content, 19)).toMatch(/both branches' intended behavior survives/);
+  expect(featureLoopStep(content, 22)).toMatch(/base branch HEAD still equals.*Step 19.*return to Step 19/);
+  expect(featureLoopStep(content, 23)).toMatch(/tree is exactly the one Step 21 validated/);
+});
+
+it('901 ledger links commits without self-reference and records per-scenario resume state', () => {
+  const content = readWorkflow('skills/901-feature-loop/SKILL.md').replace(/\s+/g, ' ');
+  const log = content.slice(content.indexOf('## Implementation Log'), content.indexOf('## Steps'));
+  expect(log).not.toMatch(/`commit` \(SHA/);
+  expect(log).toMatch(/`step_complete`.*`prev_commit`/);
+  expect(log).toMatch(/`scenario_complete`.*`module`.*`scenario`.*`repair_rounds`.*`result`/);
+  expect(log).toMatch(/`gate`.*`check`.*`layers`.*`repair_rounds`.*`result`/);
+  expect(log).toMatch(/first scenario.*without a `scenario_complete` line/);
 });

@@ -10,6 +10,9 @@ argument-hint: "[feature-name] [coverage-level]"
 
 # 202 - Test Scenario Design
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Produce a Gherkin file of numbered scenarios grouped into `TSM#` modules and tagged for path and
 status tracking. `overview.md` defines feature scope; `specs.feature` defines behavior coverage —
 don't duplicate the overview here. The file lives in the feature folder defined by

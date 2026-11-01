@@ -11,6 +11,9 @@ context: fork
 
 # 900 - Feedback Loop
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 **Review** checks completed work against explicit criteria; **Apply-Fix** fixes exactly what Review
 flagged; repeat until Review reports clean or the iteration cap is hit. The caller already did the
 work — this skill only judges and patches it.

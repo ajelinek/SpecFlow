@@ -10,6 +10,9 @@ context: fork
 
 # 401 - Cleanup
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 One thorough, in-scope cleanup pass over an existing changed set — either touched source files or
 touched test files, never both. Choose exactly one target type per run: `source-cleanup-only` or
 `test-cleanup-only`; the other side is forbidden scope. Not feature work, bug-fix delivery, or

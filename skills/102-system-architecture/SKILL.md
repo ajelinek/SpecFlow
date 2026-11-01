@@ -8,6 +8,9 @@ description: >
 
 # 102 - System Architecture
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Record the system shape, major components, technology decisions, and testing approach in a concise,
 skimmable reference. Include only what the project needs; backend, frontend, and data detail belong
 in D03-D05.

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<!--
+Starting structure, not a fixed visual design. Adapt styling to the project; retain the route/parameter
+and coverage information. Follow ../references/page-index.md in the skill bundle.
+Layout: header and reference links, an at-a-glance table (one row per route/view), then one detail card per
+route/view with a parameter table. Tables and lists are welcome; keep them compact and scannable.
+Repeat the table row and the route card for every known page/route, including not-yet-designed pages.
+Several entries can link to distinct presets in one mockup. Add links only when their targets exist and
+select the right view. Use explicit None versus Unknown for parameters. Distinguish application routes from
+preview URLs. Status is always written as text (Designed / Partial / Not yet designed / Needs reconciliation);
+colour only reinforces it. Keep unchanged entries, working links, and the index path.
+Remove instructions and placeholders on output.
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page designs · [Solution name]</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: light-dark(#f6f7f9, #14161a);
+      --surface: light-dark(#ffffff, #1c1f25);
+      --subtle: light-dark(#eef0f4, #262a32);
+      --text: light-dark(#1a1d23, #e9ebef);
+      --muted: light-dark(#59616d, #a2aab6);
+      --line: light-dark(#d9dde4, #343944);
+      --accent: light-dark(#1b55b8, #8db4ff);
+      --ok: light-dark(#17663a, #7fd9a3);
+      --ok-bg: light-dark(#e3f5ea, #17301f);
+      --warn: light-dark(#7a4b00, #f2c36b);
+      --warn-bg: light-dark(#fff1d6, #35290f);
+      --todo: light-dark(#4a525e, #b9c0cb);
+      --todo-bg: light-dark(#eceef2, #2a2e36);
+      --alert: light-dark(#8f1d2c, #ff9aa6);
+      --alert-bg: light-dark(#fde6e9, #3a1920);
+      --radius: .625rem;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { margin: 0; padding: clamp(1rem, 4vw, 2.5rem); background: var(--bg); color: var(--text);
+      font: 1rem/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; overflow-wrap: anywhere; }
+    main { max-width: 72rem; margin: auto; display: grid; gap: 2rem; }
+    h1, h2, h3 { line-height: 1.2; margin: 0; }
+    h1 { font-size: clamp(1.6rem, 4vw, 2.25rem); }
+    h2 { font-size: 1.3rem; }
+    h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-block: 1.25rem .5rem; }
+    p { margin: 0; }
+    a { color: var(--accent); text-underline-offset: .15em; }
+    code { font: .875em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--subtle);
+      padding: .1em .4em; border-radius: .3rem; overflow-wrap: anywhere; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: .2rem; }
+
+    /* Header */
+    .page-head { display: grid; gap: .75rem; }
+    .lede { color: var(--muted); max-width: 60ch; }
+    .meta { font-size: .875rem; color: var(--muted); }
+    .refs { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; margin: .25rem 0 0; list-style: none; }
+    .refs a { display: inline-block; padding: .3rem .8rem; border: 1px solid var(--line); border-radius: 999px;
+      background: var(--surface); text-decoration: none; font-size: .9rem; }
+    .refs a:hover { border-color: var(--accent); }
+
+    /* Summary counts */
+    .counts { display: flex; flex-wrap: wrap; gap: .75rem; padding: 0; margin: 0; list-style: none; }
+    .counts { margin-block: .75rem 1rem; }
+    .counts li { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: .6rem 1rem; min-width: 8rem; }
+    .counts strong { display: block; font-size: 1.5rem; line-height: 1.1; }
+    .counts span { font-size: .8rem; color: var(--muted); }
+
+    /* Status labels: text is the signal, colour reinforces */
+    .status { display: inline-block; padding: .1rem .55rem; border-radius: 999px; border: 1px solid currentColor;
+      font-size: .78rem; font-weight: 600; white-space: nowrap; }
+    .status.designed { color: var(--ok); background: var(--ok-bg); }
+    .status.partial { color: var(--warn); background: var(--warn-bg); }
+    .status.todo { color: var(--todo); background: var(--todo-bg); }
+    .status.reconcile { color: var(--alert); background: var(--alert-bg); }
+    .tag { display: inline-block; font-size: .75rem; color: var(--muted); border: 1px solid var(--line);
+      border-radius: .3rem; padding: 0 .4rem; white-space: nowrap; }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+    table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+    caption { text-align: start; padding: .75rem 1rem; font-weight: 600; }
+    th, td { text-align: start; vertical-align: top; padding: .6rem 1rem; border-block-start: 1px solid var(--line); }
+    thead th { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+      background: var(--subtle); white-space: nowrap; }
+    tbody tr:hover { background: var(--subtle); }
+    .table-wrap.compact { background: transparent; }
+    .table-wrap.compact th, .table-wrap.compact td { padding: .45rem .75rem; }
+
+    /* Route cards */
+    .routes { display: grid; gap: 1.25rem; }
+    .route { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: clamp(1rem, 3vw, 1.5rem); scroll-margin-top: 1rem; }
+    .route-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1rem; justify-content: space-between; }
+    .eyebrow { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .purpose { color: var(--muted); margin-block: .35rem 1rem; }
+    .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; margin: 0; }
+    .facts div { background: var(--subtle); border-radius: .5rem; padding: .65rem .85rem; }
+    .facts dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+    .facts dd { margin: .2rem 0 0; }
+    .facts ul { margin: 0; padding-inline-start: 1.1rem; }
+    details { margin-block-start: 1rem; border: 1px solid var(--line); border-radius: .5rem; }
+    summary { cursor: pointer; padding: .6rem .85rem; font-weight: 600; }
+    details[open] > summary { border-block-end: 1px solid var(--line); }
+    .details-body { padding: 0 .85rem 1rem; }
+    .details-body ul { margin: 0; padding-inline-start: 1.1rem; }
+    .none { color: var(--muted); font-style: italic; }
+    .back { display: inline-block; margin-block-start: 1rem; font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <main id="top">
+    <header class="page-head">
+      <h1>[Solution name] — Page designs</h1>
+      <p class="lede">All known pages and application routes, including designs still to do. Preview links open design artifacts, not the running application.</p>
+      <p class="meta">Last reconciled: [Date]. [Inventory sources and unresolved coverage, if any.]</p>
+      <nav aria-label="Design references">
+        <ul class="refs">
+          <!-- Include relative links to governing documents that actually exist, e.g. <li><a href="../D07-ui-experience.md">UI experience</a></li>. -->
+          <li><a href="[relative path]">[Governing document]</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section aria-labelledby="glance-h">
+      <h2 id="glance-h">At a glance</h2>
+      <ul class="counts" aria-label="Design coverage">
+        <!-- One item per status; counts must match the entries below. -->
+        <li><strong>[0]</strong><span>Designed</span></li>
+        <li><strong>[0]</strong><span>Partial</span></li>
+        <li><strong>[0]</strong><span>Not yet designed</span></li>
+        <li><strong>[0]</strong><span>Needs reconciliation</span></li>
+      </ul>
+      <div class="table-wrap" role="region" aria-labelledby="glance-caption" tabindex="0">
+        <table>
+          <caption id="glance-caption">Every page and view</caption>
+          <thead>
+            <tr>
+              <th scope="col">Page / view</th>
+              <th scope="col">Application route</th>
+              <th scope="col">Area</th>
+              <th scope="col">Access</th>
+              <th scope="col">Design</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Repeat one row per route/view, in the same order as the cards below. -->
+            <tr>
+              <th scope="row"><a href="#route-name">[Page / view name]</a></th>
+              <td><code>[Route pattern]</code></td>
+              <td>[Area]</td>
+              <td>[Roles / conditions, or Unknown]</td>
+              <td><span class="status todo">Not yet designed</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="routes" aria-label="Route details">
+
+      <article class="route" aria-labelledby="route-name">
+        <div class="route-head">
+          <div>
+            <p class="eyebrow">[Area]</p>
+            <h2 id="route-name">[Page / view name]</h2>
+          </div>
+          <span class="status todo">Not yet designed</span>
+          <!-- Status classes: designed, partial, todo, reconcile. Text must match the class. -->
+        </div>
+        <p class="purpose">[Purpose]</p>
+        <dl class="facts">
+          <div>
+            <dt>Application URL / Route</dt>
+            <dd><code>[Route pattern]</code> <span class="tag">[Current / approved planned / proposed]</span></dd>
+          </div>
+          <div>
+            <dt>Access</dt>
+            <dd>[Roles / conditions, or Unknown]</dd>
+          </div>
+          <div>
+            <dt>Design / Links</dt>
+            <dd>Not yet designed<!-- Replace with coverage gaps and a list of verified links: mockup at this exact view/state preset, overview, state shortcuts. --></dd>
+          </div>
+        </dl>
+        <details>
+          <summary>URL parameters and behavior</summary>
+          <div class="details-body">
+            <h3>Path parameters</h3>
+            <div class="table-wrap compact" role="region" aria-label="Path parameters" tabindex="0">
+              <table>
+                <thead>
+                  <tr><th scope="col">Parameter</th><th scope="col">Meaning / type</th><th scope="col">Required</th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row"><code>[:param]</code></th><td>[Meaning, type, known values]</td><td>[Required / Optional]</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- With no table: <p class="none">None</p> or <p class="none">Unknown</p>. Never infer None from missing docs. -->
+
+            <h3>Search parameters</h3>
+            <div class="table-wrap compact" role="region" aria-label="Search parameters" tabindex="0">
+              <table>
+                <thead>
+                  <tr><th scope="col">Parameter</th><th scope="col">Meaning / type</th><th scope="col">Required</th><th scope="col">Default / omission behavior</th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row"><code>[param]</code></th><td>[Meaning, type, known values]</td><td>[Required / Optional]</td><td>[Default; invalid-value behavior]</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>URL-addressable variants</h3>
+            <!-- Known drawer/overlay variants with matching preview links; omit this heading and list if none. -->
+            <ul><li>[Variant: parameter contract · <a href="[preview link]">preview</a>]</li></ul>
+          </div>
+        </details>
+        <a class="back" href="#top">Back to top</a>
+      </article>
+      <!-- Repeat with a unique heading id for every distinct route/view, even when previews share a file. -->
+    </section>
+  </main>
+</body>
+</html>

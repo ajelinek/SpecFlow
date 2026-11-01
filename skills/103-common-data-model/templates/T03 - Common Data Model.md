@@ -19,13 +19,19 @@ Remove this block and all authoring prompts before writing the output.
 **Storage context**: [Only when non-obvious or constraining.]
 **Lifecycle**: [States and valid transitions, if relevant.]
 
-| Attribute | Logical Type | Required | Sensitive | Purpose / Handling |
-|---|---|---|---|---|
-| [Name] | [Type or supporting concept] | [Yes / No] | [Yes / No] | [Meaning and any handling requirements] |
+**Attributes**
 
-| Related Entity | Cardinality | Relationship |
-|---|---|---|
-| [Name or link to DBML definition] | [Cardinality] | [Meaning, ownership, or embedding] |
+- **[Attribute name]**:
+  - **Logical type**: [Type or supporting concept.]
+  - **Required**: [Yes / No.]
+  - **Sensitive**: [Yes / No; any handling requirements.]
+  - **Purpose**: [What the attribute means.]
+
+**Relationships**
+
+- **[Related entity or link to DBML definition]**:
+  - **Cardinality**: [How many entities can participate on each side.]
+  - **Relationship**: [Meaning, ownership, or embedding.]
 
 ## Entity-Relationship Diagram
 

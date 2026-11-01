@@ -84,6 +84,24 @@ Preview available skills before installing:
 npx skills add ajelinek/SpecFlow --list
 ```
 
+### Configure your coding tools
+
+After installing the skills, run `specflow-setup` to configure SpecFlow for **Claude Code,
+GitHub Copilot CLI, OpenCode, or Codex CLI** (one or several).
+
+The setup skill asks for project-local or user-wide scope, checks current official documentation
+against installed tool versions, and configures the full skill catalog, five worker agents, and
+confirmed role-specific model routing. It plans internally and reports results, preferring external
+configuration and adapting installed files only when needed. Existing customizations are preserved;
+conflicts and consequential changes require specific approval. It also asks whether
+to run bounded live verification tests, which may consume model tokens.
+
+Example: `Run specflow-setup for OpenCode and Codex CLI.`
+
+Setup configures SpecFlow files; it does not install coding applications or manage credentials.
+The manual agent installer below remains an alternative for copying Claude-format agents; it does
+not perform this multi-tool configuration.
+
 ## Custom Agents
 
 SpecFlow includes supporting worker agents in `agents/`:
@@ -181,7 +199,7 @@ Use these when you are starting a new project, entering a new domain, or need st
 - `105-frontend-architecture`: define frontend structure, state, and component patterns
 - `106-ui-design` (Visual Design): record color, typography, spacing, and component appearance
 - `107-ui-experience` (UX & Navigation): record user paths, interaction/recovery behavior, and pages/routes
-- `108-ui-page-design`: design a specific page in detail
+- `108-ui-page-design`: design a page or related views with stateful HTML previews and a maintained page/route index
 - `110-feature-overview`: define and prioritize the feature list
 
 These are helpful, but not required for every project.
@@ -352,8 +370,9 @@ These extend the core workflow into larger runs. Both are user-invoked.
 - `900-feedback-loop`: run a bounded review/apply-fix convergence cycle around work that already
   happened, using isolated subagent contexts for each role
 - `901-feature-loop`: run one feature end-to-end through `201` -> `202` -> per-scenario `301`
-  build-out -> cleanup -> an optional expanded-coverage round -> merge, on its own branch, with
-  `900-feedback-loop` reviewing every design artifact and cleanup pass along the way
+  build-out -> cleanup -> an optional expanded-coverage round -> base sync -> whole-feature review ->
+  validated merge, on its own branch, with `900-feedback-loop` reviewing every design artifact and
+  cleanup pass along the way
 
 `901-feature-loop` is heavy by design — on the order of a hundred or more subagent invocations for a
 feature with several scenarios across two coverage rounds. Use it when a feature genuinely

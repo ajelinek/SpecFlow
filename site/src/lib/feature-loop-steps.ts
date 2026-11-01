@@ -1,7 +1,7 @@
 /**
  * feature-loop-steps.ts
  *
- * Pure data describing 901-feature-loop's 22-step run, grouped into phases,
+ * Pure data describing 901-feature-loop's 24-step run, grouped into phases,
  * for the FeatureLoopFlow.astro visualization. No Astro/DOM dependencies.
  *
  * Kept in lock-step with skills/901-feature-loop/SKILL.md — if that file's
@@ -72,9 +72,23 @@ export const implementationLogEvents: LogEventType[] = [
   {
     type: 'step_complete',
     writtenAt: 'after every top-level step',
-    fields: 'step, phase, commit, summary',
+    fields: 'step, phase, prev_commit, summary',
     sample:
-      '{"type":"step_complete","ts":"2026-07-19T14:11:47Z","step":6,"phase":"Phase 1","commit":"a1b2c3d","summary":"201 high-level design committed"}',
+      '{"type":"step_complete","ts":"2026-07-19T14:11:47Z","step":6,"phase":"Phase 1","prev_commit":"a1b2c3d","summary":"201 high-level design written"}',
+  },
+  {
+    type: 'scenario_complete',
+    writtenAt: 'Steps 10 and 16, after each scenario’s 301 pass',
+    fields: 'step, module, scenario, repair_rounds, result',
+    sample:
+      '{"type":"scenario_complete","ts":"2026-07-19T14:48:30Z","step":10,"module":"TSM001","scenario":"TS002","repair_rounds":1,"result":"done"}',
+  },
+  {
+    type: 'gate',
+    writtenAt: 'every Green Check and Module Check',
+    fields: 'step, check, layers, repair_rounds, result',
+    sample:
+      '{"type":"gate","ts":"2026-07-19T14:55:12Z","step":10,"check":"module","layers":["lint","test"],"repair_rounds":0,"result":"passed"}',
   },
   {
     type: 'decision_consult',
@@ -85,10 +99,10 @@ export const implementationLogEvents: LogEventType[] = [
   },
   {
     type: 'feedback_pass',
-    writtenAt: 'every Feedback Pass',
-    fields: 'step, flavor, iterations, converged',
+    writtenAt: 'every Feedback Pass and the Feature Review',
+    fields: 'step, flavor, iterations, converged, outstanding',
     sample:
-      '{"type":"feedback_pass","ts":"2026-07-19T15:22:39Z","step":11,"flavor":"aggregate-cleanup","iterations":1,"converged":true}',
+      '{"type":"feedback_pass","ts":"2026-07-19T15:22:39Z","step":11,"flavor":"aggregate-cleanup","iterations":2,"converged":false,"outstanding":["duplicate date formatting in two services"]}',
   },
   {
     type: 'resume',
@@ -99,16 +113,16 @@ export const implementationLogEvents: LogEventType[] = [
   },
   {
     type: 'terminal',
-    writtenAt: 'Step 19 non-convergence',
+    writtenAt: 'a failed gate or 301 design blocker after log initialization',
     fields: 'step, reason',
     sample:
-      '{"type":"terminal","ts":"2026-07-19T17:58:24Z","step":19,"reason":"lint non-convergence after widened retry"}',
+      '{"type":"terminal","ts":"2026-07-19T17:58:24Z","step":21,"reason":"lint failures stopped decreasing after 3 repair rounds"}',
   },
   {
     type: 'run_complete',
-    writtenAt: 'Step 22, once',
-    fields: 'step: 22',
-    sample: '{"type":"run_complete","ts":"2026-07-19T18:04:56Z","step":22}',
+    writtenAt: 'Step 24, once',
+    fields: 'step: 24, prev_commit',
+    sample: '{"type":"run_complete","ts":"2026-07-19T18:04:56Z","step":24,"prev_commit":"f9e8d7c"}',
   },
 ];
 
@@ -117,7 +131,7 @@ const loopStep10: LoopStepDetail = {
   innerLabel: 'Inner loop — repeat for every @TS### scenario inside that module',
   innerActions: [
     'Run 301-spec-implementation scoped to exactly that scenario',
-    'Replace its status tag with @status_done in specs.feature',
+    'Replace its status tag with @status_done and log scenario_complete',
   ],
   afterActions: [
     'Run one Module Check across the whole module',
@@ -126,11 +140,11 @@ const loopStep10: LoopStepDetail = {
 };
 
 const loopStep16: LoopStepDetail = {
-  outerLabel: 'Outer loop — repeat for every TSM# module Step 14 touched',
-  innerLabel: 'Inner loop — repeat for every new @status_pending scenario in that module',
+  outerLabel: 'Outer loop — repeat for every TSM# module with a @status_pending scenario',
+  innerLabel: 'Inner loop — repeat for every new or materially changed @status_pending scenario',
   innerActions: [
     'Run 301-spec-implementation scoped to exactly that scenario',
-    'Replace its status tag with @status_done in specs.feature',
+    'Replace its status tag with @status_done and log scenario_complete',
   ],
   afterActions: [
     'Run one Module Check across the whole module (including its already-done scenarios)',
@@ -151,7 +165,7 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         skills: [],
         agents: [{ id: '@decider', when: 'if the tree is dirty' }],
         description:
-          '`git status --porcelain` must be empty. If not, the Decision Consult picks between a pre-run commit or `git stash push -u`; default is stash.',
+          '`git status --porcelain` must be empty. If not, the Decision Consult picks between a pre-run commit or `git stash push -u`; default is stash. On this feature’s own branch with an incomplete ledger, uncommitted changes are resumable run state and are kept.',
       },
       {
         num: 2,
@@ -161,10 +175,10 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         agents: [
           { id: '@validator' },
           { id: '@coder', when: 'lint/build repair' },
-          { id: '@decider', when: 'standard fallback' },
+          { id: '@decider', when: 'if 402 returns an intent question' },
         ],
         description:
-          'A Green Check before any design or code work starts. A baseline that still can’t go green after consult-driven retries ends the run here with a terminal report, before a feature branch is created.',
+          'A Green Check before any design or code work starts. Repairs continue while each round reduces failures; a baseline that stops improving ends the run here with a terminal report, before a feature branch is created.',
       },
       {
         num: 3,
@@ -288,9 +302,9 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         title: 'Run a Green Check to close out Round 1',
         kind: 'gate',
         skills: [{ id: '402-test-correction', when: 'if a test fails' }],
-        agents: [{ id: '@validator' }, { id: '@coder', when: 'lint/build repair' }, { id: '@decider', when: 'standard fallback' }],
+        agents: [{ id: '@validator' }, { id: '@coder', when: 'lint/build repair' }, { id: '@decider', when: 'if 402 returns an intent question' }],
         description:
-          'A failure here is a mid-run regression from Round 1’s own work, not a baseline issue.',
+          'A failure here is a mid-run regression from Round 1’s own work. If repairs stop reducing failures, the run ends here, unmerged, rather than building Round 2 on a red base.',
         commit: 'green check: round-1 fixes',
       },
     ],
@@ -331,7 +345,7 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
           { id: '@decider', when: 'per-module fallback' },
         ],
         description:
-          'Same shape as Step 10, scoped only to the TSM# modules Step 14 touched. A module’s round-1 @status_done scenarios aren’t rebuilt, but they’re still covered by that module’s Module Check.',
+          'Same shape as Step 10. First, any round-1 @status_done scenario whose steps, examples, or outcomes Round 2 changed goes back to @status_pending, keeping its TS ID. Unchanged @status_done scenarios aren’t rebuilt, but they’re still covered by their module’s Module Check.',
         commit: 'test cycle: <TSM###> implement + status',
         loop: loopStep16,
       },
@@ -363,43 +377,61 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
     steps: [
       {
         num: 19,
-        title: 'Run the final Green Check',
-        kind: 'gate',
-        skills: [{ id: '402-test-correction', when: 'if a test fails' }],
-        agents: [{ id: '@validator' }, { id: '@coder', when: 'lint/build repair' }, { id: '@decider', when: 'standard fallback' }],
+        title: 'Sync the base branch into the feature branch',
+        kind: 'consult',
+        skills: [],
+        agents: [{ id: '@decider', when: 'if the sync conflicts' }],
         description:
-          'Never merge on red. If consult-driven retries don’t converge, the run ends with a terminal report instead of merging. A terminal 301 design-review result also stops the run without a merge; no consult can waive that gate.',
+          'Merges the current base into the feature branch so the review and final Green Check see the combined code. Conflicts are resolved here, keeping both branches’ intended behavior, never on the base branch.',
+        commit: 'sync: merge <base> into feature/<fid>-<feature-slug>',
       },
       {
         num: 20,
+        title: 'Feature Review — the whole-feature completion gate',
+        kind: 'normal',
+        skills: [{ id: '900-feedback-loop' }],
+        agents: [{ id: '@reviewer' }, { id: '@coder' }],
+        description:
+          'Reviews the full feature diff against every acceptance criterion and scenario, plus any unconverged Feedback Pass items. Blocks on unmet criteria, correctness or security risks, missing coverage (fixed tests-first), and material maintainability problems; advisories never block. Iteration cap: 2, then the run ends unmerged.',
+        commit: '900: feature review fixes',
+      },
+      {
+        num: 21,
+        title: 'Run the final Green Check',
+        kind: 'gate',
+        skills: [{ id: '402-test-correction', when: 'if a test fails' }],
+        agents: [{ id: '@validator' }, { id: '@coder', when: 'lint/build repair' }, { id: '@decider', when: 'if 402 returns an intent question' }],
+        description:
+          'Never merge on red. If repairs stop reducing failures, the run ends with a terminal report instead of merging. A terminal 301 design-review result also stops the run without a merge; no consult can waive either gate.',
+      },
+      {
+        num: 22,
         title: 'Update feature status',
         kind: 'normal',
         skills: [],
         agents: [],
         description:
-          'Set `status: done` in `overview.md`. Update `D10-feature-overview.md` to 🟢 Done if that registry tracks this F-ID.',
+          'Confirms the base hasn’t moved since Step 19 (if it has, Steps 19–21 rerun). Then sets `status: done` in `overview.md`, and 🟢 Done in `D10-feature-overview.md` if that registry tracks this F-ID.',
+        commit: '901: mark <feature-slug> done',
       },
       {
-        num: 21,
+        num: 23,
         title: 'Merge back',
-        kind: 'gate',
-        skills: [{ id: '402-test-correction', when: 'if a test fails during revalidation' }],
-        agents: [
-          { id: '@decider', when: 'merge conflict resolution' },
-          { id: '@validator', when: 'post-merge revalidation' },
-          { id: '@coder', when: 'lint/build repair' },
-        ],
+        kind: 'normal',
+        skills: [],
+        agents: [],
         description:
-          '`git merge --no-ff` into the recorded base branch. A conflict routes to the Decision Consult (default: resolve favoring the feature branch), then the full Green Check reruns before this step counts as complete.',
+          '`git merge --no-ff` into the recorded base branch. The base is already synced in, so the merge can’t conflict and delivers exactly the tree Step 21 validated.',
       },
       {
-        num: 22,
+        num: 24,
         title: 'Summarize',
         kind: 'normal',
         skills: [],
         agents: [],
         description:
-          'Feature identity, branch name, round-2 coverage used, the full commit ledger, modules/scenarios per round, Feedback Pass iteration counts, final validation result, the merge commit, and every Decision Consult invoked with its resolution.',
+          'Feature identity, branch name, round-2 coverage used, the full commit ledger, modules/scenarios per round, gate results, Feedback Pass counts and how the Feature Review resolved outstanding items, review advisories, the merge commit, and every Decision Consult invoked with its resolution.',
+        commit: '901: run complete for <feature-slug>',
       },
     ],
   },

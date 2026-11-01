@@ -10,6 +10,9 @@ description: >
 
 # Engineering Principles
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 These principles govern how much code a change adds and where it goes. Project rules, architecture
 docs (D01-D08), and stack-specific standards skills govern how that code is written. When the two
 conflict, follow the project rule and flag the conflict.

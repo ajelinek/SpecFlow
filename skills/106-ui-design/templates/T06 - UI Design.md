@@ -1,5 +1,5 @@
 <!--
-Use only applicable bullets, rows, and sections. Keep decisions short and project-specific.
+Use only applicable bullets and sections. Keep decisions short and project-specific.
 Ground the core focus in relevant findings from .specflow/context/domain-knowledge.md when available;
 reference the findings rather than repeat the research. Don't turn uncertain recommendations into requirements.
 Reference brand/design-system sources and the accessibility standard rather than repeat them.

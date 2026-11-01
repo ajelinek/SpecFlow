@@ -9,17 +9,18 @@ description: >
 
 # 103 - Common Data Model
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Model the project's data and the rules that govern it. Use DBML for relational schema design;
 retain domain-level Markdown modeling for non-relational data. This skill authors the model, not
 migrations, database enforcement code, ORM models, or API contracts.
 
 ## Outputs
 
-| Data model | Default output |
-|---|---|
-| Relational | `.specflow/docs/D03-common-data-model.dbml` — one file for the whole project |
-| Non-relational | `.specflow/docs/D03-common-data-model.md` |
-| Mixed | Both files, each defining only its own data; cross-reference shared concepts |
+- **Relational**: `.specflow/docs/D03-common-data-model.dbml` — one file for the whole project.
+- **Non-relational**: `.specflow/docs/D03-common-data-model.md`.
+- **Mixed**: Both files, each defining only its own data; cross-reference shared concepts.
 
 The DBML holds the schema, business-rule notes, and open questions. No companion Markdown model
 for relational data and no per-feature, per-schema, or per-domain DBML files.
@@ -62,7 +63,7 @@ Known access patterns, audit/history needs, and compliance constraints inform th
   business rules are enforced. Don't install dependencies or upload the model just to validate it.
 
 - [ ] **Step 6: Write and summarize.** Remove template instructions, examples, placeholders, and
-  empty optional sections. Keep headings, notes, and tables concise and project-specific. Report
+  empty optional sections. Keep headings, notes, and labeled entries concise and project-specific. Report
   paths, material decisions, open questions, and validation performed; suggest `104` or `105` as needed.
 
 ## Relational DBML

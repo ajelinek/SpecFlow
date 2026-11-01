@@ -11,6 +11,9 @@ context: fork
 
 # Context Manager
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Create or refresh `AGENTS.md` guidance from actual repository evidence: a concise, trustworthy map of
 structure, real commands, important boundaries, and justified local overrides.
 
@@ -98,15 +101,12 @@ to the caller.
   local exception is required). Keep it well under ~200 lines so agents can load it without crowding
   out task context. Filter every line:
 
-  | Include | Exclude |
-  |---|---|
-  | Commands agents can't guess | Anything derivable by reading the code |
-  | Conventions that differ from language/framework defaults | Standard conventions agents already know |
-  | Testing instructions and preferred test runners | Detailed API docs (link instead) |
-  | Repo etiquette (branch naming, PR conventions) | Information that changes frequently |
-  | Architectural decisions specific to this project | Long explanations or tutorials |
-  | Non-obvious gotchas and quirks | File-by-file codebase descriptions |
-  | Env vars or local setup quirks | Self-evident advice like "write clean code" |
+  - **Include**: commands agents can't guess; non-default conventions; testing instructions and preferred
+    runners; repo etiquette (branch naming, PR conventions); project-specific architectural decisions;
+    non-obvious gotchas; environment variables and local setup quirks.
+  - **Exclude**: facts derivable from code; standard conventions; detailed API docs (link instead);
+    frequently changing information; long explanations/tutorials; file-by-file descriptions;
+    self-evident advice like "write clean code".
 
 - [ ] **Step 6: Draft overlays only where justified.** A nested `AGENTS.md` holds only local scope,
   commands, constraints, and integration points that differ from the root, never repeated root

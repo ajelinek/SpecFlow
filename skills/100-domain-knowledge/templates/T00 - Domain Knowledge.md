@@ -32,11 +32,13 @@
 
 ## 3. User Landscape
 
-| User or Buyer Type | Primary Goal | Main Friction or Constraint | What They Care About Most |
-|---|---|---|---|
-| [Example: Operations manager] | [Keep a workflow moving without manual reconciliation] | [Works across disconnected tools and approval steps] | [Reliability, visibility, speed] |
-| [Example: Frontline end user] | [Complete a recurring task quickly and correctly] | [Context switching, unclear terminology, high error cost] | [Clarity, low effort, confidence] |
-| [Optional additional role] | [Goal] | [Constraint] | [Priority] |
+### [User or buyer type]
+
+- **Primary goal**: [Concrete outcome they need to achieve.]
+- **Friction / constraints**: [What makes their work difficult.]
+- **Priorities**: [What matters most when choosing or using a solution.]
+
+[Repeat for relevant users or buyers.]
 
 ---
 

@@ -1,5 +1,5 @@
 <!--
-Use only applicable bullets, rows, and sections. Keep decisions short and project-specific.
+Use only applicable bullets and sections. Keep decisions short and project-specific.
 Ground the core focus in relevant findings from .specflow/context/domain-knowledge.md when available;
 reference the findings rather than repeat the research. Don't turn uncertain recommendations into requirements.
 Cover the agreed scope, preserving unaffected inventory entries when updating an existing document.
@@ -32,9 +32,11 @@ Remove this block, examples, placeholders, and empty optional sections before wr
 
 ## 4. Pages & Routes
 
-| Page / View | Route | Purpose / Primary Action | Access |
-|-------------|-------|--------------------------|--------|
-| [Named view] | [Known route or explicitly proposed/unresolved path] | [What users accomplish here] | [Relevant roles or access conditions] |
+### [Page / View]
+
+- **Route**: [Known route or explicitly proposed/unresolved path.]
+- **Purpose / primary action**: [What users accomplish here.]
+- **Access**: [Relevant roles or access conditions.]
 
 ## 5. Alternatives Considered
 

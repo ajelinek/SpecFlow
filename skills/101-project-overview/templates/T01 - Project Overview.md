@@ -1,5 +1,5 @@
 <!--
-Fill with project-specific content. Keep the overview short enough to skim; use only the rows
+Fill with project-specific content. Keep the overview short enough to skim; use only the sections
 and bullets needed, with no fixed scenario count. Reference research rather than repeating it.
 Omit Technology Constraints & Preferences and Open Questions when they don't apply. Include
 out-of-scope boundaries only when meaningful. Renumber retained sections after omissions.
@@ -20,9 +20,7 @@ Remove this block and all placeholders before writing the generated document.
 
 ## 2. Target Users & Their Goals
 
-| User Type | Primary Goal |
-|-----------|-------------|
-| [User type] | [Concrete outcome they need to achieve] |
+- **[User type]**: [Concrete outcome they need to achieve.]
 
 ## 3. Key Business Scenarios
 

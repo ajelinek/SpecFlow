@@ -1,5 +1,5 @@
 <!--
-Keep this a skimmable backend reference. Use only applicable bullets and rows; adapt sections to
+Keep this a skimmable backend reference. Use only applicable bullets and sections; adapt sections to
 the project's actual structure. No default stack, authentication scheme, or mandatory layers.
 Reference D01-D03 rather than repeating them; distinguish existing decisions from proposals.
 Keep Security explicit, including when access is public. Omit Operations and Open Questions when they don't apply.
@@ -12,9 +12,10 @@ Remove this block, examples, placeholders, and empty optional sections before wr
 
 **Approach**: [Backend shape and the key reasons or governing decisions behind it; reference D02.]
 
-| Owner / Location | Responsibility | Boundary / Dependencies |
-|------------------|----------------|-------------------------|
-| [Existing or confirmed module, handler, or service] | [What it owns] | [What it delegates to or must not own] |
+### [Owner / Location]
+
+- **Responsibility**: [What the existing or confirmed module, handler, or service owns.]
+- **Boundary / dependencies**: [What it delegates to or must not own.]
 
 ## 2. API & Boundary Conventions
 

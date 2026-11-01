@@ -16,7 +16,7 @@ SpecFlow ships five supporting worker agents in `agents/`:
 
 - `coder` — implementation worker for `301-spec-implementation`, `302-test-implementation`, `401-cleanup`, and `402-test-correction`
 - `validator` — validation worker that runs an assigned test/lint/build mode or explicit mode list and reports separate results without modifying code
-- `designer` — visual direction worker available to `106-ui-design`, used by `108-ui-page-design` and UI-affecting `301-spec-implementation` runs
+- `designer` — visual direction worker available to `106-ui-design`, used for the three independent designs in `108-ui-page-design`, and used by UI-affecting `301-spec-implementation` runs
 - `reviewer` — read-only worker for `301`'s two independent pre-implementation reviews and the Review role in `900-feedback-loop`
 - `decider` — read-only decision-making worker for the Decision Consult in `901-feature-loop`, picking one option from a brief's option set without waiving readiness gates or repair caps
 
@@ -31,7 +31,7 @@ SpecFlow ships five supporting worker agents in `agents/`:
   **Defaults:**
   - `coder`: `sonnet` (requires high reasoning and coding capability)
   - `validator`: `haiku` (fast and cheap, just runs scripts)
-  - `designer`: `opus` (generates one visual direction per call; optional for `106`, with alternatives only when useful. `107` has no required designer calls; `108` currently compares three layout directions)
+  - `designer`: `opus` (generates one visual direction per call; optional for `106`. `108` requires three independent design subagents for page-design runs; index-only maintenance skips them. `107` has no required designer calls)
   - `reviewer`: `sonnet` (grounded review against explicit criteria)
   - `decider`: `opus` (the highest-stakes calls in a headless `901` run — nothing else double-checks them)
 </Callout>

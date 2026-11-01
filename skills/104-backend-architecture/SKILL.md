@@ -8,6 +8,9 @@ description: >
 
 # 104 - Backend Architecture
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Record the backend patterns needed to place the next change correctly: responsibilities, interface
 conventions, data access, security, and relevant operations. Keep this a concise, skimmable reference,
 not an endpoint catalog or implementation plan. Reference D01-D03 rather than repeating them.

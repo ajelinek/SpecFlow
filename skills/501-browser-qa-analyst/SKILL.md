@@ -11,6 +11,9 @@ context: fork
 
 # 501 - Browser QA Analyst
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Drive a real, visible Chrome browser through every reachable page and flow of a live site, judge
 each against a rubric and against what a reasonable user would expect, and log failures as defects
 with exact repro steps.

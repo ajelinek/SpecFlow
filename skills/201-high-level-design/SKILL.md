@@ -10,6 +10,9 @@ argument-hint: "[feature-name]"
 
 # 201 - High-Level Design
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Produce a short document covering only a feature's business scope and primary user journey — no test
 detail, no implementation design.
 

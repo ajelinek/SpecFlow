@@ -9,6 +9,9 @@ description: >
 
 # 101 - Project Overview
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Produce the foundational product document: business purpose, target users, differentiation, key
 scenarios, and success criteria. It is the main product-level reference for downstream SpecFlow
 workflows. Focus on product framing, not implementation, and write for non-technical stakeholders

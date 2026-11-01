@@ -10,6 +10,9 @@ context: fork
 
 # 302 - Test-Only Implementation
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Add automated tests for behavior that already exists — coverage gaps, not new behavior. The existing
 implementation is the source of truth; never silently turn this into feature delivery.
 

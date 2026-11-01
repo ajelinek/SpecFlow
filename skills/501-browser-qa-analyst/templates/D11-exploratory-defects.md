@@ -29,23 +29,19 @@
 
 ## Status legend
 
-| Status | Meaning |
-|---|---|
-| `Open` | Logged, not yet triaged into a fix |
-| `In Progress` | A fix is underway (e.g. via `502-defect-resolution` / `402`, or `202-spec-design` + `301`) |
-| `Fixed` | Verified resolved |
-| `Won't Fix` | Triaged, confirmed as a real defect, and intentionally not addressed — a human prioritization call |
-| `Not a Defect` | Investigated and determined never to have been a defect (expected, intentional, or a correct response to the input) — requires a **Rationale**. Not a softer "low priority"; that's `Won't Fix` + `Low` |
-| `Reopened` | Previously `Fixed`/`Won't Fix`/`Not a Defect`, recurred in a later run in a way that no longer matches prior triage |
+- **`Open`**: Logged, not yet triaged into a fix.
+- **`In Progress`**: A fix is underway (e.g. via `502-defect-resolution` / `402`, or `202-spec-design` + `301`).
+- **`Fixed`**: Verified resolved.
+- **`Won't Fix`**: Triaged, confirmed as a real defect, and intentionally not addressed. A human prioritization call.
+- **`Not a Defect`**: Investigated and determined never to have been a defect (expected, intentional, or a correct response to the input). Requires a **Rationale**. Not a softer "low priority"; that's `Won't Fix` + `Low`.
+- **`Reopened`**: Previously `Fixed`/`Won't Fix`/`Not a Defect`, recurred in a later run in a way that no longer matches prior triage.
 
 ## Severity legend
 
-| Severity | Meaning |
-|---|---|
-| `Critical` | Blocks a core flow entirely, or risks data loss/corruption |
-| `High` | A major feature is broken; a workaround may exist |
-| `Medium` | Noticeable friction or incorrect behavior, not blocking |
-| `Low` | Cosmetic or minor polish issue |
+- **`Critical`**: Blocks a core flow entirely, or risks data loss/corruption.
+- **`High`**: A major feature is broken; a workaround may exist.
+- **`Medium`**: Noticeable friction or incorrect behavior, not blocking.
+- **`Low`**: Cosmetic or minor polish issue.
 
 ---
 

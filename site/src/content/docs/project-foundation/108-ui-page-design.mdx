@@ -1,6 +1,6 @@
 ---
 title: 108 UI Page Design
-description: Design one page in detail — layout, data attributes, interaction flows, and responsive behavior — producing a markdown spec and HTML mockup.
+description: Design a page or related page family with high-fidelity HTML, selectable states, responsive previews, and a maintained page/route index.
 sidebar:
   order: 9
 ---
@@ -10,44 +10,68 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 
 ## What this skill is for
 
-`108-ui-page-design` designs a single application page from the D07 page inventory. It produces two files: a markdown spec that documents page context, data requirements, and interaction flows; and a static HTML mockup that is the primary visual reference for implementation. The HTML mockup is the authoritative design artifact — the markdown spec supports it with context that cannot be read from the visual alone.
+`108-ui-page-design` designs or refines one page or closely related page family for one solution. It preserves high-fidelity HTML as the primary visual reference, makes views and states easy to explore, and maintains a complete page/route catalog after every run.
 
-This skill runs once per page. Each run scopes to exactly one route from D07's page inventory.
+Related routes can share the same mockup. For example, several settings sections can appear in one diagram, but each route stays separately discoverable in the index and links directly to its own preview. Unrelated pages remain separate designs.
 
 **Output paths**:
-- `.specflow/docs/D08-ui-pages/<page-name>/overview.md` — page context, data attributes, interaction flows
-- `.specflow/docs/D08-ui-pages/<page-name>/mockup.html` — primary layout reference
+- `.specflow/docs/D08-ui-pages/index.html` — stable browser entry point for all known pages/routes
+- `.specflow/docs/D08-ui-pages/<page-name>/mockup.html` — high-fidelity visual reference with preview controls
+- `.specflow/docs/D08-ui-pages/<page-name>/overview.md` — concise route, parameter, data, and behavior notes
+
+Each touched mockup and overview links back to **All page designs**. Revisions update the same index; they do not create a new catalog per run.
 
 ## When to use it
 
-- When a specific route from the D07 page inventory needs a detailed layout and interaction reference
+- When a page or related set of views needs a detailed layout and interaction reference
 - Before implementing a page where the layout, responsive behavior, or interaction flows are non-trivial
 - When a design review is needed before development begins on a page
+- When the page index needs reconciling without redesigning existing pages
 
 ## When NOT to use it
 
 - For pages that are already well-understood or trivially simple
-- Before `107-ui-experience` has established the page inventory — if the page is not in D07, `108` will flag it
 - For every page by default — use it selectively where the design complexity justifies the investment
+- For production implementation or a redesign of the whole visual/navigation system
 
-<Callout tone="optional" title="Run once per page, as needed">
-  `108` is not a required step for every page. Use it when the layout, responsive behavior, or interaction complexity of a specific page would benefit from a detailed visual reference before implementation starts.
+<Callout tone="optional" title="Preserve what works">
+  Preserve existing designs, states, and preview conventions. Page-design runs compare three independent designs before building the selected approach; index-only maintenance skips that design pass.
 </Callout>
 
 ## What it produces
 
-- `overview.md` — page name, route, user roles with access, data requirements, interaction flows, responsive notes
-- `mockup.html` — a static HTML/CSS mockup using inline styles and placeholder data to communicate layout and interaction intent
+### Stateful HTML preview
 
-The mockup is a **pure design tool**. It uses inline styles and placeholder data. It does not reflect production code structure and must not be used as a code starting point.
+Three independent design subagents receive the same confirmed brief, with different layout approaches: content-led, spatial/layout-led, and action-led. The invoking skill evaluates all three for task completion, hierarchy, state coverage, role differences, responsive usability, accessibility, consistency, and reuse. It selects the strongest approach and briefly explains the decision and useful elements borrowed from the others. Color swaps alone do not count as unique designs. If independent workers are unavailable, it reports the limitation rather than pretending this comparison occurred.
+
+The mockup includes a top preview toolbar, clearly separate from the product UI. Reviewers can select designed views and meaningful states, including relevant loading, empty, error, success, validation, permission, and overlay states. Role, theme, or data controls appear where useful, without requiring every possible combination.
+
+Every documented state is rendered and selectable in the HTML, not just described in Markdown. Applicable dialogs, drawers, sheets, menus, and confirmations remain part of the preview. Existing distinct state views cannot be removed or merged without user approval. Simplifying documentation does not reduce mockup coverage.
+
+Local JavaScript simulates primary actions. Responsive resizing, a viewport selector, or side-by-side frames show important device layouts. Stable preview links open the intended route/state on a fresh load and work with browser Back/Forward. The displayed application URL is separate from mockup-only hash presets and controls.
+
+The HTML runs without backend calls, build steps, or CDN/runtime dependencies. Inline styles/scripts and realistic synthetic data are appropriate here. It remains a **design artifact**, not production code or evidence of accessibility compliance.
+
+### Complete route index
+
+Every run reconciles **every known page/route**, including pages not yet designed, against D07, existing D08 designs, and actual app routes when present. The index lists:
+
+- Page/view name and purpose, with each distinct route individually visible
+- Application URL/route pattern, path parameters, and search/query parameters with known meanings/defaults
+- Access expectations and current/planned/proposed distinctions where relevant
+- Design coverage and direct links to the right mockup view/state and overview
+
+The index uses stacked route entries with labeled details and expandable parameter notes instead of a wide table. Known finite section routes are listed individually; dynamic IDs stay as route patterns. URL-addressable overlays are labeled variants under their owning page. Ordinary filter values do not multiply into endless entries. Unknown parameters remain marked unknown rather than silently treated as absent.
+
+Unchanged entries and working links are preserved. Undesigned pages stay visible without fake preview links. The index summarizes existing route decisions rather than becoming another competing specification.
 
 ## Required inputs
 
-1. Page name — must match a route in D07's page inventory
-2. Page purpose and primary user action — what the user is trying to accomplish
-3. User roles with access — which roles can reach this page and how content differs by role
-4. Key data — what data the page displays, accepts as input, or submits
-5. Responsive priority — which form factor is primary and what must degrade on smaller screens
+1. Scope: page/family, known routes, purpose, and primary actions; or index-only maintenance
+2. Users and data: access differences and what users see, enter, or change
+3. Design constraints: established presentation/interaction patterns and relevant device needs
+
+Read relevant `.specflow/context/domain-knowledge.md`, project decisions, existing designs, and routes before asking about gaps. D06/D07 are useful when available, not mandatory prerequisites. Confirm material new routes or behavior rather than silently invent them; update an existing D07 for approved navigation changes.
 
 ## Common prompts
 
@@ -55,20 +79,24 @@ The mockup is a **pure design tool**. It uses inline styles and placeholder data
 
 <PromptBlock title="Prompt" text={`Run 108 for the project dashboard page.`} />
 
+<PromptBlock title="Prompt" text={`Refine the settings page with 108. Keep the existing HTML and state toolbar, cover each settings route in the index, and preserve working preview links.`} />
+
+<PromptBlock title="Prompt" text={`Use 108 to reconcile the page design index with all known routes. Include pages that have no mockup yet; don't redesign them.`} />
+
 ## What usually comes next
 
-After D08 pages are designed for the routes where it is needed, move to `110-feature-overview` to map the feature backlog, or directly to the `200` series if the feature backlog is already clear.
+Use the stable index link to review designs and choose what needs attention next. Move to feature planning or implementation when the relevant decisions are clear; there is no requirement to design every listed page first.
 
 ## Practical guidance
 
-- Every design decision in the mockup should trace to D01 (user goals), D06 (design system), or D07 (navigation and page inventory). This skill applies established decisions — it does not establish new design system rules.
-- `108` calls `@designer` three times in parallel, each a fresh invocation with a different seed bet, to get genuinely divergent layouts, then scores them itself in Step 4 rather than committing to the first generated option.
-- The `overview.md` should capture things the mockup cannot show: which fields are required, what happens on error, what roles see different content.
-- When designing a page, check D08 for other pages already designed — reuse patterns and components rather than inventing new ones.
+- Keep `overview.md` skimmable with headings and labeled bullets: context, routes/parameters, key data, state/interaction outcomes, and short reasons for the design selection. Omit empty open questions; don't describe pixels already visible in the mockup.
+- Check index links, fresh preview presets, return links, toolbar controls, every documented state, primary transitions, error recovery, overlay opening/closing, role differences, and narrow/wide layouts in a browser when available. Report checks not performed, including unavailable browser verification.
+- Reuse D08 patterns and confirmed decisions. Each of the three subagents proposes one distinct design; the invoking skill compares them and writes the selected artifacts. Three full HTML mockups are not required.
 
 ## Common mistakes
 
-- Designing a page that is not in D07's inventory — add it to D07 first
+- Listing one entry per mockup file instead of one per navigable route/view
+- Dropping known but undesigned pages, or confusing unknown parameters with no parameters
+- Linking every route to the mockup's default view instead of its matching preview preset
+- Updating the mockup without refreshing the shared index and return links
 - Using the HTML mockup as the starting point for production code — it is a design reference, not implementation
-- Skipping the overview.md and treating the mockup as self-documenting
-- Running `108` for every page instead of the pages where the complexity justifies it

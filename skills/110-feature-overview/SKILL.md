@@ -8,6 +8,9 @@ description: >
 
 # 110 - Feature Overview
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Produce a concise plan organizing work into thin vertical slices grouped under customer-facing
 **capabilities** — what to build and why, not how. Keep it scannable; if it reads like a spec, it's
 too long.

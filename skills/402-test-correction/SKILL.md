@@ -11,6 +11,9 @@ context: fork
 
 # 402 - Test Correction
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Start from a failing test, classify why it fails, explain why, and only then apply the smallest
 correct fix. A red test doesn't say whether the problem is a stale test, a real source defect, or an
 intentional behavior change — never assume every red test means broken product code, or that every

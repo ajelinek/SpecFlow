@@ -11,6 +11,9 @@ argument-hint: "[required inputs checklist]"
 
 # Gap Check
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Close every gap on a fixed checklist of required inputs provided by the invoking skill, with minimum
 friction: answer from context first, ask only about genuine gaps, and hand back a resolved answer set
 — nothing more.

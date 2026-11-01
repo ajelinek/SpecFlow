@@ -11,6 +11,9 @@ context: fork
 
 # 100 - Domain Knowledge
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Produce a research-backed reference of the external context the team needs before product,
 architecture, UX, or implementation decisions: users, workflows, terminology, constraints, market
 expectations, and differentiation. Not a product spec or business plan. Keep it business-level and

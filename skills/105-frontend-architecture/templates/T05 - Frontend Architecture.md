@@ -1,7 +1,7 @@
 <!--
 Check project conventions for the overall frontend design before drafting. Keep the project folder
 structure and core rules explicit, using actual or confirmed paths and patterns, not a preset tree.
-Use only applicable bullets, rows, and sections. No default libraries, state infrastructure, or layers.
+Use only applicable bullets and sections. No default libraries, state infrastructure, or layers.
 Reference governing guidance and D02/D04 rather than repeat them; distinguish existing decisions from proposals.
 Add specialist concerns only when relevant. Omit Open Questions when none remain.
 Remove this block, examples, placeholders, and empty optional sections before writing the generated document.
@@ -25,9 +25,10 @@ code locations, including tests; keep established or confirmed paths and label p
 
 ## 2. Component Boundaries & Core Rules
 
-| Owner / Location | Responsibility | Boundary / Dependencies |
-|------------------|----------------|-------------------------|
-| [Project component or module boundary] | [What it owns] | [What it delegates to or must not own] |
+### [Owner / Location]
+
+- **Responsibility**: [What the project component or module owns.]
+- **Boundary / dependencies**: [What it delegates to or must not own.]
 
 ### Core Rules
 
@@ -37,9 +38,10 @@ code locations, including tests; keep established or confirmed paths and label p
 
 ## 3. State Ownership
 
-| State / Concern | Owner & Mechanism | Lifetime / Sharing Boundary |
-|-----------------|-------------------|-----------------------------|
-| [Applicable component, URL, global, or remote state] | [Actual native primitive, framework facility, or confirmed library] | [What belongs here, what does not, and persistence or invalidation when relevant] |
+### [State / Concern]
+
+- **Owner & mechanism**: [Actual owner and native primitive, framework facility, or confirmed library.]
+- **Lifetime / sharing boundary**: [What belongs here, what does not, and persistence or invalidation when relevant.]
 
 ## 4. Data & Backend Integration
 
@@ -55,9 +57,9 @@ code locations, including tests; keep established or confirmed paths and label p
 
 ## 6. Frontend Verification
 
-| Check | Tool / Method | Scope |
-|-------|---------------|-------|
-| [Relevant frontend check] | [Confirmed tool, command, or review method; reference D02 where applicable] | [Behavior, boundary, or risk it verifies] |
+- **[Relevant frontend check]**:
+  - **Tool / method**: [Confirmed tool, command, or review method; reference D02 where applicable.]
+  - **Scope**: [Behavior, boundary, or risk it verifies.]
 
 ## 7. Open Questions
 

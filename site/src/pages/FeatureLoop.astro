@@ -19,12 +19,12 @@ const highlights = [
   {
     tag: 'Baseline → merge',
     title: 'Green Check',
-    body: 'A full four-layer validation — unit, integration/e2e, lint, and build — gates the baseline, every round close-out, and the merge revalidation.',
+    body: 'A full four-layer validation — unit, integration/e2e, lint, and build — gates the baseline, the Round 1 close-out, and the final merge candidate. A gate that stops improving ends the run unmerged.',
   },
   {
     tag: 'Never blocks',
     title: 'Decision Consult',
-    body: 'Every fork in the road — a dirty tree, an existing branch, a merge conflict — routes through @decider, which runs a three-way stance-framed arbitration and hands back one decided answer.',
+    body: 'Every fork in the road — a dirty tree, an existing branch, a base-sync conflict — routes through @decider, which runs a three-way stance-framed arbitration and hands back one decided answer.',
   },
   {
     tag: 'Per module',
@@ -34,7 +34,7 @@ const highlights = [
   {
     tag: 'New',
     title: 'Audit trail',
-    body: 'Every step, consult, and feedback pass appends one line to implementation-log.jsonl — an append-only ledger the run reads back to resume, and Step 22 reads in full to report.',
+    body: 'Every step, scenario, gate, consult, and feedback pass appends one line to implementation-log.jsonl — an append-only ledger the run reads back to resume, and Step 24 reads in full to report.',
   },
 ];
 ---

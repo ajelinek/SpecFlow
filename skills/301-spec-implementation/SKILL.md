@@ -12,6 +12,9 @@ context: fork
 
 # 301 - Spec-Driven System Implementation
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Implement a substantial feature or implementation chunk in strict phase order: prepare context →
 design brief → independent design reviews → tests-first implementation → independent review and
 refinement → final validation and close. One coding assignment owns the baseline and red → green
@@ -240,7 +243,7 @@ the actual code rather than relying on the implementation coder's summary.
 - [ ] **Step 19: Update feature status.** Mark an existing `overview.md` `done` only when the explicit
   run scope represents the whole feature and all acceptance gates pass. For partial scope, leave it
   `implementing` and report scope complete, not feature done. Under `901`, the caller owns whole-feature
-  completion at its final gate (Step 20); a `301` invocation does not mark the feature `done`.
+  completion at its final gate (Step 22); a `301` invocation does not mark the feature `done`.
 
 - [ ] **Step 20: Summarize.** Implemented scope and scenarios; production and test files changed;
   reuse report (files created vs extended, new dependencies, lines added vs removed); internally

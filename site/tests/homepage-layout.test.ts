@@ -31,7 +31,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { workflowPaths } from '../src/lib/specflow';
-import { featureLoopPhases } from '../src/lib/feature-loop-steps';
+import { featureLoopPhases, implementationLogEvents } from '../src/lib/feature-loop-steps';
 
 // ---------------------------------------------------------------------------
 // Helpers — read source files as plain text for structural assertions
@@ -128,6 +128,21 @@ it('explains full 301 design and reviews in the feature loop without removing ag
   expect(steps.find((step) => step.num === 16)?.description).toContain('Step 10');
   expect(steps.filter((step) => [11, 12, 17, 18].includes(step.num)).map((step) => step.skills.map((skill) => skill.id)))
     .toEqual(Array.from({ length: 4 }, () => ['900-feedback-loop', '401-cleanup']));
+});
+
+it('keeps the feature-loop visualization aligned with base sync, whole-feature review, and fail-closed gates', () => {
+  const steps = featureLoopPhases.flatMap((phase) => phase.steps);
+  expect(steps.map((step) => step.num)).toEqual(Array.from({ length: 24 }, (_, index) => index + 1));
+  expect(steps.find((step) => step.num === 19)?.title).toMatch(/sync/i);
+  expect(steps.find((step) => step.num === 20)?.skills.map((skill) => skill.id)).toEqual(['900-feedback-loop']);
+  expect(steps.find((step) => step.num === 20)?.agents.map((agent) => agent.id)).toEqual(['@reviewer', '@coder']);
+  expect(steps.filter((step) => step.kind === 'gate').map((step) => step.num)).toEqual([2, 13, 21]);
+  expect(steps.find((step) => step.num === 16)?.description).toMatch(/back to @status_pending/);
+  expect(JSON.stringify(steps)).not.toMatch(/skip-and-flag|favoring the feature branch/);
+  expect(implementationLogEvents.map((event) => event.type)).toEqual([
+    'run_init', 'step_complete', 'scenario_complete', 'gate', 'decision_consult', 'feedback_pass', 'resume', 'terminal', 'run_complete',
+  ]);
+  expect(implementationLogEvents.map((event) => event.sample).join('\n')).not.toMatch(/"commit":/);
 });
 
 it('keeps the feature-loop visualization aligned with terminal 301 design blockers', () => {

@@ -193,7 +193,7 @@ export const lifecycleStages: LifecycleStage[] = [
   {
     label: '108 Loop',
     title: 'Design specific pages only where needed',
-    description: 'Run 108 once per route when a page needs a detailed layout and interaction reference before build work starts.',
+    description: 'Use stateful HTML to review a page or related views, and refresh the shared page/route index each run.',
     steps: ['108-ui-page-design'],
   },
   {
@@ -282,8 +282,8 @@ export const skills: Skill[] = [
   {
     slug: '108-ui-page-design',
     label: '108-ui-page-design',
-    purpose: 'Design one page in detail with a markdown overview and an HTML mockup used as the primary visual reference.',
-    whenToUse: 'Use it when a specific route from the D07 page inventory needs a detailed layout and interaction reference.',
+    purpose: 'Design a page or related views with high-fidelity HTML, selectable states, concise notes, and a maintained route index.',
+    whenToUse: 'Use it when a page needs a detailed visual/interaction reference, or the page design index needs updating.',
     tier: 'optional',
     category: 'Project Definition',
   },
@@ -394,7 +394,7 @@ export const skills: Skill[] = [
   {
     slug: '901-feature-loop',
     label: '901-feature-loop',
-    purpose: 'Run one feature end-to-end, headless, through the full SpecFlow pipeline as a single git-tracked run — a green baseline gate, design, happy-path specs, per-scenario build-out, cleanup, an optional expanded-coverage round, final validation, and a merge back to the base branch.',
+    purpose: 'Run one feature end-to-end, headless, through the full SpecFlow pipeline as a single git-tracked run — a green baseline gate, design, happy-path specs, per-scenario build-out, cleanup, an optional expanded-coverage round, a whole-feature review, final validation, and a merge back to the base branch that delivers exactly the validated tree.',
     whenToUse: 'Use it for a feature that genuinely warrants full BDD rigor and branch-level traceability; route small, isolated changes to 301 or 401 directly instead.',
     tier: 'optional',
     category: 'Orchestration Skills',

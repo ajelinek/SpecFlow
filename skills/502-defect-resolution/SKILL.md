@@ -11,6 +11,9 @@ context: fork
 
 # 502 - Defect Resolution
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Work `.specflow/docs/D11-exploratory-defects.md` toward resolution. For each targeted **Active
 Defects** entry, dispatch it to `402-test-correction` (which accepts a `DEF-###` as its failure
 anchor) to reproduce, classify, and fix when justified; apply the status mapping below; commit; move

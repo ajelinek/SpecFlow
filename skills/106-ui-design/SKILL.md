@@ -9,6 +9,9 @@ description: >
 
 # 106 - Visual Design
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Record what the product should look and feel like in a short visual decision sheet. Make choices
 specific enough for consistent UI work, without prescribing every component or copying a design
 system's rulebook. Reuse an established visual system rather than invent a new one to fill a document.

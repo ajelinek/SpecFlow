@@ -9,6 +9,9 @@ description: >
 
 # 105 - Frontend Architecture
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Record the frontend patterns needed to place the next change correctly. Check project conventions
 for the overall frontend design before proposing structure or rules. Keep an annotated project
 folder tree and concise core rules explicit, without prescribing a framework, library, or layering
