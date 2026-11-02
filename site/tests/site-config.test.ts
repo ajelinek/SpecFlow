@@ -461,10 +461,10 @@ it('offers DBML and non-relational modeling through 103', () => {
   expect(model?.purpose).toMatch(/non-relational.*Markdown/);
 });
 
-it('keeps every named path ending at 301 without situational skills', () => {
+it('ends Comprehensive and Conservative with separate source and test cleanup, and keeps shorter paths at 301', () => {
   expect(workflowPaths.map((path) => [path.id, path.sequence.split('->').map((step) => step.trim())])).toEqual([
-    ['full', ['100', '101', '102', '103', '104', '105', '106', '107', '108 loop', '110', '201', '202', '301']],
-    ['conservative', ['100', '101', '102', '103', '104', '105', '106', '107', '201', '202', '301']],
+    ['full', ['100', '101', '102', '103', '104', '105', '106', '107', '108 loop', '110', '201', '202', '301', '401 source', '401 test']],
+    ['conservative', ['100', '101', '102', '103', '104', '105', '106', '107', '201', '202', '301', '401 source', '401 test']],
     ['lean', ['201', '202', '301']],
     ['crazy-lean', ['301']],
   ]);

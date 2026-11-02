@@ -7,7 +7,7 @@ sidebar:
 
 import Callout from '../../components/Callout.astro';
 
-The `300` series is where design artifacts become running code. Two skills cover different implementation scenarios. If the immediate problem is a failing automated test and the correct fix path is still unclear, use `402-test-correction` from the `400` series before choosing whether to edit tests or source.
+The `300` series turns design artifacts into running code. If the problem is a failing test and the right fix is unclear, start with `402-test-correction` from the `400` series.
 
 ## The two paths
 
@@ -17,23 +17,23 @@ The `300` series is where design artifacts become running code. Two skills cover
 | `302-test-implementation` | The test-only path — for adding or repairing automated tests for behavior that already exists |
 
 <Callout tone="core" title="301 is the primary implementation skill">
-  Most feature work goes through `301`. Use `302` only when production behavior is already in place and the goal is purely to improve test coverage — not to add missing behavior.
+  Most feature work goes through `301`. Use `302` only when the production behavior already exists and the gap is test coverage.
 </Callout>
 
 ## What 301 does internally
 
-`301` is not just a longer coding prompt. It is a phased, orchestrated workflow:
+`301` is a phased workflow, not a longer coding prompt:
 
-0. Prepares the `201` overview, `202` scenarios, codebase context, standards, and reuse candidates; generates missing feature context inline without writes unless requested
-1. Builds a compact, versioned implementation design in memory, not a new artifact
-2. Sends the same complete brief revision to two fresh, independent, read-only reviewers for walkthrough and adversarial review; resolves findings by evidence and requires readiness criteria to pass
-3. Assigns one coder the baseline, failing tests, and implementation, with red/green evidence
-4. Uses a fresh coder to review the actual diff against the design and refine tests and source without weakening assertions
-5. Runs final test, lint, and build checks in one validator assignment, then closes with evidence and status updates
+0. Gathers the `201` overview, `202` scenarios, codebase context, standards, and reuse candidates; generates missing context inline
+1. Builds a compact implementation design in memory
+2. Sends the design to two independent, read-only reviewers (walkthrough and adversarial) and requires readiness criteria to pass
+3. Has one coder write failing tests, then the implementation, with red/green evidence
+4. Has a fresh coder review the diff against the design and refine tests and source without weakening assertions
+5. Runs final test, lint, and build checks, then closes with evidence and status updates
 
-Readiness repair is capped at two rounds. If required criteria still fail, `301` blocks before implementation; the cap cannot be waived. See the [phase-by-phase workflow](./301-spec-implementation/#the-phases).
+Readiness repair is capped at two rounds. If criteria still fail, `301` blocks before implementation. See the [phase-by-phase workflow](./301-spec-implementation/#the-phases).
 
-The bounded refinement pass means `401-cleanup` is not always necessary afterward. Use it when the changed set warrants a deeper, separately scoped source or test cleanup pass.
+Because of the refinement pass, a separate `401-cleanup` run is optional on Minimal and Lean paths.
 
 ## Skills in this series
 

@@ -20,7 +20,8 @@ const nodeMeta: Record<string, { label: string; note: string }> = {
   '201': { label: '201', note: 'Feature overview' },
   '202': { label: '202', note: 'Behavior spec' },
   '301': { label: '301', note: 'Design, independent reviews, tests-first build, fresh review and refinement, validation' },
-  '401': { label: '401', note: 'Cleanup pass' },
+  '401 source': { label: '401', note: 'Source cleanup' },
+  '401 test': { label: '401', note: 'Test cleanup' },
 };
 
 function parseSequence(sequence: string) {
@@ -30,7 +31,7 @@ function parseSequence(sequence: string) {
     .filter(Boolean)
     .map((part) => {
       const key = part.split(' ')[0];
-      const meta = nodeMeta[key] ?? { label: part, note: 'Workflow step' };
+      const meta = nodeMeta[part] ?? nodeMeta[key] ?? { label: part, note: 'Workflow step' };
       return {
         key,
         display: part,

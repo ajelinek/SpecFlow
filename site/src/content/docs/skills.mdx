@@ -12,10 +12,7 @@ import SkillCatalog from '../../components/SkillCatalog.astro';
 
 ## Why the numbers?
 
-The skills are deliberately named with a number prefix (e.g., `100`, `201`, `301`). This numbering system serves two purposes:
-
-1. **Lifecycle Grouping**: It organizes the skills into a predictable progression.
-2. **Easy Prompt Shorthand**: It gives you a fast, reliable shorthand to use in your prompts. Instead of saying "please implement the feature according to the test specs and clean up the code," you can simply say `"Use 301 to implement the x feature"` or `"Run 401 on the changes."` The AI will instantly recognize the workflow you want.
+The number prefix groups skills into a predictable progression and doubles as prompt shorthand: say `"Use 301 to implement the x feature"` or `"Run 401 on the changes."`
 
 | Grouping | Meaning |
 |---|---|
@@ -27,15 +24,15 @@ The skills are deliberately named with a number prefix (e.g., `100`, `201`, `301
 | `900` series | Orchestration: cross-cutting loops that wrap around other skills instead of forming a pipeline phase of their own |
 
 <Callout tone="optional" title="Reference, not a sequence">
-  Start with the `100` series when project context is missing, on new or existing projects. Once the project frame is clear, the core delivery path is `201 → 202 → 301`. `301` owns in-memory implementation design and independent readiness review before coding. Use `108` for optional page mockups, `401` for deeper, separately scoped cleanup, `302` for test coverage of existing behavior, or `402` for failing-test triage. `501`/`502` explore a live site and resolve findings outside the per-feature sequence.
+  Start with the `100` series when project context is missing. Once it is clear, the core path is `201 → 202 → 301`. Use `108` for page mockups, `401` for source or test cleanup, `302` for tests of existing behavior, and `402` for failing-test triage. `501`/`502` sit outside the per-feature sequence.
 </Callout>
 
-<Callout tone="core" title="The 100-series is not just for greenfield work">
-  Use the `100` series on new projects and on existing projects whenever understanding is weak. Better project context usually produces better feature plans and better implementation runs.
+<Callout tone="core" title="The 100 series is not just for greenfield work">
+  Use it on existing projects too whenever understanding is weak. Better context produces better plans and implementations.
 </Callout>
 
-<Callout tone="bonus" title="Bonus does not always mean side quest">
-  `context-manager` is listed as a bonus skill, but it sits outside the feature loop only in sequence — it can become important early when a repo needs trustworthy `AGENTS.md` guidance before any workflow can navigate the code accurately.
+<Callout tone="bonus" title="Bonus does not mean side quest">
+  `context-manager` sits outside the feature loop, but a repo often needs its `AGENTS.md` guidance early.
 </Callout>
 
 ## Install options
@@ -52,15 +49,9 @@ Install the full catalog:
 npx skills add ajelinek/SpecFlow --skill '*'
 ```
 
-Use `npx skills add ajelinek/SpecFlow --list` if you want to preview the available skills first.
+Add `--list` to preview the available skills first.
 
-After installing, run **[`specflow-setup`](../support-skills/specflow-setup/)** to configure the skills, the five
-worker agents, and model routing for Claude Code, GitHub Copilot CLI, OpenCode, and Codex CLI. To copy the
-worker agents by hand instead, see **[Custom Agents](../getting-started/custom-agents/)**.
-
-## Skill inventory
-
-This page is the inventory and the reference. Use it to understand what each skill does and where it fits in the lifecycle.
+After installing, run **[`specflow-setup`](../support-skills/specflow-setup/)** to configure the skills, worker agents, and models for your coding tools. To copy the agents by hand, see **[Custom Agents](../getting-started/custom-agents/)**.
 
 ## Catalog
 

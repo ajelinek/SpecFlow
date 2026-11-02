@@ -12,6 +12,8 @@
 
 export interface FlowCard {
   key: string;
+  /** Displayed skill number when it differs from the key (e.g. "401 source" shows "401"). */
+  code?: string;
   title: string;
   description: string;
 }
@@ -37,6 +39,7 @@ export type VisibleRows = FlowRow[];
  * Rules:
  * - Matching is exact: "10" does NOT match "100".
  * - Only explicitly named steps are included; 301 never implies 302 or 401.
+ * - A step may carry a qualifier ("401 source"); it matches only that exact step.
  */
 export function pathIncludes(sequence: string, key: string): boolean {
   return sequence
@@ -50,7 +53,7 @@ export function getVisibleCards(sequence: string, flowRows: FlowRow[]): FlowCard
 
   return sequence
     .split('->')
-    .map((step) => cardMap.get(step.trim().split(/\s+/)[0]))
+    .map((step) => cardMap.get(step.trim()) ?? cardMap.get(step.trim().split(/\s+/)[0]))
     .filter((card): card is FlowCard => card !== undefined);
 }
 

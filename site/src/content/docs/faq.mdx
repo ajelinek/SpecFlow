@@ -12,96 +12,80 @@ import Callout from '../../components/Callout.astro';
 <details>
 <summary>Is this heavyweight?</summary>
 
-No. The main delivery path is `201 → 202 → 301`. Use `401` only when you want a separate cleanup-only pass on an already-changed scope.
-
-</details>
-
-<details>
-<summary>Do I need all the workflows?</summary>
-
-No. Start with `201 → 202 → 301` for feature delivery and add the rest only when they solve a real problem.
+No. The core path is `201 → 202 → 301`. Add the rest only when it solves a real problem.
 
 </details>
 
 <details>
 <summary>Do I need the 100-series first?</summary>
 
-Not always, but it helps more often than teams expect. Use the 100-series when the project still needs domain, product, architecture, UX, or feature-set definition before feature delivery starts. That applies to new projects and to existing projects where understanding is still weak. If that context already exists, many teams can begin with `201`.
+Not always, but it often helps. Use it when the project still needs domain, product, architecture, UX, or feature-set definition, on new or existing projects. If that context already exists, begin with `201`.
 
 </details>
 
 <details>
 <summary>What is with the numbers?</summary>
 
-The numbers make the catalog easy to scan, search, and reference in prompts.
-
-- Start with the `100` series for project and planning context.
-- Follow the `200` series for feature design.
-- Use the `300` series to implement the change.
-- Use the `400` series for red-test triage when the fix path is unclear and for cleanup-only refinement.
-
-That means you can write short prompts like "follow `201` to define this feature" or "follow `301` to implement this change" without needing to remember the full skill names.
+They make the catalog easy to scan and reference in prompts: `100` project context, `200` feature design, `300` implementation, `400` cleanup and test triage, `500` QA, `900` orchestration. You can write "follow `201` to define this feature" without remembering full skill names.
 
 </details>
 
 <details>
 <summary>How is this different from plain prompting?</summary>
 
-It breaks the work into feature intent, expected behavior, implementation, and cleanup.
+It separates feature intent, expected behavior, implementation, and cleanup, and keeps each as a reviewable artifact.
 
 </details>
 
 <details>
 <summary>Does `npx skills add` install the worker agents too?</summary>
 
-No. `npx skills add` installs the SpecFlow skills only. Run `specflow-setup` afterward to configure the
-worker agents and model routing for your coding tools, or copy the agent files by hand with the
-[Custom Agents](../getting-started/custom-agents/) installer.
+No. It installs the skills only. Run `specflow-setup` afterward to configure the worker agents and models, or copy the agent files by hand with [Custom Agents](../getting-started/custom-agents/).
 
 </details>
 
 <details>
 <summary>Which coding tools does `specflow-setup` support?</summary>
 
-Claude Code, GitHub Copilot CLI, OpenCode, and Codex CLI — one, several, or all four. It asks whether you want project-local or user-wide scope, checks current official documentation against your installed versions, and has you confirm the model for each worker role. It configures SpecFlow files only; it does not install the tools or manage credentials. See [SpecFlow Setup](../support-skills/specflow-setup/).
+Claude Code, GitHub Copilot CLI, OpenCode, and Codex CLI — one or several. It configures SpecFlow files only; it does not install the tools or manage credentials. See [SpecFlow Setup](../support-skills/specflow-setup/).
 
 </details>
 
 <details>
 <summary>When should I use 302 instead of 301?</summary>
 
-Use `302` when production behavior already exists and the missing work is test coverage. If the behavior is missing or disagrees with the scenarios, switch back to `301` or correct the spec first.
+Use `302` when the behavior already exists and only tests are missing. If the behavior is missing or disagrees with the scenarios, use `301` or fix the spec first.
 
 </details>
 
 <details>
 <summary>Why is 401 separate from 301?</summary>
 
-Because `301` already includes a fresh coder's independent review and bounded refinement of the feature diff. `401` provides a deeper cleanup-only pass on an existing changed set, with a strict source-versus-test boundary.
+`301` already includes independent review and bounded refinement. `401` is a deeper cleanup-only pass with a strict source-versus-test boundary, so each run stays small. The Comprehensive and Conservative paths include it; on Minimal it is optional.
 
 </details>
 
 <details>
 <summary>When should I use 402 instead of 302?</summary>
 
-Use `402` when the starting point is a failing test and you still need to determine whether the defect is in the test, in production code, or in the intended behavior. Use `302` when production behavior is already believed to be correct and the missing work is simply automated test coverage or a bounded test-side repair.
+Use `402` when a test is failing and you don't yet know whether the defect is in the test, the production code, or the intended behavior. Use `302` when the behavior is believed correct and you only need test coverage or a test-side repair.
 
 </details>
 
 <details>
 <summary>Where does implementation design happen?</summary>
 
-Inside `301`, before coding. The design is compact, versioned, and kept in memory. Two fresh, independent, read-only reviewers assess the same complete brief revision. The orchestrator resolves findings by evidence, and required readiness criteria must pass. If they still fail after two repair rounds, the run blocks without implementation; neither a cap waiver nor a `901` Decision Consult can bypass that gate.
+Inside `301`, before coding. The design is compact and kept in memory. Two independent, read-only reviewers assess it, and readiness criteria must pass. If they still fail after two repair rounds, the run blocks without implementing; nothing, including a `901` Decision Consult, can bypass that gate.
 
 </details>
 
 <details>
 <summary>Can I skip 201 and go straight to 202?</summary>
 
-The core minimum is `201 → 202 → 301`. Run `201` first to keep the feature scope clear. If you start with `301` and that context is missing, it uses inline guided generation for the overview and scenarios without writing artifacts unless requested.
+Run `201` first to keep the feature scope clear. If you start with `301` and that context is missing, it generates the overview and scenarios inline without writing files unless asked.
 
 </details>
 
 <Callout tone="tip" title="Still unsure where to start?">
-  Read [Getting Started](../getting-started/) and start with `201 → 202 → 301`. Add `401` for deeper, separately scoped cleanup, or use `402` when the immediate problem is a failing test whose fix path is not yet clear.
+  Read [Getting Started](../getting-started/) and start with `201 → 202 → 301`.
 </Callout>

@@ -15,7 +15,7 @@ import Callout from '../../../components/Callout.astro';
 1. `201-high-level-design`
 2. `202-spec-design`
 3. `301-spec-implementation`
-4. Optional `401-cleanup` for source or tests
+4. Optional `401-cleanup`, once for source and once for tests
 
 ## Example prompt sequence
 
@@ -23,15 +23,13 @@ import Callout from '../../../components/Callout.astro';
 Use 202-spec-design for invoice approval with balanced coverage.
 Run 301-spec-implementation for the invoice approval feature.`} />
 
-If you want a separate cleanup-only pass afterward, run `401-cleanup` once for changed source files or once for changed test files as separate runs.
-
 If the feature is already in D10, `201` should reuse that feature's `F-ID` so the artifacts land in a folder like `.specflow/features/F003-invoice-approval/`.
 
 ## Why this is the default
 
-- The project already exists, so you often can skip straight to `201`, but the 100-series is still useful if domain, architecture, or UX direction is unclear.
-- The feature still deserves a short design and behavior spec before implementation.
-- `301` already includes independent review and bounded refinement of tests and source; use `401` only when the resulting changed set warrants a deeper cleanup-only pass.
+- The project exists, so you can usually skip straight to `201`.
+- The feature still deserves a short design and behavior spec.
+- `301` already reviews and refines its own diff, so `401` is optional here.
 
 <Callout tone="core" title="Good fit">
   Use this pattern when the domain and product shape are already clear enough that you do not need broad project-definition work.

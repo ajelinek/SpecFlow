@@ -203,8 +203,8 @@ describe('index.astro path-selection section', () => {
 // Every skill in the prescribed row layout must appear in index.astro.
 // Row 1: 100, 101, 102, 103, 104
 // Row 2: 105, 106, 107, 108, 110
-// Row 3: 201, 202, 301
-// 302 and 401 are situational links, never implicit board cards.
+// Row 3: 201, 202, 301, 401 source, 401 test
+// 302 is a situational link, never an implicit board card.
 // ---------------------------------------------------------------------------
 
 describe('index.astro full skill set in flow visualization', () => {
@@ -225,10 +225,10 @@ describe('index.astro full skill set in flow visualization', () => {
     });
   }
 
-  it('contains exactly the active board cards and no retired or situational cards', () => {
-    const cardKeys = Array.from(content.matchAll(/\{ key: '(\d+)', title:/g), (match) => match[1]);
+  it('contains exactly the active board cards, with 401 split into source and test cleanup', () => {
+    const cardKeys = Array.from(content.matchAll(/\{ key: '([\w ]+)',(?: code: '\d+',)? title:/g), (match) => match[1]);
     expect(cardKeys).toEqual([
-      '100', '101', '102', '103', '104', '110', '108', '107', '106', '105', '201', '202', '301',
+      '100', '101', '102', '103', '104', '110', '108', '107', '106', '105', '201', '202', '301', '401 source', '401 test',
     ]);
     expect(content).not.toMatch(/\b20[34]\b/);
   });

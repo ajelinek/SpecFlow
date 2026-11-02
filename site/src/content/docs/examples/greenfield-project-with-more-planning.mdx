@@ -9,7 +9,7 @@ sidebar:
 
 import PromptBlock from '../../../components/PromptBlock.astro';
 
-Use the 100-series when the project is still missing domain clarity, product framing, or architectural decisions.
+Use the `100` series when the project is missing domain clarity, product framing, or architectural decisions.
 
 ## Typical sequence
 
@@ -29,7 +29,7 @@ Use the 100-series when the project is still missing domain clarity, product fra
 
 `110` creates the capability map and stable `F-ID`s that later feature docs can reuse for folders like `.specflow/features/F003-invoice-approval/`.
 
-`301` owns implementation design and independent readiness review before coding. Its compact design stays in memory; `201` and `202` remain the persisted feature artifacts. Add `401` afterward only when the changed set warrants deeper, separately scoped source or test cleanup.
+`301` keeps its implementation design in memory; `201` and `202` remain the persisted feature artifacts. On the Comprehensive and Conservative paths, finish with `401`, once for source and once for tests.
 
 ## Example prompt sequence
 
@@ -41,6 +41,4 @@ Run 201-high-level-design for the first feature the team wants to build.`} />
 
 ## Why this is different
 
-The goal is not to invoke every planning skill by default. The goal is to use them only when the project would otherwise be built on unclear assumptions.
-
-For domain-heavy or unfamiliar products, `100-domain-knowledge` is usually a live-research step, not just a brainstorming pass.
+Use planning skills only when the project would otherwise rest on unclear assumptions. For unfamiliar products, `100-domain-knowledge` is a live-research step, not a brainstorm.

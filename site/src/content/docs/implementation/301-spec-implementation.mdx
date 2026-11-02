@@ -104,7 +104,7 @@ Existing selected scenarios need no coverage-level classification. Synthesizing 
 
 ## What usually comes next
 
-Often nothing: `301` already includes a bounded independent review and refinement of the feature diff before final validation. Use `401-cleanup` afterward only when the changed set warrants a deeper, separately scoped source or test cleanup pass.
+On Comprehensive and Conservative paths, `401-cleanup` runs next: once for source, once for tests. Otherwise often nothing, since `301` already reviews and refines its own diff; run `401` only if the changed set warrants it.
 
 ## Practical guidance
 

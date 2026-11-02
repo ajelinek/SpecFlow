@@ -7,27 +7,25 @@ sidebar:
 
 import Callout from '../../components/Callout.astro';
 
-For most substantial feature work, use the explicit `201 → 202 → 301` loop shown by **Minimal** on the [homepage path picker](../). Reach for it when the product and architecture are clear enough to skip the full `100` series. **Lean** starts directly with `301`, which generates missing overview and scenario context inline without skipping design review, refinement, or validation.
+For most feature work, use the `201 → 202 → 301` loop shown as **Minimal** on the [homepage](../). It fits when the product and architecture are clear enough to skip the `100` series. **Lean** starts directly at `301`, which generates missing overview and scenario context inline.
 
 ## The loop
 
 | Step | Does | Output |
 |---|---|---|
-| [`201-high-level-design`](../feature-design/201-high-level-design/) | Define the feature in plain language: scope and user journey | `overview.md` |
-| [`202-spec-design`](../feature-design/202-spec-design/) | Write the Gherkin scenarios that describe expected behavior | `specs.feature` |
-| [`301-spec-implementation`](../implementation/301-spec-implementation/) | Design and review in memory, build tests-first, then independently refine and validate | Working, tested code |
+| [`201-high-level-design`](../feature-design/201-high-level-design/) | Define the feature: scope and user journey | `overview.md` |
+| [`202-spec-design`](../feature-design/202-spec-design/) | Write the Gherkin scenarios for expected behavior | `specs.feature` |
+| [`301-spec-implementation`](../implementation/301-spec-implementation/) | Design and review in memory, build tests-first, then refine and validate | Working, tested code |
 
-<Callout tone="core" title="This is the minimum viable loop">
-  `201 → 202 → 301` is the core delivery path with explicit feature-definition artifacts. `301` already includes independent review and bounded refinement. Use `401` as a deliberate follow-up when the changed set warrants deeper cleanup, not as a required fourth step.
+<Callout tone="core" title="Cleanup is part of the larger paths">
+  The **Comprehensive** and **Conservative** paths finish with [`401-cleanup`](../cleanup/401-cleanup/), run twice: once for changed source, once for changed tests. On **Minimal** and **Lean** it is optional, because `301` already includes independent review and bounded refinement.
 </Callout>
 
-[`401-cleanup`](../cleanup/401-cleanup/) is optional deeper cleanup, scoped separately to changed source or test files. It is not part of the core minimum.
-
-<Callout tone="tip" title="Need more upfront context?">
-  If the product, architecture, or UX is still unclear, run the [Project Foundation](../project-foundation/) series first. If the missing work is only test coverage for behavior that already exists, use [`302-test-implementation`](../implementation/302-test-implementation/) instead of `301`.
+<Callout tone="tip" title="Need more context first?">
+  If the product, architecture, or UX is unclear, run the [Project Foundation](../project-foundation/) series first. If the only gap is tests for behavior that already exists, use [`302-test-implementation`](../implementation/302-test-implementation/) instead of `301`.
 </Callout>
 
 ## Next
 
-- **[Full Skill Catalog](../skills/)** — every skill, including the optional steps this loop skips
-- **[Examples](../examples/)** — worked prompt sequences through this loop and its variations
+- **[Full Skill Catalog](../skills/)** — every skill, including the optional ones
+- **[Examples](../examples/)** — worked prompt sequences

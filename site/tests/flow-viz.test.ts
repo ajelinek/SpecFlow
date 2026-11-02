@@ -33,7 +33,7 @@ import { workflowPaths } from '../src/lib/specflow';
 it('selects cards in exact sequence order rather than snake-row order', () => {
   const cards = getVisibleCards(pathById('full').sequence, FLOW_ROWS);
   expect(cards.map((card) => card.key)).toEqual([
-    '100', '101', '102', '103', '104', '105', '106', '107', '108', '110', '201', '202', '301',
+    '100', '101', '102', '103', '104', '105', '106', '107', '108', '110', '201', '202', '301', '401 source', '401 test',
   ]);
   expect(cards[5]).toBe(FLOW_ROWS[1][4]);
 });
@@ -49,6 +49,15 @@ it('filters unknown sequence entries without changing the order of known cards',
   expect(getVisibleCards('missing -> 108 loop -> 301 -> 202', FLOW_ROWS).map((card) => card.key))
     .toEqual(['108', '301', '202']);
   expect(getVisibleCards('', FLOW_ROWS)).toEqual([]);
+});
+
+it('shows separate 401 source and test cleanup cards only on Comprehensive and Conservative', () => {
+  for (const id of ['full', 'conservative']) {
+    const cards = getVisibleCards(pathById(id).sequence, FLOW_ROWS);
+    expect(cards.slice(-3).map((card) => card.key)).toEqual(['301', '401 source', '401 test']);
+    expect(cards.slice(-2).map((card) => card.code)).toEqual(['401', '401']);
+  }
+  expect(pathIncludes(pathById('lean').sequence, '401 source')).toBe(false);
 });
 
 it('never inherits test-only cards in row selection even when the source contains them', () => {
@@ -92,6 +101,8 @@ const FLOW_ROWS: FlowRow[] = [
     { key: '201', title: 'High-Level Design', description: 'Define one feature.' },
     { key: '202', title: 'Spec Design', description: 'Write Gherkin scenarios.' },
     { key: '301', title: 'Spec Implementation', description: 'Build through tests-first.' },
+    { key: '401 source', code: '401', title: 'Source Cleanup', description: 'Tidy changed source.' },
+    { key: '401 test', code: '401', title: 'Test Cleanup', description: 'Tidy changed tests.' },
   ],
 ];
 
@@ -170,7 +181,7 @@ it('getVisibleRows (conservative): includes project context and the three core s
   const result = getVisibleRows(conservative.sequence, FLOW_ROWS, OPTIONAL_KEYS);
   const allKeys = result.flatMap((row) => row.map((c: FlowCard) => c.key));
   // Then all conservative steps are represented
-  for (const key of ['101', '102', '103', '104', '105', '106', '107', '201', '202', '301']) {
+  for (const key of ['101', '102', '103', '104', '105', '106', '107', '201', '202', '301', '401 source', '401 test']) {
     expect(allKeys, `conservative path should include key ${key}`).toContain(key);
   }
 });
@@ -221,11 +232,11 @@ it('getVisibleRows (full): includes all project-definition and feature-loop card
   // When we compute visible rows
   const result = getVisibleRows(full.sequence, FLOW_ROWS, OPTIONAL_KEYS);
   const allKeys = result.flatMap((row) => row.map((c: FlowCard) => c.key));
-  // Then all 13 active pipeline cards are present, in their source row order.
+  // Then all 15 active pipeline cards are present, in their source row order.
   const allExpected = [
     '100', '101', '102', '103', '104',
     '110', '108', '107', '106', '105',
-    '201', '202', '301',
+    '201', '202', '301', '401 source', '401 test',
   ];
   expect(allKeys).toEqual(allExpected);
 });

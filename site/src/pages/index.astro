@@ -33,6 +33,8 @@ const flowRows: FlowCard[][] = [
     { key: '201', title: 'High-Level Design', description: 'Define one feature with scope and user journey.' },
     { key: '202', title: 'Spec Design', description: 'Write the Gherkin scenarios that describe expected behavior.' },
     { key: '301', title: 'Spec Implementation', description: 'Design and independently review before coding; build tests-first, then freshly review, refine, and validate.' },
+    { key: '401 source', code: '401', title: 'Source Cleanup', description: 'Tidy the changed source files in a focused, separately scoped pass.' },
+    { key: '401 test', code: '401', title: 'Test Cleanup', description: 'Tidy the changed test files in their own pass, without adding coverage.' },
   ],
 ];
 
@@ -63,7 +65,7 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence, flowRows);
   <section class="home-path-selection container" aria-labelledby="home-path-selection-title" data-path-selection data-flow-visualization data-default-path={defaultPathId}>
     <div class="home-path-selection__header">
       <h2 id="home-path-selection-title">Choose your path</h2>
-      <p>Select the workflow that best fits your project's current needs and constraints.</p>
+      <p>Pick the workflow that fits your project.</p>
     </div>
 
     <div class="home-path-selection__controls" role="radiogroup" aria-label="Workflow paths">
@@ -119,7 +121,7 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence, flowRows);
                 data-optional={isOptional ? 'true' : undefined}
               >
                 <div class="home-path-selection__card-topline">
-                  <span class="home-path-selection__card-code">{card.key}</span>
+                  <span class="home-path-selection__card-code">{card.code ?? card.key}</span>
                   {badges.map((badge) => (
                     <span class:list={['home-path-selection__card-badge', `is-${badge.tone}`]}>{badge.label}</span>
                   ))}
@@ -139,7 +141,7 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence, flowRows);
   <section class="home-also-available container" aria-labelledby="home-also-available-title">
     <div class="home-also-available__header">
       <h2 id="home-also-available-title">Also available</h2>
-      <p>Skills that sit outside the linear path — used situationally, not as a pipeline step.</p>
+      <p>Situational skills outside the main path.</p>
     </div>
 
     <div class="home-also-available__grid">
@@ -156,7 +158,7 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence, flowRows);
             <span class="home-path-selection__card-badge is-loop">Feature Loop</span>
           </div>
           <h3>Run a feature end-to-end, headless</h3>
-          <p>One command drives the full pipeline — design, specs, per-scenario build-out, cleanup, and a merge back to the base branch — as a single git-tracked run.</p>
+          <p>One command drives design, specs, per-scenario build-out, cleanup, and a merge back to the base branch as a single git-tracked run.</p>
           <span class="home-also-available__feature-cta">See how it works →</span>
         </div>
       </a>
@@ -179,13 +181,13 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence, flowRows);
         <a class="home-also-available__card" href={withBase('/orchestration/900-feedback-loop/', base)}>
           <span class="home-path-selection__card-code">900</span>
           <h3>Feedback Loop</h3>
-          <p>Bounded review/apply-fix convergence cycle around any artifact or change set.</p>
+          <p>A bounded review and fix cycle around any artifact or change set.</p>
         </a>
 
         <a class="home-also-available__card" href={withBase('/cleanup/402-test-correction/', base)}>
           <span class="home-path-selection__card-code">402</span>
           <h3>Test Correction</h3>
-          <p>Triage a failing test to decide whether the fix belongs in the test, the source, or the intended behavior.</p>
+          <p>Decide whether a failing test needs a fix in the test, the source, or the intended behavior.</p>
         </a>
       </div>
 
@@ -193,13 +195,13 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence, flowRows);
         <a class="home-also-available__card" href={withBase('/quality-assurance/501-browser-qa-analyst/', base)}>
           <span class="home-path-selection__card-code">501</span>
           <h3>Browser QA Analyst</h3>
-          <p>Drive a real, visible Chrome browser through a live site like a QA analyst, logging anything broken or unintuitive to a running defect backlog.</p>
+          <p>Explore a live site in a real Chrome browser and log defects to a running backlog.</p>
         </a>
 
         <a class="home-also-available__card" href={withBase('/quality-assurance/502-defect-resolution/', base)}>
           <span class="home-path-selection__card-code">502</span>
           <h3>Defect Resolution</h3>
-          <p>Work the defect backlog toward resolution, dispatching each entry to 402 for reproduction, classification, and a real fix.</p>
+          <p>Work the defect backlog, sending each entry to 402 for reproduction and a real fix.</p>
         </a>
       </div>
     </div>
@@ -232,7 +234,7 @@ const defaultVisibleCards = getVisibleCards(defaultPath.sequence, flowRows);
 
         return `<article class="${classes}" data-step-key="${card.key}"${isOptional ? ' data-optional="true"' : ''}>
   <div class="home-path-selection__card-topline">
-    <span class="home-path-selection__card-code">${card.key}</span>
+    <span class="home-path-selection__card-code">${card.code ?? card.key}</span>
     ${badges}
   </div>
   <h3 class="home-path-selection__card-title">${card.title}</h3>

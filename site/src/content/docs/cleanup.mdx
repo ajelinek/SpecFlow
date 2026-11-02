@@ -7,33 +7,26 @@ sidebar:
 
 import Callout from '../../components/Callout.astro';
 
-The `400` series handles two adjacent kinds of follow-up work:
+The `400` series covers two kinds of follow-up work:
 
-- failure triage and correction when a red test does not clearly point to test or source
-- cleanup-only refinement on an already-changed scope
-
-## The split
-
-`401` and `402` are different workflows:
-
-- `401-cleanup`: cleanup-only refinement on an existing changed set
-- `402-test-correction`: investigate a failing test and decide whether the right fix is in the test, in source, or in intended behavior
+- `401-cleanup`: cleanup-only refinement on an already-changed scope
+- `402-test-correction`: investigate a failing test and decide whether the fix belongs in the test, the source, or the intended behavior
 
 ## The 401 rule
 
 **One target type per run: source code or test code, never both.**
 
-This constraint keeps cleanup small, reviewable, and safe to roll back. When you want both source and test cleanup, run `401` twice — once for each.
+This keeps each pass small, reviewable, and easy to roll back. For both, run `401` twice.
 
-<Callout tone="core" title="Cleanup is not always necessary">
-  `301-spec-implementation` already includes independent review and bounded refinement of the feature diff before final validation. Use `401` when the changed set warrants a deeper, separately scoped source or test cleanup pass.
+<Callout tone="core" title="Where 401 fits">
+  The Comprehensive and Conservative paths end with a source `401` run and a test `401` run. On Minimal and Lean it is optional, since `301` already includes independent review and bounded refinement.
 </Callout>
 
-<Callout tone="tip" title="402 is the red-test triage path">
-  Use `402-test-correction` when the problem starts with a failing automated test and you still need to determine whether the defect is in the test, in production code, or in the intended behavior. `402` should stop and ask when the failure is really a business-capability question instead of a clear defect.
+<Callout tone="tip" title="402 is the red-test path">
+  Use `402-test-correction` when a failing test leaves you unsure whether the defect is in the test, the production code, or the intended behavior. It stops and asks when the failure is really a business-capability question.
 </Callout>
 
 ## Skills in this series
 
 - **[401 Cleanup](./401-cleanup/)** — cleanup-only refinement on an already-changed scope
-- **[402 Test Correction](./402-test-correction/)** — classify and correct a failing test without guessing the fix path
+- **[402 Test Correction](./402-test-correction/)** — classify and correct a failing test without guessing
