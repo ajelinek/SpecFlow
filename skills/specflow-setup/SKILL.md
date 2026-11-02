@@ -9,6 +9,9 @@ description: >
 
 # SpecFlow Setup
 
+For human-facing Markdown, prefer headings and labeled bullets; use tables only for compact comparisons.
+Keep required structured syntax unchanged.
+
 Automate SpecFlow configuration, not application installation. Run in the **main, interactive
 context**: scope, model choices, conflicts, and exceptional approvals need a human. Do not fork this skill.
 If invoked headlessly, return unresolved choices to the caller; do not invent consent.

@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: Install the skills, install the optional worker agents, and choose the workflow path that fits your project.
+description: Install the skills, run specflow-setup to configure your coding tools, and choose the workflow path that fits your project.
 section: getting-started
 order: 1
 sidebar:
@@ -28,25 +28,31 @@ npx skills add ajelinek/SpecFlow --skill '*'
 
 Use `npx skills add ajelinek/SpecFlow --list` if you want to preview the available skills first.
 
-<Callout tone="tip" title="Skills install versus agents install">
-  `npx skills add ...` installs the SpecFlow skills. The bundled worker agents are a separate optional install.
+<Callout tone="tip" title="Skills install versus tool setup">
+  `npx skills add ...` only installs the SpecFlow skills. Step 2 configures them, along with the worker agents and model routing, for your coding tools.
 </Callout>
 
-## 2. Install the optional worker agents
+## 2. Run `specflow-setup`
 
-If you want the supporting `coder`, `validator`, `designer`, `reviewer`, and `decider` workers, use **[Custom Agents](./custom-agents/)** next.
+After installing the skills, run the setup skill from your coding tool:
 
-<Callout tone="tip" title="When the agents matter most">
-  The bundled workers are the intended support structure for full `301`, `302`, `401`, and `402` runs. You can start without them, but stronger orchestration comes from installing them.
+<PromptBlock title="Run this" text={`Run specflow-setup.`} />
+
+It configures SpecFlow for **Claude Code, GitHub Copilot CLI, OpenCode, and Codex CLI** — one or several. It asks whether you want project-local or user-wide scope, confirms which tools to configure, and checks current official documentation against your installed tool versions. It then configures the full skill catalog, the `coder`, `validator`, `designer`, `reviewer`, and `decider` workers, and the model for each role. You confirm each role's model; setup does not make that choice for you.
+
+Existing settings and customizations are preserved, and conflicts need your approval. At the end it asks whether to run short live checks, which may use model tokens. It does not install coding applications or manage credentials. See **[SpecFlow Setup](../support-skills/specflow-setup/)** for the full behavior.
+
+<Callout tone="tip" title="When the workers matter most">
+  The workers are the intended support structure for full `301`, `302`, `401`, and `402` runs. You can start without them, but stronger orchestration comes from configuring them. If you only want a plain copy of the Claude-format agent files, use **[Custom Agents](./custom-agents/)** instead.
 </Callout>
 
 ## 3. Initialize `.specflow/` guidance
 
-Run this once, right after installing the skills and before creating your first feature:
+Setup asks about this separately when it configures a project — a user-wide run does not change your current project unless you say so. If you skipped it, or want to run it yourself:
 
 <PromptBlock title="Run this" text={`Run context-manager in initialize mode.`} />
 
-This creates `.specflow/CLAUDE.md`, a short guidance file that tells Claude how `.specflow/context/`, `.specflow/docs/`, and `.specflow/features/` are organized, and states the feature isolation rule: each `.specflow/features/<F-ID>-<slug>/` folder is a point-in-time snapshot, and Claude should not read a sibling feature's folder unless you explicitly ask it to. It's a one-time setup step — no other skill runs it for you, so it does not add overhead to every feature.
+This creates `.specflow/AGENTS.md`, a short guidance file that tells your agent how `.specflow/context/`, `.specflow/docs/`, and `.specflow/features/` are organized, and states the feature isolation rule: each `.specflow/features/<F-ID>-<slug>/` folder is a point-in-time snapshot, and the agent should not read a sibling feature's folder unless you explicitly ask it to. It's a one-time step — no other skill runs it for you, so it does not add overhead to every feature.
 
 ## 4. Run the minimal feature path
 
@@ -77,9 +83,10 @@ Add `401-cleanup` only when the changed set warrants deeper cleanup. Scope sourc
 ## Next
 
 <Callout tone="core" title="You are done with setup">
-  You now have the install split and the minimal feature workflow.
+  You now have the skills installed, your tools configured, and the minimal feature workflow.
 </Callout>
 
 - **[Project Foundation](../project-foundation/)** — the larger lifecycle docs
 - **[Skills](../skills/)** — the full catalog
-- **[Custom Agents](./custom-agents/)** — how to install the bundled worker agents
+- **[SpecFlow Setup](../support-skills/specflow-setup/)** — what `specflow-setup` configures and asks
+- **[Custom Agents](./custom-agents/)** — manual alternative for copying the bundled worker agents

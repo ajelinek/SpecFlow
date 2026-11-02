@@ -360,9 +360,17 @@ export const skills: Skill[] = [
     category: 'Quality Assurance',
   },
   {
+    slug: 'specflow-setup',
+    label: 'specflow-setup',
+    purpose: 'Configure SpecFlow for Claude Code, GitHub Copilot CLI, OpenCode, and Codex CLI: the full skill catalog, the five worker agents, and confirmed per-role model routing, checked against current official documentation.',
+    whenToUse: 'Use it right after installing the skills — and again to repair or update the configuration — before running your first feature.',
+    tier: 'bonus',
+    category: 'Bonus Skills',
+  },
+  {
     slug: 'context-manager',
     label: 'context-manager',
-    purpose: 'Refresh root CLAUDE.md guidance, with nested overlays or path-scoped rules only where subtrees materially differ.',
+    purpose: 'Refresh root AGENTS.md guidance, with nested overlays only where subtrees materially differ.',
     whenToUse: 'Use it when repo guidance is missing, stale, or needs local subtree overrides.',
     tier: 'bonus',
     category: 'Bonus Skills',
@@ -471,6 +479,7 @@ export const starlightSidebar = [
     label: 'Bonus Skills',
     items: [
       { slug: 'support-skills', label: 'Overview' },
+      'support-skills/specflow-setup',
       'support-skills/context-manager',
       'support-skills/gap-check',
       'support-skills/engineering-principles',

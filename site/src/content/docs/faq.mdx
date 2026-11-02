@@ -54,8 +54,16 @@ It breaks the work into feature intent, expected behavior, implementation, and c
 <details>
 <summary>Does `npx skills add` install the worker agents too?</summary>
 
-No. `npx skills add` installs the SpecFlow skills only. The bundled worker agents are an optional
-separate install step.
+No. `npx skills add` installs the SpecFlow skills only. Run `specflow-setup` afterward to configure the
+worker agents and model routing for your coding tools, or copy the agent files by hand with the
+[Custom Agents](../getting-started/custom-agents/) installer.
+
+</details>
+
+<details>
+<summary>Which coding tools does `specflow-setup` support?</summary>
+
+Claude Code, GitHub Copilot CLI, OpenCode, and Codex CLI — one, several, or all four. It asks whether you want project-local or user-wide scope, checks current official documentation against your installed versions, and has you confirm the model for each worker role. It configures SpecFlow files only; it does not install the tools or manage credentials. See [SpecFlow Setup](../support-skills/specflow-setup/).
 
 </details>
 

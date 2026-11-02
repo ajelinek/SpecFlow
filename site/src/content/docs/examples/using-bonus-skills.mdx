@@ -14,12 +14,12 @@ Bonus skills support the workflow. They are useful because they reduce uncertain
 
 ## Typical uses
 
-- `context-manager` when a repo needs fresh root `CLAUDE.md` guidance, plus nested overlays only where a subtree genuinely differs
+- `context-manager` when a repo needs fresh root `AGENTS.md` guidance, plus nested overlays only where a subtree genuinely differs
 - `gap-check` from inside another skill's input-validation step, when its Required Inputs need resolving before that step can proceed
 
 `gap-check` is never typed directly — the 100-series skills call it by name, so it is a dependency of planning rather than a side skill you reach for yourself.
 
 ## Example prompt sequence
 
-<PromptBlock title="Prompt sequence" text={`Refresh CLAUDE.md for this repo using context-manager.
+<PromptBlock title="Prompt sequence" text={`Refresh AGENTS.md for this repo using context-manager.
 Now run 101-project-overview — it will use gap-check to fill in whatever it still needs from me.`} />

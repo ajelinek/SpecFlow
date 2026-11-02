@@ -1,7 +1,7 @@
 ---
 title: Custom Agents
 navTitle: Custom Agents
-description: How to install the bundled SpecFlow worker agents separately from the skills catalog.
+description: The manual alternative to specflow-setup for copying the bundled SpecFlow worker agents.
 section: getting-started
 order: 2
 sidebar:
@@ -10,7 +10,11 @@ sidebar:
 
 import Callout from '../../../components/Callout.astro';
 
-Install the main SpecFlow skills first. Then add the bundled worker agents only if you want them.
+<Callout tone="core" title="Recommended: use specflow-setup">
+  Run `specflow-setup` after installing the skills. It configures the same five workers for Claude Code, GitHub Copilot CLI, OpenCode, and Codex CLI, with model routing you confirm per role. See **[SpecFlow Setup](../../support-skills/specflow-setup/)**. The steps below are the manual alternative: they copy the Claude-format agent files and do not configure other tools or settings.
+</Callout>
+
+Install the main SpecFlow skills first. Then add the bundled worker agents manually only if you prefer a plain file copy.
 
 SpecFlow ships five supporting worker agents in `agents/`:
 
@@ -82,7 +86,8 @@ the `model` field after copying.
 ## Important Split
 
 - Use `npx skills add ...` for the main SpecFlow install
-- Use the `curl ... | sh -s -- --path=...` installer only if you want the optional worker agents
+- Use `specflow-setup` to configure your coding tools, workers, and models
+- Use the `curl ... | sh -s -- --path=...` installer only if you want a manual copy of the worker agents
 - Edit copied agent files if you want different `model` values
 
 These agents are installed separately, but they are the intended support structure for full

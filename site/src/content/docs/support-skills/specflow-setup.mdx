@@ -1,0 +1,74 @@
+---
+title: SpecFlow Setup
+description: Configure SpecFlow for Claude Code, GitHub Copilot CLI, OpenCode, and Codex CLI — the skill catalog, the five worker agents, and per-role model routing.
+sidebar:
+  order: 1
+---
+
+import Callout from '../../../components/Callout.astro';
+import PromptBlock from '../../../components/PromptBlock.astro';
+
+## What this skill is for
+
+`specflow-setup` configures SpecFlow in the coding tools you actually use: **Claude Code, GitHub Copilot CLI, OpenCode, and Codex CLI** (one, several, or all four). It is the recommended step right after `npx skills add`, and it replaces hand-copying agent files.
+
+It delivers configuration, not a new installer:
+
+- The full SpecFlow skill catalog, discovered from the source revision rather than a fixed list
+- The five worker agents — `coder`, `validator`, `designer`, `reviewer`, and `decider` — translated from their real contracts
+- Model routing confirmed with you for each role on each selected tool, including reasoning effort where the tool supports it
+- The smallest runtime settings or instruction adapters each tool needs
+
+<Callout tone="tip" title="It checks current documentation on every run">
+  Each tool handles skills, agents, and models differently, and those details change. Setup reads the current official documentation against your installed tool versions every time. If it cannot reach the docs it pauses before writing anything instead of relying on cached guidance.
+</Callout>
+
+## When to use it
+
+- Right after installing the skills, before your first feature
+- When you add another coding tool to a project you already set up
+- When agents, models, or tool settings are stale or broken after a tool upgrade
+- When you want to change which model a worker role uses
+
+## When NOT to use it
+
+- To install the coding applications themselves — setup configures SpecFlow files, and a missing CLI is reported as blocked
+- To manage provider credentials or API keys
+- To run a feature workflow — setup never starts one
+
+## What it asks you
+
+Setup runs in your main, interactive session and only asks what it cannot decide:
+
+1. **Scope** — project-local or user-wide, every time you run it (project-local is recommended)
+2. **Target tools** — it detects what is installed and asks you to confirm
+3. **Model per role** — a recommendation for each of the five workers on each tool, for you to confirm or change
+4. **Conflicts** — anything that would overwrite your customizations or change shared configuration
+5. **Live tests** — whether to run short live checks, which may consume model tokens
+
+You do not review or approve a setup plan. The result is a short report of what changed, what was verified, and anything blocked.
+
+## What it preserves
+
+- Existing settings, customizations, managed restrictions, and symlink targets are left alone
+- No permission bypasses, blanket shell grants, or new credentials
+- A rerun with nothing to change makes no edits
+- SpecFlow's behavior rules stay intact across tools: independent reviews, tests-first work, bounded repair loops, and feature isolation
+
+<Callout tone="bonus" title="User-wide setup does not touch your project">
+  A user-wide run installs shared skills, workers, and eligible user settings. Initializing the current project's `.specflow/` guidance is a separate question, asked afterward.
+</Callout>
+
+## Common prompts
+
+<PromptBlock title="Prompt" text={`Run specflow-setup.`} />
+
+<PromptBlock title="Prompt" text={`Run specflow-setup for OpenCode and Codex CLI.`} />
+
+## What usually comes next
+
+Your first feature. Start with the minimal path in [Getting Started](../../getting-started/), or build project context with the `100` series first.
+
+## Relationship to Custom Agents
+
+The [Custom Agents](../../getting-started/custom-agents/) page documents the manual alternative: a shell installer that copies the Claude-format agent files. It does not configure models, other tools, or settings. Use `specflow-setup` unless you specifically want a plain file copy.

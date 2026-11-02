@@ -7,18 +7,19 @@ sidebar:
 
 import Callout from '../../components/Callout.astro';
 
-Three skills sit outside the main SpecFlow lifecycle but support it directly. `context-manager` can be used at any point in a project. `gap-check` and `engineering-principles` are different — they are not meant to be invoked directly; they only run when another skill or agent loads them by name.
+Four skills sit outside the main SpecFlow lifecycle but support it directly. `specflow-setup` runs once after installing the skills and again whenever your tools change, and `context-manager` can be used at any point in a project. `gap-check` and `engineering-principles` are different — they are not meant to be invoked directly; they only run when another skill or agent loads them by name.
 
 ## The bonus skills
 
 | Skill | What it does |
 |---|---|
-| `context-manager` | Creates or refreshes `CLAUDE.md` guidance so Claude Code can navigate the repo accurately |
+| `specflow-setup` | Configures SpecFlow for Claude Code, GitHub Copilot CLI, OpenCode, and Codex CLI: the skill catalog, the five worker agents, and confirmed per-role model routing |
+| `context-manager` | Creates or refreshes `AGENTS.md` guidance so coding agents can navigate the repo accurately |
 | `gap-check` | Resolves a workflow's declared Required Inputs from existing context first, then asks about only what's left, one question at a time with a recommended answer |
 | `engineering-principles` | Defines the shared engineering principles every design, build, and cleanup pass follows, led by reuse over creation |
 
 <Callout tone="bonus" title="Bonus does not mean optional">
-  `context-manager` sits outside the feature loop but can become important early when a repo needs trustworthy `CLAUDE.md` guidance for the first time.
+  `context-manager` sits outside the feature loop but can become important early when a repo needs trustworthy `AGENTS.md` guidance for the first time.
 </Callout>
 
 <Callout tone="tip" title="gap-check is invoked by name, not typed directly">
@@ -27,6 +28,7 @@ Three skills sit outside the main SpecFlow lifecycle but support it directly. `c
 
 ## Skills in this section
 
-- **[Context Manager](./context-manager/)** — create or refresh CLAUDE.md guidance
+- **[SpecFlow Setup](./specflow-setup/)** — configure SpecFlow for your coding tools, workers, and models
+- **[Context Manager](./context-manager/)** — create or refresh AGENTS.md guidance
 - **[Gap Check](./gap-check/)** — resolve a workflow's Required Inputs with minimum friction
 - **[Engineering Principles](./engineering-principles/)** — reuse over creation, plus the supporting principles
