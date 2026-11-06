@@ -54,7 +54,7 @@ Dispatch two fresh, independent, read-only reviewers with the **same complete br
 - **Walkthrough review** follows the scenarios end to end, checking integration, reuse, and completeness.
 - **Adversarial review** challenges assumptions and applicable risks, such as authorization, data integrity, concurrency, failure handling, compatibility, and accessibility. It skips risks that do not apply.
 
-The orchestrator resolves findings against code and scenario evidence, not by counting votes. Implementation is blocked whenever any required readiness criterion fails:
+The orchestrator resolves findings against code and scenario evidence, not by counting votes. Reviewers return `CHANGES_REQUIRED` whenever a required readiness criterion fails:
 
 - Scope, outcomes, scenarios, and design agree without missing behavior or unjustified scope.
 - Every scoped scenario has a feasible end-to-end change path and observable checks.
@@ -62,15 +62,17 @@ The orchestrator resolves findings against code and scenario evidence, not by co
 - Reuse decisions are code-grounded, project/standards/UI constraints are satisfied, and any new dependency is explicitly approved.
 - Material assumptions and questions affecting correctness, safety, or feasibility are resolved by evidence.
 
-Allow at most **two repair rounds** after the initial reviews. Recheck affected roles in fresh contexts with the complete revised brief and their own findings' resolution evidence, never sibling conclusions. Recheck both roles when shared assumptions, scope, contracts, or scenario mappings change. Retain an unaffected review only where its criteria and evidence are unchanged. Both applicable reviews must be clean and every required criterion resolved, regardless of finding severity.
+Allow at most **two repair rounds** after the initial reviews. Recheck affected roles in fresh contexts with the complete revised brief and their own findings' resolution evidence, never sibling conclusions. Recheck both roles when shared assumptions, scope, contracts, or scenario mappings change. Retain an unaffected review only where its criteria and evidence are unchanged. Normal acceptance requires both applicable reviews clean and every required criterion resolved.
 
-Keep implementation blocked throughout readiness repair. If readiness still fails after at most two repair rounds, or a material design blocker cannot be resolved, return a terminal design blocker. Do not waive or reset the cap, treat silence as approval, or code around unresolved findings.
+At the cap, return a **`review_limit` decision packet**, not a terminal design blocker: the complete current brief and reviewed revision, consumed budget, actual verdicts, findings and evidence, concrete options, and a lowest-risk feasible recommendation. Under `901`, the existing decider selects the best evidence-backed way forward. Otherwise the caller decides. Re-enter at the pending phase with the caller's explicit resolution, not a fresh review budget.
+
+The resolution names the chosen approach, per-finding accepted/rejected/deferred dispositions, evidence, and any bounded corrections. Verify those corrections without another review cycle, then continue tests-first. Confirmed correctness/security defects and missing required behavior must be addressed, not deferred. Caller authorization never changes a reviewer verdict to `CLEAN`. A genuine inability to implement safely remains a substantive blocker; exhausting the review budget alone does not.
 
 ### Phase 3: Implement tests-first
 
 Assign one coder the approved design and scope. In one assignment, establish the baseline, write or extend tests, demonstrate the intended red failure, and implement the minimum source change to reach green. Keep baseline, red, and green evidence distinct.
 
-Material design discoveries during implementation, refinement, or validation repair return to the readiness gate before more implementation. They use the same repair budget, not a new cap.
+Material design discoveries during implementation, refinement, or validation repair return to readiness before more implementation. They use the same repair budget, not a new cap; when exhausted, obtain an explicit caller resolution against the changed evidence.
 
 ### Phase 4: Independently review and refine
 
@@ -113,7 +115,7 @@ On Comprehensive and Conservative paths, `401-cleanup` runs next: once for sourc
 - Give the fresh coder distinct test-quality and source-quality checkpoints in one assignment. Preserve assertions, coverage, intended behavior, and public contracts.
 - Let coders run assigned development checks. Bundle final test, lint, and build checks into one validator assignment with separate results for each.
 - Keep both pre-implementation reviewers on the same complete brief revision. Resolve findings with evidence before assigning implementation.
-- On an interrupted run, rebuild the in-memory brief and design from current artifacts and code, then rerun both readiness reviews. Preserve consumed repair rounds; stop if that history cannot be recovered rather than resetting the cap.
+- On an interrupted run, rebuild the in-memory brief and design from current artifacts and code. Recheck both readiness roles while budget remains; otherwise obtain an evidence-matched caller resolution. Preserve consumed rounds; missing history counts as an exhausted budget, not a fresh cap.
 
 ## Common mistakes
 
@@ -121,7 +123,7 @@ On Comprehensive and Conservative paths, `401-cleanup` runs next: once for sourc
 - Using `301` for test-only work that belongs in `302`
 - Trying to revise Gherkin inside `301` instead of routing that work back through `202-spec-design`
 - Weakening tests during refinement to match the implementation
-- Starting implementation before required readiness criteria pass, or treating the two-repair-round cap as waivable
+- Starting implementation without either clean readiness reviews or an explicit evidence-backed caller resolution, or resetting the review budget to avoid making a decision
 - Treating the bounded refinement pass as a substitute for `401` on complex changes that genuinely benefit from a dedicated cleanup pass
 
 <Callout tone="warning" title="The independent context is intentional">

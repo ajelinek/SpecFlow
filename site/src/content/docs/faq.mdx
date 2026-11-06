@@ -75,7 +75,7 @@ Use `402` when a test is failing and you don't yet know whether the defect is in
 <details>
 <summary>Where does implementation design happen?</summary>
 
-Inside `301`, before coding. The design is compact and kept in memory. Two independent, read-only reviewers assess it, and readiness criteria must pass. If they still fail after two repair rounds, the run blocks without implementing; nothing, including a `901` Decision Consult, can bypass that gate.
+Inside `301`, before coding. The design is compact and kept in memory. Two independent, read-only reviewers assess it. After two repair rounds, remaining findings return for an explicit caller resolution; under `901`, the decider selects the best evidence-backed way forward. Review budgets are not reset, actual verdicts stay visible, and validation or confirmed defects cannot be waived.
 
 </details>
 

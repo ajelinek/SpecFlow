@@ -15,29 +15,38 @@ export const featureLoopHref = withBase('/FeatureLoop/', import.meta.env.BASE_UR
 
 `901-feature-loop` runs one feature end-to-end on its own branch, headless: a green four-layer baseline gate, then `201` -> `202` (Happy Path) -> per-scenario `301` grouped by `TSM#` module -> aggregate `401` cleanup and a round close-out green check -> an optional expanded-coverage round -> base sync -> whole-feature review -> final validation -> merge. Each scenario gets its own `301` pass and `specs.feature` status-tag update; the module gets the lightweight Module Check and commit.
 
-`900-feedback-loop` reviews the persisted overview, specs, and aggregate cleanup passes. Each `301` separately owns its in-memory implementation design, two independent readiness reviews, tests-first build, fresh-coder refinement, and final validator. Its required readiness criteria and two-repair-round cap remain binding inside `901`.
+`900-feedback-loop` reviews the persisted overview, specs, and aggregate cleanup passes. Each `301` separately owns its in-memory implementation design, two independent readiness reviews, tests-first build, fresh-coder refinement, and final validator. Review budgets remain bounded: at the cap, `901` uses the existing decider to select the best evidence-backed way forward, records the decision, and continues instead of ending the run.
 
 The full four-layer Green Check (unit, integration/e2e, lint, and build as four separate `@validator` calls) runs at the baseline, the Round 1 close-out, and the final gate. The lighter two-layer Module Check runs once per module. Eligible decisions use the **Decision Consult**, not a user question. Every step, scenario, gate, consult, and feedback pass appends to a durable audit trail.
 
 **Output**: Updates project source/test files and `.specflow/features/<fid>-<feature-slug>/` artifacts, including its own `implementation-log.jsonl` audit trail. Creates a feature branch, commits throughout, and merges it back. No new artifact type of its own.
 
-`901` owns whole-feature completion: per-scenario `301` successes report scope complete and leave the overview `implementing`. **Complete** means the merged code passed every required gate: a clean Feature Review and a passing final Green Check on the same commit, with the base branch already synced in. Only then does Step 22 mark the feature `done`.
+`901` owns whole-feature completion: per-scenario `301` successes report scope complete and leave the overview `implementing`. **Complete** means a completed Feature Review (clean or explicitly decider-resolved) and a passing final Green Check on the same code, with the base branch already synced in. Only then does Step 22 mark the feature `done`.
 
-## Fail-closed gates
+## Validation gates and review limits
 
-Green Checks, Module Checks, the Feature Review, and the `301` design gate never pass by consult, skip, or waiver. A gate that can't pass ends the run at that gate: the ledger records `terminal`, every commit stays, and the branch is left unmerged so the run can resume once the blocker is fixed.
+Executable validation — Green Checks, Module Checks, and `301`'s required test/lint/build checks — never passes by consult, skip, or waiver. A validation gate that can't pass ends the run at that gate: the ledger records `terminal`, every commit stays, and the branch is left unmerged so the run can resume once the blocker is fixed. Review-budget exhaustion is a decision point, not a validation failure.
 
 - **Repairs stop when progress stops.** Each repair round fixes every reported failure and reruns all layers for that gate. Repairs continue while failures keep dropping; a round that doesn't reduce them is non-convergence.
 - **A red Round 1 ends the run.** Round 2 never builds on top of a failing round close-out.
-- **Feedback Passes improve, they don't gate.** When `900` hits its cap without converging, the outstanding items are logged and carried into the Feature Review instead of ending the run.
+- **Review caps end debate, not the feature run.** Every exhausted artifact, cleanup, `301` readiness, or Feature Review budget enters Review-Limit Resolution. The original verdict and outstanding findings stay visible.
+
+### Review-Limit Resolution
+
+1. Prepare the reviewed scope/revision, consumed rounds, actual verdicts, findings, prior fixes, code/test evidence, and concrete ways forward. Name the lowest-risk feasible option as the fallback.
+2. Call `decider` once through Decision Consult to select the best evidence-backed approach, not an increased review cap. Prefer correctness/security and required behavior, then lower risk, reversibility, and reuse.
+3. Record each finding as accepted (fix), rejected (with contrary evidence), or deferred (non-blocking risk/improvement). Apply at most one bounded correction pass under the originating skill's scope and tests-first rules. Verify fixes with inspection and targeted checks, not a fresh review loop, then advance to the next required validation.
+4. Log the chosen approach, rationale, dispositions, verification, remaining risks, and next step. A decider resolution does not turn `CHANGES_REQUIRED` into `CLEAN` or `converged: false` into true. Within that scope, unchanged findings/evidence do not justify another consult or reset budget. Expected implementation edits do not invalidate a resolution; new material evidence does.
+
+Confirmed correctness/security defects, missing required behavior, and missing required coverage must be repaired, not deferred. A genuine lack of a safe implementation path remains a substantive blocker; the report names that evidence, not the exhausted review budget. Feedback Pass findings and their dispositions carry into the Feature Review without reopening settled judgments unless new material evidence appears.
 
 ## Feature Review and merge
 
 After final cleanup, Step 19 merges the current base branch into the feature branch. Conflicts are resolved there, keeping both branches' intended behavior.
 
-Step 20 then runs the **Feature Review**: a `900` cycle with `@reviewer` and `@coder`, capped at two iterations. It checks the full feature diff against every acceptance criterion and scenario, plus any carried Feedback Pass items, and looks for cross-scenario correctness, security, and regression risks. It blocks on unmet criteria, correctness or security risks, missing required coverage (written tests-first), and material maintainability problems. Optional suggestions are recorded as advisories and never block.
+Step 20 then runs the **Feature Review**: a `900` cycle with `@reviewer` and `@coder`, capped at two iterations. It checks the full feature diff against every acceptance criterion and scenario, plus any carried Feedback Pass items and dispositions, and looks for cross-scenario correctness, security, regression, coverage, and material maintainability problems. Missing coverage is fixed tests-first. Optional suggestions are recorded as advisories and never block. At the cap, Review-Limit Resolution completes this stage without requiring reviewer unanimity, but cannot waive a confirmed defect or unmet required outcome even if tests pass.
 
-Step 21 runs the final Green Check on that same code. Because the base is already in the feature branch, the Step 23 merge can't conflict and delivers exactly the tree that passed. If the base moves before the merge, Steps 19–21 rerun.
+Step 21 runs the final Green Check on that same code. Material behavior changes during repairs refresh the affected review evidence/resolution, not an exhausted review budget. Because the base is already in the feature branch, the Step 23 merge can't conflict and delivers exactly the code that passed. If the base moves before the merge, Steps 19–21 rerun.
 
 <Callout tone="core" title="See the full run, visually">
   Every phase, all 24 steps, every skill and agent call, and the audit trail behind it — laid out as an interactive walkthrough at <a href={featureLoopHref}>SpecFlow/FeatureLoop</a>.
@@ -46,7 +55,7 @@ Step 21 runs the final Green Check on that same code. Because the base is alread
 ## When to use it
 
 - For a whole feature that justifies full BDD rigor and branch-level traceability, end to end, with no manual orchestration and no pauses for input
-- When you want every design/spec artifact and every aggregate cleanup pass reviewed and converged automatically before the run advances
+- When you want every design/spec artifact and aggregate cleanup pass reviewed, with bounded decisions rather than stops at review limits
 - When commit-level traceability across design, each module, cleanup, and merge matters more than moving fast
 
 ## When NOT to use it
@@ -61,38 +70,38 @@ Step 21 runs the final Green Check on that same code. Because the base is alread
 
 ## The Decision Consult
 
-This workflow never pauses mid-run to ask the user a question. Invoking `901` authorizes it to decide within the feature, broadening only when a step needs it. Eligible decisions about feature identity, an existing branch, a dirty working tree, base-sync conflicts, `402` intent questions, or per-module retries use this consult. A consult never waives a required gate. `301` design readiness is also an exception: exhausting its repair cap or encountering an unresolvable material design blocker ends the run, without consult-driven retries or a cap reset.
+This workflow never pauses mid-run to ask the user a question. Invoking `901` authorizes it to decide within the feature, broadening only when a step needs it. Decisions about feature identity, an existing branch, a dirty working tree, base-sync conflicts, `402` intent questions, per-module retries, and exhausted review budgets use this consult. It chooses how to proceed without waiving executable validation, confirmed defects, or required behavior/coverage.
 
 1. **Frame it** — a short, self-contained brief: the specific question, the concrete option set (including that step's documented default, if any), and the state needed to reason about it.
 2. **Call `@decider` once** with that brief. `@decider` is a purpose-built worker — the strongest model setup in the run, since these are calls nothing else double-checks in a headless run — and it owns the entire arbitration internally: it verifies load-bearing facts once, then spawns three independent stance-framed sub-agent calls in parallel over the same verified brief (one weighted toward keeping the run moving, one weighted toward the lowest-risk/most-reversible option, one neutral), and resolves them by majority — unanimous or 2-1 agreement wins outright; a genuine three-way split falls back to the highest-confidence pick, then smaller blast radius, then the neutral call as tiebreaker. The orchestrator never manages that three-way arbitration itself — it just gets back one decided option, a rationale, and a confidence level.
-3. **Act on it.** If `@decider` reports the brief genuinely unanswerable, use that step's documented default; if none exists, end with a terminal report. Consults cannot waive a required gate or authorize an unresolved merge.
+3. **Act on it.** If `@decider` reports the brief genuinely unanswerable, use that step's documented default; review-limit briefs name a lowest-risk feasible default. If none exists, report the actual substantive blocker, not a budget failure. Consults cannot waive executable validation or authorize an unresolved merge.
 4. **Log it** — the brief and `@decider`'s returned decision feed into the final summary so it's clear what was decided and why.
 
-<Callout tone="warning" title="Readiness failure is terminal too">
-  Any required gate that stops improving ends with a terminal report. So can a `301` design gate that still fails after at most two repair rounds, or an unresolvable material design blocker. After log initialization, record terminal outcomes and retain the branch and evidence. Do not implement the blocked scope or merge unresolved work. A Decision Consult cannot waive or reset this cap.
+<Callout tone="warning" title="Validation still decides whether to merge">
+  Review limits route to the decider, not a terminal report. Failed executable checks, unrepaired confirmed defects, or an evidenced inability to deliver required behavior safely still block completion. Never weaken assertions, drop acceptance criteria, or claim a clean review to advance.
 </Callout>
 
 ## Audit trail
 
 Every run keeps its own durable, append-only ledger: `.specflow/features/<fid>-<feature-slug>/implementation-log.jsonl`, one JSON object per line, written starting the moment the feature branch is created. It exists so a stuck or interrupted run leaves a mechanical trail behind instead of losing everything with the context that produced it — resuming reads back the last recorded step instead of guessing, and the final summary is composed by reading the file in full rather than from carried-forward context.
 
-Nine event types cover the logged run: `run_init` (once, at branch creation), `step_complete` (after every top-level step), `scenario_complete` (after each scenario's `301` pass), `gate` (every Green Check and Module Check), `decision_consult` (every Decision Consult call), `feedback_pass` (every `900-feedback-loop` cycle, including the Feature Review), `resume` (when picking a prior run back up), `terminal` (any failed gate or blocked `301` design gate after log initialization), and `run_complete` (once, at the end). A baseline failure predates the log and returns a terminal report without a log entry. See the ledger rendered at <a href={featureLoopHref}>SpecFlow/FeatureLoop</a>.
+Nine event types cover the logged run: `run_init` (once, at branch creation), `step_complete` (after every top-level step), `scenario_complete` (after each scenario's `301` pass), `gate` (every Green Check and Module Check), `decision_consult` (every Decision Consult call), `feedback_pass` (every `900-feedback-loop` cycle, including the Feature Review), `resume` (when picking a prior run back up or verifying a pending decision), `terminal` (a substantive blocker or failed validation after log initialization), and `run_complete` (once, at the end). Review-limit consults add scope/revision, consumed rounds, real verdicts, rationale, dispositions, pending verification, remaining risks, and next step. After applying/verifying the choice, append a `resume` with `resolution_of` (consult timestamp), verification evidence/results, remaining risks, and next step; a choice alone is not a completed resolution. A baseline failure predates the log and returns a terminal report without a log entry. See the ledger rendered at <a href={featureLoopHref}>SpecFlow/FeatureLoop</a>.
 
 A log line is staged in its own step's commit, so it can't hold that commit's SHA. Instead, each `step_complete` records `prev_commit`, the commit before it, and `run_complete` records the merge commit. On resume, those SHAs are checked against `git log`.
 
-Step 3 checks the existing ledger before treating an overview's `done` status as completed work or assigning a new F-ID. An incomplete run retains its feature identity even if the overview is stale. A `301` terminal outcome still ends the run without retry, consult bypass, or a reset under a new F-ID.
+Step 3 checks the existing ledger before treating an overview's `done` status as completed work or assigning a new F-ID. An incomplete run retains its feature identity even if the overview is stale. A prior cap-only terminal result resumes through Review-Limit Resolution: reconstruct the current scope and evidence, append a `resume` and a consult referencing the old terminal's timestamp as `supersedes_terminal`, and never rewrite history. A resume entry alone does not clear the old stop: its resolution must be verified. Underlying substantive blockers still need repair or an evidence-backed rejection.
 
-A run interrupted mid-module resumes on the current working tree at the first scenario without a `scenario_complete` line, carrying each finished scenario's `301` repair rounds forward. When resuming a pending `301`, rebuild its complete brief and in-memory design from current artifacts and code, then rerun the two independent readiness reviews before implementation continues. Do not rely on lost reviewer memory or an old approval. Preserve the repair history; stop if it cannot be recovered. Resuming does not reset an exhausted cap or turn a terminal gate into a fresh retry budget.
+A run interrupted mid-module resumes on the current working tree at the first scenario without a `scenario_complete` line, carrying consumed repair rounds forward. Rebuild a pending `301` brief from current artifacts and code; re-review while budget remains, otherwise use Review-Limit Resolution. Missing repair history counts as an exhausted budget. Reuse a recorded resolution only when scope, revision, and evidence still match, finishing pending corrections/verification rather than consulting again or assuming the choice was applied. Resuming never resets review budgets.
 
 ## What it produces
 
 - A dedicated `feature/<fid>-<feature-slug>` branch, created from the current branch, with a commit after every stage
 - A green four-layer baseline (`@validator`: unit, integration/e2e, lint, build) confirmed before any branch or design work starts
 - Every design/spec artifact (`201` overview, `202` specs) reviewed and refined by `900-feedback-loop` before the run advances
-- Each `301`'s in-memory design reviewed for readiness independently, with terminal failures logged rather than bypassed
+- Each `301`'s in-memory design reviewed for readiness independently, with explicit decider resolutions at exhausted review budgets
 - Round 1 (Happy Path Only, always runs) and an optional Round 2 (`none` / `balanced` / `comprehensive` coverage, default `balanced`) — Round 2 builds new scenarios plus any round-1 scenarios it materially changed, not Round 1 again
 - Aggregate source and test cleanup passes at the end of each round, each reviewed by `900-feedback-loop`
-- A base-branch sync, a blocking whole-feature Feature Review, and a four-layer final validation pass on that same code
+- A base-branch sync, a whole-feature Feature Review completed by a clean verdict or explicit decider resolution, and a four-layer final validation pass on that same code
 - A `--no-ff` merge back into the base branch that delivers exactly the validated tree — the feature branch is kept afterward, never deleted, and nothing is ever pushed to a remote
 - An append-only `implementation-log.jsonl` audit trail — every step, scenario, gate, Decision Consult, and Feedback Pass, from branch creation through to the merge (see **Audit trail** above)
 - A summary: feature identity, branch name, round-2 coverage used, the full commit ledger, scenarios implemented per round, gate results, `900-feedback-loop` iteration counts and carried items, Feature Review advisories, the merge commit (or terminal-report reason), and every Decision Consult invoked with its resolution
@@ -116,7 +125,7 @@ Once the loop merges back into the base branch, the feature branch is kept (not 
 ## Practical guidance
 
 - Per-scenario build steps run as direct sequential `301` calls, never wrapped in `900-feedback-loop`. `301` owns its in-memory design/readiness gate and bounded refinement. The Module Check and commit apply to the whole module
-- Only design/spec artifacts, aggregate end-of-round cleanup, and the final Feature Review get the `900-feedback-loop` treatment; only the Feature Review blocks completion
+- Only design/spec artifacts, aggregate end-of-round cleanup, and the final Feature Review get the `900-feedback-loop` treatment; exhausted budgets at any review stage route through the decider
 - The full four-layer Green Check runs only at the baseline, the Round 1 close-out, and the final gate, as four separate `@validator` calls; the per-module Module Check is a lighter two-layer pass (lint plus that module's own spec tests) run once after every scenario in the module has its own `301` pass. Failing tests route to `402-test-correction`, lint/build failures to a focused `@coder` repair pass
 - Scope-expansion authorization for aggregate `401` cleanup applies only to whichever round actually runs last
 - All git operations run directly in the orchestrating context, never delegated to a subagent
@@ -128,9 +137,9 @@ Once the loop merges back into the base branch, the feature branch is kept (not 
 - Starting the next module's build cycle before the current one — including every scenario's status-tag update and that module's Module Check — is committed
 - Expecting round 2 to re-run unchanged round-1 scenarios — it builds only new `@TS###` scenarios and round-1 scenarios whose steps, examples, or outcomes it changed
 - Resolving conflicts on the base branch — the base is synced into the feature branch first, so conflicts are resolved and validated there
-- Treating an unconverged Feedback Pass as a pass — its outstanding items carry into the Feature Review, which must clear them
-- Resetting an exhausted `301` design cap on resume, routing it through Decision Consult, or merging unresolved readiness findings
+- Treating a decider resolution as a clean review — preserve real verdicts, finding dispositions, and remaining risks
+- Resetting an exhausted review budget on resume, repeating the same consult without new evidence, or using a decision to waive validation or confirmed defects
 
 <Callout tone="tip" title="Decides rather than asks">
-  `901-feature-loop` never stops mid-run to ask the user a question. Eligible decisions route through the Decision Consult, and the run acts on the result. A required gate that can't pass, including an exhausted `301` design gate, instead produces a logged terminal outcome with no unresolved merge.
+  `901-feature-loop` never stops mid-run to ask the user a question. Decisions, including exhausted review budgets, route through Decision Consult and the run acts on the result. Terminal outcomes are for substantive blockers or failed validation, not review limits.
 </Callout>

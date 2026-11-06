@@ -22,7 +22,7 @@ SpecFlow ships five supporting worker agents in `agents/`:
 - `validator` — validation worker that runs an assigned test/lint/build mode or explicit mode list and reports separate results without modifying code
 - `designer` — visual direction worker available to `106-ui-design`, used for the three independent designs in `108-ui-page-design`, and used by UI-affecting `301-spec-implementation` runs
 - `reviewer` — read-only worker for `301`'s two independent pre-implementation reviews and the Review role in `900-feedback-loop`
-- `decider` — read-only decision-making worker for the Decision Consult in `901-feature-loop`, picking one option from a brief's option set without waiving readiness gates or repair caps
+- `decider` — read-only decision-making worker for the Decision Consult in `901-feature-loop`, including evidence-backed ways forward at review limits; it never resets review budgets or waives validation/confirmed defects
 
 <Callout tone="tip" title="No repo clone required">
   These commands download the installer script directly from GitHub and run it in one step.

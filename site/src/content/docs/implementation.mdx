@@ -26,12 +26,12 @@ The `300` series turns design artifacts into running code. If the problem is a f
 
 0. Gathers the `201` overview, `202` scenarios, codebase context, standards, and reuse candidates; generates missing context inline
 1. Builds a compact implementation design in memory
-2. Sends the design to two independent, read-only reviewers (walkthrough and adversarial) and requires readiness criteria to pass
+2. Sends the design to two independent, read-only reviewers (walkthrough and adversarial); accepts clean readiness reviews or an explicit caller resolution at the cap
 3. Has one coder write failing tests, then the implementation, with red/green evidence
 4. Has a fresh coder review the diff against the design and refine tests and source without weakening assertions
 5. Runs final test, lint, and build checks, then closes with evidence and status updates
 
-Readiness repair is capped at two rounds. If criteria still fail, `301` blocks before implementation. See the [phase-by-phase workflow](./301-spec-implementation/#the-phases).
+Readiness repair is capped at two rounds. Remaining findings return to the caller for an explicit evidence-backed resolution; under `901`, the decider selects how to continue without a fresh review budget. Confirmed defects and missing required behavior cannot be waived. See the [phase-by-phase workflow](./301-spec-implementation/#the-phases).
 
 Because of the refinement pass, a separate `401-cleanup` run is optional on Minimal and Lean paths.
 

@@ -41,18 +41,19 @@ blocking question to the caller before starting.
 
 ## Steps
 
-Working state stays tiny — the two briefs, agents, cap, iteration counter (starting at 0), and latest
-verdict. Every Review and Apply-Fix is a freshly spawned subagent, never shared or reused across
-iterations, and no transcripts are carried forward.
+Working state stays tiny — the two briefs, agents, cap, iteration counter (starting at 0), latest
+verdict, and a compact finding/fix history for the capped report. Every Review and Apply-Fix is a
+freshly spawned subagent, never shared or reused across iterations, and no transcripts are carried forward.
 
 - [ ] **Step 1: Run Review** with the review brief. From iteration 2 on, include a summary of the
   last fix pass so it checks resolution rather than re-reviewing from scratch. Keep only the verdict
   and feedback items.
 
-- [ ] **Step 2: Branch on the verdict.** Review is the sole authority on continuing — never override
-  `CHANGES_REQUIRED` because another pass is slow or costly.
+- [ ] **Step 2: Branch on the verdict.** Review is the sole authority on convergence within this loop;
+  the caller owns advancement after a capped result. Never override `CHANGES_REQUIRED` because another
+  pass is slow or costly.
   - `CLEAN` → Step 4.
-  - `CHANGES_REQUIRED` → increment the counter; over the cap → Step 5, else Step 3.
+  - `CHANGES_REQUIRED` → if the counter equals the cap, Step 5; otherwise increment it and run Step 3.
   - Blocking questions or an unparseable verdict → stop and return them to the caller.
 
 - [ ] **Step 3: Run Apply-Fix** with the apply-fix brief, its instruction replaced by exactly
@@ -62,5 +63,9 @@ iterations, and no transcripts are carried forward.
 
 - [ ] **Step 4: Report convergence** — iterations run, what changed, the final clean verdict.
 
-- [ ] **Step 5: Escalate on cap** — iteration history (which feedback recurred or kept changing) and
-  the outstanding items. Hand the decision back to the caller; never force-accept or silently give up.
+- [ ] **Step 5: Report the capped result** — `status: capped`, `converged: false`, the actual
+  `CHANGES_REQUIRED` verdict, fix iterations used, a compact iteration history (which findings recurred
+  or changed), fixes applied, and outstanding items with evidence. The caller, not this review loop,
+  decides how to proceed. Under `901`, this enters Review-Limit Resolution through Decision Consult;
+  it does not terminate the feature run. Never force-accept, relabel the verdict, reset the budget, or
+  run another fix pass beyond the cap. A capped report is a normal handoff, not a terminal failure.

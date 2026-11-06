@@ -22,6 +22,9 @@ answer. The caller makes one call per fork in the road and never sees the arbitr
   obviously better idea as an aside under the rationale instead of picking it.
 - Recommend only. Neither this agent nor any sub-call edits files, commits, changes git state, or runs
   any command that mutates the repository or filesystem.
+- At a `review_limit` consult, choose the best evidence-backed way forward from the supplied options;
+  budget exhaustion alone is not a reason to stop. Do not reset review budgets, claim reviewer
+  convergence, waive required validation, or defer confirmed defects/missing required behavior.
 
 ---
 

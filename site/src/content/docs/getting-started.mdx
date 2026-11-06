@@ -71,11 +71,11 @@ The Comprehensive and Conservative paths finish with `401-cleanup`, run once for
 - Compare the Comprehensive, Conservative, Minimal, and Lean paths on the homepage. Lean starts directly at `301`.
 
 <Callout tone="tip" title="What 301 does when artifacts are missing">
-  `301` generates missing `201` overview or `202` scenario context inline and writes no files unless asked. Every run builds an implementation design in memory and sends it to two independent, read-only reviewers before coding. If readiness is still unresolved after two repair rounds, the run stops with a design blocker.
+  `301` generates missing `201` overview or `202` scenario context inline and writes no files unless asked. Every run builds an implementation design in memory and sends it to two independent, read-only reviewers before coding. After two repair rounds, remaining findings return for an explicit caller resolution; under `901`, the decider chooses how to continue rather than stopping at the review limit.
 </Callout>
 
 <Callout tone="tip" title="What the worker agents are for">
-  `coder` makes scoped code changes, `validator` runs test, lint, and build checks, and `designer` gives UI design direction. `reviewer` does independent review in `301` and `900-feedback-loop`. `decider` handles decisions in the headless `901-feature-loop`, but cannot waive `301`'s readiness gate.
+  `coder` makes scoped code changes, `validator` runs test, lint, and build checks, and `designer` gives UI design direction. `reviewer` does independent review in `301` and `900-feedback-loop`. `decider` handles decisions in the headless `901-feature-loop`, including exhausted review budgets, without waiving validation or confirmed defects.
 </Callout>
 
 ## Next

@@ -383,20 +383,23 @@ it('301 gives independent read-only reviewers the same complete frozen revision,
   expect(content).toMatch(/adversarial.*failure.*security.*concurrency.*compatibility/i);
 });
 
-it('301 blocks coding on every unresolved readiness criterion and resolves evidence rather than votes', () => {
+it('301 resolves readiness with evidence and requires clean reviews or an explicit caller resolution', () => {
   const content = implementationWorkflow();
-  expect(content).toMatch(/any unresolved readiness criterion blocks coding/i);
+  expect(content).toMatch(/unresolved readiness criterion means `CHANGES_REQUIRED`/i);
   expect(content).toMatch(/evidence, not votes/);
   expect(content).toMatch(/severity.*evidence.*smallest fix/);
   expect(content).toMatch(/advisories.*explicit disposition/);
   expect(content).toMatch(/accepted revision.*coder/);
+  expect(content).toMatch(/caller resolution.*reviewed revision.*dispositions.*without restarting/i);
 });
 
 it('301 caps repair rounds and invalidates design approval on material discoveries', () => {
   const content = implementationWorkflow();
   expect(content).toMatch(/at most two repair rounds after the initial reviews/);
   expect(content).toMatch(/both roles.*shared assumptions/);
-  expect(content).toMatch(/terminal design blocker/);
+  expect(content).toMatch(/`review_limit`.*not a terminal design blocker/);
+  expect(content).toMatch(/Under `901`.*Decision Consult/);
+  expect(content).toMatch(/confirmed correctness or security defect.*missing required behavior.*not.*deferred/i);
   expect(content).toMatch(/Material design discoveries invalidate approval/);
   expect(content).toMatch(/rechecks before further implementation/);
   expect(content).toMatch(/same repair-round budget, never a fresh cap/);
@@ -405,9 +408,30 @@ it('301 caps repair rounds and invalidates design approval on material discoveri
 it('301 rebuilds interrupted design context and preserves consumed repair rounds', () => {
   const content = implementationWorkflow();
   expect(content).toMatch(/resuming.*rebuild.*current artifacts and code/);
-  expect(content).toMatch(/rerun both independent readiness reviews/);
+  expect(content).toMatch(/rerun both independent readiness reviews only while budget remains/);
   expect(content).toMatch(/Carry forward consumed repair rounds/);
-  expect(content).toMatch(/repair history cannot be recovered, stop/);
+  expect(content).toMatch(/repair history cannot be recovered, treat the budget as exhausted/);
+});
+
+it('900 reports an exhausted budget without claiming convergence or stopping its caller', () => {
+  const content = readWorkflow('skills/900-feedback-loop/SKILL.md').replace(/\s+/g, ' ');
+  expect(content).toMatch(/`status: capped`.*`converged: false`.*`CHANGES_REQUIRED`/);
+  expect(content).toMatch(/caller.*decides how to proceed/i);
+  expect(content).toMatch(/Under `901`.*Decision Consult/);
+  expect(content).not.toMatch(/Step 5: Escalate on cap/);
+});
+
+it('301 re-enters the pending phase with a caller resolution rather than running initial reviews again', () => {
+  const content = implementationWorkflow();
+  expect(content).toMatch(/Caller resolution.*optional, on re-entry/);
+  expect(content).toMatch(/resume Step 9.*do not rerun initial reviews or repeat completed coding/);
+  expect(content).toMatch(/otherwise obtain a new caller resolution for the changed evidence/);
+});
+
+it('runtime setup preserves decider handoffs and caller-resolution re-entry at review limits', () => {
+  const content = readWorkflow('skills/specflow-setup/references/execution-intent.md').replace(/\s+/g, ' ');
+  expect(content).toMatch(/review-limit handoffs.*decider.*not terminal outcomes or cap resets/);
+  expect(content).toMatch(/caller-resolution re-entry.*fail-closed executable validation/);
 });
 
 it('301 preserves tests-first checkpoints, fresh diff review, and one final multi-mode validator', () => {
@@ -440,15 +464,33 @@ it('reviewer preserves the strict 900 verdict contract while supporting 301 revi
   expect(content).toMatch(/For `301`, include the reviewed revision even when clean/);
 });
 
-it('901 treats 301 design blockers as terminal, with no waiver or retry-reset', () => {
+it('901 routes exhausted 301 reviews through the decider without resetting the budget', () => {
   const content = readWorkflow('skills/901-feature-loop/SKILL.md').replace(/\s+/g, ' ');
-  expect(content).toMatch(/301.*terminal exception/);
-  expect(content).toMatch(/cap exhaustion.*unresolved material design blocker/);
-  expect(content).toMatch(/leave the branch unmerged/);
-  expect(content).toMatch(/Never consult for a waiver or re-invoke.*reset/);
+  expect(content).toMatch(/`301`.*`review_limit`.*Review-Limit Resolution/);
+  expect(content).toMatch(/Never restart.*reset.*budget/);
   expect(content).toMatch(/pending `301`.*rebuild.*re-review/);
   expect(content).toMatch(/prior ledger.*not design approval/);
   expect(content).toMatch(/includes.*independent design reviews/);
+});
+
+it('901 makes one bounded evidence-backed decision at every review limit and keeps verdicts honest', () => {
+  const content = readWorkflow('skills/901-feature-loop/SKILL.md').replace(/\s+/g, ' ');
+  const resolution = content.slice(content.indexOf('## Review-Limit Resolution'), content.indexOf('## Checkpoint Protocols'));
+  expect(resolution).toMatch(/artifact.*cleanup.*`301`.*Feature Review/);
+  expect(resolution).toMatch(/Call `@decider` once/);
+  expect(resolution).toMatch(/lowest-risk feasible option.*documented default/);
+  expect(resolution).toMatch(/one bounded correction pass.*no new review loop/);
+  expect(resolution).toMatch(/accepted.*rejected.*deferred.*evidence/);
+  expect(resolution).toMatch(/never relabel.*`CHANGES_REQUIRED`.*`CLEAN`/i);
+  expect(resolution).toMatch(/same findings.*not.*another consult/i);
+});
+
+it('901 cannot use review-limit resolution to waive validation or confirmed defects', () => {
+  const content = readWorkflow('skills/901-feature-loop/SKILL.md').replace(/\s+/g, ' ');
+  expect(content).toMatch(/confirmed correctness or security defects.*missing required behavior.*required coverage.*must be repaired/i);
+  expect(content).toMatch(/Never weaken.*assertions.*drop.*acceptance/i);
+  expect(content).toMatch(/no feasible safe option.*substantive blocker.*not.*review limit/i);
+  expect(content).toMatch(/`UNANSWERABLE`.*documented default/);
 });
 
 it('901 checks pending and terminal ledger state before treating an overview as completed', () => {
@@ -456,9 +498,22 @@ it('901 checks pending and terminal ledger state before treating an overview as 
   const identity = content.slice(content.indexOf('**Step 3:'), content.indexOf('**Step 4:')).replace(/\s+/g, ' ');
   expect(identity).toMatch(/inspect.*`implementation-log\.jsonl`.*before interpreting.*`status: done`/i);
   expect(identity).toMatch(/incomplete.*overrides.*`status: done`/i);
-  expect(identity).toMatch(/301.*terminal.*leave the branch unmerged/);
-  expect(identity).toMatch(/Never consult.*new `F-ID`.*reset.*cap/);
+  expect(identity).toMatch(/cap-only terminal.*Review-Limit Resolution/i);
+  expect(identity).toMatch(/substantive blocker.*leave the branch unmerged/i);
+  expect(identity).toMatch(/Never use a new `F-ID`.*reset.*budget/);
   expect(identity).toMatch(/consumed repair rounds.*not reset/i);
+});
+
+it('901 resumes legacy cap-only stops append-only and does not repeat recorded decisions', () => {
+  const content = readWorkflow('skills/901-feature-loop/SKILL.md').replace(/\s+/g, ' ');
+  const log = content.slice(content.indexOf('## Implementation Log'), content.indexOf('## Steps'));
+  expect(log).toMatch(/cap-only terminal.*reconstruct.*current.*evidence/i);
+  expect(log).toMatch(/supersedes_terminal.*never rewrite/i);
+  expect(log).toMatch(/Reuse a recorded resolution.*scope.*revision.*evidence/i);
+  expect(log).toMatch(/missing repair history.*budget.*exhausted/i);
+  expect(log).toMatch(/resume line alone never clears a terminal/);
+  expect(log).toMatch(/choice alone is not a completed resolution/);
+  expect(log).toMatch(/`resolution_of`.*consult line's `ts`/);
 });
 
 function featureLoopStep(content: string, step: number): string {
@@ -478,7 +533,7 @@ it('901 rebuilds round-1 scenarios that round 2 materially changes', () => {
   expect(round2).toMatch(/Wording-only edits keep their status/);
 });
 
-it('901 fails closed at required gates instead of skipping, waiving, or flagging', () => {
+it('901 fails closed at executable validation gates instead of skipping, waiving, or flagging', () => {
   const content = readWorkflow('skills/901-feature-loop/SKILL.md').replace(/\s+/g, ' ');
   expect(content).not.toMatch(/skip-and-flag/);
   expect(content).toMatch(/never pass by consult, skip, or waiver/);
@@ -487,18 +542,34 @@ it('901 fails closed at required gates instead of skipping, waiving, or flagging
   expect(content).toMatch(/passes only when all four layers pass in the same round/);
 });
 
-it('901 carries unconverged feedback passes into a blocking whole-feature review before final validation', () => {
+it('901 resolves capped feedback with the decider and completes feature review before final validation', () => {
   const content = readWorkflow('skills/901-feature-loop/SKILL.md');
   const flat = content.replace(/\s+/g, ' ');
   const review = flat.slice(flat.indexOf('### Feature Review'), flat.indexOf('## Implementation Log'));
-  expect(flat).toMatch(/Cap exhaustion doesn't end the run.*`converged: false`.*outstanding items.*Feature Review/);
+  expect(flat).toMatch(/Cap exhaustion doesn't end the run.*`converged: false`.*Review-Limit Resolution.*Feature Review/);
   expect(review).toMatch(/`@reviewer`.*`@coder`.*cap \*\*2\*\*/);
   expect(review).toMatch(/acceptance criterion.*every scenario.*covered by a test.*security.*regression.*cross-scenario.*maintainability/);
   expect(review).toMatch(/Advisories.*never block/);
   expect(review).toMatch(/tests-first/);
-  expect(review).toMatch(/Cap exhaustion with blocking findings is terminal/);
+  expect(review).toMatch(/At the cap.*Review-Limit Resolution.*not terminal/i);
+  expect(review).toMatch(/clean review or a completed decider resolution/i);
   expect(content.indexOf('**Step 18:')).toBeLessThan(content.indexOf('**Step 20: Feature Review'));
   expect(content.indexOf('**Step 20: Feature Review')).toBeLessThan(content.indexOf('**Step 21: Final Green Check'));
+});
+
+it('review-limit decisions are reflected in published guidance and the feature-loop walkthrough', () => {
+  const paths = [
+    'README.md',
+    'site/src/content/docs/orchestration/901-feature-loop.mdx',
+    'site/src/content/docs/implementation/301-spec-implementation.mdx',
+    'site/src/content/docs/orchestration/900-feedback-loop.mdx',
+    'site/src/lib/feature-loop-steps.ts',
+  ];
+  for (const relativePath of paths) {
+    const content = readWorkflow(relativePath);
+    expect(content, relativePath).toMatch(/decider/);
+    expect(content, relativePath).not.toMatch(/cap exhaustion stops the run|cap is terminal|cap exhaustion with blocking findings is terminal|cap: 2, then the run ends unmerged/i);
+  }
 });
 
 it('901 syncs the base into the feature branch so the merge delivers the validated tree', () => {

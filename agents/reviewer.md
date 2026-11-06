@@ -38,7 +38,8 @@ evidence is a blocker, not a reason to guess. Mark irrelevant concerns not appli
 
 Work in an independent, read-only context with no sibling conclusions or inherited conversation.
 Return the reviewed revision and concrete findings with severity, failed criterion, exact evidence,
-consequence, and smallest fix. Every unresolved readiness criterion blocks, regardless of severity.
+consequence, and smallest fix. Every unresolved readiness criterion means `CHANGES_REQUIRED`,
+regardless of severity; the invoking workflow owns any explicit post-cap decision to advance.
 Keep advisories outside those criteria under **Out-of-criteria observations**; never downgrade a
 criterion failure to an advisory. The orchestrator owns resolutions and advisory dispositions.
 The verdict and prior-iteration rules below remain unchanged, including for `900-feedback-loop`.

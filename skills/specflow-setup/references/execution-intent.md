@@ -16,7 +16,9 @@ Claude-style skill frontmatter. Re-read source workflows on every setup; the cat
 - **Coordinator-first:** `900`, `901`, and `502`. Prefer main-session coordination if nested forks
   exhaust depth. Keep each Review and Apply-Fix independent and fresh; preserve their scopes/caps.
   `901` stays headless once its required inputs are resolved; moving it to main does not authorize
-  new human questions or change its git/commit/merge rules. Setup itself never runs those operations.
+  new human questions or change its git/commit/merge rules. Preserve review-limit handoffs to its
+  decider: exhausted review budgets trigger explicit resolutions, not terminal outcomes or cap resets.
+  Setup itself never runs those operations.
 - **Conditional browser execution:** `501` needs the actual visible browser integration and must
   explore directly in its assigned context. Do not delegate the exploration to another worker.
   Keep it main if browser tooling is unavailable to children; otherwise a bounded child is possible.
@@ -77,9 +79,10 @@ This requires an explicit supported routing protocol; a Markdown diagram alone d
 
 An approved adapter must spell out: who owns each logical skill phase; how child requests/results
 route; what complete brief is passed; which skill body runs; completion gates; blocked-question
-handling; and where state/caps remain. Preserve `901` git ownership, `900` iteration counts, `301`
-terminal gates, tests-first sequencing, and source/test scope boundaries. Never reset a cap by
-re-invoking a workflow or replace two independent reviewers with two passes in one context.
+handling; and where state/caps remain. Preserve `901` git ownership, `900` iteration counts and capped
+results, `301` review-limit packets/caller-resolution re-entry, fail-closed executable validation,
+tests-first sequencing, and source/test scope boundaries. Never reset a cap by re-invoking a workflow
+or replace two independent reviewers with two passes in one context.
 
 Prefer a documented runtime routing mechanism. If none exists, minimally adapt the installed skill's
 execution section with a clear source/delta note and its main-session routing pointer. Remove

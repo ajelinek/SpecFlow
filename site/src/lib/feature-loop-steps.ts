@@ -93,9 +93,9 @@ export const implementationLogEvents: LogEventType[] = [
   {
     type: 'decision_consult',
     writtenAt: 'every Decision Consult call',
-    fields: 'step, question, decision, confidence',
+    fields: 'step, question, decision, confidence; review_limit: scope, revision, repair_rounds, verdict, rationale, dispositions, verification, remaining_risks, next_step, supersedes_terminal (on resume)',
     sample:
-      '{"type":"decision_consult","ts":"2026-07-19T15:03:02Z","step":10,"question":"Module Check regression in TSM003","decision":"revised-approach retry","confidence":"high"}',
+      '{"type":"decision_consult","ts":"2026-07-19T15:03:02Z","step":10,"trigger":"review_limit","scope":"TSM001/TS002","revision":"brief-r3/code-a1b2c3d","repair_rounds":2,"verdict":"CHANGES_REQUIRED","question":"Choose how to proceed after design reviews","decision":"retain existing service boundary","confidence":"high","rationale":"Existing owner covers the scenario without a new abstraction","dispositions":[{"finding":"split service","status":"rejected","evidence":"existing service owns this transaction"}],"verification":"pending; append verification before advancing","remaining_risks":[],"next_step":"resume 301 tests-first implementation"}',
   },
   {
     type: 'feedback_pass',
@@ -107,13 +107,13 @@ export const implementationLogEvents: LogEventType[] = [
   {
     type: 'resume',
     writtenAt: 'Step 3, when resuming a prior run',
-    fields: 'step, phase, found',
+    fields: 'step, phase, found; decision verification: resolution_of, verification, remaining_risks, next_step',
     sample:
       '{"type":"resume","ts":"2026-07-19T16:47:10Z","step":8,"phase":"Phase 2","found":"round-1 specs already committed"}',
   },
   {
     type: 'terminal',
-    writtenAt: 'a failed gate or 301 design blocker after log initialization',
+    writtenAt: 'failed validation or a substantive blocker after log initialization, not a review limit',
     fields: 'step, reason',
     sample:
       '{"type":"terminal","ts":"2026-07-19T17:58:24Z","step":21,"reason":"lint failures stopped decreasing after 3 repair rounds"}',
@@ -187,7 +187,7 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         skills: [{ id: '201-high-level-design', when: 'borrows its identity rule' }],
         agents: [{ id: '@decider' }],
         description:
-          'Uses `201`’s own resolution rule against `D10`. No entry → assign a new F-ID (default). `status: done` → start a new run for follow-on work (default). `status: implementing` → resume (default).',
+          'Uses `201`’s identity rule against `D10`, checking the ledger before stale status. Keep an incomplete run’s F-ID; a prior cap-only stop resumes through decider resolution with an append-only superseding entry, not a fresh review budget. No entry → assign a new F-ID (default).',
       },
       {
         num: 4,
@@ -227,9 +227,9 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         title: 'Feedback Pass — artifact refine on the overview',
         kind: 'normal',
         skills: [{ id: '900-feedback-loop' }],
-        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }],
+        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }, { id: '@decider', when: 'at the review limit' }],
         description:
-          'Criteria: scope clarity, real acceptance criteria, explicit out-of-scope exclusions, a user-journey that leads with user-visible flow (201’s own quality checks). Iteration cap: 1.',
+          'Criteria: scope clarity, real acceptance criteria, explicit out-of-scope exclusions, a user-journey that leads with user-visible flow (201’s own quality checks). Iteration cap: 1, then decider resolution and forward progress with real verdicts preserved.',
         commit: '900: refine 201 overview for <feature-slug>',
       },
     ],
@@ -254,8 +254,8 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         title: 'Feedback Pass — artifact refine on the specs',
         kind: 'normal',
         skills: [{ id: '900-feedback-loop' }],
-        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }],
-        description: 'Criteria from 202’s own quality check. Iteration cap: 1.',
+        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }, { id: '@decider', when: 'at the review limit' }],
+        description: 'Criteria from 202’s own quality check. Iteration cap: 1, then decider resolution without resetting the budget.',
         commit: '900: refine 202 happy-path specs for <feature-slug>',
       },
       {
@@ -269,10 +269,10 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         agents: [
           { id: '@validator', when: 'Module Check' },
           { id: '@coder', when: 'lint/build repair' },
-          { id: '@decider', when: 'per-module fallback' },
+          { id: '@decider', when: '301 review limit or per-module fallback' },
         ],
         description:
-          'Each scenario gets the full 301 pass: in-memory design, independent walkthrough and adversarial reviews, tests-first implementation, fresh post-implementation review, bounded refinement, and final validation. A material design blocker or review-cap exhaustion stops the run with the branch unmerged. The Module Check and commit batch to the whole module.',
+          'Each scenario gets the full 301 pass: in-memory design, independent walkthrough and adversarial reviews, tests-first implementation, fresh post-implementation review, bounded refinement, and final validation. At a design-review limit, the decider selects an evidence-backed approach and 301 resumes with the original budget and explicit dispositions. Confirmed defects and validation failures remain blocking. The Module Check and commit batch to the whole module.',
         commit: 'test cycle: <TSM###> implement + status',
         techNote:
           'No separate 401 pass per scenario; 301 keeps its own review and bounded refinement. Steps 11/12 deliberately clean the round’s files in aggregate.',
@@ -283,9 +283,9 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         title: 'Feedback Pass — aggregate cleanup on round-1 source',
         kind: 'normal',
         skills: [{ id: '900-feedback-loop' }, { id: '401-cleanup', when: 'called by 900’s apply-fix' }],
-        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }],
+        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }, { id: '@decider', when: 'at the review limit' }],
         description:
-          'Scope: the round-1 source diff, `source-cleanup-only`, strictly bounded to round-1 files. Iteration cap: 2.',
+          'Scope: the round-1 source diff, `source-cleanup-only`, strictly bounded to round-1 files. Iteration cap: 2, then decider resolution. Findings and dispositions carry into the Feature Review.',
         commit: '900: round-1 source cleanup',
       },
       {
@@ -293,8 +293,8 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         title: 'Feedback Pass — aggregate cleanup on round-1 tests',
         kind: 'normal',
         skills: [{ id: '900-feedback-loop' }, { id: '401-cleanup', when: 'called by 900’s apply-fix' }],
-        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }],
-        description: 'Same as Step 11, `test-cleanup-only`, round-1 test files. Iteration cap: 2.',
+        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }, { id: '@decider', when: 'at the review limit' }],
+        description: 'Same as Step 11, `test-cleanup-only`, round-1 test files. Iteration cap: 2, then decider resolution.',
         commit: '900: round-1 test cleanup',
       },
       {
@@ -328,8 +328,8 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         title: 'Feedback Pass — artifact refine on the updated specs',
         kind: 'normal',
         skills: [{ id: '900-feedback-loop' }],
-        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }],
-        description: 'Same as Step 9. Iteration cap: 1.',
+        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }, { id: '@decider', when: 'at the review limit' }],
+        description: 'Same as Step 9. Iteration cap: 1, then decider resolution.',
       },
       {
         num: 16,
@@ -342,7 +342,7 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         agents: [
           { id: '@validator', when: 'Module Check' },
           { id: '@coder', when: 'lint/build repair' },
-          { id: '@decider', when: 'per-module fallback' },
+          { id: '@decider', when: '301 review limit or per-module fallback' },
         ],
         description:
           'Same shape as Step 10. First, any round-1 @status_done scenario whose steps, examples, or outcomes Round 2 changed goes back to @status_pending, keeping its TS ID. Unchanged @status_done scenarios aren’t rebuilt, but they’re still covered by their module’s Module Check.',
@@ -354,9 +354,9 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         title: 'Feedback Pass — aggregate cleanup on final source',
         kind: 'normal',
         skills: [{ id: '900-feedback-loop' }, { id: '401-cleanup', when: 'called by 900’s apply-fix' }],
-        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }],
+        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }, { id: '@decider', when: 'at the review limit' }],
         description:
-          'Scope: the entire feature-branch diff — this final round pre-authorizes scope expansion past 401’s normal approval gate. Iteration cap: 2.',
+          'Scope: the entire feature-branch diff — this final round pre-authorizes scope expansion past 401’s normal approval gate. Iteration cap: 2, then decider resolution.',
         commit: '900: final source cleanup',
       },
       {
@@ -364,8 +364,8 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         title: 'Feedback Pass — aggregate cleanup on final tests',
         kind: 'normal',
         skills: [{ id: '900-feedback-loop' }, { id: '401-cleanup', when: 'called by 900’s apply-fix' }],
-        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }],
-        description: 'Same expanded authorization as Step 17, test files. Iteration cap: 2.',
+        agents: [{ id: '@reviewer' }, { id: 'general-purpose', when: 'apply-fix, pinned sonnet' }, { id: '@decider', when: 'at the review limit' }],
+        description: 'Same expanded authorization as Step 17, test files. Iteration cap: 2, then decider resolution.',
         commit: '900: final test cleanup',
       },
     ],
@@ -390,9 +390,9 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         title: 'Feature Review — the whole-feature completion gate',
         kind: 'normal',
         skills: [{ id: '900-feedback-loop' }],
-        agents: [{ id: '@reviewer' }, { id: '@coder' }],
+        agents: [{ id: '@reviewer' }, { id: '@coder' }, { id: '@decider', when: 'at the review limit' }],
         description:
-          'Reviews the full feature diff against every acceptance criterion and scenario, plus any unconverged Feedback Pass items. Blocks on unmet criteria, correctness or security risks, missing coverage (fixed tests-first), and material maintainability problems; advisories never block. Iteration cap: 2, then the run ends unmerged.',
+          'Reviews the full feature diff against acceptance criteria and scenarios plus carried findings/dispositions. Iteration cap: 2, then decider resolution with at most one bounded correction pass, no new review loop. Complete with a clean review or verified resolution, preserving real verdicts and non-blocking risks. Confirmed defects and missing required behavior/coverage cannot be deferred; final validation still runs.',
         commit: '900: feature review fixes',
       },
       {
@@ -402,7 +402,7 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         skills: [{ id: '402-test-correction', when: 'if a test fails' }],
         agents: [{ id: '@validator' }, { id: '@coder', when: 'lint/build repair' }, { id: '@decider', when: 'if 402 returns an intent question' }],
         description:
-          'Never merge on red. If repairs stop reducing failures, the run ends with a terminal report instead of merging. A terminal 301 design-review result also stops the run without a merge; no consult can waive either gate.',
+          'Never merge on red. If repairs stop reducing failures, the run ends with a terminal report instead of merging. Review-limit decisions cannot waive validation. Material behavior changes during repairs refresh the affected review evidence/resolution, not an exhausted budget.',
       },
       {
         num: 22,
@@ -411,7 +411,7 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         skills: [],
         agents: [],
         description:
-          'Confirms the base hasn’t moved since Step 19 (if it has, Steps 19–21 rerun). Then sets `status: done` in `overview.md`, and 🟢 Done in `D10-feature-overview.md` if that registry tracks this F-ID.',
+          'Confirms the base hasn’t moved since Step 19 (if it has, Steps 19–21 rerun). Only after a clean or explicitly resolved Feature Review and green final validation on the same code, sets `status: done` in `overview.md`, and 🟢 Done in `D10-feature-overview.md` when tracked.',
         commit: '901: mark <feature-slug> done',
       },
       {
@@ -430,7 +430,7 @@ export const featureLoopPhases: FeatureLoopPhase[] = [
         skills: [],
         agents: [],
         description:
-          'Feature identity, branch name, round-2 coverage used, the full commit ledger, modules/scenarios per round, gate results, Feedback Pass counts and how the Feature Review resolved outstanding items, review advisories, the merge commit, and every Decision Consult invoked with its resolution.',
+          'Feature identity, branch name, round-2 coverage used, commit ledger, modules/scenarios per round, gate results, Feedback Pass counts, actual verdicts, decider-selected approaches, finding dispositions and remaining risks, the merge commit, and every Decision Consult with its resolution.',
         commit: '901: run complete for <feature-slug>',
       },
     ],

@@ -273,7 +273,7 @@ Typical feature outputs:
 - `overview.md`
 - `specs.feature`
 
-`301` builds a compact, versioned implementation design in memory. Two fresh, independent, read-only reviewers assess the same complete brief revision before coding. Required readiness criteria must pass; after at most two repair rounds, unresolved readiness blocks implementation without a cap waiver.
+`301` builds a compact, versioned implementation design in memory. Two fresh, independent, read-only reviewers assess the same complete brief revision before coding. After at most two repair rounds, remaining findings return to the caller for an explicit resolution; under `901`, the decider selects the best evidence-backed approach so implementation can continue without restarting the review budget. Actual reviewer verdicts and remaining risks stay visible.
 
 Missing `201` or `202` context is generated inline without writing files unless requested. Running those skills normally still produces the artifacts above.
 
@@ -379,8 +379,12 @@ feature with several scenarios across two coverage rounds. Use it when a feature
 warrants full BDD rigor and branch-level traceability. Use direct edits for quick fixes, `301` for
 substantial feature chunks, or `401` for already-changed cleanup scopes instead.
 
-Resuming a pending `301` rebuilds and reviews its in-memory brief and design. Exhausting its design
-repair cap is terminal and logged; `901` cannot reset the cap, consult around it, or merge unresolved work.
+Review caps bound deliberation, not feature progress. At any exhausted review budget, `901` uses the
+existing `decider` to choose a concrete way forward, applies any bounded correction, records finding
+dispositions and remaining risks, and advances without claiming the review was clean. Tests, lint,
+and build must still pass; confirmed defects and missing required behavior/coverage cannot be waived.
+Resuming rebuilds pending context and preserves consumed budgets. A prior cap-only terminal report
+can resume through the same decision protocol, appending to rather than rewriting its history.
 
 ## Practical Advice
 

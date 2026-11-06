@@ -27,13 +27,13 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 - For one-off review with no intent to iterate — a direct `@reviewer` call is simpler
 
 <Callout tone="core" title="Review is the sole authority on convergence">
-  This skill never overrides a `CHANGES_REQUIRED` verdict just because iterating further is expensive or slow. If the cap is hit, it escalates with the full iteration history instead of force-accepting the current state.
+  This skill never overrides a `CHANGES_REQUIRED` verdict just because iterating further is expensive or slow. At the cap it returns `status: capped`, `converged: false`, actual verdicts, a compact iteration history, and outstanding evidence. The caller decides what happens next; under `901`, the decider chooses a bounded way forward rather than ending the feature run.
 </Callout>
 
 ## What it produces
 
 - A convergence report: total iterations run, what changed across them, and the final verdict
-- On cap escalation instead: the iteration history, what feedback recurred, and the final outstanding items — handed back to the caller rather than silently given up on
+- On a capped result instead: fix iterations used, what changed, which findings recurred, and the final outstanding items with evidence — a normal caller handoff, not a terminal failure or a false clean verdict
 
 ## Required inputs
 
@@ -57,7 +57,7 @@ import PromptBlock from '../../../components/PromptBlock.astro';
 ## Common mistakes
 
 - Handing Apply-Fix a vague brief instead of exactly Review's latest feedback items
-- Letting the loop run past the iteration cap by silently resetting the counter instead of escalating
+- Letting the loop run past the iteration cap by silently resetting the counter instead of returning a capped result for the caller to resolve
 - Reusing one subagent context across both roles, which lets the reviewer see its own fix reasoning instead of judging fresh
 
 <Callout tone="tip" title="Default agents can be overridden">

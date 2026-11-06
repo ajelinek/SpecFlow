@@ -135,7 +135,7 @@ it('keeps the feature-loop visualization aligned with base sync, whole-feature r
   expect(steps.map((step) => step.num)).toEqual(Array.from({ length: 24 }, (_, index) => index + 1));
   expect(steps.find((step) => step.num === 19)?.title).toMatch(/sync/i);
   expect(steps.find((step) => step.num === 20)?.skills.map((skill) => skill.id)).toEqual(['900-feedback-loop']);
-  expect(steps.find((step) => step.num === 20)?.agents.map((agent) => agent.id)).toEqual(['@reviewer', '@coder']);
+  expect(steps.find((step) => step.num === 20)?.agents.map((agent) => agent.id)).toEqual(['@reviewer', '@coder', '@decider']);
   expect(steps.filter((step) => step.kind === 'gate').map((step) => step.num)).toEqual([2, 13, 21]);
   expect(steps.find((step) => step.num === 16)?.description).toMatch(/back to @status_pending/);
   expect(JSON.stringify(steps)).not.toMatch(/skip-and-flag|favoring the feature branch/);
@@ -145,10 +145,23 @@ it('keeps the feature-loop visualization aligned with base sync, whole-feature r
   expect(implementationLogEvents.map((event) => event.sample).join('\n')).not.toMatch(/"commit":/);
 });
 
-it('keeps the feature-loop visualization aligned with terminal 301 design blockers', () => {
+it('shows decider resolution at 301 review limits while keeping validation blocking', () => {
   const steps = featureLoopPhases.flatMap((phase) => phase.steps);
-  expect(steps.find((step) => step.num === 10)?.description).toMatch(/design blocker.*unmerged/i);
+  expect(steps.find((step) => step.num === 10)?.description).toMatch(/design-review limit.*decider.*resumes.*original budget/i);
+  expect(steps.find((step) => step.num === 21)?.description).toMatch(/decisions cannot waive validation/i);
   expect(JSON.stringify(steps)).not.toMatch(/only two (checkpoints|points)/i);
+});
+
+it('shows a decider handoff at every capped review stage', () => {
+  const steps = featureLoopPhases.flatMap((phase) => phase.steps);
+  const reviewSteps = steps.filter((step) => [7, 9, 10, 11, 12, 15, 16, 17, 18, 20].includes(step.num));
+  expect(reviewSteps).toHaveLength(10);
+  for (const step of reviewSteps) {
+    expect(step.agents, `Step ${step.num}`).toContainEqual({
+      id: '@decider',
+      when: expect.stringMatching(/review limit/),
+    });
+  }
 });
 
 // ---------------------------------------------------------------------------

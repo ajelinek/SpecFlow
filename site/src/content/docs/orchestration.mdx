@@ -15,7 +15,7 @@ The `900` series is not a phase you move through once per feature. These skills 
 - `901-feature-loop`: runs one feature end-to-end, headless, on its own branch: baseline gate → `201` → `202` → per-scenario `301` → aggregate `401` cleanup → optional expanded coverage → final validation → merge
 
 <Callout tone="core" title="901 is built on 900">
-  Every persisted design or spec artifact, and every aggregate cleanup pass, is checked by `900-feedback-loop` before the run advances. `301` keeps its own in-memory design and readiness gate; if its repair cap is exhausted, the run stops and logs a blocker rather than merging.
+  Every persisted design or spec artifact, and every aggregate cleanup pass, is checked by `900-feedback-loop` before the run advances. `301` keeps its own in-memory design and readiness reviews. At any exhausted review budget, `901` uses the decider to select an evidence-backed way forward, records dispositions and risks, and continues. Required validation and confirmed defects remain blocking.
 </Callout>
 
 <Callout tone="optional" title="901 is heavy by design">

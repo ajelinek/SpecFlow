@@ -36,13 +36,19 @@ The design brief and synthesized upstream context stay in memory unless the user
    full file. Without a `.feature` file, derive a working scenario set from the request.
 3. **Workflow fit** — substantial features or implementation chunks only; not small fixes, one-file
    maintenance, or isolated cleanup
+4. **Caller resolution** *(optional, on re-entry)* — a `review_limit` packet plus the caller's explicit
+   decision, per-finding dispositions, and consumed budget. Rebuild/verify current context, then resume
+   Step 9 (or the phase awaiting that resolution); do not rerun initial reviews or repeat completed coding.
 
 **Blocking questions.** This skill runs in a forked context and can't reach the user. Wherever this
 workflow needs a decision (missing scope for a given file, a request too vague to identify the
 primary action and expected outcome, a design conflict, baseline failures, non-converging repairs),
 stop and return the question to the caller with the options and a recommendation. Design-review cap
-exhaustion or an unresolved material design blocker returns a terminal design blocker, not a waiver
-request or permission to start coding.
+exhaustion returns `review_limit`, not a terminal design blocker: include the complete current brief,
+reviewed revision, consumed rounds, actual verdicts, outstanding findings/evidence, concrete options,
+and the lowest-risk feasible recommendation. Under `901`, the caller uses Decision Consult and returns
+its resolution; otherwise the caller decides how to proceed. The cap limits review, not implementation.
+An evidenced inability to implement safely remains a substantive blocker, not merely a cap result.
 
 ---
 
@@ -62,9 +68,11 @@ and a standards index. For UI work, include the UI direction brief (D06/D07/D08 
 doc changes or exceptions, and `@designer`'s implementation guidance). No extra tracking artifacts.
 
 **Interrupted runs.** Before resuming implementation, rebuild the complete brief from current artifacts
-and code and rerun both independent readiness reviews. Carry forward consumed repair rounds; if the
-repair history cannot be recovered, stop rather than resetting the cap. An old approval or completion
-ledger is not current design approval.
+and code and rerun both independent readiness reviews only while budget remains. Carry forward consumed
+repair rounds; if the repair history cannot be recovered, treat the budget as exhausted and return
+`review_limit`. A caller resolution must match the reviewed revision, current evidence, and per-finding
+dispositions; resume at the pending phase without restarting reviews or the cap. An old approval or
+completion ledger alone is not current design approval.
 
 **Task packet.** Each coding assignment receives only its slice: objective, phase, exact files in scope,
 relevant scenario text, the accepted brief revision and relevant architecture excerpt, UI direction
@@ -155,13 +163,13 @@ the actual code rather than relying on the implementation coder's summary.
   - material assumptions and questions affecting correctness, safety, or feasibility are resolved by evidence
 
   Use the existing `## Verdict: CLEAN` / `## Verdict: CHANGES_REQUIRED` contract;
-  any unresolved readiness criterion blocks coding, regardless of severity. Findings name severity,
+  any unresolved readiness criterion means `CHANGES_REQUIRED`, regardless of severity. Findings name severity,
   criterion, exact evidence, consequence, and smallest fix.
   Keep out-of-criteria advisories separate for explicit disposition, never silently ignore them.
 
 - [ ] **Step 9: Resolve and recheck.** The orchestrator resolves findings by evidence, not votes.
   Correct the brief, obtain missing evidence, or challenge a finding with concrete evidence; do not
-  override a failing criterion. Record each finding's resolution and each advisory's accepted,
+  silently override a failing criterion. Record each finding's resolution and each advisory's accepted,
   deferred, or rejected disposition with a reason. A material advisory belongs in the readiness criteria
   and must be rechecked, not relabeled away.
 
@@ -169,12 +177,19 @@ the actual code rather than relying on the implementation coder's summary.
   uses fresh contexts for affected roles; recheck both roles when shared assumptions, scope, contracts,
   or scenario mappings change. Each receives the complete current brief and its own prior findings
   with resolution evidence, not the sibling's conclusions. Unaffected reviews remain valid only for
-  unchanged criteria and evidence; record that applicability explicitly. Acceptance requires both
-  roles' applicable reviews CLEAN and every readiness criterion resolved. Pass the accepted revision
-  of the brief to the implementation coder.
-  If the cap is exhausted with unresolved criteria, or a material design blocker cannot be resolved,
-  stop with a terminal design blocker: revision, rounds used, outstanding evidence/findings, and needed
-  decision. No coding, waiver, or re-invocation to reset the cap.
+  unchanged criteria and evidence; record that applicability explicitly. Normal acceptance requires both
+  roles' applicable reviews CLEAN and every readiness criterion resolved. At the cap, return the
+  `review_limit` decision packet instead of restarting or terminating the feature run.
+
+  **Caller resolution:** accept an explicit decision identifying the reviewed revision and per-finding
+  dispositions, chosen approach, rationale/evidence, and any bounded corrections, without restarting
+  this skill or its review loop. Under `901`, follow its Review-Limit Resolution protocol. Correct the
+  brief as directed and verify accepted corrections by inspection/targeted checks, not another review
+  cycle. Confirmed correctness or security defects and missing required behavior cannot be deferred;
+  the chosen design must address them. Preserve non-blocking risks and the real reviewer verdicts;
+  caller authorization is not a `CLEAN` review. Pass the accepted revision of the brief to the
+  implementation coder only after clean reviews or this explicit resolution. If no feasible safe
+  approach exists, return the substantive blocker with evidence, not a review-cap failure.
 
 ### Phase 3 - Tests-First Implementation
 
@@ -201,8 +216,9 @@ the actual code rather than relying on the implementation coder's summary.
   blocking question, not a finished assignment.
 
   Material design discoveries invalidate approval: stop, return evidence to the orchestrator, revise
-  the brief, and complete applicable Phase 2 rechecks before further implementation. This uses the same
-  repair-round budget, never a fresh cap. Apply this rule during refinement and validation repairs too.
+  the brief, and complete applicable Phase 2 rechecks before further implementation while budget remains;
+  otherwise obtain a new caller resolution for the changed evidence. This uses the same repair-round
+  budget, never a fresh cap. Apply this rule during refinement and validation repairs too.
 
 ### Phase 4 - Independent Review and Refinement
 
@@ -222,8 +238,8 @@ the actual code rather than relying on the implementation coder's summary.
 
   Material correctness, coverage, or design gaps return to the orchestrator for focused implementation
   repair or a blocking question, not a disguised cleanup fix. Design changes require the Phase 2
-  rechecks before more implementation. Recheck the repaired diff with the fresh coder before final
-  validation; do not restart the full workflow.
+  rechecks or an evidence-matched caller resolution before more implementation. Recheck the repaired
+  diff with the fresh coder before final validation; do not restart the full workflow.
 
 - [ ] **Step 16: Verify refinement.** The review/refinement coder runs relevant tests after any edits
   and reports findings, changes, unresolved risks, and command results. If no refinement is needed,
@@ -248,7 +264,8 @@ the actual code rather than relying on the implementation coder's summary.
 - [ ] **Step 20: Summarize.** Implemented scope and scenarios; production and test files changed;
   reuse report (files created vs extended, new dependencies, lines added vs removed); internally
   synthesized context; whether `@designer` was used and which UI docs mattered; baseline issues;
-  red/green evidence; accepted design revision, design-review findings, repair rounds and advisory
-  dispositions; independent diff-review findings and refinements; final validation result; key design
+  red/green evidence; accepted design revision, actual design-review verdicts, any caller resolution
+  and remaining risks, design-review findings, repair rounds and advisory dispositions; independent
+  diff-review findings and refinements; final validation result; key design
   or architecture decisions. Recommend `401-cleanup` only when the changed set warrants a deeper,
   separately scoped source or test cleanup pass; it is not an automatic next step.
