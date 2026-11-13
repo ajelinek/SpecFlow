@@ -4,7 +4,7 @@ description: >
   Create or refresh `AGENTS.md` project guidance from repo evidence, adding nested `AGENTS.md`
   overlays only where a subtree genuinely differs.
   Trigger it when project guidance is missing, stale, or needs local overrides (first-time setup,
-  monorepos). `initialize` mode writes `.specflow/AGENTS.md` once during SpecFlow setup.
+  monorepos). `initialize` mode writes `.specflow/AGENTS.md` once when bootstrapping a new project.
 argument-hint: "[generate|refresh|initialize]"
 context: fork
 ---
@@ -49,7 +49,9 @@ Steps below. No SpecFlow skill calls it automatically, to avoid re-checking on e
 
 In `generate`/`refresh` mode, Step 6 also ensures `.specflow/AGENTS.md` exists with at least the
 standard content, and may enrich it with a short, current list of what exists (which D-docs, which
-feature folders) as long as the isolation rule and folder descriptions stay intact and it stays short.
+doc path overrides) as long as the isolation rule and folder descriptions stay intact and it stays short.
+Keep the example's task-directed reading and document-update rules. Do not add a feature-folder
+inventory or copy volatile file/schema/route lists into guidance; link to their owning source instead.
 
 ---
 

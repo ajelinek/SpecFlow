@@ -19,6 +19,8 @@ start a service or mutate runtime state, explain it and obtain approval first.
   remain intact. Check agent-specific inheritance and `.specflow/` feature isolation.
 - Routing covers all skills and called phases; count actual nesting and concurrency. Async phases
   have completion gates. No generated adapter contradicts its source execution statements.
+- Worker packets carry relevant standards/sections and original references, not blanket catalog
+  preloads. Required skill-loading and project guidance remain honored in each fresh context.
 - Inspect the scoped diff: no unrelated edits, source-link mutation, credentials, blanket permissions,
   tool installation, or application-version changes. Review a no-change rerun by comparison rather
   than writing a timestamp or new report into settings.

@@ -44,9 +44,11 @@ question, not permission to infer behavior.
 
 ## Steps
 
-- [ ] **Step 1: Load feature context.** Read the feature's `overview.md`, D01, D07, and
-  `domain-knowledge.md` when present. If `overview.md` is missing, ask for a short feature summary and
-  primary user outcome as fallback context.
+- [ ] **Step 1: Load feature context.** Read the feature's `overview.md` or the explicit inline
+  handoff. Consult relevant D01/D07 or domain-knowledge sections only to resolve a product,
+  navigation, or business rule that affects these scenarios; do not refresh upstream docs. If neither
+  an overview nor a sufficient handoff exists, ask for a short feature summary and primary user
+  outcome as fallback context.
 
 - [ ] **Step 2: Review existing specs.** If `specs.feature` exists, continue its `TS#`/`TSM#`
   numbering (never renumber). Otherwise start at `TS001` and `TSM001`.

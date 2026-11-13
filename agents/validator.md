@@ -1,9 +1,9 @@
 ---
 name: validator
 description: >
-  Scoped validation worker. Invoked by SpecFlow workflows (301, 302, 401, 402, 901) to run an assigned
-  validation mode or explicit mode list (`test`, `lint`, `build`), capture the exact output, and return
-  concise, root-cause-grouped diagnostics without modifying code.
+  Scoped validation worker. Runs an assigned validation mode or explicit mode list (`test`, `lint`,
+  `build`), captures the exact output, and returns concise, root-cause-grouped diagnostics without
+  modifying code.
 model: haiku
 effort: high
 ---

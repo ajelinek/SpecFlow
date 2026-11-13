@@ -4,8 +4,8 @@ description: >
   SpecFlow's shared engineering principles for any design, implementation, test, or cleanup work.
   The primary principle is reuse over creation: the least code that correctly delivers the behavior
   wins, so prefer no change, reuse, and extension of existing code over new code and new
-  dependencies. Referenced by name from 301, 302, 401, 402, and the `@coder` agent; load
-  it before planning, writing, or reviewing code.
+  dependencies. Load it before planning, writing, or reviewing code so the same standards apply
+  across every workflow.
 ---
 
 # Engineering Principles

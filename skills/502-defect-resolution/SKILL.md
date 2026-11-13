@@ -1,10 +1,11 @@
 ---
 name: 502-defect-resolution
 description: >
-  Use `502` to work through the D11 exploratory defect backlog: dispatch each targeted Active entry to
-  `402-test-correction` for reproduction and a real fix, update its status, commit, then compact
-  resolved history. Trigger it for prompts like "502", "resolve the defect backlog", "work through
-  D11", "fix DEF-003", or "compact the defect backlog" (compact-only mode).
+  Use `502` to work through the D11 exploratory defect backlog: reproduce each targeted Active entry,
+  classify whether the defect is in the tests, the source, or the expected behavior, apply and commit
+  a real fix, update its status, then compact resolved history. Trigger it for prompts like "502",
+  "resolve the defect backlog", "work through D11", "fix DEF-003", or "compact the defect backlog"
+  (compact-only mode).
 argument-hint: "[DEF-### ...] | compact"
 context: fork
 ---

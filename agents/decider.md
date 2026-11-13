@@ -1,9 +1,9 @@
 ---
 name: decider
 description: >
-  Scoped decision-making worker for headless workflows (currently 901-feature-loop's Decision
-  Consult). Given a brief with a concrete option set, returns exactly one option with a rationale and
-  confidence, arbitrated internally by three independent sub-calls. Read-only: recommends, never acts.
+  Scoped decision-making worker for headless workflows. Given a brief with a concrete option set,
+  returns exactly one option with a rationale and confidence, arbitrated internally by three
+  independent sub-calls. Read-only: recommends, never acts.
 model: opus
 tools: Read, Grep, Glob, Bash, Skill, Agent
 ---

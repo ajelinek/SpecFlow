@@ -129,6 +129,7 @@ This setup skill adds no installer scripts of its own. Missing/inaccessible sour
 Classify every discovered skill using its **actual behavior**, not just `context: fork`. Use the
 execution reference as the starting policy. Identify interactive decisions, inline reference skills,
 bounded leaf tasks, and orchestrators that themselves delegate. Do not create a worker per skill.
+Keep per-task standards scoped; do not preload the entire installed skills catalog.
 
 Draw the deepest call chain, including `901 → 900 → Apply-Fix → 401 → worker` and the decider's
 three voters. Account for forked skills, concurrency, asynchronous completion, and tool permissions.

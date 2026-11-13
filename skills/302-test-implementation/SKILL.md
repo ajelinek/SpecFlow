@@ -52,9 +52,13 @@ model: scope, touched test files, read-only references, touch-boundary exception
 - [ ] **Step 1: Resolve scope and workflow fit.** Anchor to the smallest usable unit; for a `.feature`
   file, a single `@TS###`, single `TSM###`, or the full file.
 
-- [ ] **Step 2: Load context.** The feature's `overview.md`, `specs.feature`, supplied inline scope,
-  and D02/D04/D05/D06/D07 when present — to understand intended coverage, not to invent scenarios.
-  No separate implementation-plan artifact is required; confirm actual behavior from code.
+- [ ] **Step 2: Load context.** Start with the selected feature overview/scenarios or supplied inline
+  scope and the implementing code. Consult a governing doc section only for a rule affecting this
+  test surface (e.g. D04 for backend boundaries, D05 for frontend structure, D06/D07 for relevant UI
+  expectations). Do not read all architecture/UI docs merely because they exist. Load applicable
+  standards once per context; test coverage work does not require upstream doc synchronization.
+  No separate implementation-plan
+  artifact is required; confirm actual behavior from code and surface requirement conflicts.
 
 - [ ] **Step 3: Research patterns** with `@explore` as needed: the production files implementing the
   behavior; 2-3 similar tests; reusable page objects, fixtures, helpers, selectors, and setup

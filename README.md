@@ -281,6 +281,12 @@ Reusable domain context goes under:
 
 - `.specflow/context/domain-knowledge.md`
 
+Read relevant sections to resolve task-specific decisions, not the whole document collection by
+default. Maintain governing decisions and active requirements when an approved change invalidates
+them; do not synchronize planning docs for every file move, refactor, or implementation detail.
+Correct broken relied-on commands/references narrowly. Required status updates and `901`'s audit
+records still apply. Prefer links to code/schema/config over duplicate inventories.
+
 Project agent guidance goes in:
 
 - `CLAUDE.md`

@@ -4,7 +4,7 @@ description: >
   Use `107` to define or refresh product navigation, user flows, interaction and recovery patterns,
   and the page/route inventory. Trigger it for prompts like "107", "user experience", "UX design",
   "navigation design", "interaction patterns", or "information architecture" when users' paths
-  through the product need clarity. Visual presentation belongs in `106-ui-design`.
+  through the product need clarity. Keep visual styling and component appearance out of scope.
 ---
 
 # 107 - UX & Navigation

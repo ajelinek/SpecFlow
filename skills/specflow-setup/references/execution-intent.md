@@ -29,6 +29,13 @@ Direct interactive invocation and headless workflow invocation may need differen
 example, `201`/`202` stay interactive normally; under `901`, delegate with complete feature identity,
 coverage, artifact paths, and no-commit instructions. A reference skill is never a standalone agent.
 
+## Scoped context
+
+- Standards load in the worker's own context when required. Pass applicable rules/sections and original
+  references; reuse content already loaded there. Honor higher-priority skill-loading requirements.
+  Do not preload every matching skill or treat document collections as mandatory reading. Required
+  evidence and review independence take precedence over saving reads; there is no arbitrary file cap.
+
 ## Five worker contracts
 
 Read the canonical `agents/*.md` at the selected revision and carry the **complete contract** forward.
@@ -40,8 +47,9 @@ Use these summaries to check that translation has not lost intent:
 - **validator:** executes assigned test/lint/build modes, captures actual results and exit statuses,
   and returns grouped diagnostics. Never fixes failures or modifies source/config/dependencies.
   Economical tool-capable model. Test/build artifacts may be legitimate outputs of authorized checks.
-- **designer:** one opinionated visual direction per call; honors D06/D07 and reports conflicts;
-  loads relevant UI/accessibility standards; returns missing-input questions to the caller. Strong
+- **designer:** one opinionated visual direction for creative calls, or scoped implementation guidance
+  for `301`; honors applicable D06/D07/D08 decisions and approved exceptions, reports conflicts, and
+  loads relevant UI/accessibility standards. Returns only mode-relevant missing-input questions. Strong
   creative judgment. Not the artifact-writing agent for an entire `108` workflow.
 - **reviewer:** fresh read-only context against supplied criteria and complete evidence; preserves
   `CLEAN` / `CHANGES_REQUIRED`, prior-feedback handling, and `301` revision/readiness requirements.

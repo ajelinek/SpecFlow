@@ -52,8 +52,10 @@ separate required values; the slug alone is never an acceptable folder name, eve
   ask whether to add it to D10 first or explicitly assign an `F-ID` — never create the folder without
   one. Build the folder per the Feature Folder Rule and use that exact string for every path.
 
-- [ ] **Step 2: Load context.** Read D01, D02, D07, `domain-knowledge.md`, and any existing
-  `overview.md` draft when present. Note missing context.
+- [ ] **Step 2: Load context.** Start with the request and any existing `overview.md`. Consult the
+  relevant D01/D02/D07 or domain-knowledge sections only for a product, architecture, navigation, or
+  business question affecting this feature. Do not read the collection just because it exists or
+  refresh upstream docs as part of feature drafting. Note missing context that affects accuracy.
 
 - [ ] **Step 3: Draft the Feature Overview.** A 1-2 sentence summary for a non-technical reader; an
   **In Scope** list of 3-6 boundary statements; an **Out of Scope** list of explicit exclusions. In

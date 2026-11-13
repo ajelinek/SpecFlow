@@ -4,7 +4,7 @@ description: >
   Use `900` to run a bounded review/apply-fix convergence cycle around work that already happened:
   Review and Apply-Fix run in separate, isolated subagents and repeat until Review is clean or a cap
   is hit. Trigger it for prompts like "900", "feedback loop", "review this and fix it until it's
-  clean", or when another workflow needs a reusable review-and-converge step.
+  clean", or any time a piece of work needs a repeated review-and-fix convergence step.
 argument-hint: "[review-brief] [apply-fix-brief]"
 context: fork
 ---

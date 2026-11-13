@@ -3,9 +3,8 @@ name: gap-check
 description: >
   Resolve a workflow's declared Required Inputs by checking existing project context first, then
   asking about only the inputs that remain unresolved — one question at a time, with a recommended
-  answer, before the invoking workflow proceeds. Referenced by name from other skills' input
-  validation steps (most of SpecFlow's 100-series). Not for open-ended plan interrogation — for
-  stress-testing a plan or decision end to end, use `grilling` instead.
+  answer, before the invoking workflow proceeds. Use it for a short, known checklist, not for
+  open-ended plan interrogation or decision stress-testing.
 argument-hint: "[required inputs checklist]"
 ---
 

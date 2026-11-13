@@ -4,7 +4,7 @@ description: >
   Use `106` to define or refresh a project's visual direction: color, typography, spacing,
   component appearance, and motion. Trigger it for prompts like "106", "visual design", "ui design",
   "design system", or "color palette" when visual choices need to be agreed on or documented.
-  Product navigation and interaction behavior belong in `107-ui-experience`.
+  Keep navigation, page structure, and interaction behavior out of scope.
 ---
 
 # 106 - Visual Design
