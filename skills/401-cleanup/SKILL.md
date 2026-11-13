@@ -5,7 +5,6 @@ description: >
   broad rewrite. Trigger it for prompts like "401", "cleanup this change", "refactor the touched
   files", or "tidy the tests", and run it separately for source and test cleanup.
 argument-hint: "[source|test] [scope-anchor]"
-context: fork
 ---
 
 # 401 - Cleanup
@@ -32,7 +31,7 @@ additive test coverage — reroute those to `301-spec-implementation` or `302-te
 4. **Pre-authorized scope expansion** *(optional)* — when the caller grants it (e.g. `901`'s final
    round), apply out-of-scope opportunities in Step 7 without returning for approval
 
-**Blocking questions.** This skill runs in a forked context and can't reach the user. When the
+**Blocking questions.** Run this skill inside a subagent (fresh child context); it can't reach the user. When the
 changed set is unclear, the scope mixes source and test files, baseline failures make risk hard to
 judge, or broadening scope needs approval, stop and return the question to the caller with options
 and a recommendation.

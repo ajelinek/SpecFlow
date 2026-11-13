@@ -54,8 +54,8 @@ mode affect fallback/overrides. Explain any mismatch between requested and actua
 
 ## Skills and instructions
 
-Skill invocation ordinarily loads into the invoking context. Claude-style `context: fork` is not an
-established CLI isolation mechanism. Use explicit fresh-agent dispatch and complete briefs when
+Skill invocation ordinarily loads into the invoking context. Frontmatter-driven isolation is not an
+established CLI mechanism. Use explicit fresh-agent dispatch and complete briefs when
 independence is required. Verify that the child can load the real skill; parent-loaded skills are not
 a portable inheritance guarantee. `allowed-tools` grants approval rather than restricting tools.
 

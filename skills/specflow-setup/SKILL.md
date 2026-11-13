@@ -13,7 +13,7 @@ For human-facing Markdown, prefer headings and labeled bullets; use tables only 
 Keep required structured syntax unchanged.
 
 Automate SpecFlow configuration, not application installation. Run in the **main, interactive
-context**: scope, model choices, conflicts, and exceptional approvals need a human. Do not fork this skill.
+context**: scope, model choices, conflicts, and exceptional approvals need a human. Do not run this skill in a subagent.
 If invoked headlessly, return unresolved choices to the caller; do not invent consent.
 
 **Output:** the full SpecFlow skill catalog, five configured workers, and the smallest necessary
@@ -126,20 +126,20 @@ This setup skill adds no installer scripts of its own. Missing/inaccessible sour
 
 ### 4. Derive the execution plan internally
 
-Classify every discovered skill using its **actual behavior**, not just `context: fork`. Use the
+Classify every discovered skill using its **actual behavior**, not just its frontmatter. Use the
 execution reference as the starting policy. Identify interactive decisions, inline reference skills,
 bounded leaf tasks, and orchestrators that themselves delegate. Do not create a worker per skill.
 Keep per-task standards scoped; do not preload the entire installed skills catalog.
 
 Draw the deepest call chain, including `901 → 900 → Apply-Fix → 401 → worker` and the decider's
-three voters. Account for forked skills, concurrency, asynchronous completion, and tool permissions.
+three voters. Account for subagent-run skills, concurrency, asynchronous completion, and tool permissions.
 Prefer shallow coordination in the main session with fresh workers. A logical phase can remain in
 the coordinator while its bounded work uses a child; that is not permission to perform an independent
 review in the coordinator's own context. Wait for each required result before advancing.
 
 First try documented external routing/settings and a minimal tool-specific instruction block. If
 insufficient, select the smallest YAML changes or generated installed adapter. Check the body too:
-frontmatter-only changes cannot fix conflicting “this skill runs forked” or nested-dispatch prose.
+frontmatter-only changes cannot fix conflicting “this skill runs in a subagent” or nested-dispatch prose.
 Adapt only execution transport/routing language where necessary and label that delta; preserve all
 behavioral gates. Never assume a higher-priority instruction magically resolves contradictory copies.
 Keep source files unchanged by default. A shared-source YAML change needs explicit approval with its

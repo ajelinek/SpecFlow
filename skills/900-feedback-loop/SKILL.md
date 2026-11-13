@@ -6,7 +6,6 @@ description: >
   is hit. Trigger it for prompts like "900", "feedback loop", "review this and fix it until it's
   clean", or any time a piece of work needs a repeated review-and-fix convergence step.
 argument-hint: "[review-brief] [apply-fix-brief]"
-context: fork
 ---
 
 # 900 - Feedback Loop
@@ -34,7 +33,7 @@ general cleanup.
    for a specialist (e.g. `@coder` for real code fixes).
 4. **Iteration cap** *(optional)* — default 5 review/apply-fix pairs.
 
-This skill runs in a forked context: if either brief lacks scope or criteria, return that as a
+Run this skill in the main session as a coordinator (it dispatches its own Review and Apply-Fix subagents): if either brief lacks scope or criteria, return that as a
 blocking question to the caller before starting.
 
 ---

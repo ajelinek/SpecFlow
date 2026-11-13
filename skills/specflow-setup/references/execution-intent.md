@@ -13,7 +13,7 @@ Claude-style skill frontmatter. Re-read source workflows on every setup; the cat
 - **Independent bounded task candidates:** `100` research; `context-manager` generate/refresh/initialize;
   `301`, `302`, `401`, `402` when given complete briefs. The latter four also orchestrate workers:
   they are not delegation-free leaf tasks. Return unresolved questions to the caller.
-- **Coordinator-first:** `900`, `901`, and `502`. Prefer main-session coordination if nested forks
+- **Coordinator-first:** `900`, `901`, and `502`. Prefer main-session coordination if nested subagents
   exhaust depth. Keep each Review and Apply-Fix independent and fresh; preserve their scopes/caps.
   `901` stays headless once its required inputs are resolved; moving it to main does not authorize
   new human questions or change its git/commit/merge rules. Preserve review-limit handoffs to its
@@ -23,7 +23,7 @@ Claude-style skill frontmatter. Re-read source workflows on every setup; the cat
   explore directly in its assigned context. Do not delegate the exploration to another worker.
   Keep it main if browser tooling is unavailable to children; otherwise a bounded child is possible.
 - **Unknown/new skills:** inspect required interaction, outputs, delegation, tools, and blockers;
-  classify explicitly. Never default all skills to forks or all skills to the main conversation.
+  classify explicitly. Never default all skills to subagents or all skills to the main conversation.
 
 Direct interactive invocation and headless workflow invocation may need different routing. For
 example, `201`/`202` stay interactive normally; under `901`, delegate with complete feature identity,
@@ -74,9 +74,9 @@ loaded skills, repository rules, or read history accompany them. Keep setup out 
 The historical unflattened longest chain includes:
 
 ```text
-main → 901 fork → 900 fork → Apply-Fix child → 401 fork → coder/validator
-main → 901 fork → decider → three voters
-main → 502 fork → 402 fork → coder/validator
+main → 901 → 900 → Apply-Fix child → 401 subagent → coder/validator
+main → 901 → decider → three voters
+main → 502 → 402 subagent → coder/validator
 ```
 
 Count actual child edges after selecting mechanisms; default depth and permitted nesting vary.
@@ -94,7 +94,7 @@ or replace two independent reviewers with two passes in one context.
 
 Prefer a documented runtime routing mechanism. If none exists, minimally adapt the installed skill's
 execution section with a clear source/delta note and its main-session routing pointer. Remove
-contradictory fork/dispatch statements only in that installed adapter; preserve task semantics.
+contradictory subagent/dispatch statements only in that installed adapter; preserve task semantics.
 If this cannot be made explicit and tested, report the workflow blocked instead of claiming parity.
 
 ## Permission reality

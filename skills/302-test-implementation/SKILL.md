@@ -5,7 +5,6 @@ description: >
   missing work is test coverage, not broad production-code changes. Trigger it for prompts like
   "302", "test-only implementation", "write the tests", or "add E2E coverage".
 argument-hint: "[test-scope]"
-context: fork
 ---
 
 # 302 - Test-Only Implementation
@@ -33,7 +32,7 @@ artifact.
 3. **Test surface** — UI, API, integration, unit, or mixed
 4. **Code-touch boundary** — production code is off-limits except the UI testability exception
 
-**Blocking questions.** This skill runs in a forked context and can't reach the user. When the scope
+**Blocking questions.** Run this skill inside a subagent (fresh child context); it can't reach the user. When the scope
 is too vague, or requested scenarios, implementation, and repo behavior disagree (which side to
 correct first?), stop and return the question to the caller with options and a recommendation.
 

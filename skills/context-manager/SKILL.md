@@ -6,7 +6,6 @@ description: >
   Trigger it when project guidance is missing, stale, or needs local overrides (first-time setup,
   monorepos). `initialize` mode writes `.specflow/AGENTS.md` once when bootstrapping a new project.
 argument-hint: "[generate|refresh|initialize]"
-context: fork
 ---
 
 # Context Manager
@@ -64,8 +63,8 @@ inventory or copy volatile file/schema/route lists into guidance; link to their 
    paths not obvious from the repo
 
 `initialize` needs only item 1. Otherwise default to refresh-if-present, root-only unless overlays are
-clearly justified, and no exclusions beyond generated/dependency directories. This skill runs in a
-forked context; if scope policy is genuinely unclear and the defaults don't fit, return the question
+clearly justified, and no exclusions beyond generated/dependency directories. Run this skill inside a
+subagent (fresh child context); if scope policy is genuinely unclear and the defaults don't fit, return the question
 to the caller.
 
 ---

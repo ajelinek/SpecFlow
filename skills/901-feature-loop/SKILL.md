@@ -7,7 +7,6 @@ description: >
   loop", "master loop this feature", or "run the full pipeline for feature F013" when a feature should
   go from a bare name to a merged, cleaned-up branch.
 argument-hint: "[feature-name-or-fid] [round-2-coverage: none|balanced|comprehensive]"
-context: fork
 ---
 
 # 901 - Feature Loop
@@ -97,8 +96,7 @@ artifact). Here there is no human and no room for their full context, so run eac
 - an instruction to make no git commits
 - what to return: the artifact path, a short summary, and any blocking question, unanswered
 
-Read the artifact back from disk when a later step needs it. `302`, `401`, and `402` fork on their
-own where supported; call them directly. Execute `301` in a dedicated subagent where supported,
+Read the artifact back from disk when a later step needs it. `302`, `401`, and `402` run in their own subagents where supported; call them directly. Execute `301` in a dedicated subagent where supported,
 passing its skill instructions, resolved scope, caller-owned completion, and `role: 301-driver`.
 Never add another driver inside an existing driver. If nesting limits prevent
 worker dispatch, route its complete worker packet through this caller and return the result to the

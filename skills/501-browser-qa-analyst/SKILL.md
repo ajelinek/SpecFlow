@@ -6,7 +6,6 @@ description: >
   repro steps to the D11 defect backlog. Trigger it for prompts like "501", "browser QA", "QA
   analyst pass", "explore this site for bugs", or "find defects on this site".
 argument-hint: "[starting-url] [credentials?] [priority-features?]"
-context: fork
 ---
 
 # 501 - Browser QA Analyst
@@ -38,7 +37,7 @@ defect log: defects found outside a `501` run are fixed and documented in the co
 Assume a safe/staging environment with no destructive-action restrictions: submit forms, complete
 flows, and interact the way a real user would.
 
-**Blocking questions.** This skill runs in a forked context and can't reach the user. If the starting
+**Blocking questions.** Run this skill directly in its assigned context, not in a subagent: it needs the live visible-browser integration, and the exploration must not be delegated. It can't ask the user mid-run. If the starting
 URL is missing, or a login wall blocks the surface and no credentials were given, stop and return the
 request to the caller (with any progress so far) rather than guessing or silently skipping the
 authenticated surface.

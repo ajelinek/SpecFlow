@@ -34,12 +34,12 @@ examples below are leads for the installed version, not an evergreen generated t
 
 ## Isolation, skills, and instructions
 
-`context: fork` creates a fresh skill child, **not** a conversation-history clone. `agent:` selects
-its worker persona; omitting it normally selects general-purpose. Agent `skills:` preloads bodies,
+A skill run in a subagent gets a fresh child context, **not** a conversation-history clone. The
+child's worker persona is chosen at dispatch; omitting it normally selects general-purpose. Agent `skills:` preloads bodies,
 not an access allowlist. Children can load skills using their available Skill tool; parent-loaded
 bodies are not automatically carried over. Reference skills stay inline.
 
-Recent documentation describes forked skills as normally backgrounded; use the documented synchronous
+Recent documentation describes subagent-run skills as possibly backgrounded; use the documented synchronous
 mechanism (for example, `background: false` where supported) or explicitly await results. Sequential
 review/fix/validation must not overlap because the skill returned early.
 

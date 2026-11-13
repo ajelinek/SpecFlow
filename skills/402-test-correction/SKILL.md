@@ -6,7 +6,6 @@ description: >
   "402", "fix this failing test", "is this a test issue or a product bug", or "triage the
   failing spec".
 argument-hint: "[failing-test]"
-context: fork
 ---
 
 # 402 - Test Correction
@@ -32,7 +31,7 @@ intended behavior change or product-capability ambiguity.
 3. **Change window** — recent commits, diff range, PR, or changed files likely related
 4. **Decision boundary** — tests only, source only, or either once classified
 
-**Blocking questions.** This skill runs in a forked context and can't reach the user. When the
+**Blocking questions.** Run this skill inside a subagent (fresh child context); it can't reach the user. When the
 failing scope is too vague, or the failure is a behavior-intent question (Step 7), stop and return
 the question to the caller.
 

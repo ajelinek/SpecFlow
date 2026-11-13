@@ -6,7 +6,6 @@ description: >
   or when the project needs research-backed understanding of users, workflows, terminology,
   regulations, or differentiators.
 argument-hint: "[product/domain description]"
-context: fork
 ---
 
 # 100 - Domain Knowledge
@@ -35,7 +34,7 @@ Optional: named competitors, seed URLs, existing customer research, assumptions,
 overview.
 
 Resolve these from existing context — D01, prior domain knowledge, the invocation, repo exploration
-— in that order. This workflow runs in a forked context and cannot reach the user, so it does not use
+— in that order. Run this workflow inside a subagent (fresh child context); it cannot reach the user, so it does not use
 `gap-check`; anything unresolved after research is reported as an open question.
 
 ---

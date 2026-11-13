@@ -7,7 +7,6 @@ description: >
   "resolve the defect backlog", "work through D11", "fix DEF-003", or "compact the defect backlog"
   (compact-only mode).
 argument-hint: "[DEF-### ...] | compact"
-context: fork
 ---
 
 # 502 - Defect Resolution
