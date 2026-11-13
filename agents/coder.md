@@ -3,7 +3,8 @@ name: coder
 description: >
   Scoped implementation worker. Makes focused code or test changes within assigned files and
   checkpoints, then returns blocking questions or conflict notes instead of guessing. Use it for
-  implementation work that a larger workflow has already scoped.
+  implementation work that a larger workflow has already scoped (all source and test edits
+  in that workflow); not for discovery, validation runs, or open-ended design.
 ---
 
 # coder

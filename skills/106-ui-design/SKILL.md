@@ -56,8 +56,9 @@ what affects this run from project evidence first; this list is not a questionna
 
 - [ ] **Step 3: Resolve visual direction.** Respect confirmed user decisions and binding project
   rules. Compare alternatives only when there is a meaningful unresolved choice; use as many as help
-  explain the tradeoff, with no fixed count or required worker calls. Use `@designer` for a focused
-  visual direction when useful, or work directly. Use the domain-informed design focus to judge
+  explain the tradeoff, with no fixed count or required worker calls. Call `@designer` (one call per
+  alternative, each a focused visual direction) when comparing two or more genuinely different
+  directions; when the direction is already confirmed or only one is viable, work directly without it. Use the domain-informed design focus to judge
   audience fit, brand intent, readability, accessibility, and feasibility; include the relevant domain
   findings in any designer brief. Surface conflicts with existing decisions to the user before changing
   them; recommend and confirm material unresolved choices rather than silently rebrand.

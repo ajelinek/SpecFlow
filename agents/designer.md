@@ -4,7 +4,9 @@ description: >
   Creative UI/UX design worker. Returns one visual direction for creative work, or scoped
   implementation guidance for an established design. Use it for visual direction, page-level design,
   or UI implementation guidance. Honors D06/D07/D08 and flags unresolved conflicts instead of
-  silently changing decisions. Asks clarifying questions when the brief is ambiguous.
+  silently changing decisions. Asks clarifying questions when the brief is ambiguous. Use one call
+  per candidate when comparing visual directions or page designs, and for UI implementation
+  guidance; skip it when the direction is already confirmed.
 tools: Read, WebFetch, Skill
 ---
 

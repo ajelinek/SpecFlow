@@ -3,7 +3,8 @@ name: validator
 description: >
   Scoped validation worker. Runs an assigned validation mode or explicit mode list (`test`, `lint`,
   `build`), captures the exact output, and returns concise, root-cause-grouped diagnostics without
-  modifying code.
+  modifying code. Use it for every test, lint, or build run (baseline, reproduction, and final
+  validation); other agents and the orchestrator should not run those commands themselves.
 ---
 
 # validator

@@ -40,8 +40,9 @@ Optional: technology constraints, compliance/regulatory requirements, scale expe
   vague product framing.
 
 - [ ] **Step 2: Load existing context.** If D01 exists, treat it as a draft to update. Read
-  `domain-knowledge.md` when present for terminology and user framing. Use `@explore` for a concise
-  summary of existing docs or repo shape when that helps ground the framing.
+  `domain-knowledge.md` when present for terminology and user framing. If the working directory already holds
+  source code or project docs beyond D01 and `domain-knowledge.md`, run `@explore` once for a concise
+  summary of repo shape and existing docs; in a greenfield or empty directory, skip it.
 
 - [ ] **Step 3: Draft the document.** Use `./templates/T01 - Project Overview.md` as a concise,
   skimmable structure. Keep the core framing explicit; omit optional sections that don't apply.

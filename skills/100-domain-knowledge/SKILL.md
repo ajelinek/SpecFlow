@@ -46,8 +46,9 @@ Resolve these from existing context — D01, prior domain knowledge, the invocat
   as the result — don't research a guess.
 
 - [ ] **Step 2: Load existing context.** If `domain-knowledge.md` exists, treat it as a draft to
-  update. Read D01 and D10 when present. For an existing repo, use `@explore` for a concise summary
-  of high-signal files only.
+  update. Read D01 and D10 when present. If the working directory already holds source code or
+  project docs, run `@explore` once for a concise summary of high-signal files only (README, manifests,
+  existing docs); in a greenfield or empty directory, skip it.
 
 - [ ] **Step 3: Define the research brief.** The domain to understand, the users or buyers that
   matter most, the product decisions this research should inform, differentiation questions, and

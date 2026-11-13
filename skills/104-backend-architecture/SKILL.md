@@ -39,9 +39,9 @@ Background jobs, rate limiting, caching, and external integrations inform the do
 
 - [ ] **Step 1: Load project context.** If D04 exists, update it rather than create a competing copy.
   Read project guidance, D01, D02, and the existing D03 model when present:
-  `D03-common-data-model.dbml`, `D03-common-data-model.md`, or both for mixed storage. Inspect relevant
-  code and configuration for entry points, ownership, auth, validation, errors, and data access,
-  using `@explore` when useful. Distinguish existing patterns from proposed changes.
+  `D03-common-data-model.dbml`, `D03-common-data-model.md`, or both for mixed storage. If backend code
+  already exists, run `@explore` once to inspect entry points, ownership, auth, validation, errors,
+  and data access; if there is none yet, skip it. Distinguish existing patterns from proposed changes.
 
 - [ ] **Step 2: Resolve inputs.** Use `gap-check` for gaps that block architecture decisions, using
   loaded context before asking. Don't ask again about confirmed choices. Capture non-blocking

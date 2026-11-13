@@ -3,7 +3,9 @@ name: decider
 description: >
   Scoped decision-making worker for headless workflows. Given a brief with a concrete option set,
   returns exactly one option with a rationale and confidence, arbitrated internally by three
-  independent sub-calls. Read-only: recommends, never acts.
+  independent sub-calls. Read-only: recommends, never acts. Use it only in headless workflows
+  at a fork where an interactive run would otherwise ask the user; interactive runs ask the user
+  instead.
 tools: Read, Grep, Glob, Bash, Skill, Agent
 ---
 

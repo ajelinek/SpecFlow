@@ -43,9 +43,9 @@ Defer non-blocking decisions to Open Questions; don't present proposals as settl
 ## Steps
 
 - [ ] **Step 1: Load project context.** If D02 exists, treat it as a draft to update. Read D01 when
-  present for business goals, constraints, and success signals. Inspect relevant packages and
-  deployment/config patterns, using `@explore` when useful. Distinguish the existing architecture
-  from proposed changes.
+  present for business goals, constraints, and success signals. If the repo has existing source or
+  config, run `@explore` once to inventory packages and deployment/config patterns before drafting;
+  in a greenfield repo, skip it. Distinguish the existing architecture from proposed changes.
 
 - [ ] **Step 2: Validate inputs.** Resolve the Required Inputs with `gap-check`, using loaded context
   before asking questions.

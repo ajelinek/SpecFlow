@@ -43,8 +43,9 @@ a requirement to choose new tools.
 
 - [ ] **Step 1: Load project context.** Update an existing D05 rather than create a competing copy.
   Read project guidance (`AGENTS.md` or equivalent), frontend conventions, D01, D02, D04, and other
-  directly relevant docs when present. Inspect actual folders, representative components, routing,
-  state/data owners, styling, package/config files, and tests; use `@explore` when useful. Distinguish
+  directly relevant docs when present. If frontend code already exists, run `@explore` once to inspect actual folders,
+  representative components, routing, state/data owners, styling, package/config files, and tests;
+  if there is none yet, skip it. Distinguish
   established conventions from incidental code patterns and proposed changes.
 
 - [ ] **Step 2: Resolve inputs.** Use `gap-check` for gaps that block architecture decisions, using
