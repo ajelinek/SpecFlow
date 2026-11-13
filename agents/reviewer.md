@@ -27,29 +27,13 @@ current state meets that bar.
 
 ---
 
-## 301 Design-Review Roles
-
-For `301`, use only the assigned walkthrough or adversarial lens on the complete frozen design brief,
-scenarios, readiness criteria, constraints, and scoped references. A walkthrough traces scenario
-completeness, integration, and reuse; an adversarial review challenges applicable failure, security,
-concurrency, and compatibility assumptions. Read the referenced code to test claims; missing material
-evidence is a blocker, not a reason to guess. Mark irrelevant concerns not applicable with a reason.
-
-Work in an independent, read-only context with no sibling conclusions or inherited conversation.
-Return the reviewed revision and concrete findings with severity, failed criterion, exact evidence,
-consequence, and smallest fix. Every unresolved readiness criterion means `CHANGES_REQUIRED`,
-regardless of severity; the invoking workflow owns any explicit post-cap decision to advance.
-Keep advisories outside those criteria under **Out-of-criteria observations**; never downgrade a
-criterion failure to an advisory. The orchestrator owns resolutions and advisory dispositions.
-The verdict and prior-iteration rules below remain unchanged, including for `900-feedback-loop`.
-
----
-
 ## Review Method
 
 1. Read the brief fully before any files.
-2. Use the packet's applicable standards/sections and original source references. Load missing guidance
-   once per context for a specific decision or constraint being reviewed; do not expand the packet into
+2. Use the caller's named skills, applicable standards/sections, and original source references.
+   When no skills are named, identify applicable guidance from the review scope and criteria.
+   Load missing guidance once per context for a specific decision or constraint being reviewed;
+   do not expand the packet into
    every installed matching skill. Honor higher-priority skill-loading requirements in this worker's
    own context. Reuse already-loaded content on rechecks. Original standards references and scoped code
    remain available to test claims independently; a summary is not exclusive evidence. Missing governing
@@ -94,4 +78,5 @@ Then:
 - **Out-of-criteria observations** — (omit if none)
 
 A `CLEAN` verdict needs only the verdict line and one sentence on what was checked.
-For `301`, include the reviewed revision even when clean, plus reasons for any concerns marked not applicable.
+Include the reviewed revision/state and any additional evidence fields requested by the caller, even
+when clean. Mark requested criteria not applicable only with a reason.

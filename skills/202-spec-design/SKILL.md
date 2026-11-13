@@ -93,6 +93,3 @@ question, not permission to infer behavior.
   modules/scenarios. Report the path, `TS#` scenarios updated, new scenarios and their `TS#` range,
   coverage level, missing context that may affect coverage, a suggested later pass if coverage was
   Happy Path Only, and suggest `301-spec-implementation` for substantial feature delivery next.
-  That workflow owns code-grounded design and independent design reviews before coding; there is no
-  separate implementation-plan artifact to produce first. For existing behavior needing only tests,
-  suggest `302-test-implementation` instead.

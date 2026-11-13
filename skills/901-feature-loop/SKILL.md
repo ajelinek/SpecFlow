@@ -25,8 +25,8 @@ unit that gets a Module Check and a commit. Every design/spec artifact and aggre
 a Feedback Pass (`900-feedback-loop`, under tighter caps than its default) before the run advances.
 Every stage lands its own commit.
 
-Each `301` pass includes code-grounded design and two independent design reviews before its
-tests-first implementation, fresh diff review/refinement, and final validation. These are internal
+Each `301` pass includes reuse-first code design, one scoped tests-first coder, independent read-only
+diff review, same-coder repairs/cleanup, and isolated targeted validation. These are internal
 gates, not extra persisted design artifacts or `900` Feedback Passes.
 `901` owns whole-feature completion at its final gate, not the per-scenario `301` calls; they report
 scope complete and leave the overview `implementing` until Step 22.
@@ -77,7 +77,8 @@ Log**).
   ledger, consults, gate results, and Feedback Pass counts live in `implementation-log.jsonl` — read
   it back rather than carrying transcripts or re-deriving from memory.
 - **Model routing:** mechanical work runs on cheaper pinned models — `@validator` (haiku, pinned in
-  its definition; call it plainly) and the Feedback Pass Apply-Fix role (`sonnet`). Judgment-heavy
+  its definition; call it plainly), `@coder` (sonnet, as configured), and the Feedback Pass Apply-Fix
+  role (`sonnet`). Honor approved installed model mappings on other hosts. Judgment-heavy
   work — `@decider`, the Feature Review, and the `201`/`202`/`301`/`302` invocations, including the
   `general-purpose` subagents carrying `201`/`202` — inherits this run's own tier.
 
@@ -96,8 +97,12 @@ artifact). Here there is no human and no room for their full context, so run eac
 - an instruction to make no git commits
 - what to return: the artifact path, a short summary, and any blocking question, unanswered
 
-Read the artifact back from disk when a later step needs it. `301`, `302`, `401`, and `402`
-fork on their own; call them directly.
+Read the artifact back from disk when a later step needs it. `302`, `401`, and `402` fork on their
+own where supported; call them directly. Execute `301` in a dedicated subagent where supported,
+passing its skill instructions, resolved scope, caller-owned completion, and `role: 301-driver`.
+Never add another driver inside an existing driver. If nesting limits prevent
+worker dispatch, route its complete worker packet through this caller and return the result to the
+pending driver phase, retaining state and caps; don't replace independent review with self-review.
 
 ---
 
@@ -114,7 +119,7 @@ fork on their own; call them directly.
 
 ## Review-Limit Resolution
 
-Use this at every exhausted review budget: artifact refine, aggregate cleanup, `301` design readiness,
+Use this at every exhausted review budget: artifact refine, aggregate cleanup, `301` independent diff review,
 and the Feature Review. Keep the cap; replace further debate with a bounded decision.
 
 1. **Prepare evidence and options.** Include the scope, artifact/brief revision or code state, rounds
@@ -248,7 +253,7 @@ entries). Each line has a `type` and `ts` (ISO 8601):
   this step's commit, or `null`), `summary`. A line can't hold its own commit's SHA, so each step
   records the one before it.
 - **`scenario_complete`** — Steps 10 and 16, after each scenario's `301` pass. Fields: `step`,
-  `module`, `scenario`, `repair_rounds` (`301` design-review rounds used), `result`.
+  `module`, `scenario`, `repair_rounds` (`301` independent diff-review repair rounds used), `result`.
 - **`gate`** — every Green Check and Module Check. Fields: `step`, `check` (`green` or `module`),
   `layers`, `repair_rounds`, `result`.
 - **`decision_consult`** — every Decision Consult. Fields: `step`, `question`, `decision`, `confidence`.
@@ -286,9 +291,10 @@ entries). Each line has a `type` and `ts` (ISO 8601):
   applied. Missing repair history means the review budget is exhausted, not grounds for a fresh loop.
 - **Mid-module resume**: keep the working tree as is and continue at the first scenario in that
   module without a `scenario_complete` line. That scenario's `301` baseline surfaces any breakage the
-  interrupted pass left behind. For any pending `301`, rebuild and re-review its in-memory design
-  brief against current code before more implementation while review budget remains; otherwise use
-  Review-Limit Resolution on the rebuilt brief. The prior ledger alone is not design approval.
+  interrupted pass left behind. For any pending `301`, rebuild its design, reuse inventory, shared
+  check plan, diff, and pending findings against current code. Resume its pending phase, not fresh
+  pre-implementation reviews. Recheck changed reviewed code within the remaining budget; otherwise
+  use Review-Limit Resolution. The prior ledger alone is not current code-review approval.
   Carry each scenario's consumed `repair_rounds` forward; if unavailable, treat its budget as exhausted.
 - **On terminal** (any stage after initialization; Step 2 predates the log): append `terminal` before
   ending.

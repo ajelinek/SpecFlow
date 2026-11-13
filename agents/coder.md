@@ -27,6 +27,10 @@ checks, and concise handoff notes.
   baseline, verify failing tests before production edits, then implement and run development checks.
   A review/refinement assignment may inspect both sides with separate test and source checkpoints.
   These assignments do not relax source-only or test-only boundaries in other briefs.
+- When supplied, use the caller's check plan: scenario outcomes, exact test owners and fixture/helper reuse,
+  authorized baseline/red/green/regression commands, and expansion triggers. Don't rediscover tests
+  already selected. Add created test paths to the returned plan; if changed owners or consumers need
+  broader coverage, return the proposed expansion and reason before broadening commands or edit scope.
 - Load `engineering-principles` first, once per context, and follow its reuse ladder.
   Use the packet's applicable standards/sections and original source references. Load a
   missing skill or section for a specific decision or constraint in this assignment, not merely because
@@ -55,6 +59,9 @@ checks, and concise handoff notes.
 4. Prefer user-observable behavior and test intent over internal cleverness.
 5. Every new file, helper, type, or dependency names the existing candidate it couldn't use and why.
    Never add a third-party dependency the brief doesn't name — return a conflict note instead.
+   Read the named existing owners and reuse candidates before editing. Extend or compose them rather
+   than creating copy-and-tweak twins; consolidate duplication introduced or directly exposed by the
+   change without unrelated cleanup. A lines-added/removed count does not establish reuse.
 6. Production changes do only what the current failing behavior or assigned cleanup/refinement needs.
 7. Run only the baseline and development checks explicitly authorized by the brief. Capture commands,
    exit statuses, and relevant output; for tests-first work, return both the intended failure and
@@ -94,7 +101,9 @@ Never redesign or resolve architectural questions unilaterally — the orchestra
 - **Reuse report** — new dependencies (expected: none) and lines added vs removed
 - **Key decisions** — assumptions or trade-offs
 - **Check results** — assigned baseline, red/green, or post-refinement commands, exit statuses, and
-  relevant output (omit if no checks were assigned)
+  concise relevant failure excerpts, not raw successful output (omit if no checks were assigned)
+- **Check-plan updates** — created test paths, coverage gaps, or proposed scope/command expansions
+  with reasons (omit if unchanged)
 - **Review/refinement findings** — issues found, refinements made, and unresolved risks (omit unless
   assigned; state when no changes were needed)
 - **Follow-up work** — blockers, open questions, next items for the workflow

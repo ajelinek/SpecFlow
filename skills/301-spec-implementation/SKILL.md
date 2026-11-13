@@ -2,269 +2,268 @@
 name: 301-spec-implementation
 description: >
   Use `301` to implement a substantial feature or implementation chunk through the main SpecFlow
-  workflow. It handles code-grounded design, independent design reviews, tests-first implementation,
-  independent review and refinement, and final validation.
+  workflow. It handles reuse-first code design, scoped tests-first implementation with a cheaper
+  coder, independent diff review, bounded cleanup, and isolated targeted validation.
   Trigger it for prompts like "301", "spec implementation", or "implement this feature" when the
   work is large enough to benefit from a disciplined multi-phase delivery flow.
 argument-hint: "[change-request-or-spec-reference]"
-context: fork
 ---
 
 # 301 - Spec-Driven System Implementation
 
+**Execute this skill in a dedicated subagent when supported.** Pass the resolved request, scope,
+governing references, caller constraints, and `role: 301-driver`. If already running in that delegated
+context, execute here without creating another driver. If delegation is unavailable, follow the
+Execution Boundary below rather than silently changing the workflow.
+
 Keep required structured syntax unchanged.
 
-Implement a substantial feature or implementation chunk in strict phase order: prepare context →
-design brief → independent design reviews → tests-first implementation → independent review and
-refinement → final validation and close. One coding assignment owns the baseline and red → green
-cycle; a fresh coding agent reviews and refines the result. Reuse over creation, per
-`engineering-principles`, governs design and both coding assignments.
+Run in order: code-grounded design using `engineering-principles` → tests → implementation →
+independent review and bounded cleanup → validation. The driver owns design and decisions; one
+implementation coder owns tests, source, and repairs. A separate read-only reviewer checks the actual
+diff, and a validator contains acceptance-check output. No automatic designer, explorer, independent
+pre-implementation design reviews, or second review/refinement coder.
 
-**Output**: Updated source and test files. Existing `overview.md` status becomes `implementing` at
-start. Partial scope reports scope complete, not feature done. Only explicit whole-feature delivery
-may mark it `done` after all acceptance gates pass; under `901`, the caller owns feature completion.
-The design brief and synthesized upstream context stay in memory unless the user asks to persist them.
+**Output:** Updated source and test files with scoped check evidence. An existing `overview.md`
+becomes `implementing` at start. Partial scope reports scope complete, not feature done. Only explicit
+whole-feature delivery may mark it `done` after acceptance, unless the caller reserves completion.
+Keep the design brief, reuse inventory, and check plan in memory unless persistence is requested.
 
 ---
 
 ## Required Inputs
 
 1. **Change request or spec reference** — a `.feature` path, scenario title, design/plan reference,
-   or plain-language change request
+   or plain-language request.
 2. **Scope** — for a `.feature` file, exactly one of: a single `@TS###`, a single `TSM###`, or the
-   full file. Without a `.feature` file, derive a working scenario set from the request.
-3. **Workflow fit** — substantial features or implementation chunks only; not small fixes, one-file
-   maintenance, or isolated cleanup
-4. **Caller resolution** _(optional, on re-entry)_ — a `review_limit` packet plus the caller's explicit
-   decision, per-finding dispositions, and consumed budget. Rebuild/verify current context, then resume
-   Step 9 (or the phase awaiting that resolution); do not rerun initial reviews or repeat completed coding.
+   full file. Otherwise derive a working scenario set from the request.
+3. **Workflow fit** — substantial features or implementation chunks, not small fixes, one-file
+   maintenance, or isolated cleanup.
+4. **Caller resolution** _(optional, on re-entry)_ — a `review_limit` packet plus the caller's
+   explicit decision, reviewed revision/code state, per-finding dispositions, and consumed budget.
+   Verify current evidence and resume the pending phase; do not restart completed work or reset caps.
 
-**Blocking questions.** This skill runs in a forked context and can't reach the user. Wherever this
-workflow needs a decision (missing scope for a given file, a request too vague to identify the
-primary action and expected outcome, a design conflict, baseline failures, non-converging repairs),
-stop and return the question to the caller with the options and a recommendation. Design-review cap
-exhaustion returns `review_limit`, not a terminal design blocker: include the complete current brief,
-reviewed revision, consumed rounds, actual verdicts, outstanding findings/evidence, concrete options,
-and the lowest-risk feasible recommendation. Under `901`, the caller uses Decision Consult and returns
-its resolution; otherwise the caller decides how to proceed. The cap limits review, not implementation.
-An evidenced inability to implement safely remains a substantive blocker, not merely a cap result.
+**Blocking questions:** A delegated driver returns missing scope, unclear outcomes, governing conflicts,
+baseline failures, or non-converging repairs to its caller with options and a recommendation. A driver
+running in the user-facing context may ask directly. Accept scope and decisions already resolved by
+the caller; ask only about remaining gaps or conflicting evidence. Never invent missing requirements
+or waive confirmed correctness/security defects.
 
 ---
 
-## Operating Model
+## Execution Boundary and Roles
 
-You are the orchestrator: you own scope, architecture, touched modules, phase state, and validation
-status. All code changes go through a coding subagent (`@coder`, else the general agent). Use one
-implementation coder, then a fresh review/refinement coder; do not split each checkpoint into a new
-assignment. Design reviewers are separate, read-only contexts, not coders. Coders run the baseline
-and development checks explicitly named in their packets. Final test, lint, and build execution goes
-through one `@validator` assignment; actual command results are the ground truth for advancing. UI
-changes go through `@designer` first when available.
+**One driver context, not recursive delegation:**
+- The caller delegates the complete workflow once to a general agent capable of code design and
+  orchestration, passing this skill and the inputs named above. Use the caller's design-capable model
+  tier where supported, rather than the cheaper implementation-coder role.
+- If already delegated or marked `role: 301-driver`, execute here. The driver is not the
+  implementation coder. Don't delegate another driver to repeat the same workflow.
 
-**Working state.** Keep a compact, versioned in-memory design brief, current review findings and repair
-count, a context map of scoped source/test paths and reference patterns, a code-checked reuse inventory,
-and a standards index. For UI work, include the UI direction brief (D06/D07/D08 constraints, approved
-doc changes or exceptions, and `@designer`'s implementation guidance). No extra tracking artifacts.
+**Driver:** owns discovery, reuse decisions, compact versioned design, test selection, phase state,
+review dispositions, and acceptance. Do not write a line-by-line solution for the coder to transcribe.
 
-**Interrupted runs.** Before resuming implementation, rebuild the complete brief from current artifacts
-and code and rerun both independent readiness reviews only while budget remains. Carry forward consumed
-repair rounds; if the repair history cannot be recovered, treat the budget as exhausted and return
-`review_limit`. A caller resolution must match the reviewed revision, current evidence, and per-finding
-dispositions; resume at the pending phase without restarting reviews or the cap. An old approval or
-completion ledger alone is not current design approval.
+**Coder:** use `@coder` (general-agent fallback) for one tests-first assignment; resume the same session
+for implementation repairs and cleanup. Honor its configured lower-cost model where the host supports
+model selection; do not assume model names are portable or override caller model policy. If session
+resumption is unavailable, pass a compact continuation packet, not a new design/discovery assignment.
 
-**Task packet.** Each coding assignment receives only its slice: objective, phase, exact files in scope,
-relevant scenario text, the accepted brief revision and relevant architecture excerpt, UI direction
-excerpt if relevant, standards excerpt, applicable reuse candidates, allowed just-in-time reference
-files, explicit out-of-scope boundaries, and concrete success criteria. Never the full conversation,
-every artifact, or every standards file. Include authorized check commands and the required evidence.
-The fresh review/refinement coder also receives the scoped diff and acceptance criteria, and checks
-the actual code rather than relying on the implementation coder's summary.
+**Reviewer:** one independent read-only `@reviewer` context (general-agent fallback). Never use the
+implementation coder's session. Reuse the reviewer session for bounded rechecks.
+
+**Validator:** one isolated `@validator` assignment per acceptance pass, bundling the selected test,
+lint, and build commands. The coder runs only authorized narrow development checks. Preserve full
+command output outside the driver context; return concise results and relevant failure excerpts.
+
+**Host limits:** if nested delegation is unavailable, return worker packets to the calling agent for
+dispatch, including the pending phase, current brief/check plan, findings, consumed budget, and driver
+session reference when supported. The caller dispatches only the requested worker and resumes this
+driver with its result and continuation state; it does not invoke a fresh `301`. Keep the coder and
+reviewer contexts separate when routing. Do not spawn CLI sessions or silently replace independent
+review with self-review. If the host has no delegation capability, report that limitation and ask
+whether to proceed with an explicitly reduced workflow.
+
+**Packets:** pass objective, phase, selected scenario text, brief revision, exact edit boundaries,
+existing owners/reuse candidates, relevant contracts/invariants, exemplar and standards references,
+check plan, and success criteria. Include why and observable outcomes, not the full conversation or
+whole repository. Workers read authoritative owners before editing; references are not read bans.
+Local implementation choices belong to the coder; architectural changes return to the driver.
 
 ---
 
-## Steps
+## Phase 0 - Ground Scope and Reuse
 
-### Phase 0 - Prepare Feature Context
+- [ ] **Resolve scope and context.** Read existing `overview.md` and `specs.feature` when present.
+      No new `F-ID`, folder, or artifact is required for an inline request. Use `201`/`202` guidance
+      inline for missing context, not their artifact-writing workflows. Existing selected scenarios
+      need no coverage classification. When synthesizing or materially revising scenarios, use the
+      supplied coverage; if unresolved, ask for Happy Path Only, Balanced, or Comprehensive.
+      Route material scenario revisions through `202` with explicit scope, outcomes, current text/IDs,
+      chosen coverage, constraints, proposed change, and permission to update a spec or stay inline.
 
-- [ ] **Step 1: Resolve feature and scope.** Select the requested scenario set or implementation chunk.
-      Resolve existing feature identity and folder when present; no new `F-ID` or folder is required for
-      an inline request. Distinguish explicit whole-feature delivery from a selected scenario, module, or
-      chunk; completing the selected scope is not automatically completing the feature.
+- [ ] **Read governing evidence and owners.** Load `engineering-principles`, applicable project rules,
+      standards skills, and relevant D01-D08/domain context. Assume the approved request and existing
+      UI design are ready for implementation: follow applicable D06/D07/D08, without invoking a designer.
+      Escalate actual contradictions or missing behavior that affects correctness; don't reopen design
+      preference decisions. Read scoped owners and close implementation/test exemplars in full.
 
-- [ ] **Step 2: Load or synthesize upstream context.** Read existing `overview.md` and `specs.feature`
-      when present. For missing context, use `201` and `202` guidance to synthesize scope, primary journey,
-      and scenarios inline, not their file-writing workflows: create no folders or artifacts unless
-      explicitly requested.
-      Implementing existing selected scenarios does not require classifying their coverage level.
-      A coverage choice is needed only when synthesizing or materially revising scenarios. Take that
-      coverage from existing specs or the request/context. If generation or revision needs a choice not
-      supplied by the request or context, return a blocking question with Happy Path Only, Balanced, and
-      Comprehensive options, not an inferred default. Route material scenario revisions through
-      `202-spec-design` with explicit inline context and a handoff: feature name or working label, scope,
-      outcomes, current scenario text/IDs, chosen coverage, constraints, proposed behavior change, and
-      whether an existing spec may be updated or output must stay inline. Never rely on that skill
-      inheriting this run's memory.
+- [ ] **Build a code-checked reuse inventory.** Identify existing modules, functions, types, components,
+      fixtures, helpers, and installed dependencies that own or nearly provide the behavior. Record
+      candidate paths and capabilities, the chosen owner, and why extension/composition is sufficient
+      or not. Use focused path/symbol searches, not automatic broad exploration. Before introducing
+      new responsibility-bearing code, name the candidate it cannot reuse and why. No copy-and-tweak
+      twins; generalize the existing owner where appropriate without speculative abstraction.
 
-- [ ] **Step 3: Ground the working state in code.** Load `engineering-principles`, relevant installed
-      standards skills, project rules, and applicable D01-D08/domain context. Use focused `@explore`
-      discovery as needed; read scoped owners and similar implementations in full. Name reusable modules,
-      helpers, components, fixtures, installed dependencies, integration points, and the paths checked.
-      Resolve standards conflicts explicitly; missing evidence that could change the design blocks readiness.
+- [ ] **Set status.** Set an existing `overview.md` to `status: implementing`. A prior `done` value
+      does not prove this run's scope complete. Record the starting worktree/diff state so this
+      assignment's changes can be distinguished from pre-existing edits. Never overwrite unrelated work.
 
-- [ ] **Step 4: Route UI changes through `@designer`.** If the scope changes layout, interaction flow,
-      navigation, visible state handling, visual hierarchy, component usage, or other user-facing
-      behavior: load the relevant D06/D07/D08 docs, pass `@designer` only that context plus the reuse
-      inventory's existing components, and ask for the governing UI rules, doc conflicts, minimal doc
-      updates, and a concise implementation-facing direction brief — not broad creative exploration.
-      Code must follow resolved D06/D07/D08 guidance rather than invent patterns. An unresolved conflict
-      is a blocking question before coding; an approved one updates the governing doc first or is
-      carried explicitly in the UI direction brief.
+---
 
-- [ ] **Step 5: Update feature status.** Set `overview.md` to `status: implementing`, only if the file
-      exists, for the selected work. A prior `done` value does not mean this run's scope is complete.
+## Phase 1 - Code Design and Shared Check Plan
 
-- [ ] **Step 6: Define the checks.** Identify the project's baseline and final test, lint, and build
-      commands, plus targeted commands for the selected scenarios. Include the baseline and development
-      commands in the implementation packet; do not create a validator assignment for each command.
+- [ ] **Draft a compact versioned brief.** Include:
+  - selected scope, complete scenarios, observable outcomes, and non-goals;
+  - chosen approach, module responsibilities, edit boundaries, integration points, public contracts,
+    state transitions, and applicable failure/security/concurrency/compatibility constraints;
+  - existing owners and reuse candidates, concrete justifications for new files/exports/abstractions,
+    and explicitly approved new dependencies (otherwise none);
+  - scenario → source changes → observable tests, applicable standards/UI constraints, evidence
+    paths, resolved assumptions, and remaining questions;
+  - the shared check plan below.
 
-### Phase 1 - Design Brief
+  Self-check completeness, feasibility, reuse, and contracts against actual code. Resolve material
+  questions before dispatch. No mandatory pre-implementation reviewer calls. Preserve the coder's
+  local judgment: specify responsibilities and invariants rather than every edit.
 
-- [ ] **Step 7: Draft the design.** The orchestrator writes a compact, versioned in-memory brief:
-  - chosen approach and why; alternatives only for meaningful structural decisions
-  - modules/files to extend, create, or remove, with responsibilities and concrete reuse candidates;
-    justify each new file, export, abstraction, or dependency against the lower reuse-ladder rungs
-  - integration points, boundaries, public contracts, data/state transitions, and applicable failure,
-    security, concurrency, and compatibility constraints
-  - each scenario → source changes and observable checks, including regression coverage
-  - assumptions, evidence/reference paths, resolved decisions, remaining questions, standards, and UI direction
+### Select Tests Once
 
-  Include scope and the complete selected scenarios, not just their names. Keep the brief sufficient
-  for an independent implementation walkthrough; don't create a second overview or a persisted plan.
+Use this selection order, stopping when it provides adequate evidence for the change:
+1. Explicit test paths/scenario mappings in the request or project guidance.
+2. An existing affected/related-test command configured by the project.
+3. Colocated or conventionally named tests for the changed owner.
+4. One bounded search in the relevant test subtree for the public symbol, route, or behavior.
+5. The owning package/module suite if narrower selection cannot be justified.
 
-### Phase 2 - Independent Design Reviews
+Read relevant runner configuration, scripts, and nearby examples once. Prefer existing tooling; do
+not create a test index, new dependency, or project-wide discovery pass. A dependency graph is an aid,
+not complete coverage: explicitly include integration tests for dynamic wiring, routes, configuration,
+or cross-service behavior when affected. An empty/no-tests selection is not passing evidence.
 
-- [ ] **Step 8: Freeze and dispatch.** Spawn two fresh, independent, read-only `@reviewer` contexts
-      (general agent fallback). Give both the same complete frozen brief revision, full selected scenarios,
-      constraints, readiness criteria below, and exact source/doc/standards references with permission to
-      read them. Never rely on inherited memory; no sibling conclusions or shared reviewer session.
-      Only the role lens differs:
-  - **Walkthrough:** trace each scenario end to end for completeness, integration, and reuse.
-  - **Adversarial:** challenge applicable failure, security, concurrency, and compatibility assumptions.
-    Mark irrelevant concerns not applicable with a reason; don't invent requirements.
+**Shared check plan:**
+- **Behavior:** selected scenarios and required regression outcomes.
+- **Test owners:** exact existing test paths, fixtures/helpers, and tests to add or extend.
+- **Development checks:** exact baseline, red/green, and local regression commands.
+- **Acceptance checks:** exact test, lint, and build commands with their supported file/package filters.
+- **Selection evidence:** why these checks cover the source owners and affected consumers.
+- **Expansion triggers:** new touched owners, shared infrastructure, auth/data boundaries, public
+  contracts, schema/configuration changes, or uncertain impact; name broader checks when known.
 
-  Required readiness criteria for both roles:
-  - scope, outcomes, scenarios, and design agree; no missing required behavior or unjustified scope
-  - every selected scenario has a feasible end-to-end change path and observable checks
-  - module ownership, integration, boundaries, contracts, and state/failure handling are explicit and compatible
-  - reuse and new-code justifications are code-grounded; project/standards/UI constraints are satisfied;
-    any new dependency is named and explicitly approved
-  - material assumptions and questions affecting correctness, safety, or feasibility are resolved by evidence
+Derive scope from this assignment's source changes, not every dirty file in the checkout. For related
+selectors, use a source-file list or a known comparison baseline, not an unexplained default git range.
+Do not filter so narrowly that known affected consumers disappear. Use project-documented targeted
+commands; lint/build may require a package-wide or full command when no safe filter exists.
 
-  Use the existing `## Verdict: CLEAN` / `## Verdict: CHANGES_REQUIRED` contract;
-  any unresolved readiness criterion means `CHANGES_REQUIRED`, regardless of severity. Findings name severity,
-  criterion, exact evidence, consequence, and smallest fix.
-  Keep out-of-criteria advisories separate for explicit disposition, never silently ignore them.
+Reuse the plan across coder, reviewer, and validator. Don't have each rediscover tests. Add new tests
+to the plan as they are created. Recalculate only when evidence or scope changes; the coder returns
+a proposed expansion and reason instead of silently broadening work. Full-suite testing is not the
+default baseline or final check, but project/caller mandatory gates and impact-triggered broader checks
+still apply. Targeted checks never replace broader acceptance gates owned by the caller.
 
-- [ ] **Step 9: Resolve and recheck.** The orchestrator resolves findings by evidence, not votes.
-      Correct the brief, obtain missing evidence, or challenge a finding with concrete evidence; do not
-      silently override a failing criterion. Record each finding's resolution and each advisory's accepted,
-      deferred, or rejected disposition with a reason. A material advisory belongs in the readiness criteria
-      and must be rechecked, not relabeled away.
+---
 
-  Allow at most two repair rounds after the initial reviews. Each round freezes a new revision and
-  uses fresh contexts for affected roles; recheck both roles when shared assumptions, scope, contracts,
-  or scenario mappings change. Each receives the complete current brief and its own prior findings
-  with resolution evidence, not the sibling's conclusions. Unaffected reviews remain valid only for
-  unchanged criteria and evidence; record that applicability explicitly. Normal acceptance requires both
-  roles' applicable reviews CLEAN and every readiness criterion resolved. At the cap, return the
-  `review_limit` decision packet instead of restarting or terminating the feature run.
+## Phase 2 - Tests-First Implementation
 
-  **Caller resolution:** accept an explicit decision identifying the reviewed revision and per-finding
-  dispositions, chosen approach, rationale/evidence, and any bounded corrections, without restarting
-  this skill or its review loop. Under `901`, follow its Review-Limit Resolution protocol. Correct the
-  brief as directed and verify accepted corrections by inspection/targeted checks, not another review
-  cycle. Confirmed correctness or security defects and missing required behavior cannot be deferred;
-  the chosen design must address them. Preserve non-blocking risks and the real reviewer verdicts;
-  caller authorization is not a `CLEAN` review. Pass the accepted revision of the brief to the
-  implementation coder only after clean reviews or this explicit resolution. If no feasible safe
-  approach exists, return the substantive blocker with evidence, not a review-cap failure.
+- [ ] **Dispatch one coder.** Send the accepted brief, reuse inventory, shared check plan, governing
+      references, edit boundaries, and explicit tests-first checkpoints in one packet.
 
-### Phase 3 - Tests-First Implementation
+- [ ] **Establish targeted baseline.** Before editing, the coder runs the plan's baseline commands
+      and records commands, exit statuses, and concise results. Pre-existing failures require a caller
+      decision before edits. Previously passing selected checks remain part of acceptance.
 
-- [ ] **Step 10: Assign implementation.** `@coder`, phase `tests-first-implementation`: selected scope,
-      relevant scenario text, exact production and test files, accepted design revision and architecture
-      excerpts, approved UI direction, reuse candidates, and authorized check commands. Steps 11–13 are
-      checkpoints within this one assignment, not separate worker calls.
+- [ ] **Write tests and verify the right failure.** Extend existing test owners/fixtures before
+      adding parallel infrastructure. Tests must be discovered and fail for missing behavior, not
+      harness/setup errors. Record command, exit status, and relevant failure evidence. No production
+      edits before the failing behavior is demonstrated; do not weaken assertions to reach green.
 
-- [ ] **Step 11: Establish the baseline.** Before editing, the implementation coder runs the baseline
-      test, lint, and build commands and records results. Pre-existing failures are a blocking question
-      (proceed or not); return before editing. Previously passing tests remain part of the acceptance bar.
+- [ ] **Implement and verify.** The same coder makes the smallest correct change using the reuse
+      ladder, then runs targeted tests and named regressions. Leave readable code/tests without dead
+      scaffolding or introduced duplication. Return files changed, reuse decisions, new-code
+      justifications, red/green evidence, and any check-plan updates. Lines added/removed are context,
+      not proof of reuse. Don't ask for a second discovery pass or separate coder per checkpoint.
 
-- [ ] **Step 12: Write tests and verify the right failure.** Write the selected tests first, then run
-      them: they are discovered and fail for the missing behavior, not setup or harness errors. Record
-      the command, exit status, and relevant failure output. No production code is written before failing
-      tests define the target; do not weaken assertions to reach green.
+  Material discoveries return to the driver: revise the brief/check plan and resolve conflicts before
+  continuing in the same coder session. An unapproved dependency or architectural change is a blocker,
+  not a local implementation choice. Preserve tests-first sequencing for added behavior during repairs.
 
-- [ ] **Step 13: Implement and verify.** Implement the smallest correct change, working down the
-      reuse ladder with the packet's candidates first. Leave clear names, straightforward logic, readable
-      tests, and no temporary scaffolding, dead code, or newly introduced duplication. Keep the scope
-      fixed; do not defer basic cleanliness to another pass. Run targeted tests and relevant regressions,
-      including after refinement, and return red/green evidence. Every new file, export, or dependency
-      must match the accepted brief and its reuse-ladder justification; an unplanned new dependency is a
-      blocking question, not a finished assignment.
+---
 
-  Material design discoveries invalidate approval: stop, return evidence to the orchestrator, revise
-  the brief, and complete applicable Phase 2 rechecks before further implementation while budget remains;
-  otherwise obtain a new caller resolution for the changed evidence. This uses the same repair-round
-  budget, never a fresh cap. Apply this rule during refinement and validation repairs too.
+## Phase 3 - Independent Review and Bounded Cleanup
 
-### Phase 4 - Independent Review and Refinement
+- [ ] **Dispatch one read-only reviewer.** Provide the actual scoped diff/code state, accepted brief,
+      complete scenarios, reuse inventory and candidate paths, standards/exemplars, check plan, and
+      red/green evidence. Name `engineering-principles` and applicable standards skills/sections for
+      the reviewer to load in its own context. The reviewer reads actual source/tests and existing
+      candidates, rather than trusting the coder's summary. Review criteria:
+  - required behavior and contracts are correct, with applicable failure/security cases addressed;
+  - assertions meaningfully cover scenarios/regressions and were not weakened;
+  - existing owners, fixtures, and helpers are reused; new code has a grounded justification;
+  - no duplicate responsibility, copy-and-tweak implementation, unnecessary abstraction/dependency,
+    or unrelated scope expansion; consolidate duplication introduced or directly exposed by the change;
+  - naming, boundaries, maintainability, and applicable project/UI standards are satisfied;
+  - the check plan covers changed owners and affected consumers, with expansions where needed.
 
-- [ ] **Step 14: Assign a fresh coder.** `@coder`, phase `review-and-refinement`: actual scoped diff,
-      accepted design revision, acceptance criteria, allowed source and test files, relevant existing owners
-      and patterns, standards, and authorized targeted checks. Use a new context, not the implementation
-      coder's session. Review correctness and maintainability against the accepted design and feature intent
-      before making bounded improvements.
+  Return `## Verdict: CLEAN` or `## Verdict: CHANGES_REQUIRED`, reviewed brief/code revision, and
+  concrete findings with severity, location, failed criterion, evidence, consequence, and smallest fix.
+  Keep out-of-criteria advisories separate. Any unresolved criterion means `CHANGES_REQUIRED`.
 
-- [ ] **Step 15: Review tests, then source.** Both checkpoints stay within the same assignment:
-  - **Tests:** meaningful assertions, scenario coverage, readable naming, fixture/helper reuse,
-    duplication, and brittleness. Preserve assertions and coverage; never weaken tests to match the
-    implementation.
-  - **Source:** correctness, reuse of existing owners, unnecessary complexity, naming, boundaries,
-    and dead code. Refine only within the approved files, preserving intended behavior and public
-    contracts. No speculative redesign, new dependencies, or unrelated cleanup.
+- [ ] **Resolve through the same coder.** The driver adjudicates by evidence, records each finding's
+      resolution and each advisory's accepted/deferred/rejected disposition, and sends bounded fixes
+      and cleanup to the original coder. No fresh cleanup coder, automatic `401`, or reviewer edits.
+      Don't manufacture cleanup when none is needed. The coder reruns the affected development checks;
+      the reviewer rechecks the repaired diff, including new changes and prior findings.
 
-  Material correctness, coverage, or design gaps return to the orchestrator for focused implementation
-  repair or a blocking question, not a disguised cleanup fix. Design changes require the Phase 2
-  rechecks or an evidence-matched caller resolution before more implementation. Recheck the repaired
-  diff with the fresh coder before final validation; do not restart the full workflow.
+  Allow at most two repair/recheck rounds after the initial diff review. Carry the same budget through
+  validation repairs; do not reset it for changed design or a resumed run. At exhaustion return
+  `review_limit` with current brief/check plan, reviewed code state, consumed rounds, actual verdicts,
+  outstanding findings/evidence, concrete options, and the lowest-risk feasible recommendation.
+  Return the packet to the caller for a resolution under its decision policy. A resolution must
+  identify that state and per-finding dispositions; verify bounded corrections by inspection and
+  targeted checks without restarting review. Required behavior, coverage, and correctness/security
+  defects cannot be deferred.
+  Preserve real verdicts: authorization to advance is not a `CLEAN` review.
 
-- [ ] **Step 16: Verify refinement.** The review/refinement coder runs relevant tests after any edits
-      and reports findings, changes, unresolved risks, and command results. If no refinement is needed,
-      say so; do not manufacture edits. This bounded quality pass does not invoke `401-cleanup`.
+---
 
-### Phase 5 - Final Validation and Close
+## Phase 4 - Isolated Validation and Close
 
-- [ ] **Step 17: Full validation.** One `@validator` assignment, `modes: [test, lint, build]`, with the
-      commands and scopes from Step 6. The change isn't done until all three are clean. On failure, a
-      focused implementation-coder repair fixes only the reported failure without weakening assertions;
-      review substantive repaired changes with the fresh coder, then rerun all three in one validator
-      assignment. If repairs stop converging, stop and return the blocker.
+- [ ] **Run acceptance checks.** One `@validator` assignment with `modes: [test, lint, build]` and
+      the check plan's exact commands/scopes. Capture full output in tool-managed storage or an
+      approved log location, not the driver conversation. Return commands, scopes, exit statuses,
+      passed/failed/blocked results, counts when available, and concise root-cause-grouped failure
+      excerpts with log references. No raw successful output or test rediscovery. A mode without a
+      reliable command is blocked, not silently skipped. Acceptance requires all required modes clean.
 
-- [ ] **Step 18: Flag high-risk changes.** Clean validation isn't enough for changes to architecture,
-      public interfaces, data boundaries, or other high-impact behavior — recommend human review.
+- [ ] **Repair without restarting.** Send failures to the same coder with the affected scope and
+      evidence; don't weaken assertions. Substantive repairs go back to the independent reviewer under
+      the remaining review budget or an evidence-matched caller resolution, then rerun all required
+      acceptance commands in one validator assignment against the final code state. Expand the plan
+      when warranted. Stop and return a substantive blocker if repairs don't converge; no new caps.
 
-- [ ] **Step 19: Update feature status.** Mark an existing `overview.md` `done` only when the explicit
-      run scope represents the whole feature and all acceptance gates pass. For partial scope, leave it
-      `implementing` and report scope complete, not feature done. Under `901`, the caller owns whole-feature
-      completion at its final gate (Step 22); a `301` invocation does not mark the feature `done`.
+- [ ] **Close scope honestly.** Recommend human review for high-impact architecture, public interfaces,
+      or data/security boundaries. Mark an existing overview `done` only for explicit whole-feature
+      delivery after all gates pass; partial scope stays `implementing`. If the caller reserves
+      whole-feature completion, leave status `implementing` and report scope complete to the caller.
 
-- [ ] **Step 20: Summarize.** Implemented scope and scenarios; production and test files changed;
-      reuse report (files created vs extended, new dependencies, lines added vs removed); internally
-      synthesized context; whether `@designer` was used and which UI docs mattered; baseline issues;
-      red/green evidence; accepted design revision, actual design-review verdicts, any caller resolution
-      and remaining risks, design-review findings, repair rounds and advisory dispositions; independent
-      diff-review findings and refinements; final validation result; key design
-      or architecture decisions. Recommend `401-cleanup` only when the changed set warrants a deeper,
-      separately scoped source or test cleanup pass; it is not an automatic next step.
+- [ ] **Summarize.** Report implemented scope/scenarios, files created versus extended and their reuse
+      justifications, new dependencies, red/green evidence, tested scope and selection rationale,
+      checks not run/remaining risks, baseline issues, design decisions, review verdict/findings and
+      dispositions, consumed `repair_rounds`, any caller resolution, and final validator results.
+      Targeted green is not full-suite green. Recommend a separately scoped `401` only when warranted.
+
+**Interrupted runs:** Rebuild the brief, reuse inventory, check plan, scoped diff, and pending findings
+from current evidence before continuing. Recover coder/reviewer sessions where possible; do not repeat
+completed discovery or tests solely because a session changed. Approval applies only to the reviewed
+state; changed code needs the applicable recheck. Preserve consumed rounds; if repair history cannot
+be recovered for a pending review, treat its budget as exhausted and return `review_limit`. A matching
+caller resolution resumes the pending phase without restarting implementation or review.
