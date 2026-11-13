@@ -11,23 +11,24 @@ argument-hint: "[change-request-or-spec-reference]"
 
 # 301 - Spec-Driven System Implementation
 
-**Execute this skill in a dedicated subagent when supported.** Pass the resolved request, scope,
-governing references, caller constraints, and `role: 301-driver`. If already running in that delegated
-context, execute here without creating another driver. If delegation is unavailable, follow the
-Execution Boundary below rather than silently changing the workflow.
+**Execute this skill directly in the calling context. Never wrap it in a dedicated driver subagent.**
+The calling agent is the driver and dispatches the coder, reviewer, and validator itself. If the
+current context cannot dispatch workers, stop and report that to the user instead of adding a relay
+layer or replacing independent review with self-review.
 
 Keep required structured syntax unchanged.
 
 Run in order: code-grounded design using `engineering-principles` → tests → implementation →
 independent review and bounded cleanup → validation. The driver owns design and decisions; one
 implementation coder owns tests, source, and repairs. A separate read-only reviewer checks the actual
-diff, and a validator contains acceptance-check output. No automatic designer, explorer, independent
-pre-implementation design reviews, or second review/refinement coder.
+diff, and a validator runs every test, lint, and build command. No automatic designer, explorer,
+independent pre-implementation design reviews, or second review/refinement coder.
 
 **Output:** Updated source and test files with scoped check evidence. An existing `overview.md`
 becomes `implementing` at start. Partial scope reports scope complete, not feature done. Only explicit
 whole-feature delivery may mark it `done` after acceptance, unless the caller reserves completion.
-Keep the design brief, reuse inventory, and check plan in memory unless persistence is requested.
+Keep the design brief, reuse inventory, and check plan in a scratch file outside the repo (see
+Execution Boundary) unless persistence is requested.
 
 ---
 
@@ -43,9 +44,9 @@ Keep the design brief, reuse inventory, and check plan in memory unless persiste
    explicit decision, reviewed revision/code state, per-finding dispositions, and consumed budget.
    Verify current evidence and resume the pending phase; do not restart completed work or reset caps.
 
-**Blocking questions:** A delegated driver returns missing scope, unclear outcomes, governing conflicts,
-baseline failures, or non-converging repairs to its caller with options and a recommendation. A driver
-running in the user-facing context may ask directly. Accept scope and decisions already resolved by
+**Blocking questions:** Ask about missing scope, unclear outcomes, governing conflicts, baseline
+failures, or non-converging repairs, with options and a recommendation. When a caller workflow
+(such as `901`) invoked this skill, return them to it instead. Accept scope and decisions already resolved by
 the caller; ask only about remaining gaps or conflicting evidence. Never invent missing requirements
 or waive confirmed correctness/security defects.
 
@@ -53,41 +54,68 @@ or waive confirmed correctness/security defects.
 
 ## Execution Boundary and Roles
 
-**One driver context, not recursive delegation:**
-- The caller delegates the complete workflow once to a general agent capable of code design and
-  orchestration, passing this skill and the inputs named above. Use the caller's design-capable model
-  tier where supported, rather than the cheaper implementation-coder role.
-- If already delegated or marked `role: 301-driver`, execute here. The driver is not the
-  implementation coder. Don't delegate another driver to repeat the same workflow.
+**One driver, the calling context.** There is no separate driver subagent and no relay layer. Workers
+are leaf agents that return results to the driver and never dispatch the next phase. Don't spawn CLI
+sessions to substitute for worker dispatch. Model and reasoning effort come from host configuration;
+don't set or override them in packets.
 
 **Driver:** owns discovery, reuse decisions, compact versioned design, test selection, phase state,
 review dispositions, and acceptance. Do not write a line-by-line solution for the coder to transcribe.
 
 **Coder:** use `@coder` (general-agent fallback) for one tests-first assignment; resume the same session
-for implementation repairs and cleanup. Honor its configured lower-cost model where the host supports
-model selection; do not assume model names are portable or override caller model policy. If session
-resumption is unavailable, pass a compact continuation packet, not a new design/discovery assignment.
+for implementation repairs and cleanup. Keep the same session on the same model/provider for the whole
+run: switching providers discards the prompt cache. Before the first dispatch, confirm which model the
+coder session will actually use. If session resumption is unavailable, pass a compact continuation
+packet, not a new design/discovery assignment.
 
 **Reviewer:** one independent read-only `@reviewer` context (general-agent fallback). Never use the
 implementation coder's session. Reuse the reviewer session for bounded rechecks.
 
-**Validator:** one isolated `@validator` assignment per acceptance pass, bundling the selected test,
-lint, and build commands. The coder runs only authorized narrow development checks. Preserve full
-command output outside the driver context; return concise results and relevant failure excerpts.
+**Validator:** `@validator` is the only agent that executes test, lint, or build commands for baseline,
+red/green, regression, and acceptance. See Validation Output Contract.
 
-**Host limits:** if nested delegation is unavailable, return worker packets to the calling agent for
-dispatch, including the pending phase, current brief/check plan, findings, consumed budget, and driver
-session reference when supported. The caller dispatches only the requested worker and resumes this
-driver with its result and continuation state; it does not invoke a fresh `301`. Keep the coder and
-reviewer contexts separate when routing. Do not spawn CLI sessions or silently replace independent
-review with self-review. If the host has no delegation capability, report that limitation and ask
-whether to proceed with an explicitly reduced workflow.
+**Run-to-completion rule:** a worker assignment runs every phase named in its packet (for the coder:
+baseline → red → implement → green → regressions) in one turn. It returns only when the assignment is
+complete or a concrete `[BLOCKING]` question/conflict stops it. Progress notes and "next step"
+summaries are not valid returns. If a worker returns without finishing or a real blocker, resume it
+with one line ("continue; return only when done or blocked"), not a re-brief.
 
-**Packets:** pass objective, phase, selected scenario text, brief revision, exact edit boundaries,
-existing owners/reuse candidates, relevant contracts/invariants, exemplar and standards references,
-check plan, and success criteria. Include why and observable outcomes, not the full conversation or
-whole repository. Workers read authoritative owners before editing; references are not read bans.
-Local implementation choices belong to the coder; architectural changes return to the driver.
+**Shared brief file (payload reduction):** write the brief, reuse inventory, check plan, and selected
+scenario text once to a scratch file outside the repo (the OS temp directory, e.g.
+`$TMPDIR/specflow/301-<slug>/brief.md`) with a revision header. Dispatch packets carry only: the path,
+the revision, the phase objective, and anything that changed since the worker last read it. Workers
+read the file themselves. Never paste the brief, scenarios, check plan, diff, or prior worker output
+into a packet; reference the path or `git diff` command instead. On a revision change, update the file
+and tell the worker the revision number and a one-line delta. Delete the scratch directory at close.
+
+**Packet shape (cache-friendly):** put stable content first and variable content last: role and
+standing rules, then brief path, then the phase objective and per-call delta. Don't reorder, reword,
+or timestamp the stable part between calls to the same worker. Resume existing worker sessions with a
+delta-only message rather than a new full packet. Name at most 3 applicable standards skills/sections
+per packet; workers load more only for a specific decision. Include why and observable outcomes, not
+the full conversation or whole repository. Workers read authoritative owners before editing;
+references are not read bans. Local implementation choices belong to the coder; architectural changes
+return to the driver.
+
+**Worker returns are capped:** the coder returns the `coder` Output Format in bullet form without
+diffs or file contents; the reviewer returns the verdict and findings only; the validator returns the
+Validation Output Contract only. The driver does not echo worker output back into later packets.
+
+### Validation Output Contract
+
+- Every test/lint/build run, including baseline, red/green, and regressions, goes through
+  `@validator`. The driver and reviewer never run them. The coder dispatches `@validator` when it can;
+  otherwise it runs the authorized command with all output redirected to a scratch log and reports
+  only the exit status, counts, and failure reasons, never raw output.
+- Only **pass/fail per mode** and, for failures, **concise root-cause-grouped reasons** (test or file,
+  error message, line) enter any agent's context. Successful output, full logs, stack-trace dumps,
+  and warnings lists never do.
+- Full output goes to a scratch log outside the repo, for the validator's own analysis only. No
+  agent reads, quotes, or forwards it unless a failure reason is genuinely insufficient, and then only
+  the specific excerpt needed. The log is not committed, saved in artifacts, or referenced in the
+  final summary; delete it when the run closes.
+- Failure reasons are capped (about 10 groups, a few lines each). If more exist, report counts per
+  group and the top groups.
 
 ---
 
@@ -174,16 +202,19 @@ still apply. Targeted checks never replace broader acceptance gates owned by the
 
 ## Phase 2 - Tests-First Implementation
 
-- [ ] **Dispatch one coder.** Send the accepted brief, reuse inventory, shared check plan, governing
-      references, edit boundaries, and explicit tests-first checkpoints in one packet.
+- [ ] **Dispatch one coder.** Send one short packet pointing to the shared brief file (revision,
+      governing standards, edit boundaries). The tests-first sequence is a single assignment: the coder
+      runs it end to end under the run-to-completion rule and does not return at baseline, red, or
+      green. It returns only when green with regressions checked, or on a concrete blocker.
 
-- [ ] **Establish targeted baseline.** Before editing, the coder runs the plan's baseline commands
-      and records commands, exit statuses, and concise results. Pre-existing failures require a caller
-      decision before edits. Previously passing selected checks remain part of acceptance.
+- [ ] **Establish targeted baseline.** Before editing, run the plan's baseline commands through
+      `@validator` (the coder's own dispatch, or the driver's before dispatching the coder). Record
+      commands, pass/fail, and failure reasons only. Pre-existing failures require a caller decision
+      before edits. Previously passing selected checks remain part of acceptance.
 
 - [ ] **Write tests and verify the right failure.** Extend existing test owners/fixtures before
       adding parallel infrastructure. Tests must be discovered and fail for missing behavior, not
-      harness/setup errors. Record command, exit status, and relevant failure evidence. No production
+      harness/setup errors. Record command, pass/fail, and failure reasons from the validator. No production
       edits before the failing behavior is demonstrated; do not weaken assertions to reach green.
 
 - [ ] **Implement and verify.** The same coder makes the smallest correct change using the reuse
@@ -200,11 +231,12 @@ still apply. Targeted checks never replace broader acceptance gates owned by the
 
 ## Phase 3 - Independent Review and Bounded Cleanup
 
-- [ ] **Dispatch one read-only reviewer.** Provide the actual scoped diff/code state, accepted brief,
-      complete scenarios, reuse inventory and candidate paths, standards/exemplars, check plan, and
-      red/green evidence. Name `engineering-principles` and applicable standards skills/sections for
-      the reviewer to load in its own context. The reviewer reads actual source/tests and existing
-      candidates, rather than trusting the coder's summary. Review criteria:
+- [ ] **Dispatch one read-only reviewer.** Send the brief file path and revision, the command or file
+      list that produces the scoped diff (not the diff itself), and the red/green pass/fail summary.
+      Name `engineering-principles` and applicable standards skills/sections for the reviewer to load
+      in its own context. The reviewer reads actual source/tests and existing candidates, rather than
+      trusting the coder's summary. Rechecks send only the revision delta and the prior finding IDs.
+      Review criteria:
   - required behavior and contracts are correct, with applicable failure/security cases addressed;
   - assertions meaningfully cover scenarios/regressions and were not weakened;
   - existing owners, fixtures, and helpers are reused; new code has a grounded justification;
@@ -238,11 +270,10 @@ still apply. Targeted checks never replace broader acceptance gates owned by the
 ## Phase 4 - Isolated Validation and Close
 
 - [ ] **Run acceptance checks.** One `@validator` assignment with `modes: [test, lint, build]` and
-      the check plan's exact commands/scopes. Capture full output in tool-managed storage or an
-      approved log location, not the driver conversation. Return commands, scopes, exit statuses,
-      passed/failed/blocked results, counts when available, and concise root-cause-grouped failure
-      excerpts with log references. No raw successful output or test rediscovery. A mode without a
-      reliable command is blocked, not silently skipped. Acceptance requires all required modes clean.
+      the check plan's exact commands/scopes, under the Validation Output Contract. Return per-mode
+      passed/failed/blocked, counts when available, and concise root-cause-grouped failure reasons.
+      No raw output, log references to read, or test rediscovery. A mode without a reliable command
+      is blocked, not silently skipped. Acceptance requires all required modes clean.
 
 - [ ] **Repair without restarting.** Send failures to the same coder with the affected scope and
       evidence; don't weaken assertions. Substantive repairs go back to the independent reviewer under
@@ -261,8 +292,8 @@ still apply. Targeted checks never replace broader acceptance gates owned by the
       dispositions, consumed `repair_rounds`, any caller resolution, and final validator results.
       Targeted green is not full-suite green. Recommend a separately scoped `401` only when warranted.
 
-**Interrupted runs:** Rebuild the brief, reuse inventory, check plan, scoped diff, and pending findings
-from current evidence before continuing. Recover coder/reviewer sessions where possible; do not repeat
+**Interrupted runs:** Reuse the scratch brief file when it exists; otherwise rebuild the brief, reuse
+inventory, check plan, scoped diff, and pending findings from current evidence before continuing. Recover coder/reviewer sessions where possible; do not repeat
 completed discovery or tests solely because a session changed. Approval applies only to the reviewed
 state; changed code needs the applicable recheck. Preserve consumed rounds; if repair history cannot
 be recovered for a pending review, treat its budget as exhausted and return `review_limit`. A matching

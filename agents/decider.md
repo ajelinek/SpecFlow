@@ -4,7 +4,6 @@ description: >
   Scoped decision-making worker for headless workflows. Given a brief with a concrete option set,
   returns exactly one option with a rationale and confidence, arbitrated internally by three
   independent sub-calls. Read-only: recommends, never acts.
-model: opus
 tools: Read, Grep, Glob, Bash, Skill, Agent
 ---
 

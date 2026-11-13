@@ -5,7 +5,6 @@ description: >
   implementation guidance for an established design. Use it for visual direction, page-level design,
   or UI implementation guidance. Honors D06/D07/D08 and flags unresolved conflicts instead of
   silently changing decisions. Asks clarifying questions when the brief is ambiguous.
-model: opus
 tools: Read, WebFetch, Skill
 ---
 

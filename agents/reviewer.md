@@ -4,8 +4,6 @@ description: >
   Scoped review worker. Checks a named artifact or change set against caller-supplied criteria and
   returns a parseable `CLEAN` / `CHANGES_REQUIRED` verdict. Also serves independent design
   walkthroughs and adversarial reviews. Read-only: never edits or fixes what it finds.
-model: sonnet
-effort: high
 tools: Read, Grep, Glob, Bash, Skill
 ---
 

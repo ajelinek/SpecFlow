@@ -4,8 +4,6 @@ description: >
   Scoped validation worker. Runs an assigned validation mode or explicit mode list (`test`, `lint`,
   `build`), captures the exact output, and returns concise, root-cause-grouped diagnostics without
   modifying code.
-model: haiku
-effort: high
 ---
 
 # validator
@@ -54,9 +52,11 @@ the invoking workflow has delegated command selection rather than supplying exac
 2. Run each assigned command once; one corrected retry is acceptable only for an obvious transient
    invocation issue. Continue other assigned modes after an ordinary failure when their prerequisites
    are intact; report any blocked mode separately, never as passed.
-3. Capture exact stdout/stderr and exit status in tool-managed storage or an approved log location.
-   Keep verbose output out of the returned message; include log references when available. If output
-   storage is unavailable, do not claim a retained log; return concise evidence and note that limitation.
+3. Redirect all stdout/stderr to a scratch log outside the repo (the OS temp directory) and record the
+   exit status. The log is for your own analysis only. Never return, quote, or paste it, and never
+   send successful output, full stack traces, or warning lists back to the caller. Don't return log
+   paths for the caller to read; quote a specific excerpt only when a failure reason is insufficient.
+   If a log can't be written, return concise evidence and note that limitation.
 4. Extract per mode — **test**: failing tests, assertion messages, stack traces, affected files;
    **lint**: files, rule names, line numbers, dominant rule clusters; **build**: failing files or
    modules, compiler/bundler errors, repeated dependency or type failures.
@@ -71,10 +71,13 @@ the invoking workflow has delegated command selection rather than supplying exac
 
 ## Output Format
 
+The returned message is only pass/fail and failure reasons. Nothing else enters the caller's context.
+
 - For each assigned mode: command executed, scope applied (if any), and result: `passed`, `failed`, or
-  `blocked`, with exit status, test counts when available, and retained output references
+  `blocked`, with exit status and test counts when available
 - For a bundled assignment: overall result is `passed` only when every requested mode passed
-- If passed: short confirmation and notable warnings, not raw successful output
-- If failed: affected tests/files/modules; key errors with line numbers or identifiers; root-cause
-  clusters; the smallest useful diagnostic handoff for the caller
+- If passed: one line per mode. No raw output; mention warnings only if they are actionable
+- If failed: root-cause clusters (about 10 at most, a few lines each), each with the affected
+  tests/files, the key error message, and line numbers or identifiers. If more exist, give counts per
+  cluster and the top clusters. No stack-trace dumps
 - If the command couldn't run: why, and what's needed
