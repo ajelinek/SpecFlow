@@ -61,7 +61,9 @@ generate the planning series; existing UI, known routes, and confirmed user inte
   `@designer` subagents in parallel (general design workers if `@designer` is unavailable). Give each
   the same confirmed brief: user goals, routes/parameters, data, roles, responsive needs, D06/D07 rules,
   relevant domain findings, existing designs, and required state coverage. Assign distinct starting
-  approaches: content-led, spatial/layout-led, and action-led. Require concrete layout/hierarchy and
+  approaches: content-led, spatial/layout-led, and action-led. Per `run-log`, write the brief once
+  (full content in `design`), append the three dispatches before the calls, paste each designer's dispatch and brief lines into
+  its prompt, and record each result yourself. Require concrete layout/hierarchy and
   interaction proposals, not just color changes or renamed versions of one idea. Keep confirmed product
   and visual decisions intact; return a conflict rather than invent differences that violate them.
   - Evaluate all three for task completion, hierarchy, state coverage, role differences, responsive

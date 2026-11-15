@@ -43,6 +43,11 @@ You are the orchestrator. `@explore` for focused discovery of test context, simi
 recent code movement; `@validator` to reproduce and validate; `@coder` only once the classification
 justifies a specific edit path. Keep a compact working model: failure anchor, suspected files, recent
 changes, current classification, allowed edit boundary, rationale.
+Load `run-log` and dispatch every subagent through it: use the caller's log when one is passed,
+otherwise create the run `<date>-402-<slug>`; every worker call is a fresh context with its own
+`dispatch`, and repairs are new dispatches, never resumed sessions. Append an initial `brief` (`@1`)
+before the first dispatch; the Step 8 boundary is a new revision, with the classification evidence
+in `design`.
 
 ---
 
@@ -94,8 +99,9 @@ The third bucket is mandatory — don't force every failure into "test bug" or "
   looks intentional or ambiguous, why it isn't just a selector or harness issue, and the two plausible
   correction paths.
 
-- [ ] **Step 8: Freeze the correction boundary** in a task packet: classification, files allowed to
-  change, read-only references, forbidden edits, and the justifying evidence.
+- [ ] **Step 8: Freeze the correction boundary** in a `brief` line: classification (`goal`), the
+  justifying evidence and correction path (`design`), files allowed to change (`owners`), read-only
+  references and forbidden edits (`rules`), and the reproduction/validation commands (`checks`).
 
 - [ ] **Step 9: Minimal correction with `@coder`.**
   - **Test defect**: smallest fix to setup, assertions, fixtures, selectors, waits, or helpers;

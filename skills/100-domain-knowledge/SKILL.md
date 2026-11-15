@@ -49,6 +49,9 @@ Resolve these from existing context — D01, prior domain knowledge, the invocat
   update. Read D01 and D10 when present. If the working directory already holds source code or
   project docs, run `@explore` once for a concise summary of high-signal files only (README, manifests,
   existing docs); in a greenfield or empty directory, skip it.
+  Dispatch subagents per `run-log`: a fresh context and its own `dispatch` per call, in the caller's
+  log when one is passed (otherwise create the run `<date>-100-<slug>`); record results for workers
+  that can't write the log.
 
 - [ ] **Step 3: Define the research brief.** The domain to understand, the users or buyers that
   matter most, the product decisions this research should inform, differentiation questions, and

@@ -79,7 +79,8 @@ to the caller.
   context: `README.md`, workspace/package manifests, task/build config, CI workflows, relevant
   `.specflow/` docs.
 
-- [ ] **Step 3: Research with `@explore`:** repo/workspace layout; main apps/packages, what they own,
+- [ ] **Step 3: Research with `@explore`** (dispatch per `run-log`: fresh context, the caller's log
+  when passed, results recorded by you): repo/workspace layout; main apps/packages, what they own,
   and whether each has its own owners/conventions; verified setup, test, lint, build, and run
   commands; docs worth referencing instead of copying; generated/vendor paths that get no guidance
   files; directories whose tooling truly differs (overlay candidates); file-pattern conventions (e.g.

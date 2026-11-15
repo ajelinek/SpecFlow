@@ -18,9 +18,9 @@ flagged; repeat until Review reports clean or the iteration cap is hit. The call
 work — this skill only judges and patches it.
 
 **Output**: A convergence report in chat. No artifacts of its own (no tracking docs, `.specflow/`
-files, or scratch reports). Apply-Fix edits only in-scope files, going outside scope solely when a
-specific finding requires it (e.g. a missing test the finding names) — never speculatively or as
-general cleanup.
+files, or scratch reports) beyond run-log lines. Apply-Fix edits only in-scope files, going outside
+scope solely when a specific finding requires it (e.g. a missing test the finding names) — never
+speculatively or as general cleanup.
 
 ---
 
@@ -33,31 +33,36 @@ general cleanup.
    for a specialist (e.g. `@coder` for real code fixes).
 4. **Iteration cap** *(optional)* — default 5 review/apply-fix pairs.
 
-Run this skill in the main session as a coordinator (it dispatches its own Review and Apply-Fix subagents): if either brief lacks scope or criteria, return that as a
-blocking question to the caller before starting.
+Run this skill in the main session as a coordinator (it dispatches its own Review and Apply-Fix
+subagents): if either brief lacks scope or criteria, return that as a blocking question to the caller
+before starting. Load `run-log` and use the caller's log when one exists; otherwise create the run
+`<date>-900-<slug>`. Append both briefs as one `brief` line before the first dispatch: scope in
+`refs`, criteria in `rules`, apply-fix constraints in `design`.
 
 ---
 
 ## Steps
 
-Working state stays tiny — the two briefs, agents, cap, iteration counter (starting at 0), latest
-verdict, and a compact finding/fix history for the capped report. Every Review and Apply-Fix is a
-freshly spawned subagent, never shared or reused across iterations, and no transcripts are carried forward.
+Working state stays tiny and lives in the log — the brief, a `state` line with the iteration counter
+in `caps` (e.g. `"fix 2/5"`), and the review/fix `result` lines that form the history for the capped
+report. Every Review and Apply-Fix is a freshly spawned subagent with its own `dispatch`, never shared
+or reused across iterations, and no transcripts are carried forward.
 
-- [ ] **Step 1: Run Review** with the review brief. From iteration 2 on, include a summary of the
-  last fix pass so it checks resolution rather than re-reviewing from scratch. Keep only the verdict
-  and feedback items.
+- [ ] **Step 1: Run Review** with a dispatch pinned to the review brief. From iteration 2 on, `in`
+  names the prior review and the last fix result so it checks resolution rather than re-reviewing
+  from scratch. Keep only the verdict and feedback items.
 
 - [ ] **Step 2: Branch on the verdict.** Review is the sole authority on convergence within this loop;
   the caller owns advancement after a capped result. Never override `CHANGES_REQUIRED` because another
   pass is slow or costly.
-  - `CLEAN` → Step 4.
-  - `CHANGES_REQUIRED` → if the counter equals the cap, Step 5; otherwise increment it and run Step 3.
+  - `CLEAN` (`clean` result) → Step 4.
+  - `CHANGES_REQUIRED` (`changes` result) → if the counter equals the cap, Step 5; otherwise
+    increment it and run Step 3.
   - Blocking questions or an unparseable verdict → stop and return them to the caller.
 
-- [ ] **Step 3: Run Apply-Fix** with the apply-fix brief, its instruction replaced by exactly
-  Review's latest feedback items — never a general "improve this". Scope changes to the files those
-  items point at; no unrelated cleanup, no new files unless an item requires one. Keep only its
+- [ ] **Step 3: Run Apply-Fix** with a dispatch pinned to the brief whose `in` names Review's latest
+  result, so it fixes exactly those items — never a general "improve this". Scope changes to the
+  files those items point at; no unrelated cleanup, no new files unless an item requires one. Keep only its
   summary, then return to Step 1.
 
 - [ ] **Step 4: Report convergence** — iterations run, what changed, the final clean verdict.

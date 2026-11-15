@@ -171,7 +171,9 @@ model or blanket subagent defaults merely to configure these five workers.
 
 Translate permissions conservatively. Preserve existing approval and sandbox policy; no bypass,
 blanket shell grants, automatic folder trust, new provider credentials, or new external-directory
-access. Distinguish behavioral “do not edit” from enforced restrictions. Validator may need checks
+access — except proposing, for explicit approval, the narrow run-log directory
+`${TMPDIR:-/tmp}/specflow/**` that coordinators and workers must read and append. Distinguish
+behavioral “do not edit” from enforced restrictions. Validator may need checks
 that create build/test artifacts, but must never repair source or configuration. Explain any boundary
 the runtime cannot enforce; no false read-only/security guarantees.
 

@@ -60,8 +60,9 @@ what affects this run from project evidence first; this list is not a questionna
   alternative, each a focused visual direction) when comparing two or more genuinely different
   directions; when the direction is already confirmed or only one is viable, work directly without it. Use the domain-informed design focus to judge
   audience fit, brand intent, readability, accessibility, and feasibility; include the relevant domain
-  findings in any designer brief. Surface conflicts with existing decisions to the user before changing
-  them; recommend and confirm material unresolved choices rather than silently rebrand.
+  findings in any designer brief. Paste each designer's `dispatch` and `brief` lines into its prompt
+  per `run-log` and record its result yourself. Surface conflicts with existing decisions to the user
+  before changing them; recommend and confirm material unresolved choices rather than silently rebrand.
 
 - [ ] **Step 4: Draft the document.** Use `./templates/T06 - UI Design.md` as an adaptable, skimmable
   structure. Prefer short decisions with a brief reason where it isn't obvious:

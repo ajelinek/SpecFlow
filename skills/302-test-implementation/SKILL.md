@@ -43,6 +43,10 @@ correct first?), stop and return the question to the caller with options and a r
 You are the orchestrator. Code changes go through `@coder`, validation through `@validator`, and
 `@explore` only for focused discovery of implementation and test patterns. Keep a compact working
 model: scope, touched test files, read-only references, touch-boundary exceptions, reusable helpers.
+Load `run-log` and dispatch every subagent through it: use the caller's log when one is passed,
+otherwise create the run `<date>-302-<slug>`; every worker call is a fresh context with its own
+`dispatch`, and repairs are new dispatches, never resumed sessions. Append an initial `brief` (`@1`)
+before the first dispatch; the Step 4 boundary is a new revision.
 
 ---
 
@@ -64,9 +68,10 @@ model: scope, touched test files, read-only references, touch-boundary exception
   utilities; existing accessibility hooks, test IDs, or selector conventions; testability smells.
   Reuse these before introducing new abstractions, per `engineering-principles`.
 
-- [ ] **Step 4: Freeze the touch boundary** in a task packet: exact scenarios, exact test files to
-  create or modify, read-only production references, explicit no-touch production boundaries, and any
-  UI files that may receive a hook only if required. Never change business logic, routing, data flow,
+- [ ] **Step 4: Freeze the touch boundary** in a `brief` line: exact scenarios (`refs`), exact test
+  files to create or modify and reusable helpers (`owners`), read-only production references,
+  explicit no-touch production boundaries, and any UI files that may receive a hook only if required
+  (`rules`), and the check commands (`checks`). Never change business logic, routing, data flow,
   or visual design; never touch frontend code for backend/API-only test work.
 
 - [ ] **Step 5: Baseline.** `@validator` for the relevant test/lint/build checks before editing.

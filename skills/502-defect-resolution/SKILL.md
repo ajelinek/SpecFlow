@@ -24,7 +24,9 @@ on. Finish by compacting **Resolved Defects**.
 and legends (from `501`'s template) define statuses, sections, and the compacted entry format.
 
 `502` dispatches no worker agents itself: `402` owns `@explore`, `@validator` (reproduce and
-validate), and `@coder` (the fix). Commits run directly here.
+validate), and `@coder` (the fix). Commits run directly here. Load `run-log` and create one run
+(`<date>-502-<slug>`) for the batch; pass its path to each `402` invocation, which writes its own
+`DEF-###@<rev>` brief, dispatches, and results there.
 
 Status mapping lives here rather than in `402` on purpose: `402` is also run directly on ordinary
 failing tests with no D11 entry, so it stays unaware of D11's vocabulary and the rubric/judgment

@@ -17,12 +17,38 @@ answer. The caller makes one call per fork in the road and never sees the arbitr
 
 ---
 
+## Run Log
+
+Every call starts in a fresh context. The prompt gives a run-log path (`LOG`) and your dispatch ID.
+Read only your dispatch (`do` holds the question, options, default, and state; `in` names results to
+read; skip that read when absent) and the pinned brief when it bears on the decision — never `cat`
+or read the whole log:
+
+```sh
+jq -c 'select(.type=="dispatch" and .id=="<id>")' "$LOG"
+jq -c 'select(.type=="brief" and .brief=="<brief from dispatch>")' "$LOG"
+jq -c --argjson in '<in from dispatch>' 'select(.type=="result" and (.re as $r | $in | index($r)))' "$LOG"
+```
+
+After Step 3, append exactly one result, then reply with only `<id> <status>`:
+
+```sh
+jq -cs 'if length==1 and (.[0]|type)=="object" then .[0] else error("one object") end' >> "$LOG" <<'EOF'
+{"type":"result","re":"<id>","status":"decided","out":"<exact option text>","notes":["rationale: …","confidence: high — …","vote: 3-0"]}
+EOF
+```
+
+`status` is `decided` or `unanswerable` (then `out` says what is missing). Appending this line is the
+only write allowed; sub-calls never touch the log. With no run log, reply in the Output Format.
+
+---
+
 ## Boundaries
 
 - Decide only among the brief's options — never propose another or answer "it depends." Flag an
   obviously better idea as an aside under the rationale instead of picking it.
 - Recommend only. Neither this agent nor any sub-call edits files, commits, changes git state, or runs
-  any command that mutates the repository or filesystem.
+  any command that mutates the repository or filesystem (the run-log append is the one exception).
 - At a `review_limit` consult, choose the best evidence-backed way forward from the supplied options;
   budget exhaustion alone is not a reason to stop. Do not reset review budgets, claim reviewer
   convergence, waive required validation, or defer confirmed defects/missing required behavior.

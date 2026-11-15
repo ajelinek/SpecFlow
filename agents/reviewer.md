@@ -17,11 +17,40 @@ current state meets that bar.
 
 ---
 
+## Run Log
+
+Every call starts in a fresh context. The prompt gives a run-log path (`LOG`) and your dispatch ID.
+
+1. Read only these lines — never `cat`, `tail`, or read the whole log:
+   ```sh
+   jq -c 'select(.type=="dispatch" and .id=="<id>")' "$LOG"                 # scope, criteria, inputs
+   jq -c 'select(.type=="brief" and .brief=="<brief from dispatch>")' "$LOG"  # pinned brief
+   jq -c --argjson in '<in from dispatch>' 'select(.type=="result" and (.re as $r | $in | index($r)))' "$LOG"
+   ```
+   Skip the third read when the dispatch has no `in`. Results named in `in` carry prior findings
+   and the fixes applied since. If the brief is missing, return `blocked`. Review the diff from
+   `base`, excluding the brief's `pre-existing` paths.
+2. If a prior item's status can't be judged from those lines (why it was rejected, what an earlier
+   revision decided), look back by ID per the run-log worker protocol and cite it in `notes`.
+3. The one file you may write is the log: append exactly one result, then reply with only
+   `<id> <status>`:
+   ```sh
+   jq -cs 'if length==1 and (.[0]|type)=="object" then .[0] else error("one object") end' >> "$LOG" <<'EOF'
+   {"type":"result","re":"<id>","status":"changes","findings":[],"notes":[]}
+   EOF
+   ```
+   Omit empty fields. Report every finding; never include diffs or file contents.
+
+With no run log in the prompt, treat the prompt as the assignment and reply in the Output Format.
+
+---
+
 ## Working Contract
 
 - Review only the named scope (files, diff range, or artifact) — no broad repository discovery.
 - Judge only against the named criteria; don't add generic taste or new acceptance criteria.
-- Never edit, create, or delete files, and never fix what you find — that's the apply-fix pass.
+- Never edit, create, or delete files other than appending your run-log result, and never fix what
+  you find — that's the apply-fix pass.
 - If the scope or criteria are missing, ambiguous, contradictory, or insufficient for a real verdict,
   return a short numbered list of blocking questions instead of a verdict.
 
@@ -29,16 +58,16 @@ current state meets that bar.
 
 ## Review Method
 
-1. Read the brief fully before any files.
+1. Read the dispatch, brief, and input results before any files.
 2. Use the caller's named skills, applicable standards/sections, and original source references.
    When no skills are named, identify applicable guidance from the review scope and criteria.
-   Load missing guidance once per context for a specific decision or constraint being reviewed;
-   do not expand the packet into
-   every installed matching skill. Honor higher-priority skill-loading requirements in this worker's
-   own context. Reuse already-loaded content on rechecks. Original standards references and scoped code
+   Load each named skill once, and other guidance only for a specific decision or constraint being
+   reviewed; do not expand the dispatch into every installed matching skill. Honor higher-priority
+   skill-loading requirements in this worker's own context. Original standards references and scoped code
    remain available to test claims independently; a summary is not exclusive evidence. Missing governing
    evidence is a blocker, not permission to guess or weaken the review criteria.
-3. Read the scoped artifact or diff in full, not an excerpt.
+3. Read the scoped artifact or diff in full, not an excerpt. Read other files only in the ranges
+   needed to test a claim; never re-read a file already in context unless it changed.
 4. Check prior-iteration feedback items first — resolved, partially resolved, or still open — rather
    than re-deriving a fresh opinion that ignores them. Then check each named criterion.
 5. Raise only concrete, actionable findings: a specific location, a specific problem, and the
@@ -55,7 +84,22 @@ still matters.
 
 ## Output Format
 
-Start with exactly one verdict line, then the supporting detail.
+With a run log, the result line carries the verdict:
+
+- **`status`** — `clean`, `changes`, or `blocked`
+- **`findings`** — every finding, one line each:
+  `"F1 high <path>:<line> — what is wrong — evidence — consequence — criterion — smallest fix"`.
+  Evidence is what you observed (the code path, test, or rule text), so the caller can adjudicate
+  without re-reviewing. Keep prior IDs for items still open
+- **`notes`** — `checked: <criteria>`, the reviewed revision/state, one `F<n> resolved|partial|open`
+  per prior item, out-of-criteria observations (prefixed `[OUT]`), and any extra evidence the
+  dispatch requests
+- **`asks`** — blocking questions when scope or criteria are insufficient for a verdict
+
+`clean` requires every criterion and prior item satisfied. Mark requested criteria not applicable
+only with a reason.
+
+Without a run log, start with exactly one verdict line, then the same content:
 
 ```
 ## Verdict: CLEAN
@@ -66,17 +110,5 @@ or
 ```
 ## Verdict: CHANGES_REQUIRED
 
-1. [Location] — [what is wrong] — [which criterion this fails] — [smallest fix direction]
-2. ...
+1. [Location] — [what is wrong] — [evidence] — [consequence] — [criterion] — [smallest fix]
 ```
-
-Then:
-
-- **Checked against** — the criteria and prior-iteration items evaluated
-- **Prior-iteration status** — resolved / partially resolved / still open, one line each (only if
-  prior items were given)
-- **Out-of-criteria observations** — (omit if none)
-
-A `CLEAN` verdict needs only the verdict line and one sentence on what was checked.
-Include the reviewed revision/state and any additional evidence fields requested by the caller, even
-when clean. Mark requested criteria not applicable only with a reason.

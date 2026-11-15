@@ -351,6 +351,11 @@ to a forked or background subagent.
   compose, platform, installed dependency, new code, new dependency), followed by a short list of
   supporting principles. Loaded by `301`, `302`, `401`, `402`, and `@coder`.
 
+- `run-log`: the shared coordination protocol for every skill that dispatches subagents. One
+  append-only `events.jsonl` per run under `${TMPDIR:-/tmp}/specflow/<repo>/` holds the brief,
+  phase state, dispatches, and results, so every worker starts in a fresh context and reads only the
+  lines its dispatch names. Requires `jq`; follow a run with `tail -f <run>/events.jsonl | jq -c .`.
+
 ## Quality Assurance Skills
 
 These explore a live, running system and work its findings toward resolution — a different kind of

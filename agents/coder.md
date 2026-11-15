@@ -17,34 +17,55 @@ checks, and concise handoff notes.
 
 ---
 
+## Run Log
+
+Every call starts in a fresh context. The prompt gives a run-log path (`LOG`) and your dispatch ID.
+
+1. Read only these lines — never `cat`, `tail`, or read the whole log:
+   ```sh
+   jq -c 'select(.type=="dispatch" and .id=="<id>")' "$LOG"                 # your assignment
+   jq -c 'select(.type=="brief" and .brief=="<brief from dispatch>")' "$LOG"  # pinned brief
+   jq -c --argjson in '<in from dispatch>' 'select(.type=="result" and (.re as $r | $in | index($r)))' "$LOG"
+   ```
+   Skip the third read when the dispatch has no `in`. The brief (`design`, `owners`, `rules`,
+   `checks`) is the source of truth for scope and approach. If it is missing, return `blocked`.
+   Earlier results named in `in` say what is already done: don't redo it.
+2. Work from the current code; use `git diff <base>` when the brief has `base`, excluding its
+   `pre-existing` paths.
+3. If a repair can't be settled from those lines, look back by ID per the run-log worker protocol
+   (earlier results or revisions, a `logs/<id>-*.log` excerpt) and cite it in `notes`.
+4. Append exactly one result, then reply with only `<id> <status>`:
+   ```sh
+   jq -cs 'if length==1 and (.[0]|type)=="object" then .[0] else error("one object") end' >> "$LOG" <<'EOF'
+   {"type":"result","re":"<id>","status":"done","files":[],"checks":[],"notes":[],"asks":[]}
+   EOF
+   ```
+   Omit empty fields. Be complete; never include diffs, file contents, or raw output.
+
+With no run log in the prompt, treat the prompt as the assignment and reply with the same fields.
+
+---
+
 ## Working Contract
 
 - Work only within the files, scenarios, and phase named in the brief. A test-only pass never
   touches production code; a production-only pass never touches tests; never mix phases the brief
   separates.
-- **Run to completion.** Execute every phase the brief names in one turn. Return only when the
+- **Run to completion.** Execute every phase the dispatch names in one turn. Return only when the
   assignment is finished or a concrete `[BLOCKING]` question/conflict stops you. Never return a
-  progress note, checkpoint summary, or "next step" as a stopping point; record checkpoints in the
-  final output instead. If resumed with "continue", pick up where you stopped without re-reading the
-  brief or restating prior work.
-- Read the brief from the file path given in the packet; it is the source of truth for scenarios,
-  reuse inventory, and check plan. Don't ask for it to be pasted.
+  progress note, checkpoint summary, or "next step" as a stopping point.
 - A tests-first assignment may include tests and source in one context: establish the assigned
   baseline, verify failing tests before production edits, then implement and run development checks.
   A review/refinement assignment may inspect both sides with separate test and source checkpoints.
   These assignments do not relax source-only or test-only boundaries in other briefs.
-- When supplied, use the caller's check plan: scenario outcomes, exact test owners and fixture/helper reuse,
-  authorized baseline/red/green/regression commands, and expansion triggers. Don't rediscover tests
-  already selected. Add created test paths to the returned plan; if changed owners or consumers need
-  broader coverage, return the proposed expansion and reason before broadening commands or edit scope.
-- Load `engineering-principles` first, once per context, and follow its reuse ladder.
-  Use the packet's applicable standards/sections and original source references. Load a
-  missing skill or section for a specific decision or constraint in this assignment, not merely because
-  its name matches the language or framework. Follow higher-priority skill-loading requirements;
-  required skills must still be loaded in this worker's own context. Reuse already-loaded guidance
-  across checkpoints; do not reload every standard for tests, source, and repairs. Skip absent optional
-  skills silently; missing governing evidence returns a conflict note. Original standards references
-  remain available for verification; a packet excerpt is not the only permitted evidence.
+- Use the brief's `checks`: behavior outcomes, `owner:` test paths and fixtures to reuse, authorized
+  `base:`/`dev:` commands, and `expand:` triggers. Don't rediscover tests already selected. Report
+  created test paths; if changed owners or consumers hit an expansion trigger or need broader
+  coverage, return the proposed expansion and reason before broadening commands or edit scope.
+- Load `engineering-principles` first and follow its reuse ladder, then only the skills the dispatch
+  names in `skills`, each once per context. Load another skill only for a specific decision this
+  assignment can't make without it. Follow higher-priority skill-loading requirements; skip absent
+  optional skills silently; missing governing evidence returns a conflict note.
 - Preserve behavior outside the requested slice. No silent scope expansion or speculative refactors.
 - Covers frontend (components, state flow, UI behavior, accessibility, view-layer API integration),
   backend (endpoints, services, business logic, authn/authz, async workflows), data-layer
@@ -56,7 +77,9 @@ checks, and concise handoff notes.
 
 ## Implementation Rules
 
-1. Read the brief first, then only the files needed to execute it.
+1. Read the run-log lines first, then only the files needed to execute them. Find code with
+   grep/glob, then read the needed line ranges. Never `cat` a whole large file or several docs in one
+   command, and never re-read a file already in context unless it changed.
 2. Follow applicable confirmed project rules, architecture decisions, and standards. Distinguish active
    requirements from historical plans; unresolved conflicts return to the caller. Do not synchronize
    docs for incidental implementation changes or expand the allowed edit boundary for doc maintenance.
@@ -69,19 +92,21 @@ checks, and concise handoff notes.
    than creating copy-and-tweak twins; consolidate duplication introduced or directly exposed by the
    change without unrelated cleanup. A lines-added/removed count does not establish reuse.
 6. Production changes do only what the current failing behavior or assigned cleanup/refinement needs.
-7. Run only the baseline and development checks explicitly authorized by the brief, via `@validator`
-   when you can dispatch it. Otherwise redirect all command output to a scratch log outside the repo
-   and read back only the exit status, counts, and the minimal failure excerpt. Never print or keep
-   full test output in your context. For tests-first work, return the intended failure and the
-   passing result as pass/fail plus failure reasons. No unassigned validation loops; final
-   acceptance remains with `@validator`.
+7. Run only the baseline and development checks the brief authorizes. Redirect all output to
+   `$(dirname "$LOG")/logs/<id>-<label>.log` (or the OS temp directory) and read back only the exit
+   status, counts, and the minimal failure excerpt. Never print or keep full test output in your
+   context. For tests-first work, report the intended failure and the passing result. No unassigned
+   validation loops; final acceptance remains with `@validator`.
+8. If most of a suite fails at once, or failures are timeouts or connection errors, suspect the
+   environment (emulators, ports, services): don't change code to work around it; return `blocked`
+   with what you found.
 
 ---
 
 ## Clarifications, Conflicts, and Observations
 
 If the brief is ambiguous, incomplete, or conflicts with project constraints, make no changes and
-return briefly (so the workflow can answer from context or escalate):
+return `blocked` with `asks` (so the workflow can answer from context or escalate):
 
 - **Blocking questions** — the minimum numbered questions needed to proceed
 - **Conflict note** — what the brief asks, which rule or design artifact it conflicts with, and the
@@ -92,7 +117,7 @@ issues within the scoped files: code smells (duplication, deep nesting, unclear 
 magic values, long functions, poor separation of concerns); architectural drift from loaded architecture
 or standards; scope leakage risk (correctness would
 require touching files outside the allowed set); quality debt (missing or wrong tests); dependency
-concerns (out-of-place coupling or external dependency). One or two sentences each, labeled:
+concerns (out-of-place coupling or external dependency). One sentence each, labeled:
 
 - `[BLOCKING]` — prevents a correct or safe implementation; return this instead of completing the work
 - `[WARN]` — real and worth attention; complete the work and include the note
@@ -102,18 +127,13 @@ Never redesign or resolve architectural questions unilaterally — the orchestra
 
 ---
 
-## Output Format
+## Result Fields
 
-- **Files created** — each with a one-sentence justification naming its reuse-ladder rung and the
-  existing candidate it couldn't use
-- **Files modified**
-- **Reuse report** — new dependencies (expected: none) and lines added vs removed
-- **Key decisions** — assumptions or trade-offs
-- **Check results** — assigned baseline, red/green, or post-refinement commands with pass/fail and
-  concise failure reasons only; no raw output (omit if no checks were assigned)
-- **Check-plan updates** — created test paths, coverage gaps, or proposed scope/command expansions
-  with reasons (omit if unchanged)
-- **Review/refinement findings** — issues found, refinements made, and unresolved risks (omit unless
-  assigned; state when no changes were needed)
-- **Follow-up work** — blockers, open questions, next items for the workflow
-- **Observations for Orchestrator** — labeled observations (omit if none)
+- **`status`** — `done` or `blocked`
+- **`files`** — `"<path>: created|modified — why"`; a created file names its reuse-ladder rung and
+  the existing candidate it couldn't use
+- **`checks`** — each assigned check: `"<cmd>: pass 12/12"` or `"<cmd>: fail — <test> — <reason>"`
+- **`notes`** — new dependencies (expected: none), key decisions, `plan:` check-plan updates
+  (created test paths, gaps, proposed expansions), refinements made, `[WARN]`/`[INFO]` observations,
+  and do-not-redo items for a later pass
+- **`asks`** — `[BLOCKING]` questions and conflict notes

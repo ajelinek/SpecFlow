@@ -19,16 +19,18 @@ layer or replacing independent review with self-review.
 Keep required structured syntax unchanged.
 
 Run in order: code-grounded design using `engineering-principles` → tests → implementation →
-independent review and bounded cleanup → validation. The driver owns design and decisions; one
-implementation coder owns tests, source, and repairs. A separate read-only reviewer checks the actual
-diff, and a validator runs every test, lint, and build command. No automatic designer, explorer,
+independent review and bounded cleanup → validation. The driver owns design and decisions; the coder
+role owns tests, source, and repairs and runs its authorized development checks. A separate read-only
+reviewer checks the actual diff, and a validator runs every other test, lint, and build command,
+including acceptance. Every worker call is a fresh context coordinated
+through the `run-log` skill. No automatic designer, explorer,
 independent pre-implementation design reviews, or second review/refinement coder.
 
 **Output:** Updated source and test files with scoped check evidence. An existing `overview.md`
 becomes `implementing` at start. Partial scope reports scope complete, not feature done. Only explicit
 whole-feature delivery may mark it `done` after acceptance, unless the caller reserves completion.
-Keep the design brief, reuse inventory, and check plan in a scratch file outside the repo (see
-Execution Boundary) unless persistence is requested.
+The brief, check plan, phase state, and worker results live in the run log (see Execution Boundary),
+not in repo artifacts, unless persistence is requested.
 
 ---
 
@@ -57,63 +59,60 @@ or waive confirmed correctness/security defects.
 **One driver, the calling context.** There is no separate driver subagent and no relay layer. Workers
 are leaf agents that return results to the driver and never dispatch the next phase. Don't spawn CLI
 sessions to substitute for worker dispatch. Model and reasoning effort come from host configuration;
-don't set or override them in packets.
+don't set or override them in dispatches.
 
 **Driver:** owns discovery, reuse decisions, compact versioned design, test selection, phase state,
 review dispositions, and acceptance. Do not write a line-by-line solution for the coder to transcribe.
 
-**Coder:** use `@coder` (general-agent fallback) for one tests-first assignment; resume the same session
-for implementation repairs and cleanup. Keep the same session on the same model/provider for the whole
-run: switching providers discards the prompt cache. Before the first dispatch, confirm which model the
-coder session will actually use. If session resumption is unavailable, pass a compact continuation
-packet, not a new design/discovery assignment.
+**Run log:** load `run-log` before the first dispatch and follow its orchestrator protocol. Use the
+caller's log when invoked by another skill; otherwise create the run `<date>-301-<slug>`. The log
+holds the brief, phase state, every dispatch, and every result. Work from it and `git diff`, not from
+earlier worker replies; once a result is logged, don't carry the reply forward.
 
-**Reviewer:** one independent read-only `@reviewer` context (general-agent fallback). Never use the
-implementation coder's session. Reuse the reviewer session for bounded rechecks.
+**Fresh workers only:** every coder, reviewer, and validator call is a new subagent with a new
+`dispatch` line. Never resume, fork, or continue a worker session, even for a one-line "continue".
+Repairs, rechecks, cleanup, and unfinished work are new dispatches whose `in` names the earlier
+results and whose `do` states exactly what remains. The worker reads only its dispatch, the pinned
+brief, and those results.
 
-**Validator:** `@validator` is the only agent that executes test, lint, or build commands for baseline,
-red/green, regression, and acceptance. See Validation Output Contract.
+**Coder:** `@coder` (general-agent fallback, with the dispatch line pasted in) for the tests-first
+assignment and for each repair or cleanup pass.
 
-**Run-to-completion rule:** a worker assignment runs every phase named in its packet (for the coder:
-baseline → red → implement → green → regressions) in one turn. It returns only when the assignment is
-complete or a concrete `[BLOCKING]` question/conflict stops it. Progress notes and "next step"
-summaries are not valid returns. If a worker returns without finishing or a real blocker, resume it
-with one line ("continue; return only when done or blocked"), not a re-brief.
+**Reviewer:** `@reviewer` (general-agent fallback). A recheck is a new reviewer dispatch with `in`
+naming the prior review and the repair results.
 
-**Shared brief file (payload reduction):** write the brief, reuse inventory, check plan, and selected
-scenario text once to a scratch file outside the repo (the OS temp directory, e.g.
-`$TMPDIR/specflow/301-<slug>/brief.md`) with a revision header. Dispatch packets carry only: the path,
-the revision, the phase objective, and anything that changed since the worker last read it. Workers
-read the file themselves. Never paste the brief, scenarios, check plan, diff, or prior worker output
-into a packet; reference the path or `git diff` command instead. On a revision change, update the file
-and tell the worker the revision number and a one-line delta. Delete the scratch directory at close.
+**Validator:** `@validator` is the only agent that executes acceptance test, lint, and build commands.
+See Validation Output Contract.
 
-**Packet shape (cache-friendly):** put stable content first and variable content last: role and
-standing rules, then brief path, then the phase objective and per-call delta. Don't reorder, reword,
-or timestamp the stable part between calls to the same worker. Resume existing worker sessions with a
-delta-only message rather than a new full packet. Name at most 3 applicable standards skills/sections
-per packet; workers load more only for a specific decision. Include why and observable outcomes, not
-the full conversation or whole repository. Workers read authoritative owners before editing;
-references are not read bans. Local implementation choices belong to the coder; architectural changes
-return to the driver.
+**Run-to-completion rule:** a worker assignment runs every phase named in its dispatch (for the
+coder: baseline → red → implement → green → regressions) in one turn. It returns only when the
+assignment is complete or a concrete `[BLOCKING]` question/conflict stops it. Progress notes and "next
+step" summaries are not valid results. If a worker stops early, dispatch a fresh one for what remains.
 
-**Worker returns are capped:** the coder returns the `coder` Output Format in bullet form without
-diffs or file contents; the reviewer returns the verdict and findings only; the validator returns the
-Validation Output Contract only. The driver does not echo worker output back into later packets.
+**Dispatch shape:** the prompt is only the log path and dispatch ID (fallback workers: see
+`run-log`). `do` carries the objective and observable outcome, `in` the needed results, `skills` at
+most 3 named standards skills/sections.
+Never paste the brief, scenarios, diff, or prior results into a prompt or a `do`. Workers read
+authoritative owners before editing; references are not read bans. Local implementation choices
+belong to the coder; architectural changes return to the driver.
+
+**Driver reading:** find with grep/glob and read the needed ranges. Don't `cat` whole large files or
+several docs at once, don't re-read files already in context, and keep raw test output out of context.
 
 ### Validation Output Contract
 
 - Every test/lint/build run, including baseline, red/green, and regressions, goes through
-  `@validator`. The driver and reviewer never run them. The coder dispatches `@validator` when it can;
-  otherwise it runs the authorized command with all output redirected to a scratch log and reports
-  only the exit status, counts, and failure reasons, never raw output.
+  `@validator`, except the coder's authorized baseline/red/green/development commands, which it runs
+  itself with all output redirected to the run's `logs/` directory, reporting only exit status,
+  counts, and failure reasons. The driver and reviewer never run them.
 - Only **pass/fail per mode** and, for failures, **concise root-cause-grouped reasons** (test or file,
   error message, line) enter any agent's context. Successful output, full logs, stack-trace dumps,
   and warnings lists never do.
-- Full output goes to a scratch log outside the repo, for the validator's own analysis only. No
-  agent reads, quotes, or forwards it unless a failure reason is genuinely insufficient, and then only
-  the specific excerpt needed. The log is not committed, saved in artifacts, or referenced in the
-  final summary; delete it when the run closes.
+- Full output goes to the run's `logs/` directory, for the runner's own analysis only. No agent
+  reads, quotes, or forwards it unless a failure reason is genuinely insufficient, and then only the
+  specific excerpt needed. It is not committed, saved in artifacts, or referenced in the final summary.
+- When most of a suite fails at once, have the validator check the test environment (emulators,
+  ports, services) before any coder dispatch treats the failures as code defects.
 - Failure reasons are capped (about 10 groups, a few lines each). If more exist, report counts per
   group and the top groups.
 
@@ -143,26 +142,33 @@ Validation Output Contract only. The driver does not echo worker output back int
       twins; generalize the existing owner where appropriate without speculative abstraction.
 
 - [ ] **Set status.** Set an existing `overview.md` to `status: implementing`. A prior `done` value
-      does not prove this run's scope complete. Record the starting worktree/diff state so this
-      assignment's changes can be distinguished from pre-existing edits. Never overwrite unrelated work.
+      does not prove this run's scope complete. Record the starting commit and any already-dirty paths
+      (brief `base` and `pre-existing:`) so this assignment's changes stay distinguishable from
+      pre-existing edits. Never overwrite unrelated work.
 
 ---
 
 ## Phase 1 - Code Design and Shared Check Plan
 
-- [ ] **Draft a compact versioned brief.** Include:
-  - selected scope, complete scenarios, observable outcomes, and non-goals;
-  - chosen approach, module responsibilities, edit boundaries, integration points, public contracts,
-    state transitions, and applicable failure/security/concurrency/compatibility constraints;
-  - existing owners and reuse candidates, concrete justifications for new files/exports/abstractions,
-    and explicitly approved new dependencies (otherwise none);
-  - scenario → source changes → observable tests, applicable standards/UI constraints, evidence
-    paths, resolved assumptions, and remaining questions;
-  - the shared check plan below.
+- [ ] **Append the `brief` line** (`<slug>@1`, per `run-log`):
+  - `goal`: the selected scope's observable outcomes;
+  - `design`: chosen approach, module responsibilities, integration points, public contracts, state
+    transitions, scenario → source changes → observable tests, applicable standards/UI constraints,
+    resolved assumptions, and remaining questions. For an inline request without a spec file,
+    include the complete synthesized scenarios;
+  - `refs`: pointers to the selected scenarios and governing doc sections;
+  - `owners`: existing owners and reuse candidates with the chosen action and reason, and concrete
+    justifications for any new file/export/abstraction;
+  - `rules`: edit boundaries, invariants, applicable failure/security/concurrency/compatibility
+    constraints, approved new dependencies (otherwise `no new deps`), non-goals, and
+    `pre-existing:` dirty paths from Phase 0;
+  - `checks`: the full shared check plan below, every item as prefixed lines;
+  - `base`: the starting commit for this scope's diff.
 
   Self-check completeness, feasibility, reuse, and contracts against actual code. Resolve material
   questions before dispatch. No mandatory pre-implementation reviewer calls. Preserve the coder's
-  local judgment: specify responsibilities and invariants rather than every edit.
+  local judgment: specify responsibilities and invariants rather than every edit. Any later material
+  change is a new revision with `why`, and later dispatches pin it.
 
 ### Select Tests Once
 
@@ -178,22 +184,24 @@ not create a test index, new dependency, or project-wide discovery pass. A depen
 not complete coverage: explicitly include integration tests for dynamic wiring, routes, configuration,
 or cross-service behavior when affected. An empty/no-tests selection is not passing evidence.
 
-**Shared check plan:**
-- **Behavior:** selected scenarios and required regression outcomes.
-- **Test owners:** exact existing test paths, fixtures/helpers, and tests to add or extend.
-- **Development checks:** exact baseline, red/green, and local regression commands.
-- **Acceptance checks:** exact test, lint, and build commands with their supported file/package filters.
-- **Selection evidence:** why these checks cover the source owners and affected consumers.
-- **Expansion triggers:** new touched owners, shared infrastructure, auth/data boundaries, public
-  contracts, schema/configuration changes, or uncertain impact; name broader checks when known.
+**Shared check plan** (brief `checks` prefix in parentheses):
+- **Behavior** (`behavior:`): selected scenarios and required regression outcomes.
+- **Test owners** (`owner:`): exact existing test paths, fixtures/helpers, and tests to add or extend.
+- **Development checks** (`base:`, `dev:`): exact baseline, red/green, and local regression commands.
+- **Acceptance checks** (`accept:`): exact test, lint, and build commands with their supported
+  file/package filters.
+- **Selection evidence** (`why:`): why these checks cover the source owners and affected consumers.
+- **Expansion triggers** (`expand:`): new touched owners, shared infrastructure, auth/data
+  boundaries, public contracts, schema/configuration changes, or uncertain impact; name broader
+  checks when known.
 
 Derive scope from this assignment's source changes, not every dirty file in the checkout. For related
 selectors, use a source-file list or a known comparison baseline, not an unexplained default git range.
 Do not filter so narrowly that known affected consumers disappear. Use project-documented targeted
 commands; lint/build may require a package-wide or full command when no safe filter exists.
 
-Reuse the plan across coder, reviewer, and validator. Don't have each rediscover tests. Add new tests
-to the plan as they are created. Recalculate only when evidence or scope changes; the coder returns
+Reuse the plan across coder, reviewer, and validator. Don't have each rediscover tests. Add tests the
+coder reports creating to the next brief revision. Recalculate only when evidence or scope changes; the coder returns
 a proposed expansion and reason instead of silently broadening work. Full-suite testing is not the
 default baseline or final check, but project/caller mandatory gates and impact-triggered broader checks
 still apply. Targeted checks never replace broader acceptance gates owned by the caller.
@@ -202,40 +210,40 @@ still apply. Targeted checks never replace broader acceptance gates owned by the
 
 ## Phase 2 - Tests-First Implementation
 
-- [ ] **Dispatch one coder.** Send one short packet pointing to the shared brief file (revision,
-      governing standards, edit boundaries). The tests-first sequence is a single assignment: the coder
+- [ ] **Dispatch one coder.** One `dispatch` pinned to the current brief, naming the governing
+      standards in `skills`. The tests-first sequence is a single assignment: the coder
       runs it end to end under the run-to-completion rule and does not return at baseline, red, or
       green. It returns only when green with regressions checked, or on a concrete blocker.
 
-- [ ] **Establish targeted baseline.** Before editing, run the plan's baseline commands through
-      `@validator` (the coder's own dispatch, or the driver's before dispatching the coder). Record
-      commands, pass/fail, and failure reasons only. Pre-existing failures require a caller decision
+- [ ] **Establish targeted baseline.** Before editing, the coder runs the plan's baseline commands
+      (or the driver dispatches `@validator` for them before the coder). Record commands, pass/fail,
+      and failure reasons only. Pre-existing failures require a caller decision
       before edits. Previously passing selected checks remain part of acceptance.
 
 - [ ] **Write tests and verify the right failure.** Extend existing test owners/fixtures before
       adding parallel infrastructure. Tests must be discovered and fail for missing behavior, not
-      harness/setup errors. Record command, pass/fail, and failure reasons from the validator. No production
+      harness/setup errors. Record command, pass/fail, and failure reasons. No production
       edits before the failing behavior is demonstrated; do not weaken assertions to reach green.
 
-- [ ] **Implement and verify.** The same coder makes the smallest correct change using the reuse
+- [ ] **Implement and verify.** The coder makes the smallest correct change using the reuse
       ladder, then runs targeted tests and named regressions. Leave readable code/tests without dead
       scaffolding or introduced duplication. Return files changed, reuse decisions, new-code
       justifications, red/green evidence, and any check-plan updates. Lines added/removed are context,
       not proof of reuse. Don't ask for a second discovery pass or separate coder per checkpoint.
 
-  Material discoveries return to the driver: revise the brief/check plan and resolve conflicts before
-  continuing in the same coder session. An unapproved dependency or architectural change is a blocker,
+  Material discoveries return to the driver: revise the brief and resolve conflicts, then dispatch a
+  fresh coder for the remaining work. An unapproved dependency or architectural change is a blocker,
   not a local implementation choice. Preserve tests-first sequencing for added behavior during repairs.
 
 ---
 
 ## Phase 3 - Independent Review and Bounded Cleanup
 
-- [ ] **Dispatch one read-only reviewer.** Send the brief file path and revision, the command or file
-      list that produces the scoped diff (not the diff itself), and the red/green pass/fail summary.
-      Name `engineering-principles` and applicable standards skills/sections for the reviewer to load
-      in its own context. The reviewer reads actual source/tests and existing candidates, rather than
-      trusting the coder's summary. Rechecks send only the revision delta and the prior finding IDs.
+- [ ] **Dispatch one read-only reviewer.** Pin the brief; `do` names the scoped diff command (not the
+      diff) and the criteria; `in` names the coder result. Name `engineering-principles` and
+      applicable standards in `skills`. The reviewer reads actual source/tests and existing
+      candidates, rather than trusting the coder's summary. A recheck is a fresh reviewer dispatch
+      whose `in` names the prior review and the repair result.
       Review criteria:
   - required behavior and contracts are correct, with applicable failure/security cases addressed;
   - assertions meaningfully cover scenarios/regressions and were not weakened;
@@ -245,18 +253,22 @@ still apply. Targeted checks never replace broader acceptance gates owned by the
   - naming, boundaries, maintainability, and applicable project/UI standards are satisfied;
   - the check plan covers changed owners and affected consumers, with expansions where needed.
 
-  Return `## Verdict: CLEAN` or `## Verdict: CHANGES_REQUIRED`, reviewed brief/code revision, and
-  concrete findings with severity, location, failed criterion, evidence, consequence, and smallest fix.
-  Keep out-of-criteria advisories separate. Any unresolved criterion means `CHANGES_REQUIRED`.
+  The result is `clean` or `changes` (`CLEAN` / `CHANGES_REQUIRED`), the reviewed revision/code
+  state, and every concrete finding with severity, location, evidence, consequence, failed
+  criterion, and smallest fix.
+  Out-of-criteria advisories stay separate. Any unresolved criterion means `changes`.
 
-- [ ] **Resolve through the same coder.** The driver adjudicates by evidence, records each finding's
-      resolution and each advisory's accepted/deferred/rejected disposition, and sends bounded fixes
-      and cleanup to the original coder. No fresh cleanup coder, automatic `401`, or reviewer edits.
+- [ ] **Resolve through a coder dispatch.** The driver adjudicates by evidence, records each finding's
+      resolution and each advisory's accepted/deferred/rejected disposition in the repair dispatch's
+      `do` (IDs plus one-line reasons; details stay in the review result), and dispatches a fresh coder with the bounded fixes and cleanup, `in` naming
+      the review and prior coder results. No separate cleanup workflow, automatic `401`, or reviewer
+      edits.
       Don't manufacture cleanup when none is needed. The coder reruns the affected development checks;
       the reviewer rechecks the repaired diff, including new changes and prior findings.
 
   Allow at most two repair/recheck rounds after the initial diff review. Carry the same budget through
-  validation repairs; do not reset it for changed design or a resumed run. At exhaustion return
+  validation repairs; do not reset it for changed design or a resumed run. Record it in `state`
+  `caps` (e.g. `"repair 1/2"`). At exhaustion return
   `review_limit` with current brief/check plan, reviewed code state, consumed rounds, actual verdicts,
   outstanding findings/evidence, concrete options, and the lowest-risk feasible recommendation.
   Return the packet to the caller for a resolution under its decision policy. A resolution must
@@ -275,8 +287,8 @@ still apply. Targeted checks never replace broader acceptance gates owned by the
       No raw output, log references to read, or test rediscovery. A mode without a reliable command
       is blocked, not silently skipped. Acceptance requires all required modes clean.
 
-- [ ] **Repair without restarting.** Send failures to the same coder with the affected scope and
-      evidence; don't weaken assertions. Substantive repairs go back to the independent reviewer under
+- [ ] **Repair without restarting.** Dispatch a fresh coder with the affected scope, `in` naming the
+      validator result; don't weaken assertions. Substantive repairs go back to the independent reviewer under
       the remaining review budget or an evidence-matched caller resolution, then rerun all required
       acceptance commands in one validator assignment against the final code state. Expand the plan
       when warranted. Stop and return a substantive blocker if repairs don't converge; no new caps.
@@ -286,15 +298,17 @@ still apply. Targeted checks never replace broader acceptance gates owned by the
       delivery after all gates pass; partial scope stays `implementing`. If the caller reserves
       whole-feature completion, leave status `implementing` and report scope complete to the caller.
 
-- [ ] **Summarize.** Report implemented scope/scenarios, files created versus extended and their reuse
+- [ ] **Summarize.** Append a final `state` for this scope (`done` or `blocked`), plus a `run` state
+      when 301 is the top-level skill. Report implemented scope/scenarios, files created versus extended and their reuse
       justifications, new dependencies, red/green evidence, tested scope and selection rationale,
       checks not run/remaining risks, baseline issues, design decisions, review verdict/findings and
       dispositions, consumed `repair_rounds`, any caller resolution, and final validator results.
       Targeted green is not full-suite green. Recommend a separately scoped `401` only when warranted.
 
-**Interrupted runs:** Reuse the scratch brief file when it exists; otherwise rebuild the brief, reuse
-inventory, check plan, scoped diff, and pending findings from current evidence before continuing. Recover coder/reviewer sessions where possible; do not repeat
-completed discovery or tests solely because a session changed. Approval applies only to the reviewed
+**Interrupted runs:** Resume from the run log: the last `state`, the latest brief revision, and any
+dispatch without a result (append the interrupted result, then re-dispatch fresh). If the log is gone,
+rebuild the brief, check plan, scoped diff, and pending findings from current evidence. Never resume
+worker sessions; do not repeat completed discovery or tests solely because a context changed. Approval applies only to the reviewed
 state; changed code needs the applicable recheck. Preserve consumed rounds; if repair history cannot
 be recovered for a pending review, treat its budget as exhausted and return `review_limit`. A matching
 caller resolution resumes the pending phase without restarting implementation or review.

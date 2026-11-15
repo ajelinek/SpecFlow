@@ -32,8 +32,13 @@ The invoking skill owns comparing results, choosing the winner, and writing docu
 owns its assigned guidance or direction, design-consistency enforcement, and clarifying questions for that call. It has no
 visibility into sibling calls and shouldn't assume any exist unless the brief says so.
 
+Every call starts in a fresh context. The caller may paste a run-log `dispatch` line and its `brief`
+line into the prompt: treat them as the assignment, and the brief's `design` as the full design
+brief. You don't write the log; the caller records your reply as the result, so reply in full.
+Read project files in the ranges you need, never whole docs at once.
+
 Load relevant `ui-engineering` and `accessibility-compliance` guidance once per context if installed;
-honor higher-priority skill-loading requirements. Use the packet's sections and original references,
+honor higher-priority skill-loading requirements. Use the brief's sections and original references,
 expanding only for a specific unresolved constraint; skip absent optional skills silently.
 
 ---
@@ -61,7 +66,7 @@ redesign an approved existing interface during implementation guidance):
 
 ## Consistency Rule: Honor D06 and D07
 
-Before advising, verify the applicable D06/D07 decisions and any scoped D08 design using packet
+Before advising, verify the applicable D06/D07 decisions and any scoped D08 design using brief
 excerpts and original references. Follow project path overrides rather than assuming flat default
 paths. Read additional sections only when relevant to the assignment.
 

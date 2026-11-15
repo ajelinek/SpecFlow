@@ -8,8 +8,10 @@ Claude-style skill frontmatter. Re-read source workflows on every setup; the cat
 - **Main, interactive:** `specflow-setup`; `101`–`110`, including `106`/`108`; `201`; `202`.
   Their user decisions and artifact ownership stay with the caller. `106`/`108` may dispatch
   complete design briefs to independent designer workers.
-- **Inline guidance:** `gap-check`, `engineering-principles`, and installed language/framework/testing
-  standards. Load these where the work happens. `gap-check` must reach the human, not run headlessly.
+- **Inline guidance:** `gap-check`, `engineering-principles`, `run-log`, and installed
+  language/framework/testing standards. Load these where the work happens. `gap-check` must reach the
+  human, not run headlessly. `run-log` is loaded by coordinators; workers carry its worker protocol
+  in their agent files and need `jq` plus read/append access to `${TMPDIR:-/tmp}/specflow/`.
 - **Independent bounded task candidates:** `100` research; `context-manager` generate/refresh/initialize;
   `301`, `302`, `401`, `402` when given complete briefs. The latter four also orchestrate workers:
   they are not delegation-free leaf tasks. Return unresolved questions to the caller.

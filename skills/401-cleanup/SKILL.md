@@ -48,7 +48,12 @@ Keep a compact working state: cleanup brief (outcome, scope anchor, target type)
 (in-scope files, allowed and forbidden modules, no-touch areas); context map (nearby modules,
 helpers, patterns, validation surface); standards index (conventions, config, loaded skills); risk
 register (in-scope correctness risks, fragile assumptions, baseline failures). Subagents receive only
-the task packet in Step 8 — never the full conversation, every changed file, or unrelated history.
+their dispatch, the pinned brief, and named results — never the full conversation, every changed
+file, or unrelated history.
+
+Load `run-log` and dispatch every subagent through it: use the caller's log when one is passed,
+otherwise create the run `<date>-401-<slug>`; every worker call is a fresh context with its own
+`dispatch`, and repairs are new dispatches, never resumed sessions.
 
 ---
 
@@ -64,7 +69,8 @@ the task packet in Step 8 — never the full conversation, every changed file, o
   needed to judge the files in scope.
 
 - [ ] **Step 3: Freeze the edit boundary.** Record files in scope, target type, explicit no-touch
-  areas, and files excluded because they belong to the other target type.
+  areas, and files excluded because they belong to the other target type, as the initial `brief`
+  (`@1`) that the Step 4 and 5 dispatches pin. Step 8 appends the next revision.
 
 - [ ] **Step 4: Baseline with `@validator`** — `mode: test`, plus `mode: lint` and `mode: build` where
   they apply. Baseline integrity is mandatory: record and surface pre-existing failures before any
@@ -89,10 +95,12 @@ the task packet in Step 8 — never the full conversation, every changed file, o
 
 ### Phase 2 - Cleanup Pass
 
-- [ ] **Step 8: Freeze the task packet:** objective, phase, target type, exact files allowed to
-  change (including newly approved ones), full in-scope cleanup goals, reusable helpers/modules that
-  may be extended, standards excerpt, success criteria, and the forbidden files plus the entire other
-  target type.
+- [ ] **Step 8: Freeze the brief** (a `brief` line): objective and success criteria (`goal`), exact
+  files allowed to change including newly approved ones, and reusable helpers/modules that may be
+  extended (`owners`), full in-scope cleanup goals and the context map (`design`), phase, target
+  type, and the forbidden files plus the entire other target type (`rules`), and validation
+  commands (`checks`). Name standards in the
+  dispatch `skills` rather than excerpting them.
 
 - [ ] **Step 9: Cleanup pass with `@coder`** — a full in-scope pass, not cosmetic polish: duplication,
   naming, dead code, structure, and obvious in-scope robustness issues where intent is clear (no

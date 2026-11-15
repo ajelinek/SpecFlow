@@ -25,7 +25,7 @@ a Feedback Pass (`900-feedback-loop`, under tighter caps than its default) befor
 Every stage lands its own commit.
 
 Each `301` pass includes reuse-first code design, one scoped tests-first coder, independent read-only
-diff review, same-coder repairs/cleanup, and isolated targeted validation. These are internal
+diff review, fresh-coder repairs/cleanup, and isolated targeted validation. These are internal
 gates, not extra persisted design artifacts or `900` Feedback Passes.
 `901` owns whole-feature completion at its final gate, not the per-scenario `301` calls; they report
 scope complete and leave the overview `implementing` until Step 22.
@@ -75,6 +75,12 @@ Log**).
 - Keep working state to feature identity, branch name, base branch, and current stage. The commit
   ledger, consults, gate results, and Feedback Pass counts live in `implementation-log.jsonl` — read
   it back rather than carrying transcripts or re-deriving from memory.
+- **Run log:** load `run-log` at Step 1 and create (or, on resume, reopen) the run
+  `<date>-901-<fid>-<slug>`. It is the one coordination log for the whole run: every called skill
+  (`201`, `202`, `301`, `302`, `401`, `402`, `900`) receives its path and writes its briefs,
+  dispatches, and results there; none creates its own. Every subagent is a fresh context with its
+  own `dispatch`; never resume a subagent session. The run log is scratch coordination; the durable
+  record stays `implementation-log.jsonl`.
 - **Model routing:** mechanical work runs on cheaper pinned models — `@validator` (haiku, pinned in
   its definition; call it plainly), `@coder` (sonnet, as configured), and the Feedback Pass Apply-Fix
   role (`sonnet`). Honor approved installed model mappings on other hosts. Judgment-heavy
@@ -96,11 +102,17 @@ artifact). Here there is no human and no room for their full context, so run eac
 - an instruction to make no git commits
 - what to return: the artifact path, a short summary, and any blocking question, unanswered
 
-Read the artifact back from disk when a later step needs it. `302`, `401`, and `402` run in their own subagents where supported; call them directly. Execute `301` in a dedicated subagent where supported,
-passing its skill instructions, resolved scope, caller-owned completion, and `role: 301-driver`.
-Never add another driver inside an existing driver. If nesting limits prevent
-worker dispatch, route its complete worker packet through this caller and return the result to the
-pending driver phase, retaining state and caps; don't replace independent review with self-review.
+Append a `dispatch` before the call and record the reply yourself as its `result` (`out`: path and
+one-line summary; `asks`: blocking questions).
+
+Read the artifact back from disk when a later step needs it. `302`, `401`, and `402` run in their own
+fresh subagents where supported: pass the run-log path and a dispatch ID; the subagent runs the
+skill against that log (its workers' dispatches included) and appends its own result. Execute `301`
+in this context, as `301` requires (no driver subagent), passing it the run-log path, resolved scope,
+and caller-owned completion. Work each `301` from the log and `git diff`, not from earlier scenario
+transcripts: after a scenario's `scenario_complete` line, carry nothing of it forward but the
+ledger. If nesting limits prevent a subagent-run skill from dispatching workers, run that skill
+here instead; don't replace independent review with self-review.
 
 ---
 
@@ -108,8 +120,9 @@ pending driver phase, retaining state and caps; don't replace independent review
 
 1. **Frame a brief:** the question, the concrete option set (including the step's documented
    default), and the needed state — feature identity, current stage, what triggered it.
-2. **Call `@decider` once.** It returns one option, a rationale, and a confidence level.
-3. **Act on it immediately.** On `UNANSWERABLE`, use the step's documented default; a step with none
+2. **Call `@decider` once** with a dispatch whose `do` holds the question, options, default, and
+   state. It returns one option, a rationale, and a confidence level.
+3. **Act on it immediately.** On `UNANSWERABLE` (`unanswerable` result), use the step's documented default; a step with none
    ends the run with a terminal report. A consult never waives executable validation or confirmed
    defects. Review limits use the protocol below. Append a `decision_consult` log line.
 
@@ -161,7 +174,7 @@ Review. A rejection/deferment remains visible; do not repeatedly reopen it witho
 ### Green Check
 
 Full validation at the baseline (Step 2), the Round 1 close-out (Step 13), and the final gate
-(Step 21). Dispatch four `@validator` calls in parallel in one message:
+(Step 21). Append four `dispatch` lines, then make four `@validator` calls in parallel in one message:
 
 1. `mode: test`, unit suite
 2. `mode: test`, integration/e2e suite (whatever the project separates out)
@@ -289,8 +302,8 @@ entries). Each line has a `type` and `ts` (ISO 8601):
   applied. Missing repair history means the review budget is exhausted, not grounds for a fresh loop.
 - **Mid-module resume**: keep the working tree as is and continue at the first scenario in that
   module without a `scenario_complete` line. That scenario's `301` baseline surfaces any breakage the
-  interrupted pass left behind. For any pending `301`, rebuild its design, reuse inventory, shared
-  check plan, diff, and pending findings against current code. Resume its pending phase, not fresh
+  interrupted pass left behind. For any pending `301`, recover its brief, state, and pending
+  findings from the run log (rebuild them against current code if the log is gone). Resume its pending phase, not fresh
   pre-implementation reviews. Recheck changed reviewed code within the remaining budget; otherwise
   use Review-Limit Resolution. The prior ledger alone is not current code-review approval.
   Carry each scenario's consumed `repair_rounds` forward; if unavailable, treat its budget as exhausted.
